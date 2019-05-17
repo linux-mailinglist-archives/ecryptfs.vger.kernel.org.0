@@ -2,65 +2,83 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A88921627
-	for <lists+ecryptfs@lfdr.de>; Fri, 17 May 2019 11:21:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31B162172D
+	for <lists+ecryptfs@lfdr.de>; Fri, 17 May 2019 12:45:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727516AbfEQJVs (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Fri, 17 May 2019 05:21:48 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:42016 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727309AbfEQJVs (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Fri, 17 May 2019 05:21:48 -0400
-Received: by mail-lf1-f65.google.com with SMTP id y13so4798900lfh.9
-        for <ecryptfs@vger.kernel.org>; Fri, 17 May 2019 02:21:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=drfdidzCk6Dyj3+i4bL+EF7zHedTe8MQVw42/HlEvVs=;
-        b=teiKzjWy8jVL8vWWFii+7uzOHuR3Zex035BEkc+TG5LFCbP56SZcYOHVYhoSdErzYa
-         err97cawpHEGZ/JXPKeZnq8zD4PpmWIWG7wNCye7PXaZcic3jHrCY66xl8z2wYwwKdEa
-         M0hXKqEWX5wzwFaJjDfSPA0VluzUwFIcSjczuBGIdvxicD8rvDjF4vpRDC/xf0RZyH7r
-         VF1YpAQsdUH3++sXTgldJ3rSj3IFwFDDOhM7nmUDMz/c8ASh07HZxfGhXLX15d8XMLl3
-         WZe7FNd6Y0hvZYJCOW6VwcWCH284NutG/MOdlw1DnY04O7+kh5ZyrRw4uDRusjwK0iq8
-         Py4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=drfdidzCk6Dyj3+i4bL+EF7zHedTe8MQVw42/HlEvVs=;
-        b=XYV5hfpeY/blzqQkE+WIDh+IyYnHqhzZ5rBzkWtbMjPR7AF1cgO+X8lzJl9vH04iJv
-         rJf1sqLMRAFgWAapv5VPRPq308jLwK/uyYF+SozT2nqGp39AltkwuYom/MoVh+P7PR1s
-         Eg7ruYH8Q4dI+cYMEqUKe3hDzi0pzH3BzMuD5WgxCRpvtAaO2ulBeJVW/S7zpViUFKCt
-         jkk8r3aAwaYR+ZRioSqeMsseRI8kf61XBb+gpl5D+bdkH1bbb1AVjmVXpKpzvjslxiIJ
-         kWwHFqBEH/zKgkxMmsIIbLlCgEVV3c1a0JSw74lvSkcOm0BHLsYFMwUplitPh1q+0QsS
-         AL1w==
-X-Gm-Message-State: APjAAAXq+j4CDdIJTAFD/FdOHgDmg5sH/LlrA07KOgbKnZfxNjX7xi6V
-        VbCR9vn/JVXVf74D/gO4KE1xAFLXLZUODC3GcXQ=
-X-Google-Smtp-Source: APXvYqwWsp+q7u1nBiZAEryF3tvx7bWcYGTd05vyqNwUN0zwtjWQRbxU+kU2jxEy+BTWU8VD2mL6mVnErPOk+br4VtQ=
-X-Received: by 2002:ac2:4c38:: with SMTP id u24mr8788933lfq.168.1558084906831;
- Fri, 17 May 2019 02:21:46 -0700 (PDT)
+        id S1728458AbfEQKpS (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Fri, 17 May 2019 06:45:18 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:35507 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728390AbfEQKpS (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Fri, 17 May 2019 06:45:18 -0400
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <sha@pengutronix.de>)
+        id 1hRaMX-0004R0-63; Fri, 17 May 2019 12:45:17 +0200
+Received: from sha by dude.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <sha@pengutronix.de>)
+        id 1hRaMW-0002i5-Oc; Fri, 17 May 2019 12:45:16 +0200
+From:   Sascha Hauer <s.hauer@pengutronix.de>
+To:     ecryptfs@vger.kernel.org
+Cc:     Tyler Hicks <tyhicks@canonical.com>, linux-kernel@vger.kernel.org,
+        kernel@pengutronix.de, Sascha Hauer <s.hauer@pengutronix.de>
+Subject: [PATCH] ecryptfs: use print_hex_dump_bytes for hexdump
+Date:   Fri, 17 May 2019 12:45:15 +0200
+Message-Id: <20190517104515.10371-1-s.hauer@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Received: by 2002:a19:7b0a:0:0:0:0:0 with HTTP; Fri, 17 May 2019 02:21:45
- -0700 (PDT)
-Reply-To: yoannasikying@gmail.com
-From:   Frau Yoanna Sik-ying <pp094933@gmail.com>
-Date:   Fri, 17 May 2019 11:21:45 +0200
-Message-ID: <CAFu0bswZn0gxVLLxTd6BmcL=ZEr7eKBwOjt-Yk3UdZMV9H0RvA@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: ecryptfs@vger.kernel.org
 Sender: ecryptfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
---=20
-Sch=C3=B6ner Tag
+The Kernel has nice hexdump facilities, use them rather a homebrew
+hexdump function.
 
-Ich bin Frau Yoanna Sik-ying f=C3=BCr die Mitarbeiter der CITIBANK HONG
-KONG hier in Hongkong. Kann ich Geld von $ 15.356.669 =C3=BCberweisen?
-Vertrauen?
+Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+---
+ fs/ecryptfs/debug.c | 22 +++-------------------
+ 1 file changed, 3 insertions(+), 19 deletions(-)
 
-Sch=C3=B6ne Gr=C3=BC=C3=9Fe
+diff --git a/fs/ecryptfs/debug.c b/fs/ecryptfs/debug.c
+index 3d2bdf546ec6..ee9d8ac4a809 100644
+--- a/fs/ecryptfs/debug.c
++++ b/fs/ecryptfs/debug.c
+@@ -97,25 +97,9 @@ void ecryptfs_dump_auth_tok(struct ecryptfs_auth_tok *auth_tok)
+  */
+ void ecryptfs_dump_hex(char *data, int bytes)
+ {
+-	int i = 0;
+-	int add_newline = 1;
+-
+ 	if (ecryptfs_verbosity < 1)
+ 		return;
+-	if (bytes != 0) {
+-		printk(KERN_DEBUG "0x%.2x.", (unsigned char)data[i]);
+-		i++;
+-	}
+-	while (i < bytes) {
+-		printk("0x%.2x.", (unsigned char)data[i]);
+-		i++;
+-		if (i % 16 == 0) {
+-			printk("\n");
+-			add_newline = 0;
+-		} else
+-			add_newline = 1;
+-	}
+-	if (add_newline)
+-		printk("\n");
+-}
+ 
++	print_hex_dump(KERN_DEBUG, "ecryptfs: ", DUMP_PREFIX_OFFSET, 16, 1,
++		       data, bytes, false);
++}
+-- 
+2.20.1
+
