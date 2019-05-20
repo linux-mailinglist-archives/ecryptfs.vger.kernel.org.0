@@ -2,51 +2,51 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FD5322319
-	for <lists+ecryptfs@lfdr.de>; Sat, 18 May 2019 12:19:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DACFE2303C
+	for <lists+ecryptfs@lfdr.de>; Mon, 20 May 2019 11:24:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728520AbfERKT1 (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Sat, 18 May 2019 06:19:27 -0400
-Received: from mail-io1-f67.google.com ([209.85.166.67]:38917 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727286AbfERKT1 (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Sat, 18 May 2019 06:19:27 -0400
-Received: by mail-io1-f67.google.com with SMTP id m7so7437693ioa.6
-        for <ecryptfs@vger.kernel.org>; Sat, 18 May 2019 03:19:26 -0700 (PDT)
+        id S1729496AbfETJYn (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Mon, 20 May 2019 05:24:43 -0400
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:41382 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729357AbfETJYm (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Mon, 20 May 2019 05:24:42 -0400
+Received: by mail-ed1-f68.google.com with SMTP id m4so22802957edd.8
+        for <ecryptfs@vger.kernel.org>; Mon, 20 May 2019 02:24:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:reply-to:from:date:message-id:subject:to
          :content-transfer-encoding;
-        bh=bXD1HvR5XSVlrkWLlBuKNMoTtpDcuk8RI4SxhUPx/cg=;
-        b=FpvA8Nnc3S7MOc13OKhIwGSIFtvaQ2s7H/3LPwIQU5yhrDtT8UbaCQYsDS+HcbTUJE
-         QqQud6jjxEH4i8bAtApMXqiZ640evRO8vOwCNi0PNfeboCKUIt2/6rEwAua8TLvnlEUL
-         sU4L7rmrz7Jae5qq4ySbc8sFshmeFCVQvwT41zSuAjrKF/owvVYDVCTmwPm08F+Xi1nq
-         fF/vqn4jFR7YjRm9uakP9Pyh3K21ScWfGMvy1BorJCMZtaS0aH3qREhVowNqMTg2j8xu
-         8/raRpGDQvsJBxf3yDVfJaIT62aR8qIFa6IXMCHm1Lk9Fawbssyod7ubXStat3VE3tTu
-         gD8g==
+        bh=52uR2QANJZjWN1qfK4vy9nOlXZKIlGUNX6/Oelg8CTI=;
+        b=UTl8AUsTtUNUTTZuZVDEXEbvqC7UsOUTBjsFtcQU0HQFHWzyChY4H+fnTtohNI5zH3
+         4CyTv1kDbQ7iq7aPOW85X6EUlvt1R+YCP31xBaUJXfw5OHd593OM1QMC1ZLcEnbrmipL
+         d1Y1UpApVb0b9WQNH0sQzOLB1jZUxnLMNpyHeUDynggSJs6UODSY7l1lVg4+n/cxl2tm
+         6WuspyNZnLyVxuLKK5zM+gjYwGn0NYvKcOaSKri4K92TO2H//Qpn+BroD57040w139sz
+         E5RG2fU1I/YoAduKEkdOL8877/PCLk5hSLiyhW9Ypbo7e2le0Yu00h0DaMw/GjlZV/jw
+         QB4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:reply-to:from:date:message-id
          :subject:to:content-transfer-encoding;
-        bh=bXD1HvR5XSVlrkWLlBuKNMoTtpDcuk8RI4SxhUPx/cg=;
-        b=t4Bl+39aL+Ou2gXq1KnOxlcHxiQTx28t9Yzpn8R9TdHjXIvb1N8oGSUrLGEv6ao+w8
-         /LVVP/12APaeQrbR4B5uwJSHWPjyFfvSKrKUQB0qrNF1th7Syc7t/0i6svYB31dq23GS
-         ayMRuB0C6xQ+DzrB6hb8Qphyr++SlEjTz5cxP2zMRPHf8AUqP87TITi6n96jgvhpuebs
-         0g/gKd7Qb1M8z2R/85BrdLy4pRuhR5mw3aJH1DkHYwdbX+6s56j7KtrByGd1ioaoxBcl
-         z7pCcRUCNu0kAC/M29MPLP5VaqVGICBnL9FYmOxa/f4MwuHmbPtsuTNNjcqE6o8KDDFO
-         T7mA==
-X-Gm-Message-State: APjAAAV9RqukigQMMdYZyt4SKQlgevjzB/ZpUNYH2Zd/Hb2npiUxMymL
-        8p8enUX2CPW04zWJC8nk0QR+OV1E1ZVQXeMJgkU=
-X-Google-Smtp-Source: APXvYqyfmB+nFhvlGN8Yn7N9NvA1CgOa5CuEqO/2or0dkvcO/ZNpkU7Dx+wVc65lOGyqgDW3H0/YbtLdz/8ViCNoVhA=
-X-Received: by 2002:a05:6602:211a:: with SMTP id x26mr33662324iox.202.1558174766315;
- Sat, 18 May 2019 03:19:26 -0700 (PDT)
+        bh=52uR2QANJZjWN1qfK4vy9nOlXZKIlGUNX6/Oelg8CTI=;
+        b=ckej9djGhOveMPs5B6bCd/+3M62l7M3FxIvJCuxt2CKs0ifs1Ona63DfxS+UGB6rkC
+         aG8bFHVd6H8sx64L6L0yJ5Sk1iLdKdUGSKgj8FWx8sqOaBrrwfJgIs9Gg3JF3uEct4la
+         6LxS7te+RkwzElPByYjp5JcCAokR4zGJNFkmpfjmm/jhodiLHcES8SW9d82ZLFFKi4VG
+         LpaJhf6TogJI9kJ5EDIQL49ggXLZi3HGs1ynyhzLQbAEukWhxNb2HNbhno1fhmZYceET
+         z5Dh2ewCoMR/6bQDaoPU4xv9Usg+8eS7v01fALCyrwnVjCPtFf/3Y1Eo57R+WU4PRtm5
+         yS8w==
+X-Gm-Message-State: APjAAAU5istFG50n+xyrbOYxr+VK/XPgdB3Ue7nXjyGpqybqHMmYo/So
+        BA7JvDBTlCDHwVYkW33mUKOOqS1p1DajMITEvTw=
+X-Google-Smtp-Source: APXvYqxbLGOfUoiivcTitIAciHQI1CdcqMISGfA3GX9EcZIradIQ9ZeuDcAEdM4yA7pspgILkrZKZvCwbHy3vROP4IA=
+X-Received: by 2002:a17:906:e9c7:: with SMTP id kb7mr21837626ejb.259.1558344281485;
+ Mon, 20 May 2019 02:24:41 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ac0:a0a6:0:0:0:0:0 with HTTP; Sat, 18 May 2019 03:19:24
+Received: by 2002:a17:906:c59:0:0:0:0 with HTTP; Mon, 20 May 2019 02:24:40
  -0700 (PDT)
 Reply-To: yoannasikying@gmail.com
-From:   Frau Yoanna Sik-ying <garryloanfirm91@gmail.com>
-Date:   Sat, 18 May 2019 12:19:24 +0200
-Message-ID: <CAHw+R5v=w29Q_zzec3Tygxb9nRLhpe9RLtPWDb9i84ZafsFVfw@mail.gmail.com>
+From:   Frau Yoanna Sik-ying <dr.adekunleajasispelltemple1@gmail.com>
+Date:   Mon, 20 May 2019 11:24:40 +0200
+Message-ID: <CAAuAP5HVs25AcM8wvSFDA1AnoZKURa49sPeaveZXi-3TWnHnHw@mail.gmail.com>
 Subject: 
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
@@ -57,9 +57,10 @@ List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
 --=20
-Sch=C3=B6ner Tag,
 
-    Ich bin Frau Yoanna Sik-ying f=C3=BCr die Mitarbeiter der CITIBANK HONG
+Sch=C3=B6ner Tag
+
+Ich bin Frau Yoanna Sik-ying f=C3=BCr die Mitarbeiter der CITIBANK HONG
 KONG hier in Hongkong. Kann ich Geld von $ 15.356.669 =C3=BCberweisen?
 Vertrauen?
 
