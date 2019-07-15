@@ -2,58 +2,76 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7ED5E67CF4
-	for <lists+ecryptfs@lfdr.de>; Sun, 14 Jul 2019 06:11:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D68D0681FD
+	for <lists+ecryptfs@lfdr.de>; Mon, 15 Jul 2019 03:08:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725379AbfGNELK convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+ecryptfs@lfdr.de>); Sun, 14 Jul 2019 00:11:10 -0400
-Received: from mail.iara.government.bg ([95.43.208.99]:52760 "EHLO
-        iara.government.bg" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725308AbfGNELK (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Sun, 14 Jul 2019 00:11:10 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by iara.government.bg (Postfix) with ESMTP id CDEC21FE56F;
-        Sat, 13 Jul 2019 09:30:08 +0300 (EEST)
-Received: from iara.government.bg ([127.0.0.1])
-        by localhost (iara.government.bg [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id AOWbmMxV5Lpw; Sat, 13 Jul 2019 09:30:08 +0300 (EEST)
-Received: from localhost (localhost [127.0.0.1])
-        by iara.government.bg (Postfix) with ESMTP id AB35632E0FE;
-        Sat, 13 Jul 2019 02:38:34 +0300 (EEST)
-X-Virus-Scanned: amavisd-new at iara.government.bg
-Received: from iara.government.bg ([127.0.0.1])
-        by localhost (iara.government.bg [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 7CadfY35crJ3; Sat, 13 Jul 2019 02:38:34 +0300 (EEST)
-Received: from [10.108.11.57] (unknown [105.12.6.226])
-        by iara.government.bg (Postfix) with ESMTPSA id E486932D926;
-        Sat, 13 Jul 2019 02:18:32 +0300 (EEST)
-Content-Type: text/plain; charset="utf-8"
+        id S1728927AbfGOBIs (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Sun, 14 Jul 2019 21:08:48 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:59744 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726916AbfGOBIr (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Sun, 14 Jul 2019 21:08:47 -0400
+Received: from 2.general.tyhicks.us.vpn ([10.172.64.53] helo=sec)
+        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+        (Exim 4.76)
+        (envelope-from <tyhicks@canonical.com>)
+        id 1hmpTx-00013t-W9; Mon, 15 Jul 2019 01:08:46 +0000
+Date:   Mon, 15 Jul 2019 01:08:43 +0000
+From:   Tyler Hicks <tyhicks@canonical.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, ecryptfs@vger.kernel.org
+Subject: [GIT PULL] eCryptfs fixes for 5.3-rc1
+Message-ID: <20190715010612.GA13363@sec>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: =?utf-8?b?RndkOiBSZTog4oKsIDIsMDAwLDAwMC4wMCBFdXJv?=
-To:     Recipients <silistra@iara.government.bg>
-From:   silistra@iara.government.bg
-Date:   Fri, 12 Jul 2019 16:18:17 -0700
-Reply-To: carfleon@gmail.com
-Message-Id: <20190712231833.E486932D926@iara.government.bg>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: ecryptfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Lieber Freund,
+Hi Linus,
 
-Ich bin Herr Richard Wahl der Mega-Gewinner von $ 533M In Mega Millions Jackpot spende ich an 5 zufällige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Mail nach einem Spinball ausgewählt. Ich habe den größten Teil meines Vermögens auf eine Reihe von Wohltätigkeitsorganisationen und Organisationen verteilt. Ich habe mich freiwillig dazu entschieden, Ihnen den Betrag von € 2.000.000,00 zu spenden eine der ausgewählten 5, um meine Gewinne zu überprüfen, finden Sie auf meiner You Tube Seite unten.
+The following changes since commit 5ded5871030eb75017639148da0a58931dfbfc25:
 
-UHR MICH HIER: https://www.youtube.com/watch?v=tne02ExNDrw
+  Merge tag 'scsi-fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi (2019-02-15 13:36:43 -0800)
 
-Das ist dein Spendencode: [DF00430342018]
+are available in the git repository at:
 
-Antworten Sie mit dem Spendencode auf diese E-Mail: liezlnatashavanessa@gmail.com
+  git://git.kernel.org/pub/scm/linux/kernel/git/tyhicks/ecryptfs.git tags/ecryptfs-5.3-rc1-fixes
 
-Ich hoffe, Sie und Ihre Familie glücklich zu machen.
+for you to fetch changes up to 7451c54abc9139585492605d9e91dec2d26c6457:
 
-Grüße
+  ecryptfs: Change return type of ecryptfs_process_flags (2019-07-02 19:28:02 +0000)
 
-Herr Richard Wahl
+----------------------------------------------------------------
+- Fix error handling when ecryptfs_read_lower() encounters an error
+- Fix read-only file creation when the eCryptfs mount is configured to
+  store metadata in xattrs
+- Minor code cleanups
+
+----------------------------------------------------------------
+Dan Carpenter (2):
+      eCryptfs: fix a couple type promotion bugs
+      ecryptfs: re-order a condition for static checkers
+
+Hariprasad Kelam (1):
+      ecryptfs: Change return type of ecryptfs_process_flags
+
+Robbie Ko (1):
+      eCryptfs: fix permission denied with ecryptfs_xattr mount option when create readonly file
+
+Sascha Hauer (1):
+      ecryptfs: use print_hex_dump_bytes for hexdump
+
+YueHaibing (2):
+      ecryptfs: remove unnessesary null check in ecryptfs_keyring_auth_tok_for_sig
+      ecryptfs: Make ecryptfs_xattr_handler static
+
+ fs/ecryptfs/crypto.c   | 42 +++++++++++++++++++++++++-----------------
+ fs/ecryptfs/debug.c    | 22 +++-------------------
+ fs/ecryptfs/inode.c    |  2 +-
+ fs/ecryptfs/keystore.c |  9 +++++----
+ 4 files changed, 34 insertions(+), 41 deletions(-)
