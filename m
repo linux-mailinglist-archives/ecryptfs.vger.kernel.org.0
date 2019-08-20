@@ -2,72 +2,78 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B03D6956B0
-	for <lists+ecryptfs@lfdr.de>; Tue, 20 Aug 2019 07:34:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57466957E4
+	for <lists+ecryptfs@lfdr.de>; Tue, 20 Aug 2019 09:10:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729057AbfHTFd7 (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Tue, 20 Aug 2019 01:33:59 -0400
-Received: from mail-yw1-f66.google.com ([209.85.161.66]:37692 "EHLO
-        mail-yw1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729024AbfHTFd7 (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Tue, 20 Aug 2019 01:33:59 -0400
-Received: by mail-yw1-f66.google.com with SMTP id u141so1925456ywe.4;
-        Mon, 19 Aug 2019 22:33:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=Hzlnui8irzpAd7n5q1N+N9i6R/iOr1I9zEkcRTy9ekw=;
-        b=H1lerrhJAMcepNDgsKddyJQWXa65/IsvRVNr5XxEWlZnz1KBaymCzQbhFqT74MxkfN
-         GYh9AuZ4QkQGF2/D5xe93v6tcP5dPPgKjA8awjuWO8gOLFaz4KTbvKxOZwO4XjvoaeLy
-         kx+MwElB9Fgc1aHpsKqDvG0Un38IUj1ZTr1GPQWyvOTTFtOqtFLjdvluCA8ZdbOq8VZl
-         Xm79/DhWxU+Mucdn0BW/O/W3g18mZAs0hLVoFgHy7xFiVNag93fOADXqnYpF+goN7bmB
-         QPHko54Ts90h/MXgbCHGbDaX59uX6S6neCeKdbi5zeU/xVEI0vrwZdhVWtbqoUkEiwNf
-         oDuQ==
-X-Gm-Message-State: APjAAAX+T50gimJKdLd9Lx+o+a11NcWR4UVUh5AZSCPbTFOfVGtam0o2
-        owxLRK37uQqPUGmzIcHzfBw=
-X-Google-Smtp-Source: APXvYqzpbM2s+/R4UuRNquK4G5/xZGs5ognsdrBaTDyqNWPivsiUQaSswxIk8dyHOgWVD6Ao9G9zCg==
-X-Received: by 2002:a81:98f:: with SMTP id 137mr20023485ywj.293.1566279238774;
-        Mon, 19 Aug 2019 22:33:58 -0700 (PDT)
-Received: from localhost.localdomain (24-158-240-219.dhcp.smyr.ga.charter.com. [24.158.240.219])
-        by smtp.gmail.com with ESMTPSA id q125sm3577917ywh.18.2019.08.19.22.33.57
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Mon, 19 Aug 2019 22:33:58 -0700 (PDT)
-From:   Wenwen Wang <wenwen@cs.uga.edu>
+        id S1728898AbfHTHKc (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Tue, 20 Aug 2019 03:10:32 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:36720 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728777AbfHTHKc (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Tue, 20 Aug 2019 03:10:32 -0400
+Received: from 1.general.tyhicks.us.vpn ([10.172.64.52] helo=elm)
+        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+        (Exim 4.76)
+        (envelope-from <tyhicks@canonical.com>)
+        id 1hzyHl-0001hm-T2; Tue, 20 Aug 2019 07:10:30 +0000
+Date:   Tue, 20 Aug 2019 00:10:09 -0700
+From:   Tyler Hicks <tyhicks@canonical.com>
 To:     Wenwen Wang <wenwen@cs.uga.edu>
-Cc:     Tyler Hicks <tyhicks@canonical.com>,
-        ecryptfs@vger.kernel.org (open list:ECRYPT FILE SYSTEM),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] ecryptfs: fix a memory leak bug
-Date:   Tue, 20 Aug 2019 00:33:54 -0500
-Message-Id: <1566279234-9634-1-git-send-email-wenwen@cs.uga.edu>
-X-Mailer: git-send-email 2.7.4
+Cc:     "open list:ECRYPT FILE SYSTEM" <ecryptfs@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ecryptfs: fix a memory leak bug
+Message-ID: <20190820071008.GA22824@elm>
+References: <1566278200-9368-1-git-send-email-wenwen@cs.uga.edu>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1566278200-9368-1-git-send-email-wenwen@cs.uga.edu>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: ecryptfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-In ecryptfs_init_messaging(), if the allocation for 'ecryptfs_msg_ctx_arr'
-fails, the previously allocated 'ecryptfs_daemon_hash' is not deallocated,
-leading to a memory leak bug. To fix this issue, free
-'ecryptfs_daemon_hash' before returning the error.
+On 2019-08-20 00:16:40, Wenwen Wang wrote:
+> In parse_tag_1_packet(), if tag 1 packet contains a key larger than
+> ECRYPTFS_MAX_ENCRYPTED_KEY_BYTES, no cleanup is executed, leading to a
+> memory leak on the allocated 'auth_tok_list_item'. To fix this issue, go to
+> the label 'out_free' to perform the cleanup work.
+> 
+> Signed-off-by: Wenwen Wang <wenwen@cs.uga.edu>
 
-Signed-off-by: Wenwen Wang <wenwen@cs.uga.edu>
----
- fs/ecryptfs/messaging.c | 1 +
- 1 file changed, 1 insertion(+)
+Thanks for the patch!
 
-diff --git a/fs/ecryptfs/messaging.c b/fs/ecryptfs/messaging.c
-index d668e60..c05ca39 100644
---- a/fs/ecryptfs/messaging.c
-+++ b/fs/ecryptfs/messaging.c
-@@ -379,6 +379,7 @@ int __init ecryptfs_init_messaging(void)
- 					* ecryptfs_message_buf_len),
- 				       GFP_KERNEL);
- 	if (!ecryptfs_msg_ctx_arr) {
-+		kfree(ecryptfs_daemon_hash);
- 		rc = -ENOMEM;
- 		goto out;
- 	}
--- 
-2.7.4
+I added the following tags to the commit message:
 
+ Cc: stable@vger.kernel.org
+ Fixes: dddfa461fc89 ("[PATCH] eCryptfs: Public key; packet management")
+
+I also added the function name to the commit subject so that it was
+unique from your other fix.
+
+I've pushed the fix to the eCryptfs next branch and I'll submit a pull
+request for inclusion soon.
+
+Tyler
+
+> ---
+>  fs/ecryptfs/keystore.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/ecryptfs/keystore.c b/fs/ecryptfs/keystore.c
+> index 216fbe6..4dc0963 100644
+> --- a/fs/ecryptfs/keystore.c
+> +++ b/fs/ecryptfs/keystore.c
+> @@ -1304,7 +1304,7 @@ parse_tag_1_packet(struct ecryptfs_crypt_stat *crypt_stat,
+>  		printk(KERN_WARNING "Tag 1 packet contains key larger "
+>  		       "than ECRYPTFS_MAX_ENCRYPTED_KEY_BYTES\n");
+>  		rc = -EINVAL;
+> -		goto out;
+> +		goto out_free;
+>  	}
+>  	memcpy((*new_auth_tok)->session_key.encrypted_key,
+>  	       &data[(*packet_size)], (body_size - (ECRYPTFS_SIG_SIZE + 2)));
+> -- 
+> 2.7.4
+> 
