@@ -2,96 +2,61 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D0699E56C
-	for <lists+ecryptfs@lfdr.de>; Tue, 27 Aug 2019 12:10:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA97BA1210
+	for <lists+ecryptfs@lfdr.de>; Thu, 29 Aug 2019 08:46:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728649AbfH0KKx (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Tue, 27 Aug 2019 06:10:53 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:44538 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729058AbfH0KKx (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Tue, 27 Aug 2019 06:10:53 -0400
-Received: by mail-ed1-f68.google.com with SMTP id a21so30617491edt.11
-        for <ecryptfs@vger.kernel.org>; Tue, 27 Aug 2019 03:10:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=E1mXiLDMeCBnuH8acbRiGZEzKKN2n3++JkCRPbUs8fc=;
-        b=kidxx+uovea9w+z6uivl1T/sIyChibnfqX+DPzul34ZBgy+mL+RhOGlaIk7B3QudYy
-         jCCoyRCkqOsxJxWRepGJ6JUTARi2qMslmtR/QmKZOF1tr/TAfCiaJPwaATYT+dqcemc3
-         +L2dCM5GszkfN+1fflv6G2O1rQVqR2LctyrtgxyYDKqVWc5mqc2hX4IzBhy+PhiylKvG
-         M1dRFT9K4Kub4tynLiFI6PNFEO/rmNeik3Ppi8rOmGAVf9qS2PK+Gu4CVnAqx9BXnj7N
-         CWTSHMnXRQY63iDPTuWnifTQrraYg8SuDs4TEO0wFFaFyQbgLWkdMBrVWSxG3DGAdvr+
-         ZvWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=E1mXiLDMeCBnuH8acbRiGZEzKKN2n3++JkCRPbUs8fc=;
-        b=CMliNLfM8sDdoNsJHKgEEMohObo+pv8bdgp+5plBjM+sU9FXWXM3bf+JZq9LREVO8y
-         uMmBCH22HY0OcBWl8E0h4TI4tMeNGKAgYrHCkpY8dLGV02B/jXDgwJ69z9mIMp/Abc8L
-         iVqAy87NJ+YeUxxwnjUQsIzGsdaxDWN5zOeg/37Gp55dM1PUnuTdHwUkd+nzO32cg7+z
-         uigOUIAYOHV/+qIuSpEvBwia0EO+LLkdOdWcjU+gE3BKZJiJG0ddGa19/x423dBxzMr6
-         ugKSz5MhUF9tZn5gSnPw83vIDGlR7O7Hvi5mEab60/dHma5jT+7tUsp9Zsv+hAgXLcE2
-         bkwg==
-X-Gm-Message-State: APjAAAWrZk6BdQbe0Ju2vaGeFpVJDS8dq2BJG00ZOGz/KIyeNSiMGbbs
-        WmOBv5QvmDki+Wh1pl2K7VJlxq5j73VSrfeIKDo=
-X-Google-Smtp-Source: APXvYqzhci0Ua6Ho8kCBc9Vt4yZmZTtlNIYLUymOL/edOkV+MQbptJFokyo5Qum6EG8/YZNNxKtJvVfPE1yKPwVPxr4=
-X-Received: by 2002:aa7:cf0d:: with SMTP id a13mr23602527edy.286.1566900651436;
- Tue, 27 Aug 2019 03:10:51 -0700 (PDT)
+        id S1727608AbfH2Gqy (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Thu, 29 Aug 2019 02:46:54 -0400
+Received: from c2.beyond.pl ([91.102.115.84]:29088 "EHLO c2.beyond.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726889AbfH2Gqx (ORCPT <rfc822;ecryptfs@vger.kernel.org>);
+        Thu, 29 Aug 2019 02:46:53 -0400
+X-Greylist: delayed 5831 seconds by postgrey-1.27 at vger.kernel.org; Thu, 29 Aug 2019 02:46:52 EDT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=klub-coupe.pl; s=default; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:Message-ID:Date:Subject:To:From:Reply-To;
+        bh=a7Tici0ViTtkID6K7NfVmNjHM40u2Hko1Ed224kc7Fw=; b=mcvpCd1Hpadh3fbZuyIvRVjtuW
+        sADfEqPoXlvVpz6eZT+2uoiLq07xXrbK+PNP/eG1hZrfuwbqUr4IG+WuwY9fGDUuLmalFosZuiQgL
+        Wu3aEoJ9XmTQNrlJ7iy5KpXGFbKq5ae02GTIHMDMV2YCvTtTRvRG3HAk0xTaH43wBtZwa8HbbTsfE
+        pRilUzdW3VGqae6hpMmg67KsGWoVToYl9W75aK9cDa0xjVLEHwAtXND/ha/CZJ/3XLa9P4X7+NY/S
+        z07o4VTJAPeURXtqzX8rSnMq7u2rjkMva6jpHTgUaFnMndjfduXEYNwVfs3pnJueOdm/nHVSsmBv/
+        brobLHkQ==;
+Received: from [23.95.132.39] (port=49909 helo=klub-coupe.pl)
+        by c2.beyond.pl with esmtpa (Exim 4.86)
+        (envelope-from <test@klub-coupe.pl>)
+        id 1i3Cgm-003nzb-6W
+        for ecryptfs@vger.kernel.org; Thu, 29 Aug 2019 07:09:40 +0200
+Reply-To: ac123@syriamail.biz
+From:   Abdelkader Alsamman <test@klub-coupe.pl>
+To:     ecryptfs@vger.kernel.org
+Subject: To know
+Date:   28 Aug 2019 22:09:29 -0700
+Message-ID: <20190828220904.6DFD26E0750E83B5@klub-coupe.pl>
 MIME-Version: 1.0
-Received: by 2002:aa7:d94f:0:0:0:0:0 with HTTP; Tue, 27 Aug 2019 03:10:51
- -0700 (PDT)
-Reply-To: eco.bank1204@gmail.com
-From:   "MS. MARYANNA B. THOMASON" <eco.bank1204@gmail.com>
-Date:   Tue, 27 Aug 2019 11:10:51 +0100
-Message-ID: <CAOE+jAAtPS4VjjCN3WX_Sa2nkeJsvuUWM8bTkbT+7xRYJH+eOg@mail.gmail.com>
-Subject: WHAT IS GOING ON? DID YOU AUTHORIZE MR. WILLIAM GEORGE TO RECEIVE
- YOUR ATM CARD WORTH $15.600,000MILLION US DOLLARS FROM OUR DIPLOMATIC AGENT?
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - c2.beyond.pl
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - klub-coupe.pl
+X-Get-Message-Sender-Via: c2.beyond.pl: authenticated_id: test@klub-coupe.pl
+X-Authenticated-Sender: c2.beyond.pl: test@klub-coupe.pl
 Sender: ecryptfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-ATTN, DEAR
+Greetings,
 
-WHAT IS GOING ON? DID YOU AUTHORIZE MR. WILLIAM GEORGE TO RECEIVE YOUR
-ATM CARD  WORTH $15.600,000MILLION US DOLLARS FROM OUR DIPLOMATIC
-AGENT?
-CONTACT OUR DIPLOMATIC AGENT MR. CATHY JONES TO RECEIVE YOUR ATM
-MASTER CARD WORTH $15.600.000MUS DOLLARS.
-SHE WILL HANDLE THE DELIVERY TO YOUR HOUSE ADDRESS
-IMMEDIATELY YOU GET IN TOUCH WITH HER TODAY.
-Contact Her on this Address listed for you
-DIPLOMATIC AGENT Mrs. CATHY JONES
-Email; Katerinejones19@gmail.com
+I am Mr.Abdelkader Alsamman from Syria,It's possible for a=20
+foreigner to invest in education in your country?let me know the=20
+feasibility studies as I want to relocate my investment to your=20
+country and I need a local partner because I want to relocate my=20
+family out from Syria due to the war in my country.If you are=20
+interested and willing to assist us in this issue and benefit=20
+from the project reply back for more details.
 
-Contact Her by texting on this phone numver (408) 650-6103)
-listed for you
-DIPLOMATIC AGENT MS. CATHY JONES
-Phone Number; (408) 650-6103, Note she can receive only text message.
-
-TEXT OR CALL HER FOR URGENT COMMUNICATIONS. (408) 650-6103
-ASK HIM TO SEND YOU THE ATM MASTER CARD WORTH $15.600.000MUS DOLLARS
-AS WE INSTRUCTED.
-PLEASE, ENDEAVOUR to re-ceonfirm your current mailing address to him
-as i have writing below.Avoid of wrong shipment, delivering your
-Parcel to another person.
-This is only informations He need from you to deliver your ATm MASTER
-Card to you now
-1.YOUR FULL NAME______________
-2.COUNTRY___________________
-3.ADDRESS_____________________
-4.PHONE NUMBERS______________________________
-Remember,Contact this Diplomatic Agent, Mrs. Cathy Jones on her
-email address .
-EMAIL: Katerinejones19@gmail.com, only money you are required to send
-to Her is official diplomatic agent delivery fee sum of $50.00 us
-only. She is at JFK Airport,New York
-Text Her this on telephone No: (408) 650-6103
-
-God bless
-SINCERELY YOURS
-MS. MARYANNA B. THOMASON
+Best Regards,
+Mr.Abdelkader Alsamman.
