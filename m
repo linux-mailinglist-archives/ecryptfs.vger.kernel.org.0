@@ -2,129 +2,93 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 48EADBD4F5
-	for <lists+ecryptfs@lfdr.de>; Wed, 25 Sep 2019 00:34:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D639CCBB5
+	for <lists+ecryptfs@lfdr.de>; Sat,  5 Oct 2019 19:38:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2410681AbfIXWeU (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Tue, 24 Sep 2019 18:34:20 -0400
-Received: from mtax.cdmx.gob.mx ([187.141.35.197]:11729 "EHLO mtaw.cdmx.gob.mx"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2389629AbfIXWeU (ORCPT <rfc822;ecryptfs@vger.kernel.org>);
-        Tue, 24 Sep 2019 18:34:20 -0400
-X-NAI-Header: Modified by McAfee Email Gateway (4500)
+        id S1729035AbfJERic (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Sat, 5 Oct 2019 13:38:32 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:33259 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728245AbfJERic (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Sat, 5 Oct 2019 13:38:32 -0400
+Received: by mail-io1-f68.google.com with SMTP id z19so20398867ior.0
+        for <ecryptfs@vger.kernel.org>; Sat, 05 Oct 2019 10:38:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cdmx.gob.mx; s=72359050-3965-11E6-920A-0192F7A2F08E;
-        t=1569364344; h=X-Virus-Scanned:Content-Type:
-         MIME-Version:Content-Transfer-Encoding:Content-Description:
-         Subject:To:From:Date:Reply-To:Message-Id:X-AnalysisOut:
-         X-AnalysisOut:X-AnalysisOut:X-AnalysisOut:
-         X-AnalysisOut:X-AnalysisOut:X-AnalysisOut:
-         X-SAAS-TrackingID:X-NAIMIME-Disclaimer:X-NAIMIME-Modified:
-         X-NAI-Spam-Flag:X-NAI-Spam-Threshold:X-NAI-Spam-Score:
-         X-NAI-Spam-Rules:X-NAI-Spam-Version; bh=1
-        +99+kFrDLgaQ8R5/6EBfZ45Xi1kJbcxywFSs4cH3f
-        g=; b=N6Rj0hYmrSLuAiN2zYYlZYQfd76AHKUgpjU0yMg4O4E1
-        UMY3XePcU3U57r5uXLu8t+2qqqpSYDJobAPMpeHxxwnOdO+A5Y
-        6IQ2kXO6b5NOL/cW4cyXaSjlZsNzeLlKaprsUTO5wr4G7c4Nu7
-        Te65zwEGj27G7pWK0GgRkKZTKA0=
-Received: from correo.seciti.cdmx.gob.mx (gdf-correo.cdmx.gob.mx [10.250.102.17]) by mtaw.cdmx.gob.mx with smtp
-         id 3fe6_1d49_783c7a9e_9207_466c_8d6f_c14d364ec8f5;
-        Tue, 24 Sep 2019 17:32:23 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by gdf-correo.df.gob.mx (Postfix) with ESMTP id 5CA205FC8;
-        Tue, 24 Sep 2019 17:32:18 -0500 (CDT)
-Received: from correo.seciti.cdmx.gob.mx ([127.0.0.1])
-        by localhost (gdf-correo.df.gob.mx [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id na7h0yvQDHoW; Tue, 24 Sep 2019 17:32:18 -0500 (CDT)
-Received: from localhost (localhost [127.0.0.1])
-        by gdf-correo.df.gob.mx (Postfix) with ESMTP id 23C4945F6;
-        Tue, 24 Sep 2019 17:07:38 -0500 (CDT)
-X-Virus-Scanned: amavisd-new at gdf-correo.df.gob.mx
-Received: from correo.seciti.cdmx.gob.mx ([127.0.0.1])
-        by localhost (gdf-correo.df.gob.mx [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id AjJNlktRvr0S; Tue, 24 Sep 2019 17:07:37 -0500 (CDT)
-Received: from [10.152.195.110] (unknown [107.150.30.178])
-        by gdf-correo.df.gob.mx (Postfix) with ESMTPSA id 8268743EE;
-        Tue, 24 Sep 2019 16:56:43 -0500 (CDT)
-Content-Type: text/plain;
-  charset="utf-8"
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=JdxTjZHOYunTMtiHW4RMA9FUy7l6bYMn8x9aB5OphDw=;
+        b=tq/RZ4haJJGk2RcsmH8o068rKZh6Ym6iJfqJQm8ixICT4FJ8PQYj51yFptTVo/pOLS
+         iggn8chGb9wiNMRVV6oWvWY60DppRBjjJjWVRqZd2IINeQAeViGyu/YZGKzhb/N9NxF5
+         ivzdbcosSaET0WfOA7Byw8ZdGPbsglGcebIohfFvnJ/8rfVOxk0dmRUdqy+TIMdANlZu
+         cle4J7Z8DaQ9bgUiKa5/YcpzLqAjPKBD/qErXA92olrJD339f8OWZDngrMtjcrEdTHfd
+         0OfRnMBfTIUwtd8EoxtOtIL1GVS4EVIcQEYJ8JSZEzpSUhfj4k5Oeqg9MRfyIjH6qeV5
+         5dfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=JdxTjZHOYunTMtiHW4RMA9FUy7l6bYMn8x9aB5OphDw=;
+        b=uRG248reVK3os/VebCXo03lb2sYDQk8QPgd17kL+bMXqA8VDd9YnL+GGjpMem/pE4E
+         HdyI55xvBE2WKL+FmbFFfakeV6NlPxv8aCQ7UP+w2oTjH5ubJ9dnwuT4NqfJ/F/cPQ+W
+         Zcshull04yDf9q6BmUDgiak2mVDF0Qd2XbnMql9bbXQIfpJDxin2VjcCm1GrYKkGGiu0
+         MmIMxT9+sZWi1E0tG4wUKXYY/MJ2HdhLYZMpFa9VQHxVhw6uqBrEfLhaiXZ/IJfXHig3
+         twvxInjySk5yL72KE4jN05281Fj6MgTym1NK+oU+JkPdaIF5xXUX5REjAMUbJRyEytPl
+         hCpg==
+X-Gm-Message-State: APjAAAX52laSKVj9QLqPn8RWFGtyIzeijof2xFmtoDAj/4lj6L8dLkGK
+        MUfRbZWplMpxqtJC15+b6YcGrNl7x2mdJKMSfw==
+X-Google-Smtp-Source: APXvYqxnP+95IANajqjOGebCm5WUv/cbd83HQTNMTIZjRdMEUmMQO4/jS6pBPIoCqkYXSAuZlSo8SQBcqJ/1pUFsI9A=
+X-Received: by 2002:a5d:8247:: with SMTP id n7mr9562032ioo.35.1570297111470;
+ Sat, 05 Oct 2019 10:38:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Description: Mail message body
-Subject: Spende von 5 Millionen Euro
-To:     Recipients <mramirezg@mexicocity.gob.mx>
-From:   "Shane Missler" <mramirezg@mexicocity.gob.mx>
-Date:   Tue, 24 Sep 2019 23:56:02 +0200
-Reply-To: shanemissler.spende1@gmail.com
-Message-Id: <20190924215643.8268743EE@gdf-correo.df.gob.mx>
-X-AnalysisOut: [v=2.2 cv=UfEhcOaN c=1 sm=1 tr=0 p=NAessOE28N0A:10 p=09-KjH]
-X-AnalysisOut: [S_CW8A:10 p=bEr4i4eggGkA:10 p=-7VjjQDN59lQbO9EsjZ6:22 p=Ly]
-X-AnalysisOut: [qu6MUUigPyaOuRX7ce:22 a=KsSCQl7LcZej77FuluUcQw==:117 a=QVl]
-X-AnalysisOut: [0Y2YvxGgORTTHWQRBRg==:17 a=IkcTkHD0fZMA:10 a=x7bEGLp0ZPQA:]
-X-AnalysisOut: [10 a=J70Eh1EUuV4A:10 a=pGLkceISAAAA:8 a=wN7rT8hNlMSaUXRpxS]
-X-AnalysisOut: [gA:9 a=K7tsimcRO30Sg2YH:21 a=QOCYt1FwmxBrUrRv:21 a=QEXdDO2]
-X-AnalysisOut: [ut3YA:10]
-X-SAAS-TrackingID: 8799a8d5.0.76881062.00-2354.128969469.s12p02m014.mxlogic.net
-X-NAIMIME-Disclaimer: 1
-X-NAIMIME-Modified: 1
-X-NAI-Spam-Flag: NO
-X-NAI-Spam-Threshold: 3
-X-NAI-Spam-Score: -5000
-X-NAI-Spam-Rules: 1 Rules triggered
-        WHITELISTED=-5000
-X-NAI-Spam-Version: 2.3.0.9418 : core <6641> : inlines <7145> : streams
- <1833726> : uri <2910300>
+Received: by 2002:a02:242f:0:0:0:0:0 with HTTP; Sat, 5 Oct 2019 10:38:31 -0700 (PDT)
+Reply-To: walmart.b100263@gmail.com
+From:   "DR.Mike Benz" <info.zennitbankplcnigerian@gmail.com>
+Date:   Sat, 5 Oct 2019 18:38:31 +0100
+Message-ID: <CABHzvrm1FRqaCkGUKEDwjR_5hGvmpSe6WB1UFKuZ4U5b=3O3Bw@mail.gmail.com>
+Subject: Happy to inform you, CONTACT WALMART TRANSFER To pick up $8000.00
+ sent to you this morning.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: ecryptfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-RGllcyBpc3QgZWluZSBwZXJzw7ZubGljaGUgTWFpbCwgZGllIGljaCBhbiBTaWUgYWRyZXNzaWVy
-ZS4gSWNoIGJpbiBTSEFORSBNSVNTTEVSIGF1cyBGbG9yaWRhLCBVU0EuIFdpZSBTaWUgYmVyZWl0
-cyB3aXNzZW4sIGhhYmUgaWNoIGVpbmVuIExvdHRvLUphY2twb3QgaW4gSMO2aGUgdm9uIDQ1MSBN
-aW8uIFVTRCAoMzMwIE1pby4gR0JQKSBnZXdvbm5lbiB1bmQgZGFzIEdlbGQgaGF0IG1laW4gTGVi
-ZW4gdW5kIG1laW4gRmFtaWxpZW5sZWJlbiB2ZXLDpG5kZXJ0LCBhYmVyIGVzIHdpcmQgbWVpbiBI
-ZXJ6IG5pY2h0IHZlcsOkbmRlcm4sIHdpZSBpY2ggYW4gZGVtIFRhZyBzYWd0ZSwgYW4gZGVtIGlj
-aCBtZWluIEdlbGQgaGFiZSwgZGFzIGljaCB2ZXJ3ZW5kZW4gd2VyZGUgRGllc2VzIEdlbGQgZsO8
-ciBkaWUgSGlsZmUgZGVyIE1lbnNjaGhlaXQuIEljaCBoYWJlIGJlc2NobG9zc2VuLCBJaG5lbiB1
-bmQgSWhyZXIgR2VtZWluZGUgZWluZW4gQmV0cmFnIHZvbiA1IE1pbGxpb25lbiBFdXJvIHp1IHNw
-ZW5kZW4sIHVtIGRpZXNlIFNwZW5kZSBhbnp1Zm9yZGVybi4gRS1NYWlsOiAoc2hhbmVtaXNzbGVy
-MEBnbWFpbC5jb20pCgoKCgpDZWNpIGVzdCB1biBjb3VycmllciBwZXJzb25uZWwgcXVlIGplIHZv
-dXMgYWRyZXNzZS4gSmUgc3VpcyBTSEFORSBNSVNTTEVSLCBkZSBGbG9yaWRlLCDDiXRhdHMtVW5p
-cy4gQ29tbWUgdm91cyBsZSBzYXZleiBkw6lqw6AsIGonYWkgZ2FnbsOpIDQ1MSBtaWxsaW9ucyBk
-ZSBkb2xsYXJzIChMb3R0byBKYWNrcG90KSBldCBsJ2FyZ2VudCBhIGNoYW5nw6kgbWEgdmllIGV0
-IGNlbGxlIGRlIG1hIGZhbWlsbGUsIG1haXMgY2VsYSBuZSBjaGFuZ2VyYSBwYXMgbW9uIGPFk3Vy
-LCBjb21tZSBqZSBsJ2FpIGRpdCBsZSBqb3VyIG/DuSBqJ2FpIG1vbiBhcmdlbnQsIGondXRpbGlz
-ZXJhaSBjZXQgYXJnZW50IHBvdXIgbCdhaWRlIGRlIGwnaHVtYW5pdMOpLkonYWkgZMOpY2lkw6kg
-ZGUgdm91cyBkb25uZXIgbGEgc29tbWUgZGUgNSBtaWxsaW9ucyBkJ2V1cm9zIMOgIHZvdXMgZXQg
-w6Agdm90cmUgY29tbXVuYXV0w6ksIHBvdXIgcsOpY2xhbWVyIGNlIGRvbiwgZW1haWwtIChzaGFu
-ZW1pc3NsZXIwQGdtYWlsLmNvbSkKCgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0KCgpMYSBpbmZvcm1hY2lvbiBjb250ZW5pZGEgZW4gZXN0ZSBjb3Jy
-ZW8sIGFzaSBjb21vIGxhIGNvbnRlbmlkYSBlbiBsb3MgZG9jdW1lbnRvcyBhbmV4b3MsIHB1ZWRl
-IGNvbnRlbmVyIGRhdG9zIHBlcnNvbmFsZXMsIHBvciBsbyBxdWUgc3UgZGlmdXNpb24gZXMgcmVz
-cG9uc2FiaWxpZGFkIGRlIHF1aWVuIGxvcyB0cmFuc21pdGUgeSBxdWllbiBsb3MgcmVjaWJlLCBl
-biB0w6lybWlub3MgZGUgbG8gZGlzcHVlc3RvIHBvciBsYXMgZnJhY2Npb25lcyBJSSB5IFZJSSBk
-ZWwgYXJ0aWN1bG8gNCwgdWx0aW1vIHBhcnJhZm8gZGVsIGFydGljdWxvIDgsIGFydGljdWxvIDM2
-IHBhcnJhZm8gSUksIDM4IGZyYWNjaW9uIEkgeSBkZW1hcyBhcGxpY2FibGVzIGRlIGxhIExleSBk
-ZSBUcmFuc3BhcmVuY2lhIHkgQWNjZXNvIGEgbGEgSW5mb3JtYWNpb24gUHVibGljYSBkZWwgRGlz
-dHJpdG8gRmVkZXJhbC4NCkxvcyBEYXRvcyBQZXJzb25hbGVzIHNlIGVuY3VlbnRyYW4gcHJvdGVn
-aWRvcyBwb3IgbGEgTGV5IGRlIFByb3RlY2Npb24gZGUgRGF0b3MgUGVyc29uYWxlcyBkZWwgRGlz
-dHJpdG8gRmVkZXJhbCwgcG9yIGxvIHF1ZSBzdSBkaWZ1c2lvbiBzZSBlbmN1ZW50cmEgdHV0ZWxh
-ZGEgZW4gc3VzIGFydGljdWxvcyAyLCA1LCAxNiwgMjEsIDQxIHkgZGVtYXMgcmVsYXRpdm9zIHkg
-YXBsaWNhYmxlcywgZGViaWVuZG8gc3VqZXRhcnNlIGVuIHN1IGNhc28sIGEgbGFzIGRpc3Bvc2lj
-aW9uZXMgcmVsYXRpdmFzIGEgbGEgY3JlYWNpb24sIG1vZGlmaWNhY2lvbiBvIHN1cHJlc2lvbiBk
-ZSBkYXRvcyBwZXJzb25hbGVzIHByZXZpc3Rvcy4gQXNpbWlzbW8sIGRlYmVyYSBlc3RhcnNlIGEg
-bG8gc2XDsWFsYWRvIGVuIGxvcyBudW1lcmFsZXMgMSAsIDMsIDEyLCAxOCwgMTksIDIwLCAyMSwg
-MjMsIDI0LCAyOSwgMzUgeSBkZW1hcyBhcGxpY2FibGVzIGRlIGxvcyBMaW5lYW1pZW50b3MgcGFy
-YSBsYSBQcm90ZWNjaW9uIGRlIERhdG9zIFBlcnNvbmFsZXMgZW4gZWwgRGlzdHJpdG8gRmVkZXJh
-bC4NCkVuIGVsIHVzbyBkZSBsYXMgdGVjbm9sb2dpYXMgZGUgbGEgaW5mb3JtYWNpb24geSBjb211
-bmljYWNpb25lcyBkZWwgR29iaWVybm8gZGVsIERpc3RyaXRvIEZlZGVyYWwsIGRlYmVyYSBvYnNl
-cnZhcnNlIHB1bnR1YWxtZW50ZSBsbyBkaXNwdWVzdG8gcG9yIGxhIExleSBHb2JpZXJubyBFbGVj
-dHJvbmljbyBkZWwgRGlzdHJpdG8gRmVkZXJhbCwgbGEgbGV5IHBhcmEgaGFjZXIgZGUgbGEgQ2l1
-ZGFkIGRlIE1leGljbyB1bmEgQ2l1ZGFkIE1hcyBBYmllcnRhLCBlbCBhcGFydGFkbyAxMCBkZSBs
-YSBDaXJjdWxhciBVbm8gdmlnZW50ZSB5IGxhcyBOb3JtYXMgR2VuZXJhbGVzIHF1ZSBkZWJlcmFu
-IG9ic2VydmFyc2UgZW4gbWF0ZXJpYSBkZSBTZWd1cmlkYWQgZGUgbGEgSW5mb3JtYWNpb24gZW4g
-bGEgQWRtaW5pc3RyYWNpb24gUHVibGljYSBkZWwgRGlzdHJpdG8gRmVkZXJhbC4K
+Attn Dear Beneficiary.
+Happy to inform you, CONTACT WALMART TRANSFER To pick up $8000.00 sent
+to you this morning.
+
+I have deposited your payment funds $2.500,000MillionUS Dollars
+With Walmart international money transfers.
+Receive the Money with Walmart | MoneyGram service.
+Walmart partners with MoneyGram to allow customers
+easily receive money transfers abroad,
+Contact Walmart international money transfers office -Benin
+Receive your approval payment funds $10.500,000MillionUS Dollars
+HERE IS WALMART CONTACT INFORMATIONS.
+Contact person. Mrs. Mary Anderson,Dir. Walmart transfers-Benin
+Email: walmart.b100263@gmail.com
+Telephone. +229 68823234
+Text Her on this international phone line. (256) 284-4886
+
+Ask Mrs. Mary Anderson,Dir. Walmart transfers-Benin to send the transfer
+as i instructed.
+we agreed to keep sending the transfer to you $8000.00 daily.
+Until you received your total payment $10.500,000 from the office
+Once again,
+make sure you contact Mrs. Mary Anderson,Dir. Walmart transfers-Benin
+today including your infos.
+(1) Your  Full Name==============
+(2) house address=============
+(3) Your Phone Numbers=============
+Urgent to receive your transfer now without any further delay.
+Finally, Send your first payment transfer fees to Walmart office on
+below address
+Receiver's Name====== ALAN UDE
+Country=====BENIN
+City=======COTONOU
+AMOUNT =====$58.00 only. Your first payment $8000.00 transfer fee.
+Question======God
+Answer=========Creator
+Thanks
+DR.Mike Benz
