@@ -2,75 +2,223 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6ECAFEC6CC
-	for <lists+ecryptfs@lfdr.de>; Fri,  1 Nov 2019 17:31:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4990BED3E9
+	for <lists+ecryptfs@lfdr.de>; Sun,  3 Nov 2019 18:05:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727600AbfKAQbi (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Fri, 1 Nov 2019 12:31:38 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:45021 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727488AbfKAQbi (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Fri, 1 Nov 2019 12:31:38 -0400
-Received: by mail-ed1-f67.google.com with SMTP id b18so7954527edr.11
-        for <ecryptfs@vger.kernel.org>; Fri, 01 Nov 2019 09:31:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=latS+LOZUfL1yiiuFRKw1aKCiSm5Bt/9vWdEAhPRwuM=;
-        b=QhV2skXhxRQTHu3K7BGATa7S/eBd2R29m8d87/BzlCSmWk1bsymeqzkrSxzWTosfAe
-         3YIVId3V9lgUNLaUU0Xqkejju7nIwHNfiBCZcW+oX10gJRolVrUoI2K9scee+Wv02fHl
-         UEJicxBgVAvWAtFO7/5Iz9+myiGLlbKs8xxEMTyfm7rj0BVTPZshdtyw92azm/5VfgJp
-         tH64KGtJS4p60xCkBo9Xu85eOLcnd9ubVOC7NCjlzcwdqAdPJAhKOfvP9O+DXn7yD/H5
-         1JVM+vk3PuBVH0QF1qU44pdoB2zMQ/cjGBCk1qOhGSw+NlWrEMXGIgpKpUDKmTDiBpdd
-         kgZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=latS+LOZUfL1yiiuFRKw1aKCiSm5Bt/9vWdEAhPRwuM=;
-        b=ZLr9Fjo26z3nPHmOCTIWc0nxK28CDM9YZQeee4i1ZDXyiUlgXPBmjP7mVqg07R2Mt4
-         H8QbQJ1LqpYHvS2XN3jopgSAiqS7I1JduS2Bxh2wmwcV38E1dfBbMV1eiGXOtub+ZoyL
-         cTLA/lueLXsJWkQhwMhwWQaYYp/BqBpWgN0sNecNJuqG3qzTMQoecYA/JSWus8zJlWOR
-         lUAoTa2oK/tyBhtV2DSkwZHsn8EoZS0sWvjKxKjARXbp+5ARHrR0h97/1F2ODsa34jc2
-         NxKiKhEUa0Yz+ewfAHSHnANwws4z199rF/bvGBEupSXRkEZ8w5i6QPyarF4WAEMouuDx
-         aiJg==
-X-Gm-Message-State: APjAAAXHK+bKYauiGhJwPRZV3oix7rvDKny9VH1zFeIh2MGKzHtNNI9r
-        5ipisQ60T01sOTECm3VQT4hgslno03coMfUMCtI=
-X-Google-Smtp-Source: APXvYqwGWuMH94vfqKzrw+H3XXGqKga+v5QwYYKiMsAyR3hj26eiMeo7mmTXKMU5Qpi0wGXjotaEwKxR4EyNvZaNjOY=
-X-Received: by 2002:a17:906:f2d4:: with SMTP id gz20mr10695917ejb.215.1572625896197;
- Fri, 01 Nov 2019 09:31:36 -0700 (PDT)
+        id S1727488AbfKCRFc (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Sun, 3 Nov 2019 12:05:32 -0500
+Received: from zeniv.linux.org.uk ([195.92.253.2]:39660 "EHLO
+        ZenIV.linux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727444AbfKCRFc (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Sun, 3 Nov 2019 12:05:32 -0500
+Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iRJJi-00018k-PD; Sun, 03 Nov 2019 17:05:30 +0000
+Date:   Sun, 3 Nov 2019 17:05:30 +0000
+From:   Al Viro <viro@zeniv.linux.org.uk>
+To:     Tyler Hicks <tyhicks@canonical.com>
+Cc:     ecryptfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH][RFC] ecryptfs unlink/rmdir breakage (similar to caught in
+ ecryptfs rename last year)
+Message-ID: <20191103170530.GP26530@ZenIV.linux.org.uk>
+References: <20190927044243.18856-1-riteshh@linux.ibm.com>
+ <20191015040730.6A84742047@d06av24.portsmouth.uk.ibm.com>
+ <20191022133855.B1B4752050@d06av21.portsmouth.uk.ibm.com>
+ <20191022143736.GX26530@ZenIV.linux.org.uk>
+ <20191022201131.GZ26530@ZenIV.linux.org.uk>
+ <20191023110551.D04AE4C044@d06av22.portsmouth.uk.ibm.com>
+ <20191101234622.GM26530@ZenIV.linux.org.uk>
+ <20191102172229.GT20975@paulmck-ThinkPad-P72>
+ <20191102180842.GN26530@ZenIV.linux.org.uk>
 MIME-Version: 1.0
-Received: by 2002:a05:6402:1118:0:0:0:0 with HTTP; Fri, 1 Nov 2019 09:31:35
- -0700 (PDT)
-Reply-To: moneygram.1820@outlook.fr
-From:   "Mary Coster, I.M.F director-Benin" <eco.bank1204@gmail.com>
-Date:   Fri, 1 Nov 2019 17:31:35 +0100
-Message-ID: <CAOE+jADviugiqpraL3AHycDGuFR8=vm0xYL9JoO9iz4W0SutLg@mail.gmail.com>
-Subject: Contact Money Gram international service-Benin to receive your
- payment funds US$2.500,000 Million
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191102180842.GN26530@ZenIV.linux.org.uk>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: ecryptfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Attn Dear,Funds Beneficiary.
-Contact Money Gram international service-Benin to receive your payment
-funds US$2.500,000 Million approved this morning through the UN
-payment settlement organization.
-Contact Person, Mr. John Dave.
-Official Director.Money Gram-Benin
-Email: moneygram.1820@outlook.fr
-Telephone +229 62619517
-Once you get intouch with Mr. John Dave, Money Gram Director, send to
-him your address including your phone numbers. He will be sending the
-transfer to you  $5000.00 USD daily until you received your complete
-payment $2.5m
-from the office.
-Note,I have paid the whole service fees for you but only small money
-you been required to send to this office is $23.00 only via Money Gram
-transfer.
-God bless
-Mary Coster, I.M.F director-Benin
-m.coster@aol.com
+On Sat, Nov 02, 2019 at 06:08:42PM +0000, Al Viro wrote:
+
+> There's also some secondary stuff dropping out of that (e.g. ceph seeding
+> dcache on readdir and blindly unhashing dentries it sees stale instead of
+> doing d_invalidate() as it ought to - leads to fun results if you had
+> something mounted on a subdirectory that got removed/recreated on server),
+> but that's a separate pile of joy - doesn't affect this analysis, so
+> it'll have to be dealt with later.  It had been an interesting couple of
+> weeks...
+
+More secondaries: a piece of nastiness in ecryptfs unlink/rmdir -
+have the underlying layer mounted elsewhere, look something up
+via ecryptfs, move the underlying object via that mount elsewhere
+and call unlink().  Ends up passing the wrong directory
+inode to vfs_unlink() and then - to ->unlink() of the underlying
+fs...  Embarrassing, since ecryptfs_rename() used to have exact
+same problem, caught and fixed in "ecryptfs_rename(): verify that
+lower dentries are still OK after lock_rename()" a year ago.
+Bugs are like mushrooms - found one, look around for its relatives...
+
+How about the following (completely untested) patch?  Tyler, do you
+see any problems in that?
+
+ecryptfs: fix unlink and rmdir in face of underlying fs modifications
+
+A problem similar to the one caught in commit 74dd7c97ea2a ("ecryptfs_rename():
+verify that lower dentries are still OK after lock_rename()") exists for
+unlink/rmdir as well.
+
+Instead of playing with dget_parent() of underlying dentry of victim
+and hoping it's the same as underlying dentry of our directory,
+do the following:
+	* find the underlying dentry of victim
+	* find the underlying directory of victim's parent (stable
+since the victim is ecryptfs dentry and inode of its parent is
+held exclusive by the caller).
+	* lock the inode of dentry underlying the victim's parent
+	* check that underlying dentry of victim is still hashed and
+has the right parent - it can be moved, but it can't be moved to/from
+the directory we are holding exclusive.  So while ->d_parent itself
+might not be stable, the result of comparison is.
+
+If the check passes, everything is fine - underlying directory is locked,
+underlying victim is still a child of that directory and we can go ahead
+and feed them to vfs_unlink().  As in the current mainline we need to
+pin the underlying dentry of victim, so that it wouldn't go negative under
+us, but that's the only temporary reference that needs to be grabbed there.
+Underlying dentry of parent won't go away (it's pinned by the parent,
+which is held by caller), so there's no need to grab it.
+
+The same problem (with the same solution) exists for rmdir.  Moreover,
+rename gets simpler and more robust with the same "don't bother with
+dget_parent()" approach.
+
+Fixes: 74dd7c97ea2 "ecryptfs_rename(): verify that lower dentries are still OK after lock_rename()"
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+---
+diff --git a/fs/ecryptfs/inode.c b/fs/ecryptfs/inode.c
+index 18426f4855f1..a905d5f4f3b0 100644
+--- a/fs/ecryptfs/inode.c
++++ b/fs/ecryptfs/inode.c
+@@ -128,13 +128,20 @@ static int ecryptfs_do_unlink(struct inode *dir, struct dentry *dentry,
+ 			      struct inode *inode)
+ {
+ 	struct dentry *lower_dentry = ecryptfs_dentry_to_lower(dentry);
+-	struct inode *lower_dir_inode = ecryptfs_inode_to_lower(dir);
+ 	struct dentry *lower_dir_dentry;
++	struct inode *lower_dir_inode;
+ 	int rc;
+ 
+-	dget(lower_dentry);
+-	lower_dir_dentry = lock_parent(lower_dentry);
+-	rc = vfs_unlink(lower_dir_inode, lower_dentry, NULL);
++	lower_dir_dentry = ecryptfs_dentry_to_lower(dentry->d_parent);
++	lower_dir_inode = d_inode(lower_dir_dentry);
++	inode_lock_nested(lower_dir_inode, I_MUTEX_PARENT);
++	dget(lower_dentry);	// don't even try to make the lower negative
++	if (lower_dentry->d_parent != lower_dir_dentry)
++		rc = -EINVAL;
++	else if (d_unhashed(lower_dentry))
++		rc = -EINVAL;
++	else
++		rc = vfs_unlink(lower_dir_inode, lower_dentry, NULL);
+ 	if (rc) {
+ 		printk(KERN_ERR "Error in vfs_unlink; rc = [%d]\n", rc);
+ 		goto out_unlock;
+@@ -142,10 +149,11 @@ static int ecryptfs_do_unlink(struct inode *dir, struct dentry *dentry,
+ 	fsstack_copy_attr_times(dir, lower_dir_inode);
+ 	set_nlink(inode, ecryptfs_inode_to_lower(inode)->i_nlink);
+ 	inode->i_ctime = dir->i_ctime;
+-	d_drop(dentry);
+ out_unlock:
+-	unlock_dir(lower_dir_dentry);
+ 	dput(lower_dentry);
++	inode_unlock(lower_dir_inode);
++	if (!rc)
++		d_drop(dentry);
+ 	return rc;
+ }
+ 
+@@ -512,22 +520,30 @@ static int ecryptfs_rmdir(struct inode *dir, struct dentry *dentry)
+ {
+ 	struct dentry *lower_dentry;
+ 	struct dentry *lower_dir_dentry;
++	struct inode *lower_dir_inode;
+ 	int rc;
+ 
+ 	lower_dentry = ecryptfs_dentry_to_lower(dentry);
+-	dget(dentry);
+-	lower_dir_dentry = lock_parent(lower_dentry);
+-	dget(lower_dentry);
+-	rc = vfs_rmdir(d_inode(lower_dir_dentry), lower_dentry);
+-	dput(lower_dentry);
+-	if (!rc && d_really_is_positive(dentry))
++	lower_dir_dentry = ecryptfs_dentry_to_lower(dentry->d_parent);
++	lower_dir_inode = d_inode(lower_dir_dentry);
++
++	inode_lock_nested(lower_dir_inode, I_MUTEX_PARENT);
++	dget(lower_dentry);	// don't even try to make the lower negative
++	if (lower_dentry->d_parent != lower_dir_dentry)
++		rc = -EINVAL;
++	else if (d_unhashed(lower_dentry))
++		rc = -EINVAL;
++	else
++		rc = vfs_rmdir(lower_dir_inode, lower_dentry);
++	if (!rc) {
+ 		clear_nlink(d_inode(dentry));
+-	fsstack_copy_attr_times(dir, d_inode(lower_dir_dentry));
+-	set_nlink(dir, d_inode(lower_dir_dentry)->i_nlink);
+-	unlock_dir(lower_dir_dentry);
++		fsstack_copy_attr_times(dir, lower_dir_inode);
++		set_nlink(dir, lower_dir_inode->i_nlink);
++	}
++	dput(lower_dentry);
++	inode_unlock(lower_dir_inode);
+ 	if (!rc)
+ 		d_drop(dentry);
+-	dput(dentry);
+ 	return rc;
+ }
+ 
+@@ -565,20 +581,22 @@ ecryptfs_rename(struct inode *old_dir, struct dentry *old_dentry,
+ 	struct dentry *lower_new_dentry;
+ 	struct dentry *lower_old_dir_dentry;
+ 	struct dentry *lower_new_dir_dentry;
+-	struct dentry *trap = NULL;
++	struct dentry *trap;
+ 	struct inode *target_inode;
+ 
+ 	if (flags)
+ 		return -EINVAL;
+ 
++	lower_old_dir_dentry = ecryptfs_dentry_to_lower(old_dentry->d_parent);
++	lower_new_dir_dentry = ecryptfs_dentry_to_lower(new_dentry->d_parent);
++
+ 	lower_old_dentry = ecryptfs_dentry_to_lower(old_dentry);
+ 	lower_new_dentry = ecryptfs_dentry_to_lower(new_dentry);
+-	dget(lower_old_dentry);
+-	dget(lower_new_dentry);
+-	lower_old_dir_dentry = dget_parent(lower_old_dentry);
+-	lower_new_dir_dentry = dget_parent(lower_new_dentry);
++
+ 	target_inode = d_inode(new_dentry);
++
+ 	trap = lock_rename(lower_old_dir_dentry, lower_new_dir_dentry);
++	dget(lower_new_dentry);
+ 	rc = -EINVAL;
+ 	if (lower_old_dentry->d_parent != lower_old_dir_dentry)
+ 		goto out_lock;
+@@ -606,11 +624,8 @@ ecryptfs_rename(struct inode *old_dir, struct dentry *old_dentry,
+ 	if (new_dir != old_dir)
+ 		fsstack_copy_attr_all(old_dir, d_inode(lower_old_dir_dentry));
+ out_lock:
+-	unlock_rename(lower_old_dir_dentry, lower_new_dir_dentry);
+-	dput(lower_new_dir_dentry);
+-	dput(lower_old_dir_dentry);
+ 	dput(lower_new_dentry);
+-	dput(lower_old_dentry);
++	unlock_rename(lower_old_dir_dentry, lower_new_dir_dentry);
+ 	return rc;
+ }
+ 
