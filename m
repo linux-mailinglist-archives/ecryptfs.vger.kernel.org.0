@@ -2,92 +2,77 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AFF4DED445
-	for <lists+ecryptfs@lfdr.de>; Sun,  3 Nov 2019 20:03:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 667ABEEB20
+	for <lists+ecryptfs@lfdr.de>; Mon,  4 Nov 2019 22:30:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727603AbfKCTDZ (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Sun, 3 Nov 2019 14:03:25 -0500
-Received: from zeniv.linux.org.uk ([195.92.253.2]:40918 "EHLO
-        ZenIV.linux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727322AbfKCTDZ (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Sun, 3 Nov 2019 14:03:25 -0500
-Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iRL9n-0003sS-Ft; Sun, 03 Nov 2019 19:03:23 +0000
-Date:   Sun, 3 Nov 2019 19:03:23 +0000
-From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     linux-fsdevel@vger.kernel.org
-Cc:     Ritesh Harjani <riteshh@linux.ibm.com>,
-        linux-kernel@vger.kernel.org, wugyuan@cn.ibm.com,
-        jlayton@kernel.org, hsiangkao@aol.com, Jan Kara <jack@suse.cz>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        ecryptfs@vger.kernel.org
-Subject: [PATCH][RFC] ecryptfs_lookup_interpose(): lower_dentry->d_parent is
- not stable either
-Message-ID: <20191103190323.GS26530@ZenIV.linux.org.uk>
-References: <20191022133855.B1B4752050@d06av21.portsmouth.uk.ibm.com>
- <20191022143736.GX26530@ZenIV.linux.org.uk>
- <20191022201131.GZ26530@ZenIV.linux.org.uk>
- <20191023110551.D04AE4C044@d06av22.portsmouth.uk.ibm.com>
- <20191101234622.GM26530@ZenIV.linux.org.uk>
- <20191102172229.GT20975@paulmck-ThinkPad-P72>
- <20191102180842.GN26530@ZenIV.linux.org.uk>
- <20191103163524.GO26530@ZenIV.linux.org.uk>
- <20191103182058.GQ26530@ZenIV.linux.org.uk>
- <20191103185133.GR26530@ZenIV.linux.org.uk>
+        id S1729687AbfKDVaH (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Mon, 4 Nov 2019 16:30:07 -0500
+Received: from mail-ed1-f44.google.com ([209.85.208.44]:44607 "EHLO
+        mail-ed1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729481AbfKDVaH (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Mon, 4 Nov 2019 16:30:07 -0500
+Received: by mail-ed1-f44.google.com with SMTP id a67so2250702edf.11
+        for <ecryptfs@vger.kernel.org>; Mon, 04 Nov 2019 13:30:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=WtL+9z9jJiuvEXo+dzksgM1arTI6GcXzVK35hbgeARg=;
+        b=ekfK93YbuAgPSGGsmG87yg4tzW31rRj/Ov/1iutQsDq9zaC16It/xK9zGt/oFsLFp/
+         bFBlGq9XFHv657sUgYaDd4NAR5DsfbMet0wMeLk5McOU9jbvJMIjs+G+Z3KZWTJ0+d/e
+         KCetHaFasZJbizZuEmCx35M+0g6v6dAhZMW9es/UhjsCVXSOcObAQrcAv52y86Cp+Hpo
+         z/R2yqgSWXrxF+aTzgj4r/+h6vfqv/Eoy0xwTOQm5CgN9cwJvfNKOoI/uK/516qZb/Ka
+         c4EgIbZlSSSuLW3ISY1p0PHBN+GCw2yHwFGpEu434WQ2HaJUYetB/XiwtaAd3kMlCBC4
+         s9iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=WtL+9z9jJiuvEXo+dzksgM1arTI6GcXzVK35hbgeARg=;
+        b=LAgK9+DRbRgEiAVwmcrn3YsWOmmd/l12pIiXLPYsPxnmTc2EufBeLq5Jyv78Uwnmaj
+         ePdARj6m2SSmINkc1gY8mTKdT9x4+hSfBt4pB7HPb/ndEEI8laK0cXihzEP4mozAkfWd
+         Dhkt8Mvh0Xi4ijWbdFaGS57jYHT20Vk9Dvfev5KqvL2YQhO7IVuP22kEBt7h96FfGpfM
+         qqzNpW3+hVg/3pUb45vVuowUb47vjK+AVGbGdH1wR8GzuGDsbWxVu1XKXJ8g2R3e5VEv
+         F5VXHPSC2Iz8AmRU2sg42TQ8k6GvYENEQU7+8haY+rqW9te3FwLGmI5uMevrGUBklU6w
+         28wg==
+X-Gm-Message-State: APjAAAVT4Phz7aEzGRWbGFC12FH0c7Cr500QF2T23Png5+ZAUe7W9DhM
+        YtuP672GDf/qMKcP6l6dhSMByb92vg/1Xf0XS6V1Q2wmcxM=
+X-Google-Smtp-Source: APXvYqyi0VuWNX+HGKjQiVzns+XA2dw15PXO3lwTP91VjjniWMgVzF9Xj1udtlLo6nqKFa7DlwpoFUplvahfFwKIlIM=
+X-Received: by 2002:a17:906:4e83:: with SMTP id v3mr5529316eju.246.1572903005594;
+ Mon, 04 Nov 2019 13:30:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191103185133.GR26530@ZenIV.linux.org.uk>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+From:   =?UTF-8?Q?Vin=C3=ADcius_=C3=81vila_Eichenberg?= 
+        <vinieich@gmail.com>
+Date:   Mon, 4 Nov 2019 18:29:54 -0300
+Message-ID: <CA+QKkaw4dLxa4HTPK=Y735wa5WnoUTo3HgJroFik1EBOLq36aQ@mail.gmail.com>
+Subject: Decrypt/decode file names without mounting
+To:     ecryptfs@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: ecryptfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-We need to get the underlying dentry of parent; sure, absent the races
-it is the parent of underlying dentry, but there's nothing to prevent
-losing a timeslice to preemtion in the middle of evaluation of
-lower_dentry->d_parent->d_inode, having another process move lower_dentry
-around and have its (ex)parent not pinned anymore and freed on memory
-pressure.  Then we regain CPU and try to fetch ->d_inode from memory
-that is freed by that point.
+Hello, I've posted a question on Crypto Stack Exchange and someone
+suggested that I asked here. This is my first time using a mailing list so
+I don't know if this is the right way to do it.
 
-dentry->d_parent *is* stable here - it's an argument of ->lookup() and
-we are guaranteed that it won't be moved anywhere until we feed it
-to d_add/d_splice_alias.  So we safely go that way to get to its
-underlying dentry.
+I have about two years of ecryptfs backups and I need to find for a
+specific deleted file that probably was on one of these backups. I made a
+list of all the filenames but don't know how to decrypt/decode them in any
+way. Found already the key using keyctl but don't know what is the next
+step but read something about parse tag 70 (?). As there is a lot of
+backups it would be very time consuming to extract, mount all of them and
+search for a file.
 
-Cc: stable@vger.kernel.org # since 2009 or so
-Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+I don't have a lot of programming skills beside the very basics but I'm
+willing to learn if it's necessary but thought that must have any command
+like " openssl *** " that can help me.
 
-diff --git a/fs/ecryptfs/inode.c b/fs/ecryptfs/inode.c
-index 3c2298721359..e23752d9a79f 100644
---- a/fs/ecryptfs/inode.c
-+++ b/fs/ecryptfs/inode.c
-@@ -319,9 +319,9 @@ static int ecryptfs_i_size_read(struct dentry *dentry, struct inode *inode)
- static struct dentry *ecryptfs_lookup_interpose(struct dentry *dentry,
- 				     struct dentry *lower_dentry)
- {
-+	struct path *path = ecryptfs_dentry_to_lower_path(dentry->d_parent);
- 	struct inode *inode, *lower_inode;
- 	struct ecryptfs_dentry_info *dentry_info;
--	struct vfsmount *lower_mnt;
- 	int rc = 0;
- 
- 	dentry_info = kmem_cache_alloc(ecryptfs_dentry_info_cache, GFP_KERNEL);
-@@ -330,13 +330,12 @@ static struct dentry *ecryptfs_lookup_interpose(struct dentry *dentry,
- 		return ERR_PTR(-ENOMEM);
- 	}
- 
--	lower_mnt = mntget(ecryptfs_dentry_to_lower_mnt(dentry->d_parent));
- 	fsstack_copy_attr_atime(d_inode(dentry->d_parent),
--				d_inode(lower_dentry->d_parent));
-+				d_inode(path->dentry));
- 	BUG_ON(!d_count(lower_dentry));
- 
- 	ecryptfs_set_dentry_private(dentry, dentry_info);
--	dentry_info->lower_path.mnt = lower_mnt;
-+	dentry_info->lower_path.mnt = mntget(path->mnt);
- 	dentry_info->lower_path.dentry = lower_dentry;
- 
- 	/*
+English is not my primary language so if it needs more explaining I'll be
+glad to reformulate.
+
+Question on Crypto Stack Exchange (but I believe this email is a lot better
+on the explaining side):
+https://crypto.stackexchange.com/questions/75500/how-to-decode-decrypt-ecryptfs-filename
+
+Thanks in advance!
+Vinicius
