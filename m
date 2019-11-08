@@ -2,22 +2,22 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C2A5EF3548
-	for <lists+ecryptfs@lfdr.de>; Thu,  7 Nov 2019 18:03:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B131FF3CB1
+	for <lists+ecryptfs@lfdr.de>; Fri,  8 Nov 2019 01:18:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726231AbfKGRDE (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Thu, 7 Nov 2019 12:03:04 -0500
-Received: from [211.53.128.215] ([211.53.128.215]:46758 "EHLO MAIL.isd.co.kr"
+        id S1725928AbfKHASX (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Thu, 7 Nov 2019 19:18:23 -0500
+Received: from [211.53.128.215] ([211.53.128.215]:41198 "EHLO MAIL.isd.co.kr"
         rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729788AbfKGRDD (ORCPT <rfc822;ecryptfs@vger.kernel.org>);
-        Thu, 7 Nov 2019 12:03:03 -0500
+        id S1727074AbfKHASR (ORCPT <rfc822;ecryptfs@vger.kernel.org>);
+        Thu, 7 Nov 2019 19:18:17 -0500
 Received: from 192.168.1.3 (217.217.179.17) by MAIL.isd.co.kr (10.10.10.22)
- with Microsoft SMTP Server id 14.3.123.3; Fri, 8 Nov 2019 02:02:53 +0900
-Date:   Thu, 7 Nov 2019 18:02:52 +0100
+ with Microsoft SMTP Server id 14.3.123.3; Fri, 8 Nov 2019 09:18:07 +0900
+Date:   Fri, 8 Nov 2019 01:18:06 +0100
 From:   Peter Wong <choimj@isd.co.kr>
-Reply-To: Peter Wong <pw178484@gmail.com>
+Reply-To: Peter Wong <pw178483@protonmail.com>
 To:     <ecryptfs@vger.kernel.org>
-Message-ID: <30387375.36209.1573146174135.JavaMail.cash@webmail.isd.co.kr>
+Message-ID: <26969089.120483.1573172287917.JavaMail.cash@211.53.128.215>
 Subject: Investment opportunity
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
