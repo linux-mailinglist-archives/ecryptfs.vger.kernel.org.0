@@ -2,95 +2,105 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4485211D4F9
-	for <lists+ecryptfs@lfdr.de>; Thu, 12 Dec 2019 19:13:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1829711F9A5
+	for <lists+ecryptfs@lfdr.de>; Sun, 15 Dec 2019 18:24:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730178AbfLLSNM (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Thu, 12 Dec 2019 13:13:12 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:41574 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730080AbfLLSNM (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Thu, 12 Dec 2019 13:13:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=G49Rl0ofxGDjV0ebu1h/WHiySZFXkCT6JdTKwgc+3Ho=; b=LEKz4gfOoesGVprlJRemg+jlu
-        y3BHsx4zmfnfmGq4f4UDn2GYw3qZGWH1JLLTPtwCy/D5xPR7U3a4MKAnGCfWv3IS+ubNJyrqnIbqt
-        tTGPNK+AK0F8W7QxE7aNPMK6bWPFA2WulJJeoH5Br2wUJJE3442kCY4BTUKRM18l9QziV8MQjbgDN
-        LRaZ046/THnA0MnX7NKNXa4TrGTJvWFN+Vc89RUb5J5EBJENodCWnRHzP5+rVDhtas/y6Vlbi8xyB
-        X608T2PTboYMdcL3cLbijTp+075vI7BlqU/6h/RwSYjZGbLLf4vdklpfZCaCsdLjIA/VQE8WaeUzt
-        g3nIla6iw==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1ifSxS-0006Ii-Ow; Thu, 12 Dec 2019 18:13:02 +0000
-Date:   Thu, 12 Dec 2019 10:13:02 -0800
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     Tiezhu Yang <yangtiezhu@loongson.cn>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <yuchao0@huawei.com>,
-        Tyler Hicks <tyhicks@canonical.com>,
-        linux-fsdevel@vger.kernel.org, ecryptfs@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] fs: introduce is_dot_or_dotdot helper for cleanup
-Message-ID: <20191212181302.GT32169@bombadil.infradead.org>
-References: <1575979801-32569-1-git-send-email-yangtiezhu@loongson.cn>
- <20191210191912.GA99557@gmail.com>
+        id S1726282AbfLORYL (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Sun, 15 Dec 2019 12:24:11 -0500
+Received: from mta-p7.oit.umn.edu ([134.84.196.207]:50914 "EHLO
+        mta-p7.oit.umn.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726207AbfLORYL (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Sun, 15 Dec 2019 12:24:11 -0500
+Received: from localhost (unknown [127.0.0.1])
+        by mta-p7.oit.umn.edu (Postfix) with ESMTP id 47bWV23vb0z9vJBw
+        for <ecryptfs@vger.kernel.org>; Sun, 15 Dec 2019 17:24:10 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at umn.edu
+Received: from mta-p7.oit.umn.edu ([127.0.0.1])
+        by localhost (mta-p7.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id VzjFO1lHvmMK for <ecryptfs@vger.kernel.org>;
+        Sun, 15 Dec 2019 11:24:10 -0600 (CST)
+Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com [209.85.219.197])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mta-p7.oit.umn.edu (Postfix) with ESMTPS id 47bWV22qlVz9vs7b
+        for <ecryptfs@vger.kernel.org>; Sun, 15 Dec 2019 11:24:10 -0600 (CST)
+Received: by mail-yb1-f197.google.com with SMTP id x186so4711484yba.6
+        for <ecryptfs@vger.kernel.org>; Sun, 15 Dec 2019 09:24:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=umn.edu; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Pecgs7ML7Vk7tWrjFYP98uMh9IdJ4hgC/me6N1U0MqY=;
+        b=jkfJBUJcQoX1yFjzdjzLoe6pY8qFLcPsJcRicv8sUQ3KI7lJHM7wqg+Chr1001bMPD
+         W0XsUrqobdn0msYcUN4TjL5exX0UMw7kQoOY6P9+0jUi7bfoxbjBoQJSuMYSE3uSTBFF
+         OkOLAYaUMmu20lBSqyQRpbnA45FEYZrOqhcijBpNbSByPR85MMdpUNOj0P8+pdcBYv/H
+         z2iFxZy3LIzlFRBYDNsSVARyQdsrcjJQsSoHj001/cE63omL5zHgY9Eypl6Vzl5yFNOq
+         cVkZV8X2/NUrc7M9t8coomBP5LcBhg0S7lfU61ZpPEuF6BI6giwm5uzNOQXF5SHOkaCh
+         8pzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Pecgs7ML7Vk7tWrjFYP98uMh9IdJ4hgC/me6N1U0MqY=;
+        b=lftVDX9v6GRTTXOY9J8FsJwVz9c0c/SdFd2yZNGE543qGEOWtHP0IynBJGIII5+SWy
+         hrgzvtoGQdoM3MtZ6tgvbGJ4GjfJ4M5Vdw6/THKKZBd2L3YlQRnB9aPibrDLWwEjzIGP
+         5lwvLnFjJk70MTTkEDHivgvJeDRE/hcXbRQm4DKMFeq0lS432QWCE/anNobFceSidQOt
+         UOCv4ZN6quIZnrAbk+lweT3n7GA7X3394UPviaGejCFe7r9K7TOkmDqZYzW/vEpIGzV2
+         JT0i6rmN+DZ0LE7mqGwFvVqk3BmjX5nc579TZ+Oged2kebpsA63DiyvdKQrnbZjnphB3
+         OaKg==
+X-Gm-Message-State: APjAAAUMmz4habL7q91AvVoGmJlfU9zMuyuIJPTV6fNENCyiS0Ps36Yu
+        LJ+jDQcjhN54KqvDFkEohx2SA0dpfdW5Jjnwn5mL9m7pUJzsoOeOxWyHFi7B6BbmloZ76fzgVB0
+        CuOAr1ywKR7pbQgzloAijeyY=
+X-Received: by 2002:a25:c4c6:: with SMTP id u189mr16155468ybf.145.1576430649875;
+        Sun, 15 Dec 2019 09:24:09 -0800 (PST)
+X-Google-Smtp-Source: APXvYqztTQTtMit3I1wZgX7qTMNPjPQRMZAa5AVd+u0lgsRsZTteFqWzJH36T48vebwVZixwVly3DA==
+X-Received: by 2002:a25:c4c6:: with SMTP id u189mr16155458ybf.145.1576430649672;
+        Sun, 15 Dec 2019 09:24:09 -0800 (PST)
+Received: from cs-u-syssec1.dtc.umn.edu (cs-u-syssec1.cs.umn.edu. [128.101.106.66])
+        by smtp.gmail.com with ESMTPSA id 205sm69295ywm.17.2019.12.15.09.24.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Dec 2019 09:24:09 -0800 (PST)
+From:   Aditya Pakki <pakki001@umn.edu>
+To:     pakki001@umn.edu
+Cc:     kjlu@umn.edu, Tyler Hicks <tyhicks@canonical.com>,
+        ecryptfs@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] ecryptfs: replace BUG_ON with error handling code
+Date:   Sun, 15 Dec 2019 11:24:04 -0600
+Message-Id: <20191215172404.28204-1-pakki001@umn.edu>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191210191912.GA99557@gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Transfer-Encoding: 8bit
 Sender: ecryptfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-On Tue, Dec 10, 2019 at 11:19:13AM -0800, Eric Biggers wrote:
-> > +static inline bool is_dot_or_dotdot(const unsigned char *name, size_t len)
-> > +{
-> > +	if (unlikely(name[0] == '.')) {
-> > +		if (len < 2 || (len == 2 && name[1] == '.'))
-> > +			return true;
-> > +	}
-> > +
-> > +	return false;
-> > +}
-> 
-> This doesn't handle the len=0 case.  Did you check that none of the users pass
-> in zero-length names?  It looks like fscrypt_fname_disk_to_usr() can, if the
-> directory entry on-disk has a zero-length name.  Currently it will return
-> -EUCLEAN in that case, but with this patch it may think it's the name ".".
+In crypt_scatterlist, if the crypt_stat argument is not set up
+correctly, we avoid crashing, by returning the error upstream.
+This patch performs the fix.
 
-Trying to wrench this back on track ...
+Signed-off-by: Aditya Pakki <pakki001@umn.edu>
+---
+ fs/ecryptfs/crypto.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-fscrypt_fname_disk_to_usr is called by:
+diff --git a/fs/ecryptfs/crypto.c b/fs/ecryptfs/crypto.c
+index f91db24bbf3b..a064b408d841 100644
+--- a/fs/ecryptfs/crypto.c
++++ b/fs/ecryptfs/crypto.c
+@@ -311,8 +311,10 @@ static int crypt_scatterlist(struct ecryptfs_crypt_stat *crypt_stat,
+ 	struct extent_crypt_result ecr;
+ 	int rc = 0;
+ 
+-	BUG_ON(!crypt_stat || !crypt_stat->tfm
+-	       || !(crypt_stat->flags & ECRYPTFS_STRUCT_INITIALIZED));
++	if (!crypt_stat || !crypt_stat->tfm
++	       || !(crypt_stat->flags & ECRYPTFS_STRUCT_INITIALIZED))
++		return -EINVAL;
++
+ 	if (unlikely(ecryptfs_verbosity > 0)) {
+ 		ecryptfs_printk(KERN_DEBUG, "Key size [%zd]; key:\n",
+ 				crypt_stat->key_size);
+-- 
+2.20.1
 
-fscrypt_get_symlink():
-       if (cstr.len == 0)
-                return ERR_PTR(-EUCLEAN);
-ext4_readdir():
-	Does not currently check de->name_len.  I believe this check should
-	be added to __ext4_check_dir_entry() because a zero-length directory
-	entry can affect both encrypted and non-encrypted directory entries.
-dx_show_leaf():
-	Same as ext4_readdir().  Should probably call ext4_check_dir_entry()?
-htree_dirblock_to_tree():
-	Would be covered by a fix to ext4_check_dir_entry().
-f2fs_fill_dentries():
-	if (de->name_len == 0) {
-		...
-ubifs_readdir():
-	Does not currently check de->name_len.  Also affects non-encrypted
-	directory entries.
-
-So of the six callers, two of them already check the dirent length for
-being zero, and four of them ought to anyway, but don't.  I think they
-should be fixed, but clearly we don't historically check for this kind
-of data corruption (strangely), so I don't think that's a reason to hold
-up this patch until the individual filesystems are fixed.
