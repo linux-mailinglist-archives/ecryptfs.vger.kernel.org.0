@@ -2,52 +2,52 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7086F143225
-	for <lists+ecryptfs@lfdr.de>; Mon, 20 Jan 2020 20:26:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C543915450D
+	for <lists+ecryptfs@lfdr.de>; Thu,  6 Feb 2020 14:37:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726642AbgATT0S (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Mon, 20 Jan 2020 14:26:18 -0500
-Received: from mail-il1-f195.google.com ([209.85.166.195]:37918 "EHLO
-        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726607AbgATT0S (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Mon, 20 Jan 2020 14:26:18 -0500
-Received: by mail-il1-f195.google.com with SMTP id f5so408019ilq.5
-        for <ecryptfs@vger.kernel.org>; Mon, 20 Jan 2020 11:26:18 -0800 (PST)
+        id S1727551AbgBFNhN (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Thu, 6 Feb 2020 08:37:13 -0500
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:38084 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727511AbgBFNhM (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Thu, 6 Feb 2020 08:37:12 -0500
+Received: by mail-ed1-f66.google.com with SMTP id p23so5957685edr.5
+        for <ecryptfs@vger.kernel.org>; Thu, 06 Feb 2020 05:37:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=z7I/Kq2V0EnXiuoACdRbnwoAql3KZ080nwyXVjlruyU=;
-        b=qTXwyWGS0wBajjfi1UtIp8THp3zO9Z4Jplw5IwdVIBxrw/tI7sUmblibT00yyiUgtl
-         1lQDhOZ8jc/K/Bh4mS8dW0TeZ3bKOj28SSiD30DbLPDBSo25Z7Swgt8l8ekhXkddSPZF
-         ceBMyNaHvzd7Y332oIyUXtydKW46HpxgRzHa87iWfVdwSalLdb8EY9tbzKRDJhfHFYGe
-         QizZHYDPiGcvG8q+sJehOVFcQTn2XArBf67FXPSgoKVYFjuPDhBOVoiTFOdDF0vK0hrh
-         fkHsh+Odx3uH6k9g0zMcPOYYAvzCpJwMuscd7WJ1fFqGZyY8LdEpu/7pDFf2O15CqHsV
-         CiCg==
+        bh=jzrZ30MJAfGBLNaIb1wGwJ1t7d2ttoz+dRkCOoNYXW8=;
+        b=ZyzVY8K0ImmlWJZKXBJhnbwG0lQQUBBixBI0plvs4L1uOkT3Cm5Rnhu11wwwC4DIC1
+         eq6O6FstPFITGNlGIU51ryOI/nvH7geKPinnhjEvlZq5t4N6QipdZCjbukk+gh1XmwWg
+         JG22CAaYuMkxoFcyMu+EpMeq+YN5Aib8fWIYbU/Zprj+J1zrJ0oSdgz+FI6Lnq+Sei/E
+         FBDe3vmiiCmNTynbeey1rj0hMAul2nqVRUcw1gn9N0v/ZsrEPueKyv7B2lmA1vrETLH+
+         KESajxwSkw86icdwAwZZGyRglXOfswS7VEkbI7PwL3T3+thfQb7R/5EKcFvQa5QEBd3r
+         Ws3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:reply-to:from:date:message-id
          :subject:to;
-        bh=z7I/Kq2V0EnXiuoACdRbnwoAql3KZ080nwyXVjlruyU=;
-        b=ZlVxxCKUtnsC2YpgRAP+Cm+BNkUL9bQlyc8lfkvTq483Zvh94LpPtSWGFmhuUXwgtR
-         6gBYjjFz5BDK+2F8dx8KCPwECJuzATKg4Ea8lV2lMzXZm3AA8wboAGOivAI9WqUwJwWf
-         tMZr0xAxttU4ld0drhm13cfbtDnNb7DodPB1TAiSyqO87M7ln3p0kK5ptvbcn31uSevI
-         LRdxMlUZIapI6JYNDG1ZZ65DEZ9CA11XhStRkP6+noFQ6ZtRbmarfo5Y8rVJYA9zlmq4
-         yHp+QemBvNSwBDMKnVgMaxXUYeaq3I1OA4IqcCWB5X+vrqqmHMo/DQaaLGSgDaTz2TLa
-         11Mw==
-X-Gm-Message-State: APjAAAUssiC75fhB/pminY9z/Rp0pAicgAl9b13D7BgNKe1FtzCQRZHi
-        AeyoMTTTkxY+qnl55LI8sXlKcsK8s8Yh91eWKA==
-X-Google-Smtp-Source: APXvYqyF0HDcRtGYppn6RzhGE6WiNdXBXeS3n2h8mAozZ9fFrYKg+o1349oXwkry3RZ+DmFzV4L1DIkX579mdWvytco=
-X-Received: by 2002:a92:5845:: with SMTP id m66mr502502ilb.257.1579548377722;
- Mon, 20 Jan 2020 11:26:17 -0800 (PST)
+        bh=jzrZ30MJAfGBLNaIb1wGwJ1t7d2ttoz+dRkCOoNYXW8=;
+        b=IhUElFlaQOJawLK5L3KE9aSEOsjRzruDFjr8F5DanDSRq2M/FB8+CvWhCHUV9B5o80
+         u+qst6DapW2kGqK1k/LUG97KusYNG4GzWfmqjnROahNF+NxyUHbkUhAr1FwX4VyFEoOd
+         +yET20nxhnZ8djoqLkqEHfHvmkQxI9At15/fZWEQCoJARvrmwYbGBaB9BEVwkysH6m2K
+         IPSSxK1iUzVkGjoHcHpl2OsU1HZ5nDScn6uhnuQaOr0CIs2Yr8Tu0WZ6FVVX3Mcs9pfa
+         /Q4zrq1syR33jf27aaXjPrd1y1dx9LqG+SzCRt1k0+df3GTt3YaN2R4oZbybLQbbSt2u
+         Ea4A==
+X-Gm-Message-State: APjAAAVCTEE8xPiSpA6vE4dmf0QS7v1Ayxvwilyoyf3IRSS2PLewqW0Q
+        TPpfFWv0oH7av/4yWGJJNt7yu1G3gSpyBSz/cvk=
+X-Google-Smtp-Source: APXvYqwR5JXysmGaERH5pjMW4dkkDupq8Vqv10ERlj1jGJo4elwfbPPwcH9+6SsJ8SGARhXNtyhMzNZ2FV46ItlOf4c=
+X-Received: by 2002:a17:906:7d17:: with SMTP id u23mr3360444ejo.318.1580996230582;
+ Thu, 06 Feb 2020 05:37:10 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a05:6638:584:0:0:0:0 with HTTP; Mon, 20 Jan 2020 11:26:17
+Received: by 2002:a05:6402:22dc:0:0:0:0 with HTTP; Thu, 6 Feb 2020 05:37:10
  -0800 (PST)
-Reply-To: mcclainejohn.13@gmail.com
-From:   "Prof, William Roberts" <info.zennitbankplcnigerian@gmail.com>
-Date:   Mon, 20 Jan 2020 20:26:17 +0100
-Message-ID: <CABHzvrknY6pcKiJfrRahucCjz5YWjT7AxQgkghCO=7hrn3XSAw@mail.gmail.com>
-Subject: Contact Diplomatic Agent, Mr. Mcclaine John to receive your ATM CARD
- valued the sum of $12.8Million United States Dollars
+Reply-To: eco.bank1204@gmail.com
+From:   "MS. MARYANNA B. THOMASON" <eco.bank1204@gmail.com>
+Date:   Thu, 6 Feb 2020 14:37:10 +0100
+Message-ID: <CAOE+jAArpfYyXAVUPVi_CcUPtc01ipDHa3LWD7rvbMLU9W=Syg@mail.gmail.com>
+Subject: Contact Federal Reserve Bank New York to receive your inheritance
+ contract payment (US$12.8M)
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Sender: ecryptfs-owner@vger.kernel.org
@@ -55,41 +55,21 @@ Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Attn: Dear Beneficiary,
+Attention Fund Beneficiary,
+Contact Federal Reserve Bank New York to receive your inheritance
+contract payment  (US$12.8M)
+Payment Release Instruction from US department of Homeland Security New York.
+Contact Federal Reserve Bank New York to receive your inheritance
+contract payment  (US$12.8M) deposited this morning in your favor.
+Contact Person, Dr. Jerome H. Powell.
+CEO Director, Federal Reserve Bank New York
+Email: reservebank.ny93@gmail.com
+Telephone- (917) 983-4846)
 
-I wish to inform you that the diplomatic agent conveying your ATM CARD
-valued the sum of $12.8Million United States Dollars has misplaced
-your address and he is currently stranded at (George Bush
-International Airport) Houston Texas USA now
-We required you to reconfirm the following information's below to him
-so that he can deliver your Payment CARD to you today or tomorrow
-morning as information provided with open communications via email and
-telephone for security reasons.
-HERE IS THE DETAILS  HE NEED FROM YOU URGENT
-YOUR FULL NAME:========
-ADDRESS:========
-MOBILE NO:========
-NAME OF YOUR NEAREST AIRPORT:========
-A COPY OF YOUR IDENTIFICATION :========
-
-Note; do contact the diplomatic agent immediately through the
-information's listed below
-Contact Person: Diplomatic Agent, Mr. Mcclaine John
-EMAIL: mcclainejohn.13@gmail.com
-Tel:(223) 777-7518
-
-Contact the diplomatic agent immediately
-because he is waiting to hear from you today with the needed information's.
-
-NOTE: The Diplomatic agent does not know that the content of the
-consignment box is $12.800,000,00 Million United States Dollars and on
-no circumstances should you let him know the content. The consignment
-was moved from here as family treasures, so never allow him to open
-the box. Please I have paid delivery fees for you but the only money
-you must send to Mcclaine John is your ATM CARD delivery fee $25.00
-only. text Him as you contact Him Immediately
-
-Thanks,
-with Regards.
-Prof, William Roberts
-Director DHL COURIER SERVICES-Benin
+Note.I have paid the deposit and insurance fee for you,but only money
+you are required to send to the bank is $US25.00,your processing funds
+transfer fee only to enable them release your funds to you today.
+Thank you for your anticipated co-operation.
+TREAT AS URGENT.
+Mr.Richard Longhair
+DIRECTOR OF FUNDS CLEARANCE UNIT
