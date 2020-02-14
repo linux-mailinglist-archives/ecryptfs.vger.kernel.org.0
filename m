@@ -2,128 +2,115 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8387315F26B
-	for <lists+ecryptfs@lfdr.de>; Fri, 14 Feb 2020 19:09:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C6E515F474
+	for <lists+ecryptfs@lfdr.de>; Fri, 14 Feb 2020 19:23:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392850AbgBNSJQ (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Fri, 14 Feb 2020 13:09:16 -0500
-Received: from mta-p8.oit.umn.edu ([134.84.196.208]:43576 "EHLO
+        id S2390788AbgBNSVN (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Fri, 14 Feb 2020 13:21:13 -0500
+Received: from mta-p8.oit.umn.edu ([134.84.196.208]:33466 "EHLO
         mta-p8.oit.umn.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392849AbgBNSJQ (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Fri, 14 Feb 2020 13:09:16 -0500
-X-Greylist: delayed 441 seconds by postgrey-1.27 at vger.kernel.org; Fri, 14 Feb 2020 13:09:15 EST
+        with ESMTP id S2388296AbgBNSVL (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Fri, 14 Feb 2020 13:21:11 -0500
 Received: from localhost (unknown [127.0.0.1])
-        by mta-p8.oit.umn.edu (Postfix) with ESMTP id 48K1RQ3TSXz9vZTY
-        for <ecryptfs@vger.kernel.org>; Fri, 14 Feb 2020 18:01:54 +0000 (UTC)
+        by mta-p8.oit.umn.edu (Postfix) with ESMTP id 48K1sf69B5z9vZTH
+        for <ecryptfs@vger.kernel.org>; Fri, 14 Feb 2020 18:21:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at umn.edu
 Received: from mta-p8.oit.umn.edu ([127.0.0.1])
         by localhost (mta-p8.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id XuPeRCqwPP7Y for <ecryptfs@vger.kernel.org>;
-        Fri, 14 Feb 2020 12:01:54 -0600 (CST)
-Received: from mail-yw1-f72.google.com (mail-yw1-f72.google.com [209.85.161.72])
+        with ESMTP id Kdbln-8goQ-5 for <ecryptfs@vger.kernel.org>;
+        Fri, 14 Feb 2020 12:21:10 -0600 (CST)
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com [209.85.219.198])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mta-p8.oit.umn.edu (Postfix) with ESMTPS id 48K1RQ2K63z9vZTk
-        for <ecryptfs@vger.kernel.org>; Fri, 14 Feb 2020 12:01:54 -0600 (CST)
-Received: by mail-yw1-f72.google.com with SMTP id 206so7036547ywt.3
-        for <ecryptfs@vger.kernel.org>; Fri, 14 Feb 2020 10:01:54 -0800 (PST)
+        by mta-p8.oit.umn.edu (Postfix) with ESMTPS id 48K1sf4zLGz9vZSs
+        for <ecryptfs@vger.kernel.org>; Fri, 14 Feb 2020 12:21:10 -0600 (CST)
+Received: by mail-yb1-f198.google.com with SMTP id 62so8372831ybt.9
+        for <ecryptfs@vger.kernel.org>; Fri, 14 Feb 2020 10:21:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=umn.edu; s=google;
-        h=subject:to:cc:references:in-reply-to:from:message-id:date
-         :user-agent:mime-version:content-language:content-transfer-encoding;
-        bh=pYWIECtn8aDrMNtySZ1V/LxrQeF+fHrO5BZKWhubLdY=;
-        b=mFSUtiFbPGJ+jvlssT4lthfvbWO9cBGvSi2IVJn7EVVpY/hXgMKUg91Eg1BKdsS7aD
-         fDTCovQCVqze8d1t2H/18gNHjtfE0702W5eqm7l82yIEPS6pSmM2yCSv+FDlz1jsESXE
-         frjzz2RCfzVVcQUAiZTY7sK6/dy5w3RX8n1LZgXpv7TNtUAX7XdCQh8blfJwC9O2r/aY
-         ym+AwMRHRNvO4QbVPIt5JB78mNFHi1JoC+kaUZa8DsOiGADlpB/tITALpxxgSj1wlQ2L
-         +YIHXCYRW6TGHDfKEuJ2SItr777Wm7W4Huw80E3bZ76e4ipMl3GYI4yFnfgTsoV/LIVR
-         UQhg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2hbzcEFviquV03HD8A3Jng5TQLggAAO3vfpAktWqHk4=;
+        b=UQ/00/SCkqgjUfiKLVsJj10tQyBTZkcsP3Jp3BFiFZjjBuGNq/PFqG87Qdw6m14cxg
+         iNckCZnewLhSt1LyP4DDLVBza//GXKyqCT5ApqA+FxnZuTvAqLgq2jKrCZPj6pV8/aa5
+         OjxI0IT9RUIFaKlBSEuTary5vQXjiQu31Yef/l4G3XWmd2sGrUIHWBWIurMbnYAJ7yXh
+         0aBuzLEqzqqLWMB31aCTSLOeu4UTt1KkPQ6YHSbe6T7vinAOzzYxlnvlYpoQkspcPpDd
+         ijSXr1sg2C6lViE0eXA7g/1xQXU91wW/uC6rPDqC6GB6EpWbthMKP5z9B/yQ+IPeWfu0
+         dCEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:in-reply-to:from
-         :message-id:date:user-agent:mime-version:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=pYWIECtn8aDrMNtySZ1V/LxrQeF+fHrO5BZKWhubLdY=;
-        b=WOmtduPOQu5cxQvde0zvIW75c8Lv12WuL2Gad/3wVFqwR4C7IH9Jh0VQ2+38SiLr47
-         dw6EeReRTOz3GWnFW2s07lSYu3ZrB38yuxGVPeYCYB/8521p7yWXp8cuPcn4SastQDni
-         tSsR4GyDYQt95jSROPyhLK40ZOHAFE0RPIt/STW0snjL7VIzX9si+NoBj3mq9NuRKOr6
-         R3AkzQZMHphGbe8lDcmjrJFpd3x/Ks1vU/1IH8EClgFYeV53qRkaS1tBIWm+Wl2chU4K
-         9LPwC1iXJPpXBZcSK1ZF3nzWyfaMyEP8IvF2tK5YNLXS1gKMqXq31A2W/PvV+X8c1Ljf
-         WobQ==
-X-Gm-Message-State: APjAAAVzEabKEJSCpKAVQp51WTNN5ZOJwK5EXm6gGYRke+wgiR5tgdrT
-        v0e6iWt5jWNd9jK/o3amTNxtPwqgpvDjnip4Fs7XqC+0kF1fFUdoUGZclblvNeBcQ6X0juY2PtA
-        CTHMwz7wGm4j+Gh+M2mHwqwU=
-X-Received: by 2002:a25:ce91:: with SMTP id x139mr3952141ybe.336.1581703313426;
-        Fri, 14 Feb 2020 10:01:53 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxEdLx4j1GqpTmR3PwKqjlopSJDXBlgmIO+PHQz5D00SVwcApq/sDcUE3ZOELHCEybG/NvClA==
-X-Received: by 2002:a25:ce91:: with SMTP id x139mr3952073ybe.336.1581703312669;
-        Fri, 14 Feb 2020 10:01:52 -0800 (PST)
-Received: from [128.101.106.66] (cs-u-syssec1.cs.umn.edu. [128.101.106.66])
-        by smtp.gmail.com with ESMTPSA id m15sm2899909ywh.78.2020.02.14.10.01.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Feb 2020 10:01:52 -0800 (PST)
-Subject: Re: [PATCH] ecryptfs: replace BUG_ON with error handling code
-To:     Tyler Hicks <tyhicks@canonical.com>
-Cc:     kjlu@umn.edu, ecryptfs@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20191215172404.28204-1-pakki001@umn.edu>
- <20200214173818.GB250165@elm>
-In-Reply-To: <20200214173818.GB250165@elm>
+        bh=2hbzcEFviquV03HD8A3Jng5TQLggAAO3vfpAktWqHk4=;
+        b=H0L4Np+qgDEdYA7i4y8uQX593pdPYkmXsfdwDIz8ecuZ6IkLXMmOc7Oehs+b1lzI5U
+         b/CT/So+EJXEAu6V6N+XfFxb8yBO3vfsR/J8s+7XAYsMac0aVn1uYm98OziIrOzf6spE
+         SFxYHi2/ZXYVuB2toKZZsTabTlxPXzxcQe43y/2WjS4mONRaDI0dpgQ9321zRcvesq4t
+         gLgvg78Tfemk1OBaDJlEDfltOsWa4/9BgBDk9kYHZkWktuH1rMlYiBghBc2SdPOGbW/u
+         crtZnh7GFJ+ITijlp8pPbzhCFRjf1vO0bQO56WdJzvykJ9ODwT0iUVo+dDTisuvljiO3
+         0arg==
+X-Gm-Message-State: APjAAAWMACMtJXQ/4xN6/Ri8FYL6xL7xjq27fT2T1f9v7PkeMH+0vJVx
+        yY7UTmc5FKNnloHzyXx6zYX/+6UdiHfeld/8LUNLwst3PxGAvFkhPamt6Z4fbkhJ+Sstuq+TG6b
+        GgN1wcWgNdwd5+4Bw8TdN7I4=
+X-Received: by 2002:a0d:d182:: with SMTP id t124mr3587143ywd.96.1581704470116;
+        Fri, 14 Feb 2020 10:21:10 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwsaIdyfI2/Azn+euwzJt/+5+mOgjpGKlacFD20lZDWK0SsYmu2ahnOa2Omk/wbhrOD5GFE/g==
+X-Received: by 2002:a0d:d182:: with SMTP id t124mr3587123ywd.96.1581704469910;
+        Fri, 14 Feb 2020 10:21:09 -0800 (PST)
+Received: from cs-u-syssec1.dtc.umn.edu (cs-u-syssec1.cs.umn.edu. [128.101.106.66])
+        by smtp.gmail.com with ESMTPSA id i2sm2809753ywm.17.2020.02.14.10.21.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Feb 2020 10:21:09 -0800 (PST)
 From:   Aditya Pakki <pakki001@umn.edu>
-Message-ID: <710ceeb1-6b88-4361-d199-414e0714c78f@umn.edu>
-Date:   Fri, 14 Feb 2020 12:01:51 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+To:     pakki001@umn.edu
+Cc:     kjlu@umn.edu, Tyler Hicks <tyhicks@canonical.com>,
+        Andrew Morton <akpm@osdl.org>,
+        Michael Halcrow <mhalcrow@us.ibm.com>,
+        Adrian Bunk <bunk@stusta.de>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Theodore Ts'o" <tytso@mit.edu>, ecryptfs@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2] ecryptfs: replace BUG_ON with error handling code
+Date:   Fri, 14 Feb 2020 12:21:01 -0600
+Message-Id: <20200214182101.17165-1-pakki001@umn.edu>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: ecryptfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-On 2/14/20 11:38 AM, Tyler Hicks wrote:
-> On 2019-12-15 11:24:04, Aditya Pakki wrote:
->> In crypt_scatterlist, if the crypt_stat argument is not set up
->> correctly, we avoid crashing, by returning the error upstream.
->> This patch performs the fix.
->>
->> Signed-off-by: Aditya Pakki <pakki001@umn.edu>
-> 
-> Hi Aditya - I wanted to check in to see if you are able to submit a new
-> revision taking into account the feedback from Markus.
-> 
-> Also, I'm curious if you've been able to hit this BUG_ON() or if you are
-> just being proactive in cleaning up this function?
-> 
-> Let me know if I can help you prepare a v2 of this patch. Thanks!
-> 
-> Tyler
-> 
->> ---
->>  fs/ecryptfs/crypto.c | 6 ++++--
->>  1 file changed, 4 insertions(+), 2 deletions(-)
->>
->> diff --git a/fs/ecryptfs/crypto.c b/fs/ecryptfs/crypto.c
->> index f91db24bbf3b..a064b408d841 100644
->> --- a/fs/ecryptfs/crypto.c
->> +++ b/fs/ecryptfs/crypto.c
->> @@ -311,8 +311,10 @@ static int crypt_scatterlist(struct ecryptfs_crypt_stat *crypt_stat,
->>  	struct extent_crypt_result ecr;
->>  	int rc = 0;
->>  
->> -	BUG_ON(!crypt_stat || !crypt_stat->tfm
->> -	       || !(crypt_stat->flags & ECRYPTFS_STRUCT_INITIALIZED));
->> +	if (!crypt_stat || !crypt_stat->tfm
->> +	       || !(crypt_stat->flags & ECRYPTFS_STRUCT_INITIALIZED))
->> +		return -EINVAL;
->> +
->>  	if (unlikely(ecryptfs_verbosity > 0)) {
->>  		ecryptfs_printk(KERN_DEBUG, "Key size [%zd]; key:\n",
->>  				crypt_stat->key_size);
->> -- 
->> 2.20.1
->>
+In crypt_scatterlist, if the crypt_stat argument is not set up
+correctly, the kernel crashes. Instead, by returning an error code
+upstream, the error is handled safely.
 
-The bug was detected by a static analysis tool and have not encountered it. I can send a v2 right away.
+The issue is detected via a static analysis tool written by us.
+
+Fixes: 237fead619984 (ecryptfs: fs/Makefile and fs/Kconfig)
+Signed-off-by: Aditya Pakki <pakki001@umn.edu>
+---
+v1: Add missing fixes tag suggested by Markus and Tyler.
+---
+ fs/ecryptfs/crypto.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/fs/ecryptfs/crypto.c b/fs/ecryptfs/crypto.c
+index db1ef144c63a..2c449aed1b92 100644
+--- a/fs/ecryptfs/crypto.c
++++ b/fs/ecryptfs/crypto.c
+@@ -311,8 +311,10 @@ static int crypt_scatterlist(struct ecryptfs_crypt_stat *crypt_stat,
+ 	struct extent_crypt_result ecr;
+ 	int rc = 0;
+ 
+-	BUG_ON(!crypt_stat || !crypt_stat->tfm
+-	       || !(crypt_stat->flags & ECRYPTFS_STRUCT_INITIALIZED));
++	if (!crypt_stat || !crypt_stat->tfm
++	       || !(crypt_stat->flags & ECRYPTFS_STRUCT_INITIALIZED))
++		return -EINVAL;
++
+ 	if (unlikely(ecryptfs_verbosity > 0)) {
+ 		ecryptfs_printk(KERN_DEBUG, "Key size [%zd]; key:\n",
+ 				crypt_stat->key_size);
+-- 
+2.20.1
+
