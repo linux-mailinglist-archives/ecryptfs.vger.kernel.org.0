@@ -2,94 +2,80 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C6D9164C79
-	for <lists+ecryptfs@lfdr.de>; Wed, 19 Feb 2020 18:49:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B8F56165AF4
+	for <lists+ecryptfs@lfdr.de>; Thu, 20 Feb 2020 11:00:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726593AbgBSRt4 (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Wed, 19 Feb 2020 12:49:56 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49812 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726582AbgBSRt4 (ORCPT <rfc822;ecryptfs@vger.kernel.org>);
-        Wed, 19 Feb 2020 12:49:56 -0500
-Received: from sol.localdomain (c-107-3-166-239.hsd1.ca.comcast.net [107.3.166.239])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3DB5F206DB;
-        Wed, 19 Feb 2020 17:49:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1582134595;
-        bh=d9vCy6W6sbu1izQMVzwtEI0HcX0YQYsVYqv2fhWrmNg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nqrflJp1ezz85KfKeUzmtyvUZI0JF+EUijBceKnO3zSRPP8gQhVDm/mG+oAxQ3G87
-         9kf3lUx2rgQQs0rQJXi/MD7MrfkGzGrJ0HxpbTYb7fY/f2iy6miRQJX9AGp56NQ4z5
-         qGKahuaZibVWIwGE9ZpelVAqyAuWnIl/7KAk905g=
-Date:   Wed, 19 Feb 2020 09:49:53 -0800
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Tyler Hicks <code@tyhicks.com>
-Cc:     Brian Kubisiak <brian.kubisiak@gmail.com>, ecryptfs@vger.kernel.org
-Subject: Re: [PATCH] ecryptfs: add mount option for specifying cipher driver.
-Message-ID: <20200219174953.GA2312@sol.localdomain>
-References: <20200210153907.GA348@brian-desktop>
- <20200216010731.GA260140@elm>
- <20200219014218.GA17588@neutron>
- <20200219163050.GA354535@elm>
+        id S1727637AbgBTKAw (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Thu, 20 Feb 2020 05:00:52 -0500
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:34371 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727635AbgBTKAw (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Thu, 20 Feb 2020 05:00:52 -0500
+Received: by mail-pl1-f196.google.com with SMTP id j7so1374381plt.1
+        for <ecryptfs@vger.kernel.org>; Thu, 20 Feb 2020 02:00:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=xsUbPWAhYtsZRE8nHbpZ90/dMr+6ACJOvf/o3gzcGwM=;
+        b=HNr12GxrjzeTq5ngoCzqSt/oCz/awtVKQjQZSLSC8wH7YBMgy25gbBZAhW+Y0cyQtN
+         kKOB6xx7VSxXLMJyPV/Iw9cK7Vpbqp3v5jLq0Zvd6h+PBJbitmup3n2IFd9ivmo89YEc
+         /egZXb6yTbPIlbWpBfeXIKwkL7oS7K3OMrKAxyuXOjiC7/P/VIk23D6A59RJPNAClTBn
+         +zj7jGrC7+bzH45DlaK20O1eBGRgn2fMPgq7Wa1mBm1zmtrzXPwl1yC71D45vDAfaVEW
+         zMZ35nTliz1ILnftScHIxTS+hT27IDr8KQbngHJW7d3FYzVNjhmSHX1GSZlutxUUsLmX
+         El3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=xsUbPWAhYtsZRE8nHbpZ90/dMr+6ACJOvf/o3gzcGwM=;
+        b=jGO6aNGzGqLtXUAa/4Md266NOKm2RRsVi3Clb3Rfw81jKZL1pqZoounCBZk6fi/c0u
+         2GW2Ngj3PifzwGKwdUutXJFd4qvdPOb8iCw9ZInn6Rp/48ijTaYiqiDrZk8452fBoTPY
+         9FvK1zOZWvEZmWy2p8G5EDee+U465iV0glDwGaMQTA0JZViC9ckr8al2IKNgKit89LiZ
+         vTN/QpQ+LpRSkUgel0u9cRiaPracxtV9V7CdQMmaOre+IaEHnhz7mitQdBUXwpCDJoL9
+         aykq2u4qVAvGEo638H6yzX8xKsJxQPc6AfrMijOpjY8gMwExvx7bBBfENhz645ZIS6Qd
+         5w4Q==
+X-Gm-Message-State: APjAAAVO09jir/G31cWC1TPJC3w0chk+Zcd888Yz36ZXFUS5lqGL7BcA
+        ti5G5s1tySGrbS1RKJUo8UTtfDJ2BxE6O4M1rkE=
+X-Google-Smtp-Source: APXvYqxfZA4v8peKNM04mGNBALs86xGAR9+I6+hzmiYK3t55tpMLGcCRQQm6ljdK7TnDP4vs7ZB6lB1K0pwxYVg4mFM=
+X-Received: by 2002:a17:90a:3268:: with SMTP id k95mr2701944pjb.48.1582192851840;
+ Thu, 20 Feb 2020 02:00:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200219163050.GA354535@elm>
+Received: by 2002:a17:90a:90f:0:0:0:0 with HTTP; Thu, 20 Feb 2020 02:00:51
+ -0800 (PST)
+Reply-To: cagesusan199@gmail.com
+From:   "Mrs. Susan S. Cage" <drgoodluckebelejonathan061@gmail.com>
+Date:   Thu, 20 Feb 2020 02:00:51 -0800
+Message-ID: <CALjo5=9Nw6erRGz0fKm=tZEMk3GYPX9FUD54_CiYDSXv8KBisA@mail.gmail.com>
+Subject: Attention:Beneficiary
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: ecryptfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-On Wed, Feb 19, 2020 at 10:30:50AM -0600, Tyler Hicks wrote:
-> On 2020-02-18 17:42:18, Brian Kubisiak wrote:
-> > Hi Tyler,
-> > 
-> > > Can you elaborate some on the use case you have?
-> > 
-> > On many modern embedded SoCs, there are multiple implementations of the same
-> > crypto algorithm---usually a CPU-based implementation using ISA extensions and a
-> > "security engine" implementation that implements crypto primitives on dedicated
-> > silicon. There are a few tradeoffs involved (performance, CPU overhead,
-> > resistance to side-channels attacks, etc), so it is not always clear which
-> > implementation is best.
-> > 
-> > An SoC that I've been working on has both the CPU implementation and the
-> > security engine implementation of the cbc(aes) algorithm at the same priority,
-> > so the one picked to perform the encryption for a given ecryptfs mount is
-> > somewhat random.
-> 
-> Have you looked into the possibility of increasing the priority of the
-> implementation that you prefer on your SoC?
-> 
-> If that's not feasible, have you considered blacklisting the module
-> providing the implementation that you don't prefer?
-> 
-> > My intention with this patch is to be able to select which
-> > implementation gets used for the mount using the
-> > ecryptfs_cipher_driver option instead of having the kernel pick.
-> 
-> I don't think allowing users to specify a cipher driver is a good idea.
-> eCryptfs has always assumed that the crypto subsystem knows best about
-> the ideal implementation of "cbc(aes)" and I believe that this is how
-> the crypto subsystem expects eCryptfs to make use of their API.
-> 
-> In addition to the design objection above, I'm worried about users
-> shooting themselves in the foot with this mount option. For example,
-> "ecryptfs_cipher_driver=ecb_aes_aesni" and
-> "ecryptfs_cipher_driver=xts_aes_aesni" are accepted. eCryptfs is only
-> implemented to operated in a (modified) CBC mode and letting users force
-> their way into using anything else is dangerous/insecure.
-> 
-> Lets see if we can address your problem in the crypto subsystem (or with
-> the module blacklist) rather than creating this amount of flexibility in
-> eCryptfs.
-> 
-> Tyler
+-- 
+Dearest Friend,
 
-CRYPTO_MSG_UPDATEALG in the crypto_user configuration API can be used to change
-the priority of a crypto algorithm at runtime.  It would need to be done before
-mounting eCryptfs.
+Sorry for invading your privacy, my name is Susan S. Cage I am 81
+years, citizen of United States and presently in hospital undergoing
+chromatography for bronchogenic carcinomas (Lung cancer) which
+affected both Lungs. The doctors said I have few days to live because
+the cancer has now affected my brain.
 
-- Eric
+My late husband left Fifteen Million, Five Hundred British Pounds
+Sterling in my account, I want to transfer the money to you and I want
+you to use it as a donate for charitable and help the needy,
+motherless, less privileged and widows within your location.
+
+I need your assurance that you will use the fund for charity, once I a
+favorable reply from you, will inform my Bank through my lawyer to
+transfer the fund to you as my Next of Kin and Sole Beneficiary. Once
+I receive your response, I will inform my bank in writing through my
+lawyer.
+
+
+
+Thank you and God bless you.
+
+Mrs. Susan S. Cage
