@@ -2,80 +2,106 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B8F56165AF4
-	for <lists+ecryptfs@lfdr.de>; Thu, 20 Feb 2020 11:00:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CB80166680
+	for <lists+ecryptfs@lfdr.de>; Thu, 20 Feb 2020 19:44:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727637AbgBTKAw (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Thu, 20 Feb 2020 05:00:52 -0500
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:34371 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727635AbgBTKAw (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Thu, 20 Feb 2020 05:00:52 -0500
-Received: by mail-pl1-f196.google.com with SMTP id j7so1374381plt.1
-        for <ecryptfs@vger.kernel.org>; Thu, 20 Feb 2020 02:00:52 -0800 (PST)
+        id S1728162AbgBTSo5 (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Thu, 20 Feb 2020 13:44:57 -0500
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:40611 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726959AbgBTSo5 (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Thu, 20 Feb 2020 13:44:57 -0500
+Received: by mail-pl1-f194.google.com with SMTP id y1so1892247plp.7
+        for <ecryptfs@vger.kernel.org>; Thu, 20 Feb 2020 10:44:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=xsUbPWAhYtsZRE8nHbpZ90/dMr+6ACJOvf/o3gzcGwM=;
-        b=HNr12GxrjzeTq5ngoCzqSt/oCz/awtVKQjQZSLSC8wH7YBMgy25gbBZAhW+Y0cyQtN
-         kKOB6xx7VSxXLMJyPV/Iw9cK7Vpbqp3v5jLq0Zvd6h+PBJbitmup3n2IFd9ivmo89YEc
-         /egZXb6yTbPIlbWpBfeXIKwkL7oS7K3OMrKAxyuXOjiC7/P/VIk23D6A59RJPNAClTBn
-         +zj7jGrC7+bzH45DlaK20O1eBGRgn2fMPgq7Wa1mBm1zmtrzXPwl1yC71D45vDAfaVEW
-         zMZ35nTliz1ILnftScHIxTS+hT27IDr8KQbngHJW7d3FYzVNjhmSHX1GSZlutxUUsLmX
-         El3Q==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=3fOPOVH9PlCglpL8AVR/qrug3aHbkpIJtqKTuQGPYIY=;
+        b=CRuw21ttMHXvD7q4vafMppKh8H0DNR5GLhEq04dphbr8YsAcki+VFl5ySwIkC8tuen
+         Bjlnw5bgNYD+H5ww4wJ3qItfWjrouPVAWmQxbyExDvL/eH2mWAyEpNQ1xz924B+PveRo
+         mz9DZbye7loI5GfuiU4jeDyeiu60ZjmtIVrk6kZgYSBD8azRTJq7GNtQeGvbhI4hrxkb
+         MQABZ6eIMsE4uZux54yP3VFGy95oUrYNdUQNPq/pHbKg/NGTZK29hWXyBEaZOLiYywiD
+         GsRyu5BS/J0RECUt7SNbHGatk+/Qq3u7QQUGStLETUNQm97YopTj7nk5ApDYYpCTA1/h
+         qftQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=xsUbPWAhYtsZRE8nHbpZ90/dMr+6ACJOvf/o3gzcGwM=;
-        b=jGO6aNGzGqLtXUAa/4Md266NOKm2RRsVi3Clb3Rfw81jKZL1pqZoounCBZk6fi/c0u
-         2GW2Ngj3PifzwGKwdUutXJFd4qvdPOb8iCw9ZInn6Rp/48ijTaYiqiDrZk8452fBoTPY
-         9FvK1zOZWvEZmWy2p8G5EDee+U465iV0glDwGaMQTA0JZViC9ckr8al2IKNgKit89LiZ
-         vTN/QpQ+LpRSkUgel0u9cRiaPracxtV9V7CdQMmaOre+IaEHnhz7mitQdBUXwpCDJoL9
-         aykq2u4qVAvGEo638H6yzX8xKsJxQPc6AfrMijOpjY8gMwExvx7bBBfENhz645ZIS6Qd
-         5w4Q==
-X-Gm-Message-State: APjAAAVO09jir/G31cWC1TPJC3w0chk+Zcd888Yz36ZXFUS5lqGL7BcA
-        ti5G5s1tySGrbS1RKJUo8UTtfDJ2BxE6O4M1rkE=
-X-Google-Smtp-Source: APXvYqxfZA4v8peKNM04mGNBALs86xGAR9+I6+hzmiYK3t55tpMLGcCRQQm6ljdK7TnDP4vs7ZB6lB1K0pwxYVg4mFM=
-X-Received: by 2002:a17:90a:3268:: with SMTP id k95mr2701944pjb.48.1582192851840;
- Thu, 20 Feb 2020 02:00:51 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=3fOPOVH9PlCglpL8AVR/qrug3aHbkpIJtqKTuQGPYIY=;
+        b=AlbvfOgfnnsdcm2kwdZMaGwOmod8WFICPR87SSD0csLC2RDk3x1Z/lNmqd4jv14gv1
+         z6A79HabPUki1L+DYpuUMD7MZwMN2ngXEXELfEHn2AnbMfrGD3czC8MOVPmlv4QCDUmI
+         rNtkkxr4+f98Hp71dHf8zujC4jzgEWYsKZkC+7J6iVhNnrnzY4phl9zMJjh403zvEDPP
+         qfizEJOT6FRJj4X3cAPWeL6RnBr1w+XDm048RfHnhlP5UXMuAGflN5ZDbQZ1O8MZY4IJ
+         rjm2iz2DGJFPHXcjdC8XtLO8smcAxxQwaQ4NNj9uM4YRzA+bDyR0nBFIOYbMAg7RsF5X
+         rb8Q==
+X-Gm-Message-State: APjAAAXv4kxxUNVbT1C+JrKOtkIcjCxQlmRAvoesMZ4wOMznOnpqGmCg
+        dnL4eii720CzQ/iA85GwO+UpqjZs
+X-Google-Smtp-Source: APXvYqy9Lt4Om4TQNPtpvoq1RXykngB/EYw9FkWaIqF+d7AlBxLkoWUnoWjWrnKECzYFL5+5GSvj5g==
+X-Received: by 2002:a17:90a:fd85:: with SMTP id cx5mr5175945pjb.80.1582224296499;
+        Thu, 20 Feb 2020 10:44:56 -0800 (PST)
+Received: from brian-desktop ([50.236.240.214])
+        by smtp.gmail.com with ESMTPSA id x21sm310598pfq.76.2020.02.20.10.44.54
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 20 Feb 2020 10:44:55 -0800 (PST)
+Date:   Thu, 20 Feb 2020 10:44:53 -0800
+From:   Brian Kubisiak <brian.kubisiak@gmail.com>
+To:     Tyler Hicks <code@tyhicks.com>
+Cc:     ecryptfs@vger.kernel.org
+Subject: Re: [PATCH] ecryptfs: add mount option for specifying cipher driver.
+Message-ID: <20200220184453.GA15849@brian-desktop>
+References: <20200210153907.GA348@brian-desktop>
+ <20200216010731.GA260140@elm>
+ <20200219014218.GA17588@neutron>
+ <20200219163050.GA354535@elm>
 MIME-Version: 1.0
-Received: by 2002:a17:90a:90f:0:0:0:0 with HTTP; Thu, 20 Feb 2020 02:00:51
- -0800 (PST)
-Reply-To: cagesusan199@gmail.com
-From:   "Mrs. Susan S. Cage" <drgoodluckebelejonathan061@gmail.com>
-Date:   Thu, 20 Feb 2020 02:00:51 -0800
-Message-ID: <CALjo5=9Nw6erRGz0fKm=tZEMk3GYPX9FUD54_CiYDSXv8KBisA@mail.gmail.com>
-Subject: Attention:Beneficiary
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200219163050.GA354535@elm>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: ecryptfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
--- 
-Dearest Friend,
+> Have you looked into the possibility of increasing the priority of the
+> implementation that you prefer on your SoC?
 
-Sorry for invading your privacy, my name is Susan S. Cage I am 81
-years, citizen of United States and presently in hospital undergoing
-chromatography for bronchogenic carcinomas (Lung cancer) which
-affected both Lungs. The doctors said I have few days to live because
-the cancer has now affected my brain.
+Yes, this should definitely be done, but I don't think it solves
+the underlying issue. There are tradeoffs involved between the
+security engine and the CPU implementation, and determining which
+is "best" is dependent on what it is being used for. So I could
+set the priority based on what I want for eCryptfs, but this also
+affects every other consumer of the crypto API.
 
-My late husband left Fifteen Million, Five Hundred British Pounds
-Sterling in my account, I want to transfer the money to you and I want
-you to use it as a donate for charitable and help the needy,
-motherless, less privileged and widows within your location.
+> I don't think allowing users to specify a cipher driver is a good idea.
+> eCryptfs has always assumed that the crypto subsystem knows best about
+> the ideal implementation of "cbc(aes)" and I believe that this is how
+> the crypto subsystem expects eCryptfs to make use of their API.
 
-I need your assurance that you will use the fund for charity, once I a
-favorable reply from you, will inform my Bank through my lawyer to
-transfer the fund to you as my Next of Kin and Sole Beneficiary. Once
-I receive your response, I will inform my bank in writing through my
-lawyer.
+I don't think this is true though. The crypto subsystem aims to
+provide a sane default (ie whichever is the higher priority), but
+allows overriding this choice if it would pick incorrectly. Since
+it is making the choice with incomplete information (the crypto
+subsystem can't know what you are using it for, so it doesn't
+know which implementation is best), it makes sense that it could
+be overridden from userspace. For example, the AF_ALG interface
+to the crypto subsystem passes 'salg_name' directly from
+userspace to allow this if needed.
 
+I'd like to have this same flexibility in eCryptfs so I can
+change which crypto implementation is used without affecting
+other parts of the system.
 
+> In addition to the design objection above, I'm worried about users
+> shooting themselves in the foot with this mount option. For example,
+> "ecryptfs_cipher_driver=ecb_aes_aesni" and
+> "ecryptfs_cipher_driver=xts_aes_aesni" are accepted. eCryptfs is only
+> implemented to operated in a (modified) CBC mode and letting users force
+> their way into using anything else is dangerous/insecure.
 
-Thank you and God bless you.
+I should probably also be checking that the requested driver
+provides the correct algorithm, but haven't looked too closely
+into that.
 
-Mrs. Susan S. Cage
+Brian
