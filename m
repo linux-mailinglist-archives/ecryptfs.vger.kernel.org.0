@@ -2,53 +2,66 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 913CE176F98
-	for <lists+ecryptfs@lfdr.de>; Tue,  3 Mar 2020 07:43:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C0E817817F
+	for <lists+ecryptfs@lfdr.de>; Tue,  3 Mar 2020 20:02:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727459AbgCCGna (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Tue, 3 Mar 2020 01:43:30 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33342 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725440AbgCCGna (ORCPT <rfc822;ecryptfs@vger.kernel.org>);
-        Tue, 3 Mar 2020 01:43:30 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3891C214D8;
-        Tue,  3 Mar 2020 06:43:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583217808;
-        bh=/seh9noA2y+G4uU2rgQplJ4w7I9eSkw1HnEqO5vOnKI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=spc1dZWeT41qg9B1TCdwjlko7tBXO2Mxgc//mpaCkVlyBxFZZi/N8r5nqHDj96Heo
-         HDUnqj5MZWszVExWE8ZSFCsrc/2KMoxhtPf/LhswQyuM9K28sogZhBp5yDp+uPDitY
-         3/jN7p/1gyZyJuQDKxRBqpyoB+Bgy6+0/Cy1h73o=
-Date:   Tue, 3 Mar 2020 07:43:26 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Sasha Levin <sashal@kernel.org>, stable@vger.kernel.org,
-        ecryptfs@vger.kernel.org, Wenwen Wang <wenwen@cs.uga.edu>,
-        Tyler Hicks <tyhicks@canonical.com>
-Subject: Re: [PATCH 4.4, 4.9, 4.14] ecryptfs: Fix up bad backport of
- fe2e082f5da5b4a0a92ae32978f81507ef37ec66
-Message-ID: <20200303064326.GA1105859@kroah.com>
-References: <20200302203912.27370-1-natechancellor@gmail.com>
+        id S1732612AbgCCSCo (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Tue, 3 Mar 2020 13:02:44 -0500
+Received: from mail-io1-f65.google.com ([209.85.166.65]:43480 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387813AbgCCSCo (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Tue, 3 Mar 2020 13:02:44 -0500
+Received: by mail-io1-f65.google.com with SMTP id n21so4584314ioo.10
+        for <ecryptfs@vger.kernel.org>; Tue, 03 Mar 2020 10:02:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=42VRx4KA+cD1ZZnhz/34yl/kjJSKnU+ahvHX6e7S6BM=;
+        b=sMojBSgX2AjnHX2Txv0zHtK9beYs7QSHgQ+cvgvkgZTfxLZcX2yi5aa7ysMtkHeadA
+         yoGTN9clZfJACT5aUzE5E2HWeptbrmMOEdWWTjM6hZGwDQ5zOleElGvxxnmXV/3yG8lV
+         ZMpF3kpS2LSGgnq0FENACXX0QQaxMAI87wpX1uAEDY2ZrNilBsjKjTDDRIoqINmwn/0z
+         7MrDvi0u4Qy+eIpVqr2Pd+RkRvMcPKOhz8bo9K7gDHWCZ/YUR/fN4r+QI5nASu1G9tLC
+         TIwh9rzuwSvqVInXYdsR3ywUQfJa0c+oLMC7A4MwPGNbGg95JjXYu2IPezdALJnyjhED
+         gBcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=42VRx4KA+cD1ZZnhz/34yl/kjJSKnU+ahvHX6e7S6BM=;
+        b=GdIjyK35hmy9wvVQUGq4hqBCnr0GPo9D8ilYZJ6QYG1AmenVY9303YpgL1b41H22Zv
+         B/3q+aqj7U7qvW2hMYTh09up5t9vq821lLfDMYMqD2/z4Y3AFPsmZkoNskAkVPYyiB2+
+         xZJ6WRTfjof+W3TS/xfmFJS8Y04nzss895my2EpsFObZVxo321H2fMINgAF9oHj4uiGx
+         d/OWaQ5Qa9tyol+vT+mi7yb0b0ECNaAEovMXcEBSMk9BxK7N0ayR7bbpaDyn9pRzExSU
+         KWQJS9qwE+uT9dqEXOApuk57inh/qIG8nOyeMNGooTLSbm5J763k2mF/JACiv1H3aRHu
+         QXzw==
+X-Gm-Message-State: ANhLgQ1BUmhbaelt0uhFcREURcS9bMMLflVWBdyVgD8OPEGQNpa6J+1t
+        AO84q3jJAKXvYwl5Qt/+l1hbhkCtAl3BF+DOt5Y=
+X-Google-Smtp-Source: ADFU+vsN+bzJwB5+7LXzOK2SjMcj4Y8QdaRXRgi+l5te41aDVIXr3go0heztXWBxx1Q4VBRaMlI0hlwewhgvVi9T1p0=
+X-Received: by 2002:a6b:6011:: with SMTP id r17mr4801779iog.220.1583258563490;
+ Tue, 03 Mar 2020 10:02:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200302203912.27370-1-natechancellor@gmail.com>
+Received: by 2002:a02:9f04:0:0:0:0:0 with HTTP; Tue, 3 Mar 2020 10:02:43 -0800 (PST)
+Reply-To: dr.challynoah@gmail.com
+From:   DR CHALLY NOAH <mayorabrahamedge404@gmail.com>
+Date:   Tue, 3 Mar 2020 19:02:43 +0100
+Message-ID: <CALqVJWdGR1jGXzMtKtpnNmpDaH5VG=pKfUhFk3aMDgjaxMVZew@mail.gmail.com>
+Subject: Hello Dear
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: ecryptfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-On Mon, Mar 02, 2020 at 01:39:13PM -0700, Nathan Chancellor wrote:
-> When doing the 4.9 merge into certain Android trees, I noticed a warning
-> from Android's deprecated GCC 4.9.4, which causes a build failure in
-> those trees due to basically -Werror:
-
-<snip>
-
-Thanks for this, now queued up.
-
-greg k-h
+Hello Dear,
+What Have Kept You Waiting To Claim Your $600,000.00 USD Compensation Award?
+This said fund was issued out by the UNITED NATIONS To compensate
+you.Please If You Have Not Claim Your Fund (Award),Kindly contact me
+at   DR.CHALLYNOAH@GMAIL.COM   for further details on how to proceed your
+fund (award)release to you or better still reply back Immediately You
+Receive This Information For An Urgent Confirmation And Release Of Your
+Fund To You Without Delays, as your email was listed among those to be
+compensated this year.Congratulations..
+Best Regards,
+Dr Chally Noah.
+Minister Of Finance On Foreign Remittance:
