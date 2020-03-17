@@ -2,74 +2,61 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B6EE817F1E2
-	for <lists+ecryptfs@lfdr.de>; Tue, 10 Mar 2020 09:25:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA7C21882E8
+	for <lists+ecryptfs@lfdr.de>; Tue, 17 Mar 2020 13:07:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726446AbgCJIZV (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Tue, 10 Mar 2020 04:25:21 -0400
-Received: from mail.11d01.mspz7.gob.ec ([190.152.145.91]:51192 "EHLO
-        mail.11d01.mspz7.gob.ec" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726426AbgCJIZV (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Tue, 10 Mar 2020 04:25:21 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.11d01.mspz7.gob.ec (Postfix) with ESMTP id 85F012F63673;
-        Tue, 10 Mar 2020 00:51:29 -0500 (-05)
-Received: from mail.11d01.mspz7.gob.ec ([127.0.0.1])
-        by localhost (mail.11d01.mspz7.gob.ec [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id 2TlcXuvwN9gA; Tue, 10 Mar 2020 00:51:28 -0500 (-05)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.11d01.mspz7.gob.ec (Postfix) with ESMTP id 1A8DA2F631F9;
-        Tue, 10 Mar 2020 00:46:48 -0500 (-05)
-DKIM-Filter: OpenDKIM Filter v2.9.2 mail.11d01.mspz7.gob.ec 1A8DA2F631F9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=11d01.mspz7.gob.ec;
-        s=50CBC7E4-8BED-11E9-AF6C-F1A741A224D3; t=1583819208;
-        bh=o+H3O7n1+zJcXo0FhJs7spyf8HmE4ClnBa/Y2Gk0DL0=;
-        h=Content-Type:MIME-Version:Content-Transfer-Encoding:Subject:To:
-         From:Date:Reply-To:Message-Id;
-        b=HAtvoD1C4Z2Xi9dzom58SLgTwXYhxMZBmXwdEcYGaJRLz1uk1lq3w0z1pEZYszte1
-         LjHjL4zbCvxbPnhmPY5qSLpHz8srB/AYokMdRbzuRjDlddaUiEEhql7mOdqTsjy5QA
-         Ez+inA/X3+PcdlrQNDT8GkBNqhVmtwecUJFo+Hiw=
-X-Virus-Scanned: amavisd-new at 11d01.mspz7.gob.ec
-Received: from mail.11d01.mspz7.gob.ec ([127.0.0.1])
-        by localhost (mail.11d01.mspz7.gob.ec [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id Ls98L3nngDiz; Tue, 10 Mar 2020 00:46:47 -0500 (-05)
-Received: from [10.19.167.32] (unknown [105.0.4.171])
-        by mail.11d01.mspz7.gob.ec (Postfix) with ESMTPSA id E86942F627C4;
-        Tue, 10 Mar 2020 00:42:15 -0500 (-05)
-Content-Type: text/plain; charset="utf-8"
+        id S1726579AbgCQMH2 (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Tue, 17 Mar 2020 08:07:28 -0400
+Received: from sonic307-2.consmr.mail.ne1.yahoo.com ([66.163.190.121]:45171
+        "EHLO sonic307-2.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726545AbgCQMH2 (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Tue, 17 Mar 2020 08:07:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1584446847; bh=kcevCRoll2+Bsa3FDERpIV72LVcB1A4YV1b5N2AWYBk=; h=Date:From:Reply-To:Subject:References:From:Subject; b=TYJAYCz3bNTfsdt/MA1H3rmcfnRFhI9T8+SP/UJcAvmbR/C7oblQ2IrhUqKGKxYoXmzQvGYkCB/iOupWpGhpalUAoxX6u1M0qFLFSpmLJ+sYMD74nqCC79nbq3isVShXQv7Z1ZhXsY8aXbCzCCoyB1jie8WwbgDgA4ls4ZKWEdU+nSeP3iVKDtEhb0XdIl8cb8kRfWqJgXQ+LoNg+weDoVfnuLVmHvVuSOLCgKrLvAldM479wsa6QdaLJdRheUf5hI4NWO8hIsYVJkp/OnhIjpzmuxNqsqjrPJW22F9xi8wl33SvU5bWDhNUx+OwOkkatC0V7ghAwk7pMwgztiCI9w==
+X-YMail-OSG: kiwY3a0VM1lXG2yd0FMEXcFEq4d1_NqzrDF8PKCrEvjngq_DbKpy1GCppZ9sJgS
+ swORTXPim.EGzeGl3jMh_7PJc4L5FQVIodQeQl8WbcgLGL2Ji3mYYeyOF9Qb32eAh1N6q7PYPMp_
+ MHLHci0hlpx8TzJi_V5AkpKk.vkNsoCCObxCeN_.VrqTFf4nwQxBCNMmbVD.esgLPNv9UEjuSP.w
+ c7Pt2nyPF6PJSEFjuWE.ZHmrFiknTHs1b69SWkQuOFeZS876SncSu314oOiqwvqk_0EktP.Ozxz9
+ DMAW_xo16P0VFW.Hti2fLaRX437yOGcX8rXWv5_Scu7T7R_5A2ucke5EUk5hwDqh3egfpMX9Kpuy
+ 8vciLBYPgaKQYiVlZyJq5Rn2xK0NjiN72PZkihcK4ia1AB44tYaUj8AvtxoECsozC482KXB_jrvl
+ .sf.VPbnQ7qX.SsH6nU0kSzOBRymH6XdhiVl6FQ7PrapAHhwmnXKxnLKCnDVzf2IAruBblCYmPaU
+ HnXAEgq76AePz8fm.1M8BoLzMdbpKVK9.mNyst0y7_qer615kKs4bHx4fLMOPvJVHTLJ83w6wlN.
+ LNXp4X0D5y1OqP8NbnVuwGyDScMz2K4YobdSQ7PlOHB.Vysfp4iQSdN.ZIFbPy3Rldooz.HDHPKz
+ sQhRKXM4Yii2zqTtRAppWIn_LzyCIblGjnm3PpFMHOTnSFWYLAOi5fG1BfsrYYdRhWNLxTqqzWHb
+ q_fvTYvFm5oWMYggdElL9SaeqpWcrjsSoHnTdodoa6VM8UxQ_l1bX2EWOOolRdJRweXtqbP0vBUo
+ WhYUmwOwXkJG.MBcFyMBiNG85cOyrRyAWO0cMKWj.01zBM1meJBQ3ds6amZoWmo.0ZyrS1xeoxbY
+ rLaAasO3NDB25Sfl75t4xr8I.TUz8P4TDcf1QJCrsJG0Oc7QswtP.cUuKXnIrbmcTFC5Ci1eP_gn
+ AJfl1yLgMGeMmg1WX1HQUPD3L1rhcBZ4P1jBHtHHYJA._8BVNJonIy2CspYYbTKkP.CUfqQI7Y4r
+ gtBx9wAwpNVa4WjGqYPDD2qpHzfvrg3PC1J4clsinl2Qd_sRHpc_WnpsW.K39FU6j3pD3JathgtZ
+ 4ySMlixwy5hw7I0.4d39zNoihOQTg9QVkPvZhkbwKGMcl453fFGNZFHRmV_H3NEYTSkMQgsIQx2D
+ p.tMlfVmvJRqmy1xjIqIoYgav_0dnsuhiqGMDBkKVqrzQm09yqbYGWCaCdpBO8sLZeNy6Pc6MkyS
+ VGgfDKHxv0U3l00pQKAtd56IWIWRTfTaVEiMNEvCNl35pgtDb5zedZhBa7TjiL3ZwZb55_vF5bor
+ gT0GQrqGgw0kQ0jiV5JxkNBdMsvfcQrQGiQ--
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic307.consmr.mail.ne1.yahoo.com with HTTP; Tue, 17 Mar 2020 12:07:27 +0000
+Date:   Tue, 17 Mar 2020 12:05:26 +0000 (UTC)
+From:   Stephen Li <stenn8@gabg.net>
+Reply-To: stephli947701@gmail.com
+Message-ID: <877193668.1824808.1584446726464@mail.yahoo.com>
+Subject: REF
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: =?utf-8?q?Wohlt=C3=A4tigkeitsspende_von_2=2E000=2E000_Millionen_Euro?=
-To:     Recipients <ronald.pena@11d01.mspz7.gob.ec>
-From:   ''Michael weirsky'' <ronald.pena@11d01.mspz7.gob.ec>
-Date:   Tue, 10 Mar 2020 08:11:43 +0200
-Reply-To: mikeweirskyspende@gmail.com
-Message-Id: <20200310054215.E86942F627C4@mail.11d01.mspz7.gob.ec>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+References: <877193668.1824808.1584446726464.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.15342 YMailNodin Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36
+To:     unlisted-recipients:; (no To-header on input)
 Sender: ecryptfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Lieber Freund,
-
-Ich bin Herr Mike Weirsky, New Jersey, Vereinigte Staaten von Amerika, der =
-Mega-Gewinner von $ 273million In Mega Millions Jackpot, spende ich an 5 zu=
-f=C3=A4llige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Ma=
-il nach einem Spinball ausgew=C3=A4hlt.Ich habe den gr=C3=B6=C3=9Ften Teil =
-meines Verm=C3=B6gens auf eine Reihe von Wohlt=C3=A4tigkeitsorganisationen =
-und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die =
-Summe von =E2=82=AC 2.000.000,00 an Sie als eine der ausgew=C3=A4hlten 5 zu=
- spenden, um meine Gewinne zu =C3=BCberpr=C3=BCfen.
-Das ist dein Spendencode: [MW530342019]
-www.youtube.com/watch?v=3Dun8yRTmrYMY
-
-Antworten Sie mit dem SPENDE-CODE an diese =
 
 
-E-Mail:mikeweirskyspende@gmail.com
-
-Ich hoffe, Sie und Ihre Familie gl=C3=BCcklich zu machen.
-
-Gr=C3=BC=C3=9Fe
-Herr Mike Weirsky
+Greetings,
+I was searching through a local business directory when I found your
+profile. I am Soliciting On-Behalf of my private client who is
+interested in having a serious business investment in your country. If
+you have a valid business, investment or project he can invest
+back to me for more details. Your swift response is highly needed.
+Sincerely
+Stephen Li
+Please response back to me with is my private email below for more details
+stephli947701@gmail.com
