@@ -2,70 +2,123 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D84FC18CC36
-	for <lists+ecryptfs@lfdr.de>; Fri, 20 Mar 2020 12:07:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B901A18D280
+	for <lists+ecryptfs@lfdr.de>; Fri, 20 Mar 2020 16:11:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726991AbgCTLHd (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Fri, 20 Mar 2020 07:07:33 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:37863 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726726AbgCTLHc (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Fri, 20 Mar 2020 07:07:32 -0400
-Received: by mail-ot1-f65.google.com with SMTP id i12so5570690otp.4
-        for <ecryptfs@vger.kernel.org>; Fri, 20 Mar 2020 04:07:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=kuhba0bbR9oJup1oQ7P5tNPZ9FqBHXE57QqcfHgaIHo=;
-        b=T6oUe4eAvyg5/0hHPlCR3IdvpGYFvlQtVlT4tFExR4kAaKsnVrB8R4seElHgbMg820
-         lMEaqFka0Rzn4TRIgj3Qest8WHQYcrBQp7Z5anZGATTBBGWdGiMk4Pht/caoXTR2GlXB
-         BPAtbdhorYLojRM2ej2Kptd2fShAcM8Ri/fNBngV8JRZ+z2dCqhISd35vuI+fT5EFdkG
-         d1WX7FvpCCUxd6ONIfxJC35oJveE9hN2xsVbiswgLN0d4VZoBhYO/GPUilnznSOiTAfo
-         sykhtxc7eDXTLjJyTGxKrb1C+4M/+j+Mq371IWXe5LyRFnopWnB21C4Oyte/foEz7R4N
-         DerQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=kuhba0bbR9oJup1oQ7P5tNPZ9FqBHXE57QqcfHgaIHo=;
-        b=eEqLtELmRe1s7n0OZ9rX18oDZ/X8LPg/QYJZp9R6n4J+2xRI1vUFjkqybG3dUTlVcX
-         tUnkvih+2m97Qp78X7ZiJTSx9vu+5mO9AJIiT07g2KXS3uX3gatwdI8xynLFj22hG2GV
-         Tk2NEUFzlofrk3HWlh77Iu3e2dAZyv2THjpo//xBfOK3KzMk5evgNVfrojcmndiUNINO
-         M5NWDYVNRClgdLQb6zdSHZuYYciKaIco7DsUBnxZSu/yr6nW4Xej0eFoen0wPImbLkCW
-         wW4XlIApRITQTSVDnPMRFM6xQTKdKt5ubXZV25psrYs+glUBowNmEYXLTCtz+u6EAgP3
-         YdGg==
-X-Gm-Message-State: ANhLgQ0YoMW78sQFwDp7HdPZDOJwb5bG6JUXBQni2D44cWViST87R2+a
-        hPJ72moz7jdyaZGlt529eJecH4hbXsew/m1HHe8=
-X-Google-Smtp-Source: ADFU+vtB6Nv5pAOy8iFcqKcXvg9p4SVOcgQTwpvhtFGT6CcS1TCmS36zDlEU5e+Rav+9AbAPziz6z8HFpRINif/UMko=
-X-Received: by 2002:a9d:618e:: with SMTP id g14mr6001070otk.314.1584702452366;
- Fri, 20 Mar 2020 04:07:32 -0700 (PDT)
+        id S1726902AbgCTPLX (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Fri, 20 Mar 2020 11:11:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56044 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727400AbgCTPLH (ORCPT <rfc822;ecryptfs@vger.kernel.org>);
+        Fri, 20 Mar 2020 11:11:07 -0400
+Received: from mail.kernel.org (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A35162072D;
+        Fri, 20 Mar 2020 15:11:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1584717066;
+        bh=qz6nxjt+oHRdtFK5DtUf8W3pt7MtXBjKeLpdYT+SXj4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=jMVdDgVTlPr9q4qgOQX+s+/uNPsSTDhfGiESnAjI2AGmzXCyl3PkU1dSvU2b2I1Vu
+         CGQA+Ezuq0o70vsmAIKPEauiCmAHHE0cYxQfeWLwYuups0vVmKNTcxChn7S4KXSOvq
+         4g6dIhGnq0ArXroR/CxDRUgHb/DLqWbXrZyQEEaQ=
+Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
+        (envelope-from <mchehab@kernel.org>)
+        id 1jFJIe-000ukc-Gx; Fri, 20 Mar 2020 16:11:04 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Ricardo Ribalda Delgado <ribalda@kernel.org>,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        dmaengine@vger.kernel.org, Matthias Maennich <maennich@google.com>,
+        Harry Wei <harryxiyou@gmail.com>, x86@kernel.org,
+        ecryptfs@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+        target-devel@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Tyler Hicks <code@tyhicks.com>, Vinod Koul <vkoul@kernel.org>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-scsi@vger.kernel.org,
+        Michael Ellerman <mpe@ellerman.id.au>, netdev@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linuxppc-dev@lists.ozlabs.org, Borislav Petkov <bp@alien8.de>
+Subject: [PATCH v2 0/2] Don't generate thousands of new warnings when building docs
+Date:   Fri, 20 Mar 2020 16:11:01 +0100
+Message-Id: <cover.1584716446.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Received: by 2002:a4a:c897:0:0:0:0:0 with HTTP; Fri, 20 Mar 2020 04:07:31
- -0700 (PDT)
-From:   federa bureau of inteligence <federabureauofinteligence@gmail.com>
-Date:   Fri, 20 Mar 2020 11:07:31 +0000
-Message-ID: <CAE9o6LDLHaxncasBk72sD=euc-R8tx_p7XY6mcTHqWzvcRD6aw@mail.gmail.com>
-Subject: HAPPY SURVIVAL OF CORONAVIRUS
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: ecryptfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Dear Sir,
+This small series address a regression caused by a new patch at
+docs-next (and at linux-next).
 
-HAPPY SURVIVAL OF CORONAVIRUS
+Before this patch, when a cross-reference to a chapter within the
+documentation is needed, we had to add a markup like:
 
-We are reaching for a very interesting business transaction which we
-feel will of great benefit.We the FBI unit in the western subregion of
-Africa have a fund which we confiscated and lodge it in a bank
+	.. _foo:
 
-This fund is worth of $12.5 million dollars.We will need your
-assistance to recieve this fund into your account for investment in
-your country.
+	foo
+	===
 
-We will need your urgent response for details
+This behavor is now different after this patch:
 
-Inspector Greg Adams,
-For and on behalf of Cote D'Ivoire FBI
-Tel 00225 6716 6756
+	58ad30cf91f0 ("docs: fix reference to core-api/namespaces.rst")
+
+As a Sphinx extension now creates automatically a reference
+like the above, without requiring any extra markup.
+
+That, however, comes with a price: it is not possible anymore to have
+two sections with the same name within the entire Kernel docs!
+
+This causes thousands of warnings, as we have sections named
+"introduction" on lots of places.
+
+This series solve this regression by doing two changes:
+
+1) The references are now prefixed by the document name. So,
+   a file named "bar" would have the "foo" reference as "bar:foo".
+
+2) It will only use the first two levels. The first one is (usually) the
+   name of the document, and the second one the chapter name.
+
+This solves almost all problems we have. Still, there are a few places
+where we have two chapters at the same document with the
+same name. The first patch addresses this problem.
+
+The second patch limits the escope of the autosectionlabel.
+
+Mauro Carvalho Chehab (2):
+  docs: prevent warnings due to autosectionlabel
+  docs: conf.py: avoid thousands of duplicate label warning on Sphinx
+
+ Documentation/conf.py                                 |  4 ++++
+ Documentation/driver-api/80211/mac80211-advanced.rst  |  8 ++++----
+ Documentation/driver-api/dmaengine/index.rst          |  4 ++--
+ Documentation/filesystems/ecryptfs.rst                | 11 +++++------
+ Documentation/kernel-hacking/hacking.rst              |  4 ++--
+ Documentation/media/kapi/v4l2-controls.rst            |  8 ++++----
+ Documentation/networking/snmp_counter.rst             |  4 ++--
+ Documentation/powerpc/ultravisor.rst                  |  4 ++--
+ Documentation/security/siphash.rst                    |  8 ++++----
+ Documentation/target/tcmu-design.rst                  |  6 +++---
+ .../translations/zh_CN/process/5.Posting.rst          |  2 +-
+ Documentation/x86/intel-iommu.rst                     |  3 ++-
+ 12 files changed, 35 insertions(+), 31 deletions(-)
+
+-- 
+2.24.1
+
+
