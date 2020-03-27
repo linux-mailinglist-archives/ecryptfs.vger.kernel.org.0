@@ -2,70 +2,89 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 708DF18DB88
-	for <lists+ecryptfs@lfdr.de>; Sat, 21 Mar 2020 00:10:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A10B195842
+	for <lists+ecryptfs@lfdr.de>; Fri, 27 Mar 2020 14:45:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727101AbgCTXKk (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Fri, 20 Mar 2020 19:10:40 -0400
-Received: from ms.lwn.net ([45.79.88.28]:44012 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726955AbgCTXKk (ORCPT <rfc822;ecryptfs@vger.kernel.org>);
-        Fri, 20 Mar 2020 19:10:40 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 5F6412D6;
-        Fri, 20 Mar 2020 23:10:38 +0000 (UTC)
-Date:   Fri, 20 Mar 2020 17:10:20 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Ricardo Ribalda Delgado <ribalda@kernel.org>,
-        Luca Ceresoli <luca@lucaceresoli.net>,
-        dmaengine@vger.kernel.org, Matthias Maennich <maennich@google.com>,
-        Harry Wei <harryxiyou@gmail.com>, x86@kernel.org,
-        ecryptfs@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-        target-devel@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Tyler Hicks <code@tyhicks.com>, Vinod Koul <vkoul@kernel.org>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-scsi@vger.kernel.org,
-        Michael Ellerman <mpe@ellerman.id.au>, netdev@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linuxppc-dev@lists.ozlabs.org, Borislav Petkov <bp@alien8.de>
-Subject: Re: [PATCH v2 0/2] Don't generate thousands of new warnings when
- building docs
-Message-ID: <20200320171020.78f045c5@lwn.net>
-In-Reply-To: <cover.1584716446.git.mchehab+huawei@kernel.org>
-References: <cover.1584716446.git.mchehab+huawei@kernel.org>
-Organization: LWN.net
+        id S1726515AbgC0NpR (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Fri, 27 Mar 2020 09:45:17 -0400
+Received: from mail-il1-f193.google.com ([209.85.166.193]:43369 "EHLO
+        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726275AbgC0NpR (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Fri, 27 Mar 2020 09:45:17 -0400
+Received: by mail-il1-f193.google.com with SMTP id g15so8743604ilj.10
+        for <ecryptfs@vger.kernel.org>; Fri, 27 Mar 2020 06:45:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=uIvUjlehSVigkxhw02yxSAS/Jekd0JL8sbxoZE/mhG8=;
+        b=f1ycIXZ69vG6+Kh4+ocN5lS+sPOFT6ENA95IWK/nb9L4G7E3GAtuJrgDgvOfTuEZKU
+         tRW8XcMg7RboSmMWyteEH4DtlHEsFO+v2OCoRPLz/iSEluRByXwvasDZAKO+0Thnu+7o
+         ZNVZJJaHxxfktPy03AznZnjACCU27rhGM0C7c7Ox9Ph05+lFRuUaS9jq76M77yyNQuPi
+         VcT6mRiGHTOa4+73n/dd9E/Ak/KfGx5R9lrhzD9idAAsX+BQuSLsC/TW6bI3WHoI5dNY
+         5G59BlJz+5k+OX0Srrr4/bLv7oxpq2OALy7YIwluRcfIsS33cgLLH4mgI8zHhT/9iSy6
+         O6Uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=uIvUjlehSVigkxhw02yxSAS/Jekd0JL8sbxoZE/mhG8=;
+        b=VwJ4uNuDgO11HJ2+laupRdrCCvVveqRFGngs2xVRKQJvU+fP59q+1y+w2oJXZCIlOI
+         jAWlKnOuODmDUIato8wTbJmS3t/ATqSdb7ElYmvQGQqHiFatLhNEMwXg9hS1yYNodzQn
+         zcPdFaBytEUxunruyvMGl8Ks+/OEB2slKZJOqQ3d5ICuyfMUnLZ+W4Eq8XKZBDyk6j1Z
+         DSJcVzTcHH9EIJO/QvSGQAAehD0FsLurhgz+7p5EtCryCpmSae+K+M6zP5Z1dPm3ShEV
+         er+dzuzm0oIVVBBi3NXSyXFcJ/inU8bs26e1w8SpBo63ZfUZg/qtRcm5GVrpUu5K1JXk
+         i0Dg==
+X-Gm-Message-State: ANhLgQ1NeB0IyTz9nv3ovcOlRAyyHgVYyRqrXheJQwqsJgEBnib/Jomj
+        59ERy6j2NWuI7Xl3fefekD/kwBy5jRxocXpyW5k=
+X-Google-Smtp-Source: ADFU+vvHKCvf2r75hGaigWWs6Kzf3ZVHMAyWxx1iqlzdy4zZ35LBi7XuNrij7OVag3aWyhiD3p+Sck6/XH/t89jz9q0=
+X-Received: by 2002:a92:cb49:: with SMTP id f9mr13581705ilq.193.1585316716357;
+ Fri, 27 Mar 2020 06:45:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a5e:8817:0:0:0:0:0 with HTTP; Fri, 27 Mar 2020 06:45:16
+ -0700 (PDT)
+Reply-To: officework_progress@yahoo.com
+From:   Andrew Ede <consumingfirechurch4@gmail.com>
+Date:   Fri, 27 Mar 2020 15:45:16 +0200
+Message-ID: <CAK6CGFdF+Mmc2y_1aEOEWtvsusAsz7yfB2nCLws9_+cipJ+mUw@mail.gmail.com>
+Subject: HOW ARE YOU?
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: ecryptfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-On Fri, 20 Mar 2020 16:11:01 +0100
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+Good day.
 
-> This small series address a regression caused by a new patch at
-> docs-next (and at linux-next).
+My reason of contacting you is that I and my colleagues working in our
+country=E2=80=99s National Petroleum Corporation want to buy any existing
+modern crude oil refinery in any part of the world.
 
-I don't know how I missed that mess, sorry.  I plead distracting times or
-something like that.  Heck, I think I'll blame everything on the plague
-for at least the next few weeks.
+We are ready to buy any available land to build the Refinery or buy
+the existing one anywhere outside Africa. We will make you our foreign
+partner abroad with some percentage shareholding if you will be
+interested to work with us on this project.
 
-Anyway, I've applied this, thanks for cleaning it up.
+We have the sum of ($600 Million Dollars) Six Hundred Million Dollars
+for this project.
 
-jon
+Meanwhile, this amount of ($600 Million Dollars) will be accessible
+through Foreign Contract Purchase Fund. We are going to clarify what
+we meant by Foreign Contract Purchase Fund as soon as we hear from you
+for better understanding and the way forward.
+
+However, in case you are not capable to handle this project with us,
+please kindly connect us to any capable person or company that would
+handle the project with us in order to enable us proceed at once.
+
+We hope to hear you in no distance time through this e-mail address
+at: officework_progress@yahoo.com, for immediate communication and
+more facts on how to go on.
+
+With respect
+
+Best Regards
+
+Andrew Ede and Co,,
