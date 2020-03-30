@@ -2,89 +2,57 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A10B195842
-	for <lists+ecryptfs@lfdr.de>; Fri, 27 Mar 2020 14:45:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3F2A197996
+	for <lists+ecryptfs@lfdr.de>; Mon, 30 Mar 2020 12:46:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726515AbgC0NpR (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Fri, 27 Mar 2020 09:45:17 -0400
-Received: from mail-il1-f193.google.com ([209.85.166.193]:43369 "EHLO
-        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726275AbgC0NpR (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Fri, 27 Mar 2020 09:45:17 -0400
-Received: by mail-il1-f193.google.com with SMTP id g15so8743604ilj.10
-        for <ecryptfs@vger.kernel.org>; Fri, 27 Mar 2020 06:45:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=uIvUjlehSVigkxhw02yxSAS/Jekd0JL8sbxoZE/mhG8=;
-        b=f1ycIXZ69vG6+Kh4+ocN5lS+sPOFT6ENA95IWK/nb9L4G7E3GAtuJrgDgvOfTuEZKU
-         tRW8XcMg7RboSmMWyteEH4DtlHEsFO+v2OCoRPLz/iSEluRByXwvasDZAKO+0Thnu+7o
-         ZNVZJJaHxxfktPy03AznZnjACCU27rhGM0C7c7Ox9Ph05+lFRuUaS9jq76M77yyNQuPi
-         VcT6mRiGHTOa4+73n/dd9E/Ak/KfGx5R9lrhzD9idAAsX+BQuSLsC/TW6bI3WHoI5dNY
-         5G59BlJz+5k+OX0Srrr4/bLv7oxpq2OALy7YIwluRcfIsS33cgLLH4mgI8zHhT/9iSy6
-         O6Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=uIvUjlehSVigkxhw02yxSAS/Jekd0JL8sbxoZE/mhG8=;
-        b=VwJ4uNuDgO11HJ2+laupRdrCCvVveqRFGngs2xVRKQJvU+fP59q+1y+w2oJXZCIlOI
-         jAWlKnOuODmDUIato8wTbJmS3t/ATqSdb7ElYmvQGQqHiFatLhNEMwXg9hS1yYNodzQn
-         zcPdFaBytEUxunruyvMGl8Ks+/OEB2slKZJOqQ3d5ICuyfMUnLZ+W4Eq8XKZBDyk6j1Z
-         DSJcVzTcHH9EIJO/QvSGQAAehD0FsLurhgz+7p5EtCryCpmSae+K+M6zP5Z1dPm3ShEV
-         er+dzuzm0oIVVBBi3NXSyXFcJ/inU8bs26e1w8SpBo63ZfUZg/qtRcm5GVrpUu5K1JXk
-         i0Dg==
-X-Gm-Message-State: ANhLgQ1NeB0IyTz9nv3ovcOlRAyyHgVYyRqrXheJQwqsJgEBnib/Jomj
-        59ERy6j2NWuI7Xl3fefekD/kwBy5jRxocXpyW5k=
-X-Google-Smtp-Source: ADFU+vvHKCvf2r75hGaigWWs6Kzf3ZVHMAyWxx1iqlzdy4zZ35LBi7XuNrij7OVag3aWyhiD3p+Sck6/XH/t89jz9q0=
-X-Received: by 2002:a92:cb49:: with SMTP id f9mr13581705ilq.193.1585316716357;
- Fri, 27 Mar 2020 06:45:16 -0700 (PDT)
+        id S1729137AbgC3KqF (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Mon, 30 Mar 2020 06:46:05 -0400
+Received: from mail.11d01.mspz7.gob.ec ([190.152.145.91]:47002 "EHLO
+        mail.11d01.mspz7.gob.ec" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729242AbgC3KqF (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Mon, 30 Mar 2020 06:46:05 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.11d01.mspz7.gob.ec (Postfix) with ESMTP id 91D742F6F020;
+        Mon, 30 Mar 2020 04:08:13 -0500 (-05)
+Received: from mail.11d01.mspz7.gob.ec ([127.0.0.1])
+        by localhost (mail.11d01.mspz7.gob.ec [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id AVWaUU-AVAu0; Mon, 30 Mar 2020 04:08:13 -0500 (-05)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.11d01.mspz7.gob.ec (Postfix) with ESMTP id 12AB02F6EFBD;
+        Mon, 30 Mar 2020 04:08:13 -0500 (-05)
+DKIM-Filter: OpenDKIM Filter v2.9.2 mail.11d01.mspz7.gob.ec 12AB02F6EFBD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=11d01.mspz7.gob.ec;
+        s=50CBC7E4-8BED-11E9-AF6C-F1A741A224D3; t=1585559293;
+        bh=cLQbOHa1aY+/FyDjaDQOZOnnnlZDxMu+rBX/cg5yps8=;
+        h=Content-Type:MIME-Version:Content-Transfer-Encoding:Subject:To:
+         From:Date:Reply-To:Message-Id;
+        b=nY88jWUlgrJEMQdVAIp4cAzDCOgQ6ZYTatctQ38QPG0fj/srHvzkZGbehnEYicP4i
+         N2w1p++bpViTLEQqmwhL3iG4LmFOMgia3JFhtDWgpYFCs3i8VpHdcGRXAZlS0fitMe
+         dt/GNTnmFw+esjvkxF/dpSl65IqmwITn3EMbLELM=
+X-Virus-Scanned: amavisd-new at 11d01.mspz7.gob.ec
+Received: from mail.11d01.mspz7.gob.ec ([127.0.0.1])
+        by localhost (mail.11d01.mspz7.gob.ec [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id oAATuRtjzbZs; Mon, 30 Mar 2020 04:08:12 -0500 (-05)
+Received: from [10.121.152.251] (unknown [105.12.0.10])
+        by mail.11d01.mspz7.gob.ec (Postfix) with ESMTPSA id 7A5852F6F032;
+        Mon, 30 Mar 2020 04:08:02 -0500 (-05)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Received: by 2002:a5e:8817:0:0:0:0:0 with HTTP; Fri, 27 Mar 2020 06:45:16
- -0700 (PDT)
-Reply-To: officework_progress@yahoo.com
-From:   Andrew Ede <consumingfirechurch4@gmail.com>
-Date:   Fri, 27 Mar 2020 15:45:16 +0200
-Message-ID: <CAK6CGFdF+Mmc2y_1aEOEWtvsusAsz7yfB2nCLws9_+cipJ+mUw@mail.gmail.com>
-Subject: HOW ARE YOU?
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: spende von 2.000.000,00 Euro
+To:     Recipients <luis.sanchez@11d01.mspz7.gob.ec>
+From:   "Manuel Franco" <luis.sanchez@11d01.mspz7.gob.ec>
+Date:   Mon, 30 Mar 2020 11:39:15 +0200
+Reply-To: manuelfrancospende11@gmail.com
+Message-Id: <20200330090802.7A5852F6F032@mail.11d01.mspz7.gob.ec>
 Sender: ecryptfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Good day.
+Ich bin Manuel Franco, ich spende Ihnen 2.000.000,00 Euro. Kontaktieren Sie=
+ mich jetzt, damit wir fortfahren k=F6nnen.
 
-My reason of contacting you is that I and my colleagues working in our
-country=E2=80=99s National Petroleum Corporation want to buy any existing
-modern crude oil refinery in any part of the world.
-
-We are ready to buy any available land to build the Refinery or buy
-the existing one anywhere outside Africa. We will make you our foreign
-partner abroad with some percentage shareholding if you will be
-interested to work with us on this project.
-
-We have the sum of ($600 Million Dollars) Six Hundred Million Dollars
-for this project.
-
-Meanwhile, this amount of ($600 Million Dollars) will be accessible
-through Foreign Contract Purchase Fund. We are going to clarify what
-we meant by Foreign Contract Purchase Fund as soon as we hear from you
-for better understanding and the way forward.
-
-However, in case you are not capable to handle this project with us,
-please kindly connect us to any capable person or company that would
-handle the project with us in order to enable us proceed at once.
-
-We hope to hear you in no distance time through this e-mail address
-at: officework_progress@yahoo.com, for immediate communication and
-more facts on how to go on.
-
-With respect
-
-Best Regards
-
-Andrew Ede and Co,,
+I am Manuel Franco, I donate to you 2,000,000.00 euros. Contact me now so w=
+e can proceed.
