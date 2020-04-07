@@ -2,67 +2,178 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BF0D197978
-	for <lists+ecryptfs@lfdr.de>; Mon, 30 Mar 2020 12:43:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DEE01A0561
+	for <lists+ecryptfs@lfdr.de>; Tue,  7 Apr 2020 05:46:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729278AbgC3Kn2 (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Mon, 30 Mar 2020 06:43:28 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:40692 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729095AbgC3Kn2 (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Mon, 30 Mar 2020 06:43:28 -0400
-Received: by mail-io1-f68.google.com with SMTP id k9so17215670iov.7
-        for <ecryptfs@vger.kernel.org>; Mon, 30 Mar 2020 03:43:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=82B0OONv9gwbZlPp43NzThDz2fRV+KRFwafOQ16joDw=;
-        b=eeX8tLcdAmQpE9eZjBiIiQiO2c+4ONp+Pnr98VYnFGkibVhJGx2cyC/lJp3nj8e5mT
-         IjAhJ8NCOKRGmLZg45ShbsTH2MkL/H9Inuh+ABO0+vH+G3aclkalv0QaGOgjmrW5PqC4
-         O04+gcc7EI/63qJZlHrgbkyZExqqpUs3wY1Eu0OhumWJdt7TKOyyIn+afgcOyZsSgLmC
-         aARN7nKn33Lov40eOROLM2cfKRw3vjt74nuDOQ1pdF+MFzhmKi/lqRqHgrqt4DTs7ifj
-         U+VcuUBDJrAJsVlKMik0g9DLtbdswfBVn5GNhn5V/R0JZ/8RZQMWoJwAY5zSQM/yyXVt
-         XemQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=82B0OONv9gwbZlPp43NzThDz2fRV+KRFwafOQ16joDw=;
-        b=WUDyJ0dSitVQIz4im9ia9GnGCo/ZCJwmO752Ex31SLOzFKwvY593Apu5VEI4bXC0kF
-         Uz7hU9j/vHM+wVT67zdeWmZkwmDzY4aKMm9wgrhZJKetPvxPdseGXQxAPHH4TLuEvksA
-         ayXGWsfH+0Vje5TMfuLowToruP1xjtOOCBjcsRL0Nn1g4JXXRvhbT4u+1v/2myK85AuH
-         Pvcbi5DnHcjKOEmVB7xn/ZzExrLoevjvSMDbgEDCJVTxntdxbTC99dT17AU3CBVZJz0y
-         h0Wz4zvNrs7I8QLRulD03PYL+IP9jLxGj/Fkz0o2YDoIDtmgFGZrGTH7CZ+S5Pm/0Esm
-         cycg==
-X-Gm-Message-State: ANhLgQ3vQ0f+w1r03vxYWjO4Z3eNXqrSi6F0bfsGNs9H877mZOKzYWZT
-        mu+R7dujbnvaNfTz2Z3srkPP+AfgTiF6jDG5Xrc=
-X-Google-Smtp-Source: ADFU+vvq6u3/dJXPeQA3VhUJvpEg4WdVl8Ji6lNdk2XYnrj3Vo//XYFy56CYkUOCcuhKnZrXC57TTD348fNBwqHciSE=
-X-Received: by 2002:a05:6638:1248:: with SMTP id o8mr10128473jas.143.1585565007270;
- Mon, 30 Mar 2020 03:43:27 -0700 (PDT)
+        id S1726550AbgDGDq2 (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Mon, 6 Apr 2020 23:46:28 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:47681 "EHLO ozlabs.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726303AbgDGDq2 (ORCPT <rfc822;ecryptfs@vger.kernel.org>);
+        Mon, 6 Apr 2020 23:46:28 -0400
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 48xCxg52gKz9sR4;
+        Tue,  7 Apr 2020 13:46:15 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
+        s=201909; t=1586231183;
+        bh=l7KUz8zonmbflimP1h+qknSpc6ld96yDXbEMfnRnCqQ=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=CueAiY1LX33npSQ9uQbMc52KhJLtkPPnFAs89+F9WT7du9ALrPlU6IMuYH+rvZsjm
+         yGxU1Rjz3dyQjphXVFv7lslvM49Co2tfHU1JaSCi71deG6dVvqN9VLJpRprKObQuGd
+         ZR7AIK5m1ztVgCajEG0rsVMDqQBiZ6yiQdSlg611TgUDkfeHHBrQma8qKKFgmZ3e4i
+         WEHa6vB01klqAFAq+ZoWhnuDBmKvCKFxbgUqcQ3EWGAP73MW0zCbqls4fU2WbTqdjV
+         uxfwPc8V71pAFebW85SCuu/Divkkzn/OB3q1E/9I+E5nCfeajK2d3qB/6n35cTHADB
+         MWg/IHw5lvIZA==
+From:   Michael Ellerman <mpe@ellerman.id.au>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Madhuparna Bhowmik <madhuparnabhowmik04@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Ricardo Ribalda Delgado <ribalda@kernel.org>,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        dmaengine@vger.kernel.org, Matthias Maennich <maennich@google.com>,
+        Harry Wei <harryxiyou@gmail.com>, x86@kernel.org,
+        ecryptfs@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+        target-devel@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Tyler Hicks <code@tyhicks.com>, Vinod Koul <vkoul@kernel.org>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-scsi@vger.kernel.org,
+        netdev@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linuxppc-dev@lists.ozlabs.org, Borislav Petkov <bp@alien8.de>
+Subject: Re: [PATCH v2 0/2] Don't generate thousands of new warnings when building docs
+In-Reply-To: <cover.1584716446.git.mchehab+huawei@kernel.org>
+References: <cover.1584716446.git.mchehab+huawei@kernel.org>
+Date:   Tue, 07 Apr 2020 13:46:23 +1000
+Message-ID: <87lfn8klf4.fsf@mpe.ellerman.id.au>
 MIME-Version: 1.0
-Received: by 2002:a92:5c03:0:0:0:0:0 with HTTP; Mon, 30 Mar 2020 03:43:26
- -0700 (PDT)
-Reply-To: maryalice00.12@postribe.com
-From:   "maryalice - maryalice:" <maryalice001122@gmail.com>
-Date:   Mon, 30 Mar 2020 08:43:26 -0200
-Message-ID: <CAKrDDVOL1at2rPO0vm79DW4033kBXrAAMe_nO0T0Y0VM-T7BBA@mail.gmail.com>
-Subject: Reply For More Details.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Sender: ecryptfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
--- 
-My dear,
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+> This small series address a regression caused by a new patch at
+> docs-next (and at linux-next).
+>
+> Before this patch, when a cross-reference to a chapter within the
+> documentation is needed, we had to add a markup like:
+>
+> 	.. _foo:
+>
+> 	foo
+> 	===
+>
+> This behavor is now different after this patch:
+>
+> 	58ad30cf91f0 ("docs: fix reference to core-api/namespaces.rst")
+>
+> As a Sphinx extension now creates automatically a reference
+> like the above, without requiring any extra markup.
+>
+> That, however, comes with a price: it is not possible anymore to have
+> two sections with the same name within the entire Kernel docs!
+>
+> This causes thousands of warnings, as we have sections named
+> "introduction" on lots of places.
+>
+> This series solve this regression by doing two changes:
+>
+> 1) The references are now prefixed by the document name. So,
+>    a file named "bar" would have the "foo" reference as "bar:foo".
+>
+> 2) It will only use the first two levels. The first one is (usually) the
+>    name of the document, and the second one the chapter name.
+>
+> This solves almost all problems we have. Still, there are a few places
+> where we have two chapters at the same document with the
+> same name. The first patch addresses this problem.
 
-I am Mrs Maryalice Williams, I want to send you donation of two
-million seven hundred thousand Dollars ($2.7M) for volunteer projects
-in your country due to my ill health that could not permit me. Kindly
-reply for more details, and also send me the following details, as per
-below, your full Name ..........,  Address...........,
-Age...............,  Occupation ...............
+I'm still seeing a lot of warnings. Am I doing something wrong?
 
-Remain blessed,
-Mrs. Maryalice Williams.
+cheers
+
+/linux/Documentation/powerpc/cxl.rst:406: WARNING: duplicate label powerpc/cxl:open, other instance in /linux/Documentation/powerpc/cxl.rst
+/linux/Documentation/powerpc/cxl.rst:412: WARNING: duplicate label powerpc/cxl:ioctl, other instance in /linux/Documentation/powerpc/cxl.rst
+/linux/Documentation/powerpc/syscall64-abi.rst:86: WARNING: duplicate label powerpc/syscall64-abi:parameters and return value, other instance in /linux/Documentation/powerpc/syscall64-abi.rst
+/linux/Documentation/powerpc/syscall64-abi.rst:90: WARNING: duplicate label powerpc/syscall64-abi:stack, other instance in /linux/Documentation/powerpc/syscall64-abi.rst
+/linux/Documentation/powerpc/syscall64-abi.rst:94: WARNING: duplicate label powerpc/syscall64-abi:register preservation rules, other instance in /linux/Documentation/powerpc/syscall64-abi.rst
+/linux/Documentation/powerpc/syscall64-abi.rst:103: WARNING: duplicate label powerpc/syscall64-abi:invocation, other instance in /linux/Documentation/powerpc/syscall64-abi.rst
+/linux/Documentation/powerpc/syscall64-abi.rst:108: WARNING: duplicate label powerpc/syscall64-abi:transactional memory, other instance in /linux/Documentation/powerpc/syscall64-abi.rst
+/linux/Documentation/powerpc/ultravisor.rst:339: WARNING: duplicate label powerpc/ultravisor:syntax, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:351: WARNING: duplicate label powerpc/ultravisor:return values, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:365: WARNING: duplicate label powerpc/ultravisor:description, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:387: WARNING: duplicate label powerpc/ultravisor:use cases, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:406: WARNING: duplicate label powerpc/ultravisor:syntax, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:416: WARNING: duplicate label powerpc/ultravisor:return values, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:429: WARNING: duplicate label powerpc/ultravisor:description, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:438: WARNING: duplicate label powerpc/ultravisor:use cases, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:452: WARNING: duplicate label powerpc/ultravisor:syntax, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:462: WARNING: duplicate label powerpc/ultravisor:return values, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:477: WARNING: duplicate label powerpc/ultravisor:description, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:484: WARNING: duplicate label powerpc/ultravisor:use cases, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:514: WARNING: duplicate label powerpc/ultravisor:syntax, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:521: WARNING: duplicate label powerpc/ultravisor:return values, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:527: WARNING: duplicate label powerpc/ultravisor:description, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:545: WARNING: duplicate label powerpc/ultravisor:use cases, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:561: WARNING: duplicate label powerpc/ultravisor:syntax, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:573: WARNING: duplicate label powerpc/ultravisor:return values, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:588: WARNING: duplicate label powerpc/ultravisor:description, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:594: WARNING: duplicate label powerpc/ultravisor:use cases, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:613: WARNING: duplicate label powerpc/ultravisor:syntax, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:622: WARNING: duplicate label powerpc/ultravisor:return values, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:633: WARNING: duplicate label powerpc/ultravisor:description, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:639: WARNING: duplicate label powerpc/ultravisor:use cases, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:650: WARNING: duplicate label powerpc/ultravisor:syntax, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:658: WARNING: duplicate label powerpc/ultravisor:return values, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:669: WARNING: duplicate label powerpc/ultravisor:description, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:674: WARNING: duplicate label powerpc/ultravisor:use cases, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:688: WARNING: duplicate label powerpc/ultravisor:syntax, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:697: WARNING: duplicate label powerpc/ultravisor:return values, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:708: WARNING: duplicate label powerpc/ultravisor:description, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:721: WARNING: duplicate label powerpc/ultravisor:use cases, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:737: WARNING: duplicate label powerpc/ultravisor:syntax, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:746: WARNING: duplicate label powerpc/ultravisor:return values, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:757: WARNING: duplicate label powerpc/ultravisor:description, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:771: WARNING: duplicate label powerpc/ultravisor:use cases, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:782: WARNING: duplicate label powerpc/ultravisor:syntax, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:789: WARNING: duplicate label powerpc/ultravisor:return values, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:798: WARNING: duplicate label powerpc/ultravisor:description, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:808: WARNING: duplicate label powerpc/ultravisor:use cases, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:819: WARNING: duplicate label powerpc/ultravisor:syntax, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:828: WARNING: duplicate label powerpc/ultravisor:return values, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:842: WARNING: duplicate label powerpc/ultravisor:description, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:849: WARNING: duplicate label powerpc/ultravisor:use cases, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:886: WARNING: duplicate label powerpc/ultravisor:syntax, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:893: WARNING: duplicate label powerpc/ultravisor:return values, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:900: WARNING: duplicate label powerpc/ultravisor:description, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:909: WARNING: duplicate label powerpc/ultravisor:use cases, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:921: WARNING: duplicate label powerpc/ultravisor:syntax, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:928: WARNING: duplicate label powerpc/ultravisor:return values, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:938: WARNING: duplicate label powerpc/ultravisor:description, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:944: WARNING: duplicate label powerpc/ultravisor:use cases, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:957: WARNING: duplicate label powerpc/ultravisor:syntax, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:964: WARNING: duplicate label powerpc/ultravisor:return values, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:980: WARNING: duplicate label powerpc/ultravisor:description, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:1002: WARNING: duplicate label powerpc/ultravisor:use cases, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:1017: WARNING: duplicate label powerpc/ultravisor:syntax, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:1027: WARNING: duplicate label powerpc/ultravisor:return values, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:1037: WARNING: duplicate label powerpc/ultravisor:description, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:1053: WARNING: duplicate label powerpc/ultravisor:use cases, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:1076: WARNING: duplicate label powerpc/ultravisor:syntax, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:1086: WARNING: duplicate label powerpc/ultravisor:return values, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:1096: WARNING: duplicate label powerpc/ultravisor:description, other instance in /linux/Documentation/powerpc/ultravisor.rst
+/linux/Documentation/powerpc/ultravisor.rst:1105: WARNING: duplicate label powerpc/ultravisor:use cases, other instance in /linux/Documentation/powerpc/ultravisor.rst
