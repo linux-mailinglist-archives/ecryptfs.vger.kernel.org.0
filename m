@@ -2,121 +2,109 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A6861CA397
-	for <lists+ecryptfs@lfdr.de>; Fri,  8 May 2020 08:07:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 104271CB1D9
+	for <lists+ecryptfs@lfdr.de>; Fri,  8 May 2020 16:31:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727780AbgEHGHc (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Fri, 8 May 2020 02:07:32 -0400
-Received: from helcar.hmeau.com ([216.24.177.18]:40194 "EHLO fornost.hmeau.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725937AbgEHGHb (ORCPT <rfc822;ecryptfs@vger.kernel.org>);
-        Fri, 8 May 2020 02:07:31 -0400
-Received: from gwarestrin.me.apana.org.au ([192.168.0.7] helo=gwarestrin.arnor.me.apana.org.au)
-        by fornost.hmeau.com with smtp (Exim 4.89 #2 (Debian))
-        id 1jWw3Z-00053g-CX; Fri, 08 May 2020 16:00:22 +1000
-Received: by gwarestrin.arnor.me.apana.org.au (sSMTP sendmail emulation); Fri, 08 May 2020 16:07:01 +1000
-Date:   Fri, 8 May 2020 16:07:01 +1000
-From:   Herbert Xu <herbert@gondor.apana.org.au>
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     linux-crypto@vger.kernel.org, cychiang@chromium.org,
-        ecryptfs@vger.kernel.org, enric.balletbo@collabora.com,
-        gilad@benyossef.com, groeck@chromium.org, jesper.nilsson@axis.com,
-        k.konieczny@samsung.com, keyrings@vger.kernel.org, krzk@kernel.org,
-        k.opasiak@samsung.com, lars.persson@axis.com,
-        linux-bluetooth@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-nfs@vger.kernel.org, linux-sctp@vger.kernel.org,
-        r.baldyga@samsung.com, thomas.lendacky@amd.com, vz@mleia.com,
-        xuzaibo@huawei.com
-Subject: Re: [PATCH 00/20] crypto: introduce crypto_shash_tfm_digest()
-Message-ID: <20200508060700.GA24956@gondor.apana.org.au>
-MIME-Version: 1.0
+        id S1727887AbgEHObi (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Fri, 8 May 2020 10:31:38 -0400
+Received: from mail-dm3gcc02on2127.outbound.protection.outlook.com ([40.107.91.127]:15904
+        "EHLO GCC02-DM3-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726942AbgEHObh (ORCPT <rfc822;ecryptfs@vger.kernel.org>);
+        Fri, 8 May 2020 10:31:37 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nu8+E6C7R8BPU1JI9FiArnFt5XIHa09AdygWkGTOs2hzM60ingTv7LPT/Rs4bqI2VTF1aZJtobSgdoqy1hz0PBcU6CzH51Q+3dP+M2goJa8Pc8UXpxi/Gm2qaA1ShvrISVIFGTC1zyeUwSBQef7PU4dwSuWTgMjfW61V51hg6hDtpps12DdXSaDXnatQWntQKux1YTc4XGDg+iwwSWlbJ7LS8zv+Yzoxj39ja15u3VTF3xzLFAaUZLCLhm7e002ccc+VKDKluO7B/Xg4SenlYIRqFPHpKMlScazHpe2uroUw6NSRVtzzmCpupahwOhZGl2V6pflmCzioWFW2/92jVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZyEI+5m7p2McLoG4GQXOBhi/I+hC1X+zqP5O098yzZk=;
+ b=m2QHoug+AnIMUFBnuwjItWMPyv/pAAnOuY2GbRyd6VZSEbr1gEyO8H1zKtpRgSOd4C+A+pdpcS5aZqNboij5uppvcSff2aqaE08F7fafW6b/K31ld6tu14HiD4n4VXhUVCeTpWVPf93DK1khlU5y07NRB+JP7FqxE+OSFcZCp0bLl5hZhut6pgv285LSQvaNBDrCtCK10IpOxveUfWC3hEd+S/zKa6ueEFsRc22Iqghxr8D6cOUaAAAJr6GNkY+7faSOegZbkyoa+50e7EPv+0gwVzQ+TqsA1dqOvAtaVfIkGcuqyKfW23DLY3g0w7n2vlfaSzQ7e4e2Xgmofl/VDA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=starlab.io; dmarc=pass action=none header.from=starlab.io;
+ dkim=pass header.d=starlab.io; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=starlab.io;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZyEI+5m7p2McLoG4GQXOBhi/I+hC1X+zqP5O098yzZk=;
+ b=pCSZKpS9W80o/OlUZLw45dx35CS6Sbc4HJ/P+o5jDJxie8kkWgTm6WPAVYbtYRuI7o0Grpl3Qw+AxjH42dYrMvEWJzbQGAh8mzKOIdVgWVCTe4wCwGnKpOyf3/x5HalauiwygFM1pX7qOPHcfiDXPqKaqojOdKl9ETiUfcJ+bnU=
+Authentication-Results: starlab.io; dkim=none (message not signed)
+ header.d=none;starlab.io; dmarc=none action=none header.from=starlab.io;
+Received: from SA9PR09MB5246.namprd09.prod.outlook.com (2603:10b6:806:4b::9)
+ by SA9PR09MB5598.namprd09.prod.outlook.com (2603:10b6:806:40::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.33; Fri, 8 May
+ 2020 14:31:34 +0000
+Received: from SA9PR09MB5246.namprd09.prod.outlook.com
+ ([fe80::a930:8440:6c90:8d88]) by SA9PR09MB5246.namprd09.prod.outlook.com
+ ([fe80::a930:8440:6c90:8d88%7]) with mapi id 15.20.2979.025; Fri, 8 May 2020
+ 14:31:34 +0000
+Date:   Fri, 8 May 2020 09:31:33 -0500
+From:   Jeffrey Mitchell <jeffrey.mitchell@starlab.io>
+To:     Tyler Hicks <code@tyhicks.com>
+Cc:     ecryptfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+        daniel.robertson@starlab.io
+Subject: [PATCH] ecryptfs: Fix inodes not being evicted until unmount
+Message-ID: <20200508143131.GA7116@jeffrey-work>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200502053122.995648-1-ebiggers@kernel.org>
-X-Newsgroups: apana.lists.os.linux.cryptoapi
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-ClientProxiedBy: SA9PR10CA0008.namprd10.prod.outlook.com
+ (2603:10b6:806:a7::13) To SA9PR09MB5246.namprd09.prod.outlook.com
+ (2603:10b6:806:4b::9)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from jeffrey-work (99.61.31.14) by SA9PR10CA0008.namprd10.prod.outlook.com (2603:10b6:806:a7::13) with Microsoft SMTP Server (version=TLS1_0, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id 15.20.2979.29 via Frontend Transport; Fri, 8 May 2020 14:31:33 +0000
+X-Originating-IP: [99.61.31.14]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c5afe32a-3443-4b47-4559-08d7f35c8208
+X-MS-TrafficTypeDiagnostic: SA9PR09MB5598:|SA9PR09MB5598:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SA9PR09MB5598B259E5276B27D7B1A031F8A20@SA9PR09MB5598.namprd09.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+X-Forefront-PRVS: 039735BC4E
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: cjMIOPCrbmJM8Xxw4VjJyE58uDaBMR+X72zS/ryvU3s9uDe+2h6yHRRoFqZj+qDm/YwIBXOLZZ+om6oO7uCNC4PFGh0BYVl34B6AKd/X0VUg7l6liLzTk2O+gfMfaUp2rdHqD8SLt3/lC9VIIx+9uGGIZiy462xKHUKB8yagEh2jVJXKoXVG/WnZZAKTO4gGLalIL7YaAaAQbqdtqAFNhOTr1x8/bbwL1ieQKCR2F+d0CTH6uOeePvfE0oBI1lO3jkpQtu9ecNrYwkqlCtDPXATKpDnmLeWBImNOYjgNIqboQwMVZWQBXa2Ed3KHQDucwD2EPy1xpRJ/Pb9qkUNqCpVqGGMPbLuEU7z2QUdc6ltfithKaqs+Y0Xfvxjy8xBArATnsQkKqyp0DB1qfpK0d2QKdzrzgDHd9T7/T1vLnL1JumDQszYhpxu4ILhrqDhi4X4IQw1HgNmuVQaHVhQAdOY1WtHIZjneaTlNPyOHax5wldzPxb8Eat8/l2FkcJsWylS+SsT2Lhie2jzDkBCSXw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA9PR09MB5246.namprd09.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(39830400003)(396003)(136003)(346002)(376002)(366004)(33430700001)(316002)(2906002)(186003)(956004)(66946007)(107886003)(16526019)(44832011)(1076003)(8936002)(86362001)(478600001)(8676002)(26005)(66476007)(55016002)(9686003)(33656002)(4326008)(4744005)(83280400001)(83300400001)(83310400001)(83290400001)(33440700001)(6916009)(83320400001)(6496006)(33716001)(52116002)(66556008)(5660300002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData: rP4PU4NW96gnCbpwIL8mjoLThpAr/3fboQG6ToKfkvMrECAuuuiJcm1cOWDpKIbX5DWn3hH+/E6pYZrTEaUE2FK6AgfUmkQKTCB92rMnFY7JKt9He4GXquj9HKwwdSB2iu0f3SS9dfpB966oVqt0Ee9vUOe69fdODj8TqNjBnQ4kk6WnDuodB4vYHogkmxxLuDnAhMOK2A5FmZ/vXDdP1GjehYnscmnBqAHRgtJl6fq6h91wIUdS19AFdlTnE6bCH81t+tRWhuXqmzXtuKVoN9KBh6pq745l1VACZ95RVKJBsqa5nHbdep53Rr5fdWIww4TDcGKv1uucfy+TDfsPE5EdfzPlEZNreMv2rJ32IUpLi/2zB8WRwTNhRJgFMBvRnFGLOKUHYcXLUos4WXNWtBXGbBh5wjZR6ACtQutDF3xdq5OkClmWcNaVJeghoIolNTdT34ZDI2drpJdhNyGdi9xNJ4YRZfpTmt66GYRLbzc=
+X-OriginatorOrg: starlab.io
+X-MS-Exchange-CrossTenant-Network-Message-Id: c5afe32a-3443-4b47-4559-08d7f35c8208
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2020 14:31:34.2665
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e611933-986f-4838-a403-4acb432ce224
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: umcZylwzYklORDnsY7wNUFIeyCVOePQrUbwE2sZgz6S2XkfmQpeIWKexTIrrhCSgudEz95hbVWrrkYeK8yFYsBNovEwupIv6lI44sU/QuyY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA9PR09MB5598
 Sender: ecryptfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Eric Biggers <ebiggers@kernel.org> wrote:
-> This series introduces a helper function crypto_shash_tfm_digest() which
-> replaces the following common pattern:
-> 
->        {
->                SHASH_DESC_ON_STACK(desc, tfm);
->                int err;
-> 
->                desc->tfm = tfm;
-> 
->                err = crypto_shash_digest(desc, data, len, out);
-> 
->                shash_desc_zero(desc);
->        }
-> 
-> with:
-> 
->        err = crypto_shash_tfm_digest(tfm, data, len, out);
-> 
-> Patch 1 introduces this helper function, and patches 2-20 convert all
-> relevant users to use it.
-> 
-> IMO, it would be easiest to take all these patches through the crypto
-> tree.  But taking just the "crypto:" ones and then me trying to get the
-> rest merged later via subsystem trees is also an option.
-> 
-> Eric Biggers (20):
->  crypto: hash - introduce crypto_shash_tfm_digest()
->  crypto: arm64/aes-glue - use crypto_shash_tfm_digest()
->  crypto: essiv - use crypto_shash_tfm_digest()
->  crypto: artpec6 - use crypto_shash_tfm_digest()
->  crypto: ccp - use crypto_shash_tfm_digest()
->  crypto: ccree - use crypto_shash_tfm_digest()
->  crypto: hisilicon/sec2 - use crypto_shash_tfm_digest()
->  crypto: mediatek - use crypto_shash_tfm_digest()
->  crypto: n2 - use crypto_shash_tfm_digest()
->  crypto: omap-sham - use crypto_shash_tfm_digest()
->  crypto: s5p-sss - use crypto_shash_tfm_digest()
->  nfc: s3fwrn5: use crypto_shash_tfm_digest()
->  fscrypt: use crypto_shash_tfm_digest()
->  ecryptfs: use crypto_shash_tfm_digest()
->  nfsd: use crypto_shash_tfm_digest()
->  ubifs: use crypto_shash_tfm_digest()
->  Bluetooth: use crypto_shash_tfm_digest()
->  sctp: use crypto_shash_tfm_digest()
->  KEYS: encrypted: use crypto_shash_tfm_digest()
->  ASoC: cros_ec_codec: use crypto_shash_tfm_digest()
-> 
-> arch/arm64/crypto/aes-glue.c               |  4 +--
-> crypto/essiv.c                             |  4 +--
-> crypto/shash.c                             | 16 +++++++++
-> drivers/crypto/axis/artpec6_crypto.c       | 10 ++----
-> drivers/crypto/ccp/ccp-crypto-sha.c        |  9 ++---
-> drivers/crypto/ccree/cc_cipher.c           |  9 ++---
-> drivers/crypto/hisilicon/sec2/sec_crypto.c |  5 ++-
-> drivers/crypto/mediatek/mtk-sha.c          |  7 ++--
-> drivers/crypto/n2_core.c                   |  7 ++--
-> drivers/crypto/omap-sham.c                 | 20 +++--------
-> drivers/crypto/s5p-sss.c                   | 39 ++++------------------
-> drivers/nfc/s3fwrn5/firmware.c             | 10 +-----
-> fs/crypto/fname.c                          |  7 +---
-> fs/crypto/hkdf.c                           |  6 +---
-> fs/ecryptfs/crypto.c                       | 17 +---------
-> fs/nfsd/nfs4recover.c                      | 26 ++++-----------
-> fs/ubifs/auth.c                            | 20 ++---------
-> fs/ubifs/master.c                          |  9 ++---
-> fs/ubifs/replay.c                          | 14 ++------
-> include/crypto/hash.h                      | 19 +++++++++++
-> net/bluetooth/smp.c                        |  6 +---
-> net/sctp/auth.c                            | 10 ++----
-> net/sctp/sm_make_chunk.c                   | 23 +++++--------
-> security/keys/encrypted-keys/encrypted.c   | 18 ++--------
-> sound/soc/codecs/cros_ec_codec.c           |  9 +----
-> 25 files changed, 95 insertions(+), 229 deletions(-)
+On asynchronous base filesystems like NFS, eCryptFS leaves inodes for
+deleted files in the cache until unmounting. Change call in
+ecryptfs_do_unlink() from set_nlink() to drop_nlink() in order to reliably
+evict inodes from the cache even on top of NFS.
 
-All applied.  Thanks.
+Signed-off-by: Dan Robertson <daniel.robertson@starlab.io>
+Signed-off-by: Jeffrey Mitchell <jeffrey.mitchell@starlab.io>
+---
+ fs/ecryptfs/inode.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/ecryptfs/inode.c b/fs/ecryptfs/inode.c
+index e23752d..f7594b6 100644
+--- a/fs/ecryptfs/inode.c
++++ b/fs/ecryptfs/inode.c
+@@ -147,7 +147,7 @@ static int ecryptfs_do_unlink(struct inode *dir, struct dentry *dentry,
+ 		goto out_unlock;
+ 	}
+ 	fsstack_copy_attr_times(dir, lower_dir_inode);
+-	set_nlink(inode, ecryptfs_inode_to_lower(inode)->i_nlink);
++	drop_nlink(inode);
+ 	inode->i_ctime = dir->i_ctime;
+ out_unlock:
+ 	dput(lower_dentry);
 -- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+2.7.4
+
