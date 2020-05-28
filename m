@@ -2,54 +2,44 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BAFB71E44FE
-	for <lists+ecryptfs@lfdr.de>; Wed, 27 May 2020 15:59:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A30E21E6E39
+	for <lists+ecryptfs@lfdr.de>; Thu, 28 May 2020 23:56:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388623AbgE0N71 (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Wed, 27 May 2020 09:59:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39730 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388982AbgE0N71 (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Wed, 27 May 2020 09:59:27 -0400
-Received: from msa11.plala.or.jp (msa11.plala.or.jp [IPv6:2400:7800:0:502e::11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5C92CC08C5C2;
-        Wed, 27 May 2020 06:59:26 -0700 (PDT)
-Received: from mwebp13 ([172.23.13.133]) by msa11.plala.or.jp with ESMTP
-          id <20200527135925.LILK32305.msa11.plala.or.jp@mwebp13>;
-          Wed, 27 May 2020 22:59:25 +0900
-Date:   Wed, 27 May 2020 22:59:25 +0900
-From:   "Mrs.Judith Rice" <hamurafujimi@tmail.plala.or.jp>
-Reply-To: jonesevansje@gmail.com
-Message-ID: <20200527225925.5C0N3.1031.root@mwebp13>
-Subject: Spende
+        id S2436791AbgE1V4a convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+ecryptfs@lfdr.de>); Thu, 28 May 2020 17:56:30 -0400
+Received: from mail.bnv.gob.ve ([201.249.200.115]:45614 "EHLO
+        correo.bnv.gob.ve" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S2436761AbgE1V4Y (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Thu, 28 May 2020 17:56:24 -0400
+Received: from localhost (localhost.bnv.gob.ve [127.0.0.1])
+        by correo.bnv.gob.ve (Postfix) with ESMTP id 4F8DC38E302B;
+        Thu, 28 May 2020 12:55:23 -0400 (-04)
+Received: from correo.bnv.gob.ve ([127.0.0.1])
+        by localhost (correo.bnv.gob.ve [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id 9ZEnMDpiWZi8; Thu, 28 May 2020 12:55:23 -0400 (-04)
+Received: from localhost (localhost.bnv.gob.ve [127.0.0.1])
+        by correo.bnv.gob.ve (Postfix) with ESMTP id 8AB9A38E2F2C;
+        Thu, 28 May 2020 12:54:00 -0400 (-04)
+X-Virus-Scanned: amavisd-new at bnv.gob.ve
+Received: from correo.bnv.gob.ve ([127.0.0.1])
+        by localhost (correo.bnv.gob.ve [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id w9y_j1K5SEu9; Thu, 28 May 2020 12:54:00 -0400 (-04)
+Received: from [10.19.23.127] (unknown [105.0.4.230])
+        by correo.bnv.gob.ve (Postfix) with ESMTPSA id ABC0238A856B;
+        Thu, 28 May 2020 12:23:28 -0400 (-04)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-2022-jp
-Content-Transfer-Encoding: 7bit
-X-Priority: 3 (Normal)
-Sensitivity: Normal
-X-VirusScan: Outbound; mvir-ac11; Wed, 27 May 2020 22:59:25 +0900
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: Spende von 2.000.000,00 Euro
+To:     Recipients <manuel@info.com>
+From:   "manuel franco" <manuel@info.com>
+Date:   Thu, 28 May 2020 18:23:18 +0200
+Reply-To: manuelfrancospende11@gmail.com
+Message-Id: <20200528162329.ABC0238A856B@correo.bnv.gob.ve>
 Sender: ecryptfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Attn:
-
-Es tut uns leid, dass wir Sie aufgrund eines Mismanagent of Beneficaries-Fonds von unseren ernannten Zonal Managern versp&#228;tet kontaktiert haben. Bitte beachten Sie, dass Sie qualifiziert sind, die Zahlung von 900.000,00 USD an der ATM-Karte mit neunhunderttausend Dollar zu erhalten.
-
-Als Entsch&#228;digung von WORLD BANK / IWF (Internationaler W&#228;hrungsfonds) f&#252;r die automatisch &#252;ber einen E-Mail-Wahlautomaten gezogenen, die in der Vergangenheit noch nicht abgeschlossene Transaktionen hatten.
-
-F&#252;r weitere Informationen kontaktieren Sie bitte Rev.EVANS JONES ( jonesevansje@gmail.com )
-
-Bitte senden Sie ihm Ihre pers&#246;nlichen Daten wie:
-
-Vollst&#228;ndiger Name:
-Wohnanschrift:
-Telefonnummer:
-Herkunftsland:
-
-Gr&#252;&#223;e,
-Mrs. Judith Rice
-
-Spende
+Ich bin Manuel Franco, ich spende Ihnen 2.000.000,00 Euro. Nehmen Sie jetzt Kontakt mit mir auf, damit wir fortfahren können.
