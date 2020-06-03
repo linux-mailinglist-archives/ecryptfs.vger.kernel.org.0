@@ -2,81 +2,101 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DFC651E9BFE
-	for <lists+ecryptfs@lfdr.de>; Mon,  1 Jun 2020 05:19:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F3DF1ED101
+	for <lists+ecryptfs@lfdr.de>; Wed,  3 Jun 2020 15:38:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727776AbgFADTc (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Sun, 31 May 2020 23:19:32 -0400
-Received: from hs-162.6.buanalintas.co.id ([223.165.6.162]:37298 "EHLO
-        mx.bestprofit-futures.co.id" rhost-flags-OK-FAIL-OK-OK)
-        by vger.kernel.org with ESMTP id S1726860AbgFADTa (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Sun, 31 May 2020 23:19:30 -0400
-X-Greylist: delayed 8502 seconds by postgrey-1.27 at vger.kernel.org; Sun, 31 May 2020 23:19:29 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by mx.bestprofit-futures.co.id (Postfix) with ESMTP id F0248524C8D;
-        Mon,  1 Jun 2020 07:30:57 +0700 (WIB)
-Received: from mx.bestprofit-futures.co.id ([127.0.0.1])
-        by localhost (mx.bestprofit-futures.co.id [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id AslvEfuoEYIN; Mon,  1 Jun 2020 07:30:57 +0700 (WIB)
-Received: from localhost (localhost [127.0.0.1])
-        by mx.bestprofit-futures.co.id (Postfix) with ESMTP id 6B64552419A;
-        Mon,  1 Jun 2020 07:30:57 +0700 (WIB)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mx.bestprofit-futures.co.id 6B64552419A
+        id S1725975AbgFCNix (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Wed, 3 Jun 2020 09:38:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48498 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725916AbgFCNix (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Wed, 3 Jun 2020 09:38:53 -0400
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB833C08C5C0
+        for <ecryptfs@vger.kernel.org>; Wed,  3 Jun 2020 06:38:52 -0700 (PDT)
+Received: by mail-ej1-x643.google.com with SMTP id e2so2172414eje.13
+        for <ecryptfs@vger.kernel.org>; Wed, 03 Jun 2020 06:38:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bestprofit-futures.co.id; s=4D3D1390-5211-11EA-8C0C-8C41A122B001;
-        t=1590971457; bh=zLTonXbKn6LYrnOZVETw9C2bepTvRzI70GQOlIiRCC0=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=KofeVUWF20+qgNsNsG+ryAcXahujT92BHJVy5apsxx54qOm7bGASPHteGLe3bOJUM
-         Xxb/RSYEyJ7nhBnYQ5b2wMKFZEd5VTlAiN/HHVRJaEKuIrK5mjR9KDqIr4wvmHZOq6
-         M7nUFqX/uvCwqMpw2uVxcDHHJNb+ItoHae21ve8Yvwsq7VQEUfQsGcThebnaBdvdNY
-         FCIDwuX9KfKVwZ1G+eafn2fA7Ql9oI3OtXVtnXA7h6uA4DgQ7QMl2Y9sHxX0If5pVp
-         K+g2PPdAEFRPl6Q3M5rWACUjK2XLlLSgcFbNTS41Tieu6E8N1azVx49OPlx+/uuDBQ
-         xnAK6ce1Ui2zw==
-X-Virus-Scanned: amavisd-new at mx.bestprofit-futures.co.id
-Received: from mx.bestprofit-futures.co.id ([127.0.0.1])
-        by localhost (mx.bestprofit-futures.co.id [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 2M26HjZPYumO; Mon,  1 Jun 2020 07:30:57 +0700 (WIB)
-Received: from [10.81.249.6] (unknown [105.8.6.41])
-        by mx.bestprofit-futures.co.id (Postfix) with ESMTPSA id B65C6524C6E;
-        Mon,  1 Jun 2020 07:30:49 +0700 (WIB)
-Content-Type: text/plain; charset="utf-8"
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
+        bh=H8rDQEJouwBJIElP/Vpqq+PrvTZxQQy2H7A/MvyMMB0=;
+        b=M7xq+yMMTtptnqD4Fjd06NewJ7t6GYi9GINQbzUrvMHUjUV+1jc5aYbo10id5YpvFr
+         8wKN1rhaMis5SluqJyXFCpJeiLg2+RA85O8tFMHq51m3VIZWkWL9JetRb82UMRyXxOcI
+         liTmXKgBBkfn2KpZu69OaYnFxyfTisrR/cHOBvSnN2I/8hdyn5IdGD24O7mMRsX28233
+         n20FUgoofdBXjtWCdoYjF9DqhL4RnKGc0Nxq2ITsdss2obJV+Thp0dUGouZk5k9sNcYL
+         p4Mm1DiLJDEUezvWxeSE6W8VkQNrc8cbfkyapZ4zUoNMJpXg1E8sgNT6a2mxpWXV8L5I
+         Vnag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to;
+        bh=H8rDQEJouwBJIElP/Vpqq+PrvTZxQQy2H7A/MvyMMB0=;
+        b=tKkFRZOSzcWu65dWli7qwUL7ZhZGJ/SyZqblMmw+DjRHN9D80zJLzsMqE5YOfyRviB
+         +bcabpu9LdsLb/cXv/urXQndR1I367Kp/kNA5hbs/YDseDWjA0cIKCrHQRsihU7LpXD9
+         RoSJxrOpx63p9oWS4GJZdx0GSHCv5uHMsinGe5M4ZNRXwlZ5j+wAY3UI4URyRooByWz1
+         K3FFpSizuE5sW9VpBvWPIPNqXCHXZ3VADDhbgzNpzNHmnJEHhiDL6qC/eTlWwHbAkvsc
+         kkc8IdmMc1qFqV2ou8+0uVWsWA/eXdLkgiwD5WGg2bh0Qm2mSQNHwt2jGXs4vnP6nyrS
+         pQ9g==
+X-Gm-Message-State: AOAM5313tyg9wY4VC3H0TZvVPXIgn8vHG8GjKsCtBCS4TVibVbldmzwp
+        j4CGkk1W1+FuCjEUs+LmMlkxnIuPFdH6SMQ6Hnc=
+X-Google-Smtp-Source: ABdhPJyskIfmP5aShZmAX2aNUoDdVPCl2tRIlMQA8V9ICTqQUHZQglUGDDsMNZdSPM6UU1q9qTtQCycYKb53vHj3//U=
+X-Received: by 2002:a17:906:818:: with SMTP id e24mr16397066ejd.453.1591191531362;
+ Wed, 03 Jun 2020 06:38:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: =?utf-8?q?Wohlt=C3=A4tigkeitsspende_von_2=2E000=2E000_Millionen_Euro?=
-To:     Recipients <yoshi@bestprofit-futures.co.id>
-From:   ''Tayeb Souami'' <yoshi@bestprofit-futures.co.id>
-Date:   Mon, 01 Jun 2020 02:30:41 +0200
-Reply-To: Tayebsouam.spende@gmail.com
-Message-Id: <20200601003049.B65C6524C6E@mx.bestprofit-futures.co.id>
+Reply-To: susanjones.wife@gmail.com
+Received: by 2002:a50:5210:0:0:0:0:0 with HTTP; Wed, 3 Jun 2020 06:38:50 -0700 (PDT)
+From:   "Mrs.Susan Jones" <sus.wifejones@gmail.com>
+Date:   Wed, 3 Jun 2020 14:38:50 +0100
+X-Google-Sender-Auth: mucayu4wFZ49hMaWovYG1gxwAIo
+Message-ID: <CAAFTEYFT0nzdRC2RB9kWX6L_L9+cd=fWnw9gg2jmuxX184JdoA@mail.gmail.com>
+Subject: HELLO: I AM MRS SUSAN JONES
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: ecryptfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Lieber Freund,
+-- 
+OUR GOLDEN OPPORTUNITY
 
-Ich bin Herr Tayeb Souami, New Jersey, Vereinigte Staaten von Amerika, der =
-Mega-Gewinner von $ 315million In Mega Millions Jackpot, spende ich an 5 zu=
-f=C3=A4llige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Ma=
-il nach einem Spinball ausgew=C3=A4hlt.Ich habe den gr=C3=B6=C3=9Ften Teil =
-meines Verm=C3=B6gens auf eine Reihe von Wohlt=C3=A4tigkeitsorganisationen =
-und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die =
-Summe von =E2=82=AC 2.000.000,00 an Sie als eine der ausgew=C3=A4hlten 5 zu=
- spenden, um meine Gewinne zu =C3=BCberpr=C3=BCfen, sehen Sie bitte meine Y=
-ou Tube Seite unten.
+Hello Dear Friend,
 
-UHR MICH HIER: https://www.youtube.com/watch?v=3DZ6ui8ZDQ6Ks
+Complement of the day, i hope you are doing great today. However, I am
+Mrs.Susan Jones, an auditor with one of the new generation banks here
+in Burkina Faso.
 
+I am writing you this letter based on the latest development at my
+Department. i discovered some abandoned huge amount of money, Ten
+Million, Five hundred thousand  United States Dollars.($10.500.000).
+Now I am only contacting you as a foreigner because this money cannot
+be approved to a local bank account here, but can only be approved to
+any foreign account and foreign beneficiary because the money is in US
+dollars
 
-Das ist dein Spendencode: [TS530342018]
+This will be  a legitimate transaction once you accept to build trust
+with me and follow simple instruction doing the transfer process,
+until the total sum transfer out of the bank here to your own bank
+account any where in the world, and I agreed to share the total money
+50/50 with you once you successful confirmed it in your bank account.
+But any expenses doing the transfer process will be deduct from the
+amount before sharing, If you are interested to work with me and
+provide a good receiving bank account, get back to me as soon as
+possible with the following details below.
 
+Your full name
+Your Profession
+Your direct mobile phone number
+Your Scanned International passport or any of your identity
 
-Antworten Sie mit dem SPENDE-CODE an diese
+NOTE: PLEASE IT YOU ARE NOT INTERESTED DON'T BORDER TO RESPOND BACK TO
+AVOID TIME WASTED.
 
- E-Mail:Tayebsouam.spende@gmail.com
+As soon as I receive these data's, I will forward to you the
+application form which you will send to the bank for the claim and
+transfer of the fund into your bank account as the  new beneficial.
 
-Ich hoffe, Sie und Ihre Familie gl=C3=BCcklich zu machen.
+I am waiting to hear from you soon
 
-Gr=C3=BC=C3=9Fe
-Herr Tayeb Souami
+Yours
+Mrs.Susan Jones
