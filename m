@@ -2,116 +2,138 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E7FCC1FD2C5
-	for <lists+ecryptfs@lfdr.de>; Wed, 17 Jun 2020 18:50:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2833A1FD772
+	for <lists+ecryptfs@lfdr.de>; Wed, 17 Jun 2020 23:37:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726899AbgFQQuV (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Wed, 17 Jun 2020 12:50:21 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51939 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726815AbgFQQuU (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Wed, 17 Jun 2020 12:50:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1592412618;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=OjK8fyHVTJHn0tJmmKvVefEY8khdS+QHcewRe9SW19w=;
-        b=WjQcht4Bs0W+wbaYCphakmQGS6iCKa7jkGpvOFOgRwy7LsZ6IfNCVHfARWw7hzvGNTuME6
-        xY8BOA0Ay3VfmDmnvBy5hBjMbKKazjqc0UCe0eiLb3d7fKEf5eGJLvGWurumV0fLVz88lM
-        sGGFhuVQfUxnK+PWYUaZHniB+flm0mw=
-Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
- [209.85.210.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-440-nlUoACvUOcSL0-kTr_PRzw-1; Wed, 17 Jun 2020 12:50:16 -0400
-X-MC-Unique: nlUoACvUOcSL0-kTr_PRzw-1
-Received: by mail-ot1-f71.google.com with SMTP id t3so1286785otc.12
-        for <ecryptfs@vger.kernel.org>; Wed, 17 Jun 2020 09:50:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OjK8fyHVTJHn0tJmmKvVefEY8khdS+QHcewRe9SW19w=;
-        b=izssnSmxzPSnBPAbiz2t6NaEUxSWqeRef7NZLGyHFLfSHK2X9NacKi4cNKPmhcZnr3
-         Uo2rTjWb4NRLCQ7H2h5xO+OwIt2Ei1MiQM7fYettlRf/iuyzvCA1spvrAUUKRMHYbnMX
-         mar6GadafHjwyXWo76wb1f4xc4vSBaEa+uU51KN10Yk1+XzGe8GxSTjWhfiKVIMG99GN
-         eUVHWgv8b0qGwjKfu9A/qTn7xdBqaJ2Z5P41j1fgzFCO9o3EjTeKKcb9k1qStMRYbhUO
-         O6kZbHAeF0JxvuDq+u+EsA4yvw+Pan9U56NagNmhAekd2xjle6cyxWIgT8tFkM/a4DMh
-         yexw==
-X-Gm-Message-State: AOAM532i7t2d2uP+zIEjpjWc2hHkzrgzPMM7HeXLOhxuNrPPiXLIDXZy
-        1CnqtpyOlkGQe/YKHByu02TtFlMd3SDyKt5UODyFzx9kkEjSRH0hVHETtZ4KgM2AaOAG8Jvzo5p
-        9FhEA5Xg9axZOFfzj0m0RrXYyBvsKXNnJCVY=
-X-Received: by 2002:a4a:d1ca:: with SMTP id a10mr262814oos.31.1592412615529;
-        Wed, 17 Jun 2020 09:50:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyvBRe1tN454gReGPRfABUY4hEWGQXUAbPkEy82xsY851yjhGMaPBzfCaZ6uEV13m7NtiwW2+yXK6vJIB388qk=
-X-Received: by 2002:a4a:d1ca:: with SMTP id a10mr262789oos.31.1592412615270;
- Wed, 17 Jun 2020 09:50:15 -0700 (PDT)
+        id S1727044AbgFQVhJ (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Wed, 17 Jun 2020 17:37:09 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:42916 "EHLO mail.ispras.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726758AbgFQVhI (ORCPT <rfc822;ecryptfs@vger.kernel.org>);
+        Wed, 17 Jun 2020 17:37:08 -0400
+X-Greylist: delayed 346 seconds by postgrey-1.27 at vger.kernel.org; Wed, 17 Jun 2020 17:37:02 EDT
+Received: from [192.168.1.8] (unknown [213.87.137.195])
+        by mail.ispras.ru (Postfix) with ESMTPSA id 54355BFD1E;
+        Thu, 18 Jun 2020 00:31:03 +0300 (MSK)
+To:     Joe Perches <joe@perches.com>, Waiman Long <longman@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Howells <dhowells@redhat.com>,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        David Rientjes <rientjes@google.com>
+Cc:     Michal Hocko <mhocko@suse.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        David Sterba <dsterba@suse.cz>,
+        "Jason A . Donenfeld" <Jason@zx2c4.com>, linux-mm@kvack.org,
+        keyrings@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-amlogic@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+        virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
+        linux-ppp@vger.kernel.org, wireguard@lists.zx2c4.com,
+        linux-wireless@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
+        linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, ecryptfs@vger.kernel.org,
+        kasan-dev@googlegroups.com, linux-bluetooth@vger.kernel.org,
+        linux-wpan@vger.kernel.org, linux-sctp@vger.kernel.org,
+        linux-nfs@vger.kernel.org, tipc-discussion@lists.sourceforge.net,
+        linux-security-module@vger.kernel.org,
+        linux-integrity@vger.kernel.org
+References: <20200616015718.7812-1-longman@redhat.com>
+ <fe3b9a437be4aeab3bac68f04193cb6daaa5bee4.camel@perches.com>
+From:   Denis Efremov <efremov@ispras.ru>
+Autocrypt: addr=efremov@ispras.ru; keydata=
+ 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
+Subject: Re: [PATCH v4 0/3] mm, treewide: Rename kzfree() to kfree_sensitive()
+Message-ID: <17e4fede-bab0-d93c-6964-69decc889d7d@ispras.ru>
+Date:   Thu, 18 Jun 2020 00:31:01 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-References: <20200605183631.GA1720057@eldamar.local> <20200611223711.GA37917@mattapan.m5p.com>
- <20200613125431.GA349352@eldamar.local> <20200613184527.GA54221@mattapan.m5p.com>
- <20200615145035.GA214986@pick.fieldses.org> <20200615185311.GA702681@eldamar.local>
- <20200616023820.GB214986@pick.fieldses.org> <20200616024212.GC214986@pick.fieldses.org>
- <20200616161658.GA17251@lorien.valinor.li> <20200617144256.1028414-1-agruenba@redhat.com>
- <20200617153107.GL266716@pick.fieldses.org>
-In-Reply-To: <20200617153107.GL266716@pick.fieldses.org>
-From:   Andreas Gruenbacher <agruenba@redhat.com>
-Date:   Wed, 17 Jun 2020 18:50:04 +0200
-Message-ID: <CAHc6FU5-WGL8OwELQvpu8CsQgqW5o2h92UG3d2E3RUTPnBPgog@mail.gmail.com>
-Subject: Re: Umask ignored when mounting NFSv4.2 share of an exported
- Filesystem with noacl (was: Re: Bug#962254: NFS(v4) broken at 4.19.118-2)
-To:     "J. Bruce Fields" <bfields@redhat.com>
-Cc:     ecryptfs@vger.kernel.org, Salvatore Bonaccorso <carnil@debian.org>,
-        Elliott Mitchell <ehem+debian@m5p.com>, 962254@bugs.debian.org,
-        Linux NFS Mailing List <linux-nfs@vger.kernel.org>,
-        Miklos Szeredi <mszeredi@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <fe3b9a437be4aeab3bac68f04193cb6daaa5bee4.camel@perches.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: ecryptfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-On Wed, Jun 17, 2020 at 5:31 PM J. Bruce Fields <bfields@redhat.com> wrote:
->
-> On Wed, Jun 17, 2020 at 04:42:56PM +0200, Andreas Gruenbacher wrote:
-> > Hi Bruce,
-> >
-> > On Wed, Jun 17, 2020 at 2:58 AM J. Bruce Fields <bfields@redhat.com> wrote:
-> > > I think I'll send the following upstream.
-> >
-> > looking good, but how about using a little helper for this?
->
-> I like it.  And the new comment's helpful too.
->
-> >
-> > Also I'm not sure if ecryptfs gets this right, so taking the ecryptfs
-> > list into the CC.
->
-> Yes, questions I had while doing this:
->
->         - cachefiles, ecrypfs, devtmpfs, and unix_mknod skip the check,
->           is that OK for all of them?  (Overlayfs too, I think?--that
->           code's harder to follow.
->
->         - why don't vfs_{create,mknod,mkdir} do the IS_POSIXACL check
->           themselves?  Even if it's unnecessary for some callers, surely
->           it wouldn't be wrong?
 
-That's a good question. The security_path_{mkdir,mknod} hooks would
-then probably be passed the original create mode before applying the
-umask, but at that point it's not clear what the new inode's final
-mode will be, anyway.
 
-> I also wondered why both vfs_{create,mknod,mkdir} and the callers were
-> calling security hooks, but now I see that the callers are calling
-> security_path_* hooks and the vfs_ functions are calling
-> security_inode_* hooks, so I guess they're not redundant.
->
-> Though now I wonder why some of the callers (nfsd, overlayfs) are
-> skipping the security_path_* hooks.
+On 6/16/20 9:53 PM, Joe Perches wrote:
+> On Mon, 2020-06-15 at 21:57 -0400, Waiman Long wrote:
+>>  v4:
+>>   - Break out the memzero_explicit() change as suggested by Dan Carpenter
+>>     so that it can be backported to stable.
+>>   - Drop the "crypto: Remove unnecessary memzero_explicit()" patch for
+>>     now as there can be a bit more discussion on what is best. It will be
+>>     introduced as a separate patch later on after this one is merged.
+> 
+> To this larger audience and last week without reply:
+> https://lore.kernel.org/lkml/573b3fbd5927c643920e1364230c296b23e7584d.camel@perches.com/
+> 
+> Are there _any_ fastpath uses of kfree or vfree?
+> 
+> Many patches have been posted recently to fix mispairings
+> of specific types of alloc and free functions.
 
-The path based security hooks are only used by apparmor and tomoyo.
-Those hooks basically control who (which process) can do what where in
-the filesystem, but nfsd isn't aware of the "who", and overlayfs is a
-layer below the "where".
+I've prepared a coccinelle script to highlight these mispairings in a function
+a couple of days ago: https://lkml.org/lkml/2020/6/5/953
+I've listed all the fixes in the commit message. 
 
-Andreas
+Not so many mispairings actually, and most of them are harmless like:
+kmalloc(E) -> kvfree(E)
 
+However, coccinelle script can't detect cross-functions mispairings, i.e.
+allocation in one function, free in another funtion.
+
+Thanks,
+Denis
