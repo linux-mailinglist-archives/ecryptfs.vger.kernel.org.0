@@ -2,110 +2,115 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C2FA71FD975
-	for <lists+ecryptfs@lfdr.de>; Thu, 18 Jun 2020 01:12:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE6B81FFBB9
+	for <lists+ecryptfs@lfdr.de>; Thu, 18 Jun 2020 21:23:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726857AbgFQXMS (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Wed, 17 Jun 2020 19:12:18 -0400
-Received: from smtprelay0191.hostedemail.com ([216.40.44.191]:41454 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726761AbgFQXMS (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Wed, 17 Jun 2020 19:12:18 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay07.hostedemail.com (Postfix) with ESMTP id C6BF8181D330D;
-        Wed, 17 Jun 2020 23:12:13 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 50,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:800:965:966:967:968:973:982:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2194:2196:2198:2199:2200:2201:2393:2525:2561:2564:2682:2685:2693:2828:2859:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3353:3622:3865:3866:3867:3868:3870:3871:3872:3874:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4321:4385:4390:4395:5007:6248:6691:6742:6743:7875:7903:9025:9108:10004:10400:10848:11232:11658:11914:12043:12048:12050:12297:12438:12555:12740:12760:12895:13069:13095:13311:13357:13439:14096:14097:14180:14181:14659:14721:14777:14915:21080:21433:21451:21627:21788:21811:30054:30070:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:3,LUA_SUMMARY:none
-X-HE-Tag: anger66_3706ec726e0b
-X-Filterd-Recvd-Size: 3931
-Received: from XPS-9350.home (unknown [47.151.133.149])
-        (Authenticated sender: joe@perches.com)
-        by omf11.hostedemail.com (Postfix) with ESMTPA;
-        Wed, 17 Jun 2020 23:12:07 +0000 (UTC)
-Message-ID: <38c5745d14cff75fe264a3bc61d19fd837baf7ad.camel@perches.com>
-Subject: Re: [PATCH v4 0/3] mm, treewide: Rename kzfree() to
- kfree_sensitive()
-From:   Joe Perches <joe@perches.com>
-To:     Denis Efremov <efremov@ispras.ru>,
-        Waiman Long <longman@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Howells <dhowells@redhat.com>,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        David Rientjes <rientjes@google.com>
-Cc:     Michal Hocko <mhocko@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        David Sterba <dsterba@suse.cz>,
-        "Jason A . Donenfeld" <Jason@zx2c4.com>, linux-mm@kvack.org,
-        keyrings@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-amlogic@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-        virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
-        linux-ppp@vger.kernel.org, wireguard@lists.zx2c4.com,
-        linux-wireless@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, ecryptfs@vger.kernel.org,
-        kasan-dev@googlegroups.com, linux-bluetooth@vger.kernel.org,
-        linux-wpan@vger.kernel.org, linux-sctp@vger.kernel.org,
-        linux-nfs@vger.kernel.org, tipc-discussion@lists.sourceforge.net,
-        linux-security-module@vger.kernel.org,
-        linux-integrity@vger.kernel.org
-Date:   Wed, 17 Jun 2020 16:12:06 -0700
-In-Reply-To: <17e4fede-bab0-d93c-6964-69decc889d7d@ispras.ru>
-References: <20200616015718.7812-1-longman@redhat.com>
-         <fe3b9a437be4aeab3bac68f04193cb6daaa5bee4.camel@perches.com>
-         <17e4fede-bab0-d93c-6964-69decc889d7d@ispras.ru>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.36.2-0ubuntu1 
+        id S1726925AbgFRTXp (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Thu, 18 Jun 2020 15:23:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44238 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726879AbgFRTXo (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Thu, 18 Jun 2020 15:23:44 -0400
+Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com [IPv6:2607:f8b0:4864:20::d42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBD13C06174E
+        for <ecryptfs@vger.kernel.org>; Thu, 18 Jun 2020 12:23:43 -0700 (PDT)
+Received: by mail-io1-xd42.google.com with SMTP id q8so8456978iow.7
+        for <ecryptfs@vger.kernel.org>; Thu, 18 Jun 2020 12:23:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=ldZEk6GZkwUuy2Js9SWtf3nbeJAEXnm6tR2ZTKBqXvg=;
+        b=XfLywJqYaLWrDhakSCpe+gjnYmkTCU2Y1f43Ib/XdUhMNCB1FNCHA7o1anANiHiBx6
+         9tFWKFz984Hpm27czDywgnmFsHmGCo70eT2BG+84LhAaQL83e5tLF5eAnJiiA11Wu3l5
+         gc/KGOdsaUkIwFb7SumFWUbeFyLdU5342/GRIXbc0efcOAlN0Mx1d09UiLf88IhFLuit
+         1NVCXkdpAeLdVJt7kFA2nmnU5N7EW+54tCEdQHu15RSQLE11SnYSNd31okj9LJ9OfG8c
+         6n0MRDPd9obQT2N4lceyAWvglgDAIO5avit72LomzMwcJnzHDqjOfo6CAoew7X27HZ1X
+         GILw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=ldZEk6GZkwUuy2Js9SWtf3nbeJAEXnm6tR2ZTKBqXvg=;
+        b=Zn3veoGt3oQzFmmCeUnvONX1MMKsNKBc7TWhoWSwTDRglgmg3yvlJS3+ig7w5MfKkS
+         0ZCs1ovmXZ6wAOZ1C54vS75Q6MIR/Di6x3goh6pZniqhONMJorA7D0cr5o6auEU6IX72
+         LZu6WWApAXe4g6iF8coLuE+cjkudPsLEej9fxOlliLelvPwZqao4RBok4sNSX/U0s3Pw
+         /dEri5fu0/U1t+Y7whqgwyLMcIVbxdExiFxviLOpXVl5usB0pBzN3hPNcTD4Ugt6VEVp
+         OPFExGX/HOL3CKLKI/d2TlR+nbPUW8zLZJZ0fEHymB+Rlf9vH267rHp7RtADDlJ0cmJE
+         1xXQ==
+X-Gm-Message-State: AOAM531zGrebFMYH6fInybkodzFxl9vJTZSuEtqcW75cXKhiTz6U+yyC
+        mQ2kBbddVrZymF6ZKCmGKKEPe9pGVF9IQSl9dxA=
+X-Google-Smtp-Source: ABdhPJzF90h+SHrLPS3Gzn2I3DU7yIGxMVprdcRT/GyTFIiYuKQX1QG8nP9Vdv4+/Bo5uvJTzQa3QvIXg8KwSUF+Isw=
+X-Received: by 2002:a05:6638:975:: with SMTP id o21mr102839jaj.99.1592508223114;
+ Thu, 18 Jun 2020 12:23:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a02:44f:0:0:0:0:0 with HTTP; Thu, 18 Jun 2020 12:23:42 -0700 (PDT)
+From:   Mrs Kim Hong Yeoh <mrs.kimhongyeoh55@gmail.com>
+Date:   Thu, 18 Jun 2020 19:23:42 +0000
+X-Google-Sender-Auth: rUqd7Z5sttRCAuxqxvvVxw0dJ1g
+Message-ID: <CAPAVGmxf9YQV2Sk1m-7gHFtsTermWiKQX97Kdog75S8xBxAesA@mail.gmail.com>
+Subject: MAY THE PEACE OF GOD BE UPON YOU
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: ecryptfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-On Thu, 2020-06-18 at 00:31 +0300, Denis Efremov wrote:
-> 
-> On 6/16/20 9:53 PM, Joe Perches wrote:
-> > On Mon, 2020-06-15 at 21:57 -0400, Waiman Long wrote:
-> > >  v4:
-> > >   - Break out the memzero_explicit() change as suggested by Dan Carpenter
-> > >     so that it can be backported to stable.
-> > >   - Drop the "crypto: Remove unnecessary memzero_explicit()" patch for
-> > >     now as there can be a bit more discussion on what is best. It will be
-> > >     introduced as a separate patch later on after this one is merged.
-> > 
-> > To this larger audience and last week without reply:
-> > https://lore.kernel.org/lkml/573b3fbd5927c643920e1364230c296b23e7584d.camel@perches.com/
-> > 
-> > Are there _any_ fastpath uses of kfree or vfree?
-> > 
-> > Many patches have been posted recently to fix mispairings
-> > of specific types of alloc and free functions.
-> 
-> I've prepared a coccinelle script to highlight these mispairings in a function
-> a couple of days ago: https://lkml.org/lkml/2020/6/5/953
-> I've listed all the fixes in the commit message. 
-> 
-> Not so many mispairings actually, and most of them are harmless like:
-> kmalloc(E) -> kvfree(E)
-> 
-> However, coccinelle script can't detect cross-functions mispairings, i.e.
-> allocation in one function, free in another funtion.
+Greetings Beloved in Christ,
 
-Hey Denis, thanks for those patches.
+I had previously sent you an email with no feedback from you.I suppose
+it went to your junk folder.I anticipate that you read this mail
+quickly and let me know your opinion or willingness on this classified
+information that I will release to you.  therefore I would not want to
+jeopardize this opportunity to Save lives of Less Privileged ones and
+also change our financial status and give Less Privileged a secured
+future.
 
-If possible, it's probably better to not require these pairings
-and use a single standard kfree/free function.
+I am Mrs. Kim Hong Yeoh, Working at MAYBANK (Malaysia) as the
+Non-Independent Non-Executive Director and Chairman of Maybank. During
+our last banking Audits we discovered an abandoned account belongs to
+one of our Foreign Deceased Customer, Late Mr. Wang Jian, The
+Co-founder and Co-chairman of HNA Group, a Chinese conglomerate with
+significant real estate ownerships across the U.S., died in an
+accident while on a business trip in France on Tuesday.
 
-Given the existing ifs in kfree in slab/slob/slub, it seems
-likely that adding a few more wouldn't have much impact.
+Please go through this link:
+https://observer.com/2018/07/wang-jian-hna-founder-dies-tragic-fall/
+
+I am writing to request your assistance in transferring the sum of
+$17.000.000.00 (Seventeen Million United States Dollars) into your
+account as the Late Mr. Wang Jian Foreign Business Partner, which I am
+planning to use the fund to invest for public benefit as follows;
+
+1. Establish An Orphanage Home To Help The Orphanages Children.
+2. Build A Hospital To Help The Poor.
+3. Build A Nursing Home For Elderly People Need Care & Meal.
+
+Meanwhile, before I contacted you I have done personal investigation
+in locating any of Late Mr. Wang Jian relatives who knows about the
+account, but I came out unsuccessful. However, I took this decision to
+use this fund in supporting the Orphanages Children, Less Privileged
+and Elderly People Need Care & Meal Support, because i don't want this
+fund to be transfer into our Government Treasury Account as unclaimed
+fund as the law of my country abiding.
+
+As an officer of the Bank I cannot be directly connected to this
+money, so this is why I have to contact you for us to work so that you
+can assist to claim/receive this money into your bank account for us
+start a charity project, Meanwhile you will have 40% of the total fund
+and 60% for charity project, Note there are practically no risk
+involved, it will be bank to bank transfer, all I need from you is to
+stand and claim $17. Million without any problem with the information
+am going to provide to you.
 
 
+Please for the sake of god accept this offer to work with me and let
+us save lives of those Orphanages Children, Less Privileged and
+Elderly People Need Care, I will appreciate it very much. As soon as I
+receive your kind response, I will give you details on how we can
+achieve it successfully i will explain more on how the fund will be
+transfer to you.
+
+Waiting for your urgent response now.
+best regards
+Mrs. Kim Hong Yeoh.
