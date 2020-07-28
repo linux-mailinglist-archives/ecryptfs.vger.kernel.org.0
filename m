@@ -2,48 +2,63 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6ECE222C5AD
-	for <lists+ecryptfs@lfdr.de>; Fri, 24 Jul 2020 15:01:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B9D2230931
+	for <lists+ecryptfs@lfdr.de>; Tue, 28 Jul 2020 13:53:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726235AbgGXNB3 (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Fri, 24 Jul 2020 09:01:29 -0400
-Received: from [125.140.134.231] ([125.140.134.231]:64662 "EHLO
-        WIN-DAONO245HJF" rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726182AbgGXNB3 (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Fri, 24 Jul 2020 09:01:29 -0400
-Received: from User ([66.154.113.229]) by WIN-DAONO245HJF with Microsoft SMTPSVC(8.5.9600.16384);
-         Fri, 24 Jul 2020 21:52:10 +0900
-Reply-To: <christopherwang36@gmail.com>
-From:   "CHRISTOPHER WANG" <christopherwang36@gmail.com>
-Subject: INVESTMENT
-Date:   Fri, 24 Jul 2020 05:52:27 -0700
+        id S1729181AbgG1LxQ convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+ecryptfs@lfdr.de>); Tue, 28 Jul 2020 07:53:16 -0400
+Received: from customer-201-134-139-73.uninet-ide.com.mx ([201.134.139.73]:43514
+        "EHLO correo.tlalpan.gob.mx" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728504AbgG1LxQ (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Tue, 28 Jul 2020 07:53:16 -0400
+X-Greylist: delayed 11420 seconds by postgrey-1.27 at vger.kernel.org; Tue, 28 Jul 2020 07:53:16 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by correo.tlalpan.gob.mx (Postfix) with ESMTP id 466C6426924;
+        Tue, 28 Jul 2020 03:38:20 -0500 (CDT)
+Received: from correo.tlalpan.gob.mx ([127.0.0.1])
+        by localhost (correo.tlalpan.gob.mx [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id dEtTxnC85N8J; Tue, 28 Jul 2020 03:38:20 -0500 (CDT)
+Received: from localhost (localhost [127.0.0.1])
+        by correo.tlalpan.gob.mx (Postfix) with ESMTP id 5ADFF426954;
+        Tue, 28 Jul 2020 03:23:34 -0500 (CDT)
+X-Virus-Scanned: amavisd-new at tlalpan.gob.mx
+Received: from correo.tlalpan.gob.mx ([127.0.0.1])
+        by localhost (correo.tlalpan.gob.mx [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id 5abix4NHTuP2; Tue, 28 Jul 2020 03:23:34 -0500 (CDT)
+Received: from [10.85.108.11] (unknown [105.8.2.12])
+        by correo.tlalpan.gob.mx (Postfix) with ESMTPSA id 23E6F3AD689;
+        Tue, 28 Jul 2020 03:17:47 -0500 (CDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-ID: <WIN-DAONO245HJF70rM008eb463@WIN-DAONO245HJF>
-X-OriginalArrivalTime: 24 Jul 2020 12:52:10.0495 (UTC) FILETIME=[3ED440F0:01D661B9]
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: =?utf-8?q?Covid_19_Wohlt=C3=A4tigkeitsfonds?=
+To:     Recipients <aguayenergia@tlalpan.gob.mx>
+From:   ''Tayeb Souami'' <aguayenergia@tlalpan.gob.mx>
+Date:   Tue, 28 Jul 2020 10:22:04 +0200
+Reply-To: Tayebsouam.spende@gmail.com
+Message-Id: <20200728081749.23E6F3AD689@correo.tlalpan.gob.mx>
 Sender: ecryptfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
+Lieber Freund,
+
+Ich bin Herr Tayeb Souami, New Jersey, Vereinigte Staaten von Amerika, der Mega-Gewinner von $ 315million In Mega Millions Jackpot, spende ich an 5 zufällige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Mail nach einem Spinball ausgewählt.Ich habe den größten Teil meines Vermögens auf eine Reihe von Wohltätigkeitsorganisationen und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die Summe von € 2.000.000,00 an Sie als eine der ausgewählten 5 zu spenden, um meine Gewinne zu überprüfen, sehen Sie bitte meine You Tube Seite unten.
+
+UHR MICH HIER: https://www.youtube.com/watch?v=Z6ui8ZDQ6Ks
 
 
-Good day,
+Das ist dein Spendencode: [TS530342018]
 
-You were recommended by a mutual associate. I write you regarding an investment of bearer bonds I made on behalf of a client. 
 
-       The investment was made in 2009 and has been under my management. The said investor is deceased. The window is now available to assign these bonds to any name or company of my choice. I have all the necessary information to achieve this within 10 banking days.
-      
-       The total value of the bond is 100million pounds sterling, in a million pound denominations.
-      
-        If you can handle this, do contact me at your earliest convenience via my email christopherwang36@gmail.com
-So we can discuss the final details Thank you.
- 
-Mr CHRISTOPHER WANG
+Antworten Sie mit dem SPENDE-CODE an diese
+
+E-Mail:Tayebsouam.spende@gmail.com
+
+
+Ich hoffe, Sie und Ihre Familie glücklich zu machen.
+
+Grüße
+Herr Tayeb Souami
