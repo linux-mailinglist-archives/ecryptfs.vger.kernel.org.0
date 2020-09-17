@@ -2,30 +2,30 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B05AB26DF43
-	for <lists+ecryptfs@lfdr.de>; Thu, 17 Sep 2020 17:12:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A3C826DF4C
+	for <lists+ecryptfs@lfdr.de>; Thu, 17 Sep 2020 17:13:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727977AbgIQPMg (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Thu, 17 Sep 2020 11:12:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37392 "EHLO
+        id S1728005AbgIQPNE (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Thu, 17 Sep 2020 11:13:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727926AbgIQPL0 (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Thu, 17 Sep 2020 11:11:26 -0400
+        with ESMTP id S1727956AbgIQPLm (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Thu, 17 Sep 2020 11:11:42 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D45DFC061352;
-        Thu, 17 Sep 2020 08:10:55 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66827C061354;
+        Thu, 17 Sep 2020 08:10:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
         References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
         Content-Type:Content-ID:Content-Description;
-        bh=8Z59nl1ynYz7T8ZQQZFooEYzqOOLn6C4o6AlvTemzR0=; b=ZwdX53dghWPKXi4Rjx3Lj7vsSt
-        VelfrbZiXezTGtoteiLyh5dCyQ1ailxO3l/o2S64HU8kJGyS51nzejMxg75SZwmgxeYsjrxlLJ4IK
-        Pmkx1/NY5xtil421XUChskrxZKWwpeTkaAqC/hBmUOluMQq/C1i43VmFv6b9PRKlhY4ZhUEM7afEC
-        qe+7yqIUGZIpxp4n/YCB6crwYH5t6fyWFNmCSQjr5uYIvzd7Ukxu4/f1U2+E+w4M8CstfyWNLo+hz
-        xlYh7wPJtQqM1pYoiETsP2BQp9KyuJBErnDKrqdSOOqoa26HKmMxWosGkyvlSsIamje9UpiSCcDVk
-        radcDH5w==;
+        bh=zAZy51PVGFxs64ScUkLAAfIGOTINfzCY3cwZ6yg8A5Q=; b=rNkQQL233o1qC43qgzc5gAcwW0
+        JWxbRmm2ZfIwaHZhsWpFEKH6URvvGnOl1lWpFGP1nYY0Sqr7ijYVsrYUtJkFiSonlGtRJl6cimgyP
+        lDLV4gyAydyEpflI+vQZ4wM9tquamB9lVliU76d1jfrLZ3AZAK1nSIlPRXGCk+Ogknuo6rL6Fg0xy
+        L1asspYZzWlUYbQnnTCDsrSYurULC6YWIxRKHcIflFNXXfqW5r/+hTUi1w8a8PEiaXpPlez6I5SbS
+        NPlMlq+FCbmcCu9y8afa0VyqlkfmuaoZLWu95P043ThRs5XDJ3LySRaf0uovI42Oq1qtLiMaK/SK0
+        RnSxJNWg==;
 Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kIvYj-0001Q6-TE; Thu, 17 Sep 2020 15:10:53 +0000
+        id 1kIvYk-0001QP-FF; Thu, 17 Sep 2020 15:10:54 +0000
 From:   "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To:     linux-fsdevel@vger.kernel.org
 Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
@@ -34,9 +34,9 @@ Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
         ceph-devel@vger.kernel.org, linux-cifs@vger.kernel.org,
         ecryptfs@vger.kernel.org, linux-um@lists.infradead.org,
         linux-mtd@lists.infradead.org, Richard Weinberger <richard@nod.at>
-Subject: [PATCH 08/13] fuse: Tell the VFS that readpage was synchronous
-Date:   Thu, 17 Sep 2020 16:10:45 +0100
-Message-Id: <20200917151050.5363-9-willy@infradead.org>
+Subject: [PATCH 10/13] jffs2: Tell the VFS that readpage was synchronous
+Date:   Thu, 17 Sep 2020 16:10:47 +0100
+Message-Id: <20200917151050.5363-11-willy@infradead.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200917151050.5363-1-willy@infradead.org>
 References: <20200917151050.5363-1-willy@infradead.org>
@@ -46,27 +46,38 @@ Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-The fuse readpage implementation was already synchronous, so use
+The jffs2 readpage implementation was already synchronous, so use
 AOP_UPDATED_PAGE to avoid cycling the page lock.
 
 Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 ---
- fs/fuse/file.c | 2 ++
- 1 file changed, 2 insertions(+)
+ fs/jffs2/file.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-index 6611ef3269a8..7aa5626bc582 100644
---- a/fs/fuse/file.c
-+++ b/fs/fuse/file.c
-@@ -850,6 +850,8 @@ static int fuse_readpage(struct file *file, struct page *page)
+diff --git a/fs/jffs2/file.c b/fs/jffs2/file.c
+index f8fb89b10227..959a74027041 100644
+--- a/fs/jffs2/file.c
++++ b/fs/jffs2/file.c
+@@ -116,15 +116,17 @@ int jffs2_do_readpage_unlock(void *data, struct page *pg)
+ 	return ret;
+ }
  
- 	err = fuse_do_readpage(file, page);
- 	fuse_invalidate_atime(inode);
-+	if (!err)
+-
+ static int jffs2_readpage (struct file *filp, struct page *pg)
+ {
+ 	struct jffs2_inode_info *f = JFFS2_INODE_INFO(pg->mapping->host);
+ 	int ret;
+ 
+ 	mutex_lock(&f->sem);
+-	ret = jffs2_do_readpage_unlock(pg->mapping->host, pg);
++	ret = jffs2_do_readpage_nolock(pg->mapping->host, pg);
+ 	mutex_unlock(&f->sem);
++	if (!ret)
 +		return AOP_UPDATED_PAGE;
-  out:
- 	unlock_page(page);
- 	return err;
++	unlock_page(pg);
+ 	return ret;
+ }
+ 
 -- 
 2.28.0
 
