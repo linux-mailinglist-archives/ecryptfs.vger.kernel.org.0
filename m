@@ -2,30 +2,30 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 882C326E58D
-	for <lists+ecryptfs@lfdr.de>; Thu, 17 Sep 2020 21:54:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00D1A26E58E
+	for <lists+ecryptfs@lfdr.de>; Thu, 17 Sep 2020 21:54:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727901AbgIQPMT (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Thu, 17 Sep 2020 11:12:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37338 "EHLO
+        id S1727969AbgIQPMl (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Thu, 17 Sep 2020 11:12:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727457AbgIQPL0 (ORCPT
+        with ESMTP id S1727668AbgIQPL0 (ORCPT
         <rfc822;ecryptfs@vger.kernel.org>); Thu, 17 Sep 2020 11:11:26 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E28ABC06178B;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EACDDC06178C;
         Thu, 17 Sep 2020 08:10:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
         References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
         Content-Type:Content-ID:Content-Description;
-        bh=MTLlKe719mgAVscm2w1Ql0nN7cIRPfZQnUskn6+25OA=; b=hL1cKoF+6/UAQwKZIfKnU0NZqr
-        5yu8M7+7C5AX6w2ZPJR/qCXtNh7fJv27Z77Vzg8+rgPWUUAccXm6tDAc3RAjURPkde7Zqjc5//Z0p
-        46Fkcm7nzOM2P9Av5IqEb5DBysNZXaLpSIFI0VmfJzpsEzy4k1mlNLIFBwXItEIIMuEfqHOhCFmD6
-        N9w4+E/bGdCcr5t/UEf/772f/WOi+W3pu/0ob1SVwmgYAGtuCpTkHyVzp2Eii+eUkpm7Y2RVYO8Jh
-        weQ8jbJAdSxLrmFKCtZL5WTufs7vOcOru0MJvs/IwIS8jD/oQYRu/fi5yOyFxJl0fkYD/uFdDqAe/
-        Mdqo87Jg==;
+        bh=7u5VAtMiRg84eQRBFRLzhqfSMq0woXu9gI0XciTFBfo=; b=lom2Li8CD5jx4y8HUW5Lgpotel
+        g5sgTa8o84FBY6eD9XZnsMogJwTzS0kX7EHBuY/49XLLZXSR4wLmhLgOb8JW7CscVwWQrnNwBAKHr
+        j7CVV6g0cXwc+nGT4AIAJA808eU22SNJ9CBJ/8/F5v+XL4rlYVow3XW0/atXcL99l5y8iFAwKj/g+
+        r1932WK61SVY5dsFLtPsuy1gB3GgM9VZRVr0L9vl//Vxq3aoPu9AzJ+ux9mTb8dBZaYYreEY0dZiz
+        NENBckd2xTM7maqIO9KDD3crOW0EjJfYim3RWyi8WUGUkvbBfG6gSWZUH/7Wnm/yCfVKjLrOOaE5P
+        raCfhwcw==;
 Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kIvYi-0001Pa-Tk; Thu, 17 Sep 2020 15:10:52 +0000
+        id 1kIvYj-0001Pi-5U; Thu, 17 Sep 2020 15:10:53 +0000
 From:   "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To:     linux-fsdevel@vger.kernel.org
 Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
@@ -34,9 +34,9 @@ Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
         ceph-devel@vger.kernel.org, linux-cifs@vger.kernel.org,
         ecryptfs@vger.kernel.org, linux-um@lists.infradead.org,
         linux-mtd@lists.infradead.org, Richard Weinberger <richard@nod.at>
-Subject: [PATCH 04/13] ceph: Tell the VFS that readpage was synchronous
-Date:   Thu, 17 Sep 2020 16:10:41 +0100
-Message-Id: <20200917151050.5363-5-willy@infradead.org>
+Subject: [PATCH 05/13] cifs: Tell the VFS that readpage was synchronous
+Date:   Thu, 17 Sep 2020 16:10:42 +0100
+Message-Id: <20200917151050.5363-6-willy@infradead.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200917151050.5363-1-willy@infradead.org>
 References: <20200917151050.5363-1-willy@infradead.org>
@@ -46,34 +46,40 @@ Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-The ceph readpage implementation was already synchronous, so use
+The cifs readpage implementation was already synchronous, so use
 AOP_UPDATED_PAGE to avoid cycling the page lock.
 
 Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 ---
- fs/ceph/addr.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ fs/cifs/file.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/fs/ceph/addr.c b/fs/ceph/addr.c
-index 6ea761c84494..b2bf8bf7a312 100644
---- a/fs/ceph/addr.c
-+++ b/fs/ceph/addr.c
-@@ -291,10 +291,11 @@ static int ceph_do_readpage(struct file *filp, struct page *page)
- static int ceph_readpage(struct file *filp, struct page *page)
- {
- 	int r = ceph_do_readpage(filp, page);
--	if (r != -EINPROGRESS)
--		unlock_page(page);
--	else
--		r = 0;
-+	if (r == -EINPROGRESS)
-+		return 0;
-+	if (r == 0)
-+		return AOP_UPDATED_PAGE;
-+	unlock_page(page);
- 	return r;
- }
+diff --git a/fs/cifs/file.c b/fs/cifs/file.c
+index be46fab4c96d..533b151a9143 100644
+--- a/fs/cifs/file.c
++++ b/fs/cifs/file.c
+@@ -4537,7 +4537,8 @@ static int cifs_readpage_worker(struct file *file, struct page *page,
+ 	/* send this page to the cache */
+ 	cifs_readpage_to_fscache(file_inode(file), page);
  
+-	rc = 0;
++	kunmap(page);
++	return AOP_UPDATED_PAGE;
+ 
+ io_error:
+ 	kunmap(page);
+@@ -4677,7 +4678,10 @@ static int cifs_write_begin(struct file *file, struct address_space *mapping,
+ 		 * an error, we don't need to return it. cifs_write_end will
+ 		 * do a sync write instead since PG_uptodate isn't set.
+ 		 */
+-		cifs_readpage_worker(file, page, &page_start);
++		int err = cifs_readpage_worker(file, page, &page_start);
++
++		if (err == AOP_UPDATED_PAGE)
++			goto out;
+ 		put_page(page);
+ 		oncethru = 1;
+ 		goto start;
 -- 
 2.28.0
 
