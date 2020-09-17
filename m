@@ -2,79 +2,111 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5555626E6F1
-	for <lists+ecryptfs@lfdr.de>; Thu, 17 Sep 2020 22:52:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACC8726E7DE
+	for <lists+ecryptfs@lfdr.de>; Fri, 18 Sep 2020 00:03:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726421AbgIQUwn convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+ecryptfs@lfdr.de>); Thu, 17 Sep 2020 16:52:43 -0400
-Received: from lithops.sigma-star.at ([195.201.40.130]:41570 "EHLO
-        lithops.sigma-star.at" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726180AbgIQUwn (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Thu, 17 Sep 2020 16:52:43 -0400
-X-Greylist: delayed 346 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Sep 2020 16:52:41 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by lithops.sigma-star.at (Postfix) with ESMTP id D044C6074023;
-        Thu, 17 Sep 2020 22:46:53 +0200 (CEST)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-        by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id b95lGeAHKEV9; Thu, 17 Sep 2020 22:46:53 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by lithops.sigma-star.at (Postfix) with ESMTP id 465F4607403B;
-        Thu, 17 Sep 2020 22:46:53 +0200 (CEST)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-        by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id hHdZoVyeGGFV; Thu, 17 Sep 2020 22:46:53 +0200 (CEST)
-Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
-        by lithops.sigma-star.at (Postfix) with ESMTP id 139CF6074023;
-        Thu, 17 Sep 2020 22:46:53 +0200 (CEST)
-Date:   Thu, 17 Sep 2020 22:46:52 +0200 (CEST)
-From:   Richard Weinberger <richard@nod.at>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        v9fs-developer@lists.sourceforge.net,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-afs@lists.infradead.org,
-        ceph-devel <ceph-devel@vger.kernel.org>,
-        linux-cifs@vger.kernel.org, ecryptfs@vger.kernel.org,
-        linux-um <linux-um@lists.infradead.org>,
-        linux-mtd <linux-mtd@lists.infradead.org>
-Message-ID: <482280458.101023.1600375612958.JavaMail.zimbra@nod.at>
-In-Reply-To: <20200917151050.5363-12-willy@infradead.org>
-References: <20200917151050.5363-1-willy@infradead.org> <20200917151050.5363-12-willy@infradead.org>
-Subject: Re: [PATCH 11/13] ubifs: Tell the VFS that readpage was synchronous
+        id S1726252AbgIQWDK (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Thu, 17 Sep 2020 18:03:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44638 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725900AbgIQWDK (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Thu, 17 Sep 2020 18:03:10 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 331EEC06174A;
+        Thu, 17 Sep 2020 15:03:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=ubJtVk08jzU3J8YPE2lJLRaYSsnYYHZKYdrpjiW6yU4=; b=ICDUnkL72CW96WATA+3jxM5vWb
+        6oYT1enLOn3O4Ag28G+e5sc4FqNNUy2Ikgxnpx/LhvjaiBKvrZWAbYzkaYIkc/NjzWtAUaMsW8kTk
+        Yue6qkZhlQb9iYXfoXv9v9sKs+He0hXzIgOzvhGW01abuVdlCsLu5ep5X71lnTxbrbq9ljbXhS2jN
+        fZS2WZ9OlwwNROzSqPlT2fhEu7ifLnDLSIWkeEha9ouk+MkogWQ6Zy5o5FAh5nDVbZ7+o9C1tZcrW
+        sIbCrABL5nerc0GAMK3sNquTExIDELUO/f3nddMDsbHnosACnqilx6WvwEtmQbtPzdCn8oS1kPCcM
+        eCOrz5Qw==;
+Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kJ1zf-0003eq-8d; Thu, 17 Sep 2020 22:03:07 +0000
+Date:   Thu, 17 Sep 2020 23:03:07 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     linux-fsdevel@vger.kernel.org
+Cc:     linux-mm@kvack.org, v9fs-developer@lists.sourceforge.net,
+        linux-kernel@vger.kernel.org, linux-afs@lists.infradead.org,
+        ceph-devel@vger.kernel.org, linux-cifs@vger.kernel.org,
+        ecryptfs@vger.kernel.org, linux-um@lists.infradead.org,
+        linux-mtd@lists.infradead.org, Richard Weinberger <richard@nod.at>
+Subject: Re: [PATCH 01/13] mm: Add AOP_UPDATED_PAGE return value
+Message-ID: <20200917220307.GX5449@casper.infradead.org>
+References: <20200917151050.5363-1-willy@infradead.org>
+ <20200917151050.5363-2-willy@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-X-Originating-IP: [195.201.40.130]
-X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF78 (Linux)/8.8.12_GA_3809)
-Thread-Topic: ubifs: Tell the VFS that readpage was synchronous
-Thread-Index: p/3vZsFlTtSUPnLB3kKvb/O8V+m25A==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200917151050.5363-2-willy@infradead.org>
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
------ Ursprüngliche Mail -----
-> Von: "Matthew Wilcox" <willy@infradead.org>
-> An: "linux-fsdevel" <linux-fsdevel@vger.kernel.org>
-> CC: "Matthew Wilcox" <willy@infradead.org>, "linux-mm" <linux-mm@kvack.org>, v9fs-developer@lists.sourceforge.net,
-> "linux-kernel" <linux-kernel@vger.kernel.org>, linux-afs@lists.infradead.org, "ceph-devel"
-> <ceph-devel@vger.kernel.org>, linux-cifs@vger.kernel.org, ecryptfs@vger.kernel.org, "linux-um"
-> <linux-um@lists.infradead.org>, "linux-mtd" <linux-mtd@lists.infradead.org>, "richard" <richard@nod.at>
-> Gesendet: Donnerstag, 17. September 2020 17:10:48
-> Betreff: [PATCH 11/13] ubifs: Tell the VFS that readpage was synchronous
+On Thu, Sep 17, 2020 at 04:10:38PM +0100, Matthew Wilcox (Oracle) wrote:
+> +++ b/mm/filemap.c
+> @@ -2254,8 +2254,10 @@ ssize_t generic_file_buffered_read(struct kiocb *iocb,
+>  		 * PG_error will be set again if readpage fails.
+>  		 */
+>  		ClearPageError(page);
+> -		/* Start the actual read. The read will unlock the page. */
+> +		/* Start the actual read. The read may unlock the page. */
+>  		error = mapping->a_ops->readpage(filp, page);
+> +		if (error == AOP_UPDATED_PAGE)
+> +			goto page_ok;
+>  
+>  		if (unlikely(error)) {
+>  			if (error == AOP_TRUNCATED_PAGE) {
 
-> The ubifs readpage implementation was already synchronous, so use
-> AOP_UPDATED_PAGE to avoid cycling the page lock.
+If anybody wants to actually test this, this hunk is wrong.
+
++++ b/mm/filemap.c
+@@ -2256,8 +2256,11 @@ ssize_t generic_file_buffered_read(struct kiocb *iocb,
+                ClearPageError(page);
+                /* Start the actual read. The read may unlock the page. */
+                error = mapping->a_ops->readpage(filp, page);
+-               if (error == AOP_UPDATED_PAGE)
++               if (error == AOP_UPDATED_PAGE) {
++                       unlock_page(page);
++                       error = 0;
+                        goto page_ok;
++               }
+ 
+                if (unlikely(error)) {
+                        if (error == AOP_TRUNCATED_PAGE) {
+
+> @@ -2619,7 +2621,7 @@ vm_fault_t filemap_fault(struct vm_fault *vmf)
+>  	 */
+>  	if (unlikely(!PageUptodate(page)))
+>  		goto page_not_uptodate;
+> -
+> +page_ok:
+>  	/*
+>  	 * We've made it this far and we had to drop our mmap_lock, now is the
+>  	 * time to return to the upper layer and have it re-find the vma and
+> @@ -2654,6 +2656,8 @@ vm_fault_t filemap_fault(struct vm_fault *vmf)
+>  	ClearPageError(page);
+>  	fpin = maybe_unlock_mmap_for_io(vmf, fpin);
+>  	error = mapping->a_ops->readpage(file, page);
+> +	if (error == AOP_UPDATED_PAGE)
+> +		goto page_ok;
+>  	if (!error) {
+>  		wait_on_page_locked(page);
+>  		if (!PageUptodate(page))
+> @@ -2867,6 +2871,10 @@ static struct page *do_read_cache_page(struct address_space *mapping,
+>  			err = filler(data, page);
+>  		else
+>  			err = mapping->a_ops->readpage(data, page);
+> +		if (err == AOP_UPDATED_PAGE) {
+> +			unlock_page(page);
+> +			goto out;
+> +		}
+>  
+>  		if (err < 0) {
+>  			put_page(page);
+> -- 
+> 2.28.0
 > 
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> ---
-> fs/ubifs/file.c | 16 ++++++++++------
-> 1 file changed, 10 insertions(+), 6 deletions(-)
-
-For ubifs, jffs2 and hostfs:
-
-Acked-by: Richard Weinberger <richard@nod.at>
-
-Thanks,
-//richard
