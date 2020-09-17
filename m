@@ -2,114 +2,82 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC1F9268B3D
-	for <lists+ecryptfs@lfdr.de>; Mon, 14 Sep 2020 14:41:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3383126DF4F
+	for <lists+ecryptfs@lfdr.de>; Thu, 17 Sep 2020 17:13:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726523AbgINMks (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Mon, 14 Sep 2020 08:40:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49056 "EHLO
+        id S1727118AbgIQPNd (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Thu, 17 Sep 2020 11:13:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726548AbgINMjb (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Mon, 14 Sep 2020 08:39:31 -0400
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54708C0611C1
-        for <ecryptfs@vger.kernel.org>; Mon, 14 Sep 2020 05:10:19 -0700 (PDT)
-Received: by mail-ed1-x544.google.com with SMTP id c8so17325657edv.5
-        for <ecryptfs@vger.kernel.org>; Mon, 14 Sep 2020 05:10:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=gxYQz48aGorfvze6exW0FuIKKJvVhs5z+cRnEenJUaY=;
-        b=KMscTgZ2jjRpKZ+nyURup5q+Qrxi5GJqvykIPxO3Lu0xPhPsOArEkDqs1ObiBr+sAW
-         +wckGkXWKKZ42P3ckOQbfk6tsOb8K1YxtCH++qB3mFMPdb3LRsjm5ylxHz9fXqn6nUJI
-         RIiPltVuNUaG4d2rLeZLQZ+yxThobRLkoFSMERJyqJkqUthTLO+H87BqXjtlRWzUSzWN
-         GpFNBbMd6jFIWR1K2WeayYkMRWDMH5t7GrIkpsNsNc0mYQjS2qqTMFl2qvuSL7ksHMpC
-         tYWXTTcExOUxpcU+mDErSOqDCScIBOBg7XBOEVF8QtzJvf7HiPZ2/LPvm50VS3au+uwX
-         sz5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=gxYQz48aGorfvze6exW0FuIKKJvVhs5z+cRnEenJUaY=;
-        b=rq+ouEAuDKD6tQY2xUcz4HP1+aqwikYdODFSGF7I4vch/waSDmbzLpyQgxJJ+6pFIj
-         HlBv9bfxEqv3eiCa2M36LHf9if/bmqwbh9OGJg/sEQPlQ38jKOhv9Qh1b2gyCUD10UhQ
-         /tXWPt1mdkHrsHAuUbjNoUNav0Cl/OnXD7zUIlfpj8Q91Jj/sl2AGn8osHR5HlW/qKi5
-         Oq011sVXFYWdprtlsStLBgXMvzi7mO4/RBuQ1Cr+CVtbk01EVDTyJcL0P+zvl+mOfffp
-         +lrdHfA2mGaas+I70nmKBBJhx+ZaxpDf/bu9v6V3WZY/ym3Xwh3zcNANiYWmND1zHsYx
-         C4Lg==
-X-Gm-Message-State: AOAM533O+KUpVPIra/vTpqrkR2t23dEh333AK2QHWYQE1hrJO+N/bi0R
-        wOc3Of81F0qoFuGODb7MglvuUVVXy3a05auNjPY=
-X-Google-Smtp-Source: ABdhPJwX8VX+qmIq0hNiU9pQVT3Xl8n85scvAHlQgAg+AA6Tq9ECd4BfFW9iHCvbbOLbQkQ/8PPfuEd4ecK8qOtRsRI=
-X-Received: by 2002:a50:c051:: with SMTP id u17mr17483414edd.39.1600085417992;
- Mon, 14 Sep 2020 05:10:17 -0700 (PDT)
+        with ESMTP id S1727961AbgIQPLm (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Thu, 17 Sep 2020 11:11:42 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50087C06121C;
+        Thu, 17 Sep 2020 08:10:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+        Content-Type:Content-ID:Content-Description;
+        bh=7PovnjudVvfMFRelS0S3FBS5rSwGm8lIgwb2+HktnS4=; b=D645jx3+cFCsRRamnPvY93SEZp
+        5idHKpebB8d3ADFC2w4jUoevXr+eTIRxNa5kP7rmXI6dNgJMDifFkNUwyxkfzlOpmnvRWxVU5jou6
+        Xw3Ux6iN9o3h3kHwgElGrUzy3LHDgVNd3s5BPl5exxvz1fUpq9hJvXiR37faoM+sF3w8SWjVVHpn7
+        XgSvgnOD/jvaGa9gFE7xBAHrq5dHmW9PfWz6ML6kWQtUWTATDyCEZSzBC/OaokwaNH9edWskgRnmd
+        ND+y1E4RMQjT3HXerG2yb2g3MloOlpPyn3rFXB+gng2IT5jOzDOkDYvVy7UnUbP3VIkuuaEa5JGWf
+        4qy4un+Q==;
+Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kIvYi-0001PN-HJ; Thu, 17 Sep 2020 15:10:52 +0000
+From:   "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To:     linux-fsdevel@vger.kernel.org
+Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        linux-mm@kvack.org, v9fs-developer@lists.sourceforge.net,
+        linux-kernel@vger.kernel.org, linux-afs@lists.infradead.org,
+        ceph-devel@vger.kernel.org, linux-cifs@vger.kernel.org,
+        ecryptfs@vger.kernel.org, linux-um@lists.infradead.org,
+        linux-mtd@lists.infradead.org, Richard Weinberger <richard@nod.at>
+Subject: [PATCH 02/13] 9p: Tell the VFS that readpage was synchronous
+Date:   Thu, 17 Sep 2020 16:10:39 +0100
+Message-Id: <20200917151050.5363-3-willy@infradead.org>
+X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200917151050.5363-1-willy@infradead.org>
+References: <20200917151050.5363-1-willy@infradead.org>
 MIME-Version: 1.0
-Received: by 2002:a17:906:6945:0:0:0:0 with HTTP; Mon, 14 Sep 2020 05:10:17
- -0700 (PDT)
-Reply-To: mrsmegwilliam6@gmail.com
-From:   Ms Mary Mcniff <dhlcouriercompanymiami@gmail.com>
-Date:   Mon, 14 Sep 2020 05:10:17 -0700
-Message-ID: <CAG_OktqCHg3G=WkxY-fOwz19AYmiMTmquLEVGp0ObMRdCa2Cww@mail.gmail.com>
-Subject: Your Respond ASAP
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Sender: ecryptfs-owner@vger.kernel.org
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
+The 9p readpage implementation was already synchronous, so use
+AOP_UPDATED_PAGE to avoid cycling the page lock.
+
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+---
+ fs/9p/vfs_addr.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/fs/9p/vfs_addr.c b/fs/9p/vfs_addr.c
+index cce9ace651a2..506ca0ba2ec7 100644
+--- a/fs/9p/vfs_addr.c
++++ b/fs/9p/vfs_addr.c
+@@ -65,7 +65,7 @@ static int v9fs_fid_readpage(void *data, struct page *page)
+ 	SetPageUptodate(page);
+ 
+ 	v9fs_readpage_to_fscache(inode, page);
+-	retval = 0;
++	return AOP_UPDATED_PAGE;
+ 
+ done:
+ 	unlock_page(page);
+@@ -280,6 +280,10 @@ static int v9fs_write_begin(struct file *filp, struct address_space *mapping,
+ 		goto out;
+ 
+ 	retval = v9fs_fid_readpage(v9inode->writeback_fid, page);
++	if (retval == AOP_UPDATED_PAGE) {
++		retval = 0;
++		goto out;
++	}
+ 	put_page(page);
+ 	if (!retval)
+ 		goto start;
 -- 
-From Chief Compliance Officer, Citigroup Inc CITIBANK
-388 Greenwich St, New York, 10013, United States United.
-PAYMENT CODE: FRB010
-Swift: PTBLBXXX
-==============================================
+2.28.0
 
-Attention: Beneficiary,
-
-We write to inform you that Series of meetings have been held over the
-past 2 weeks with the Secretary General of United Nations,U.S
-Department of State and Dubai Union Organization this ended last
-week.And parcel is under our custody right now, It will deliver to you
-within 24 hours once you clear the charges which will cost you
-according to the BANKERS COURIER SERVICES that wish to deliver your
-ATM CARD card to
-you immediately.
-
-However, it is the pleasure of this office to inform you that your ATM
-CARD number; is 29741733 and it has been approved and upgraded in your
-favor .you call me for the pin code numbers. The ATM CARD value is us
-$10.5 Million only.
-
-Kindly contact the paying bank for the claim of your ATM visa card
-payment fund $10,500,000.00 through the below contact information;
-
-Contact Person:Mr Williams S Young
-Director of Financial Controller
-Bank Name: CITIBANK
-Bank address; 388 Greenwich St,
-New York City,10013, United States
-Email:mrsmegwilliam6@gmail.com
-
-Reconfirm the following information?
-
-(1)Your Full Name=============
-(2)Mobile Phone Number======
-(3)Current Home Address==== ====
-(4)Fax Number================
-(5)Passport/Drivers license ======
-
-Endeavor to keep me posted once you contacted the officer in charge
-through the above mentioned information.
-
-Your timely response is highly appreciated.To this end, you are
-required to forward your payment information as follows to enable us
-load your fund into the card with your information and deliver it to
-your door step. as the BANKERS COURIER SERVICES are in charge of the
-delivery services to your destination.
-
-Yours truly;
-
-Ms Mary Mcniff.
-Chief Compliance Officer, Citigroup Inc
-FEDERAL RESERVE SYSTEM.
-Email: marymcniff7@gmail.com.
