@@ -2,111 +2,75 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ACC8726E7DE
-	for <lists+ecryptfs@lfdr.de>; Fri, 18 Sep 2020 00:03:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D982726F593
+	for <lists+ecryptfs@lfdr.de>; Fri, 18 Sep 2020 07:59:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726252AbgIQWDK (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Thu, 17 Sep 2020 18:03:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44638 "EHLO
+        id S1726333AbgIRF7i (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Fri, 18 Sep 2020 01:59:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725900AbgIQWDK (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Thu, 17 Sep 2020 18:03:10 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 331EEC06174A;
-        Thu, 17 Sep 2020 15:03:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=ubJtVk08jzU3J8YPE2lJLRaYSsnYYHZKYdrpjiW6yU4=; b=ICDUnkL72CW96WATA+3jxM5vWb
-        6oYT1enLOn3O4Ag28G+e5sc4FqNNUy2Ikgxnpx/LhvjaiBKvrZWAbYzkaYIkc/NjzWtAUaMsW8kTk
-        Yue6qkZhlQb9iYXfoXv9v9sKs+He0hXzIgOzvhGW01abuVdlCsLu5ep5X71lnTxbrbq9ljbXhS2jN
-        fZS2WZ9OlwwNROzSqPlT2fhEu7ifLnDLSIWkeEha9ouk+MkogWQ6Zy5o5FAh5nDVbZ7+o9C1tZcrW
-        sIbCrABL5nerc0GAMK3sNquTExIDELUO/f3nddMDsbHnosACnqilx6WvwEtmQbtPzdCn8oS1kPCcM
-        eCOrz5Qw==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kJ1zf-0003eq-8d; Thu, 17 Sep 2020 22:03:07 +0000
-Date:   Thu, 17 Sep 2020 23:03:07 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     linux-fsdevel@vger.kernel.org
-Cc:     linux-mm@kvack.org, v9fs-developer@lists.sourceforge.net,
-        linux-kernel@vger.kernel.org, linux-afs@lists.infradead.org,
-        ceph-devel@vger.kernel.org, linux-cifs@vger.kernel.org,
-        ecryptfs@vger.kernel.org, linux-um@lists.infradead.org,
-        linux-mtd@lists.infradead.org, Richard Weinberger <richard@nod.at>
-Subject: Re: [PATCH 01/13] mm: Add AOP_UPDATED_PAGE return value
-Message-ID: <20200917220307.GX5449@casper.infradead.org>
+        with ESMTP id S1725886AbgIRF7i (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Fri, 18 Sep 2020 01:59:38 -0400
+Received: from nautica.notk.org (ipv6.notk.org [IPv6:2001:41d0:1:7a93::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91853C06174A;
+        Thu, 17 Sep 2020 22:59:38 -0700 (PDT)
+Received: by nautica.notk.org (Postfix, from userid 1001)
+        id 5EAEFC01B; Fri, 18 Sep 2020 07:59:34 +0200 (CEST)
+Date:   Fri, 18 Sep 2020 07:59:19 +0200
+From:   Dominique Martinet <asmadeus@codewreck.org>
+To:     "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc:     linux-fsdevel@vger.kernel.org, linux-cifs@vger.kernel.org,
+        Richard Weinberger <richard@nod.at>, ecryptfs@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-mtd@lists.infradead.org,
+        v9fs-developer@lists.sourceforge.net, ceph-devel@vger.kernel.org,
+        linux-afs@lists.infradead.org
+Subject: Re: [V9fs-developer] [PATCH 02/13] 9p: Tell the VFS that readpage
+ was synchronous
+Message-ID: <20200918055919.GA30929@nautica>
 References: <20200917151050.5363-1-willy@infradead.org>
- <20200917151050.5363-2-willy@infradead.org>
+ <20200917151050.5363-3-willy@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200917151050.5363-2-willy@infradead.org>
+In-Reply-To: <20200917151050.5363-3-willy@infradead.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-On Thu, Sep 17, 2020 at 04:10:38PM +0100, Matthew Wilcox (Oracle) wrote:
-> +++ b/mm/filemap.c
-> @@ -2254,8 +2254,10 @@ ssize_t generic_file_buffered_read(struct kiocb *iocb,
->  		 * PG_error will be set again if readpage fails.
->  		 */
->  		ClearPageError(page);
-> -		/* Start the actual read. The read will unlock the page. */
-> +		/* Start the actual read. The read may unlock the page. */
->  		error = mapping->a_ops->readpage(filp, page);
-> +		if (error == AOP_UPDATED_PAGE)
-> +			goto page_ok;
+Matthew Wilcox (Oracle) wrote on Thu, Sep 17, 2020:
+> diff --git a/fs/9p/vfs_addr.c b/fs/9p/vfs_addr.c
+> index cce9ace651a2..506ca0ba2ec7 100644
+> --- a/fs/9p/vfs_addr.c
+> +++ b/fs/9p/vfs_addr.c
+> @@ -280,6 +280,10 @@ static int v9fs_write_begin(struct file *filp, struct address_space *mapping,
+>  		goto out;
 >  
->  		if (unlikely(error)) {
->  			if (error == AOP_TRUNCATED_PAGE) {
+>  	retval = v9fs_fid_readpage(v9inode->writeback_fid, page);
+> +	if (retval == AOP_UPDATED_PAGE) {
+> +		retval = 0;
+> +		goto out;
+> +	}
 
-If anybody wants to actually test this, this hunk is wrong.
+FWIW this is a change of behaviour; for some reason the code used to
+loop back to grab_cache_page_write_begin() and bail out on
+PageUptodate() I suppose; some sort of race check?
+The whole pattern is a bit weird to me and 9p has no guarantee on
+concurrent writes to a file with cache enabled (except that it will
+corrupt something), so this part is fine with me.
 
-+++ b/mm/filemap.c
-@@ -2256,8 +2256,11 @@ ssize_t generic_file_buffered_read(struct kiocb *iocb,
-                ClearPageError(page);
-                /* Start the actual read. The read may unlock the page. */
-                error = mapping->a_ops->readpage(filp, page);
--               if (error == AOP_UPDATED_PAGE)
-+               if (error == AOP_UPDATED_PAGE) {
-+                       unlock_page(page);
-+                       error = 0;
-                        goto page_ok;
-+               }
- 
-                if (unlikely(error)) {
-                        if (error == AOP_TRUNCATED_PAGE) {
+What I'm curious about is the page used to be both unlocked and put, but
+now isn't either and the return value hasn't changed for the caller to
+make a difference on write_begin / I don't see any code change in the
+vfs  to handle that.
+What did I miss?
 
-> @@ -2619,7 +2621,7 @@ vm_fault_t filemap_fault(struct vm_fault *vmf)
->  	 */
->  	if (unlikely(!PageUptodate(page)))
->  		goto page_not_uptodate;
-> -
-> +page_ok:
->  	/*
->  	 * We've made it this far and we had to drop our mmap_lock, now is the
->  	 * time to return to the upper layer and have it re-find the vma and
-> @@ -2654,6 +2656,8 @@ vm_fault_t filemap_fault(struct vm_fault *vmf)
->  	ClearPageError(page);
->  	fpin = maybe_unlock_mmap_for_io(vmf, fpin);
->  	error = mapping->a_ops->readpage(file, page);
-> +	if (error == AOP_UPDATED_PAGE)
-> +		goto page_ok;
->  	if (!error) {
->  		wait_on_page_locked(page);
->  		if (!PageUptodate(page))
-> @@ -2867,6 +2871,10 @@ static struct page *do_read_cache_page(struct address_space *mapping,
->  			err = filler(data, page);
->  		else
->  			err = mapping->a_ops->readpage(data, page);
-> +		if (err == AOP_UPDATED_PAGE) {
-> +			unlock_page(page);
-> +			goto out;
-> +		}
->  
->  		if (err < 0) {
->  			put_page(page);
-> -- 
-> 2.28.0
-> 
+
+(FWIW at least cifs in the series has the same pattern change; didn't
+check all of them)
+
+
+Thanks,
+-- 
+Dominique
