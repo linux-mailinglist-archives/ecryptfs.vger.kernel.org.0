@@ -2,78 +2,95 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3833326FC81
-	for <lists+ecryptfs@lfdr.de>; Fri, 18 Sep 2020 14:31:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8ECC72735CF
+	for <lists+ecryptfs@lfdr.de>; Tue, 22 Sep 2020 00:31:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726260AbgIRMam (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Fri, 18 Sep 2020 08:30:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37458 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725955AbgIRMam (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Fri, 18 Sep 2020 08:30:42 -0400
-Received: from nautica.notk.org (ipv6.notk.org [IPv6:2001:41d0:1:7a93::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40856C06174A;
-        Fri, 18 Sep 2020 05:30:42 -0700 (PDT)
-Received: by nautica.notk.org (Postfix, from userid 1001)
-        id 58A7FC01D; Fri, 18 Sep 2020 14:30:40 +0200 (CEST)
-Date:   Fri, 18 Sep 2020 14:30:25 +0200
-From:   Dominique Martinet <asmadeus@codewreck.org>
-To:     "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc:     linux-fsdevel@vger.kernel.org, linux-cifs@vger.kernel.org,
-        Richard Weinberger <richard@nod.at>, ecryptfs@vger.kernel.org,
-        linux-um@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-mtd@lists.infradead.org,
-        v9fs-developer@lists.sourceforge.net, ceph-devel@vger.kernel.org,
-        linux-afs@lists.infradead.org
-Subject: Re: [V9fs-developer] [PATCH 02/13] 9p: Tell the VFS that readpage
- was synchronous
-Message-ID: <20200918123025.GA735@nautica>
+        id S1728554AbgIUWbk (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Mon, 21 Sep 2020 18:31:40 -0400
+Received: from mail.rusoil.net ([188.128.114.25]:50704 "EHLO mail.rusoil.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726467AbgIUWbk (ORCPT <rfc822;ecryptfs@vger.kernel.org>);
+        Mon, 21 Sep 2020 18:31:40 -0400
+X-Greylist: delayed 526 seconds by postgrey-1.27 at vger.kernel.org; Mon, 21 Sep 2020 18:31:39 EDT
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.rusoil.net (Postfix) with ESMTP id 623C040951;
+        Tue, 22 Sep 2020 03:25:57 +0500 (YEKT)
+Received: from mail.rusoil.net ([127.0.0.1])
+        by localhost (mail.rusoil.net [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id svA_x53JMlJV; Tue, 22 Sep 2020 03:25:57 +0500 (YEKT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.rusoil.net (Postfix) with ESMTP id 6766A4095A;
+        Tue, 22 Sep 2020 03:25:54 +0500 (YEKT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.rusoil.net 6766A4095A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rusoil.net;
+        s=maildkim; t=1600727155;
+        bh=6R3BgBYiA7fkqGiiNDuwPskBnpH9JXyNAW/l3ZEA+wY=;
+        h=Date:From:Message-ID:MIME-Version;
+        b=1OIok/phK5Fi+CiAwwJ5ktT6Rc2lpieY+nbQAPouAep7l434XE1RtcKWb2ImUhc0+
+         IEZt/9U8mEmX7k0ZbLIb6cf8IZe3spIKCLyjwb5hqumhTNKkUHsuz7xBsuybRDtkIi
+         QP91KeSq/XIPL4HkESp+QO0YxylxuNIAHAQpaS6Y=
+X-Virus-Scanned: amavisd-new at mail.rusoil.net
+Received: from mail.rusoil.net ([127.0.0.1])
+        by localhost (mail.rusoil.net [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id KZCemGVSy2bW; Tue, 22 Sep 2020 03:25:54 +0500 (YEKT)
+Received: from mail.rusoil.net (mail.rusoil.net [172.16.7.34])
+        by mail.rusoil.net (Postfix) with ESMTP id 65BA84049C;
+        Tue, 22 Sep 2020 03:25:52 +0500 (YEKT)
+Date:   Tue, 22 Sep 2020 03:25:52 +0500 (YEKT)
+From:   Blue Oak Mortgage and Loans <em@rusoil.net>
+Reply-To: Blue Oak Mortgage and Loans <info@bluelmtg.net>
+Message-ID: <1526740461.904926.1600727152357.JavaMail.zimbra@rusoil.net>
+Subject: Wir finanzieren Projekte und Unternehmen
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200918111916.GA32101@casper.infradead.org>
- <20200917151050.5363-3-willy@infradead.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [192.210.183.69]
+X-Mailer: Zimbra 8.8.12_GA_3803 (ZimbraWebClient - FF79 (Win)/8.8.12_GA_3794)
+Thread-Index: 53Ny4fdmfoWrL/P6c86+Z8uXoig+RA==
+Thread-Topic: Wir finanzieren Projekte und Unternehmen
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Matthew Wilcox (Oracle) wrote on Thu, Sep 17, 2020:
-> The 9p readpage implementation was already synchronous, so use
-> AOP_UPDATED_PAGE to avoid cycling the page lock.
-> 
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 
-Acked-by: Dominique Martinet <asmadeus@codewreck.org>
 
-(I assume it'll be merged together with the rest)
+Dies ist ein Newsletter von Blue Oak Mortgage and Loans. Bitte melden Sie s=
+ich ab, wenn Sie keine E-Mail mehr von uns erhalten m=C3=B6chten.
 
-> > What I'm curious about is the page used to be both unlocked and put, but
-> > now isn't either and the return value hasn't changed for the caller to
-> > make a difference on write_begin / I don't see any code change in the
-> > vfs  to handle that.
-> > What did I miss?
-> 
-> The page cache is kind of subtle.  The grab_cache_page_write_begin()
-> will return a Locked page with an increased refcount.  If it's Uptodate,
-> that's exactly what we want, and we return it.  If we have to read the
-> page, readpage used to unlock the page before returning, and rather than
-> re-lock it, we would drop the reference to the page and look it up again.
-> It's possible that after dropping the lock on that page that the page
-> was replaced in the page cache and so we'd get a different page.
 
-Thanks for the explanation, I didn't realize the page already is
-gotten/locked at the PageUptodate goto out.
+Eine kurze Einf=C3=BChrung.
 
-> Anyway, now (unless fscache is involved), v9fs_fid_readpage will return
-> the page without unlocking it.  So we don't need to do the dance of
-> dropping the lock, putting the refcount and looking the page back up
-> again.  We can just return the page.  The VFS doesn't need a special
-> return code because nothing has changed from the VFS's point of view --
-> it asked you to get a page and you got the page.
+Wir sind ein f=C3=BChrendes Finanzierungsunternehmen in Europa. Wir finanzi=
+eren Startups / etablierte Unternehmen, finanzieren Gro=C3=9Fprojekte (Bau,=
+ Landwirtschaft, Immobilien und dergleichen) zu einem niedrigen Zinssatz vo=
+n 2% pro Jahr.
 
-Yes, looks good to me.
 
-Cheers,
--- 
-Dominique
+Darlehensverfahren
+
+1. Sie m=C3=BCssen das Online-Bewerbungsformular ausf=C3=BCllen und eine or=
+dnungsgem=C3=A4=C3=9F unterschriebene Kopie an uns zur=C3=BCcksenden.
+
+2. M=C3=B6glicherweise m=C3=BCssen Sie Finanzdokumente als unterst=C3=BCtze=
+nden Nachweis f=C3=BCr die F=C3=A4higkeit zur R=C3=BCckzahlung von Krediten=
+ vorlegen.
+
+3. Wenn Ihr Darlehen genehmigt wurde, m=C3=BCssen Sie eine Versicherungsgar=
+antie f=C3=BCr die Darlehenssicherheit vorlegen. Wir empfehlen eine Versich=
+erungsgesellschaft. Sie sind allein verantwortlich f=C3=BCr die Zahlung und=
+ den Erwerb der Anleihe, die als Sicherheit dienen. Die H=C3=B6he der Anlei=
+he h=C3=A4ngt von Ihrem Darlehensbetrag ab. Die Versicherungsgesellschaft w=
+ird Sie durch den Prozess f=C3=BChren. (F=C3=BCr Gro=C3=9Fprojekte)
+
+4. Ihr =C3=9Cberweisungsprozess wird eingeleitet, sobald die Versicherungsa=
+nleihe =C3=BCberpr=C3=BCft wurde. Ihr Darlehensr=C3=BCckzahlungsplan wird i=
+m NC-Darlehensvertragsformular aufgef=C3=BChrt.
+
+Wenn die Bedingungen Sie beruhigen, k=C3=B6nnen Sie uns =C3=BCber die Whats=
+App-Nummer / E-Mail kontaktieren und auch unsere Website besuchen, um weite=
+re Informationen zu erhalten. Wir freuen uns darauf, von Ihnen zu h=C3=B6re=
+n.
+
+WhatsApp: + 90-552-365-3483
+E-Mail: info@bluelmtg.net
