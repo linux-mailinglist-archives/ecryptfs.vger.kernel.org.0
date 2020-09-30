@@ -2,42 +2,44 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC5D927AA20
-	for <lists+ecryptfs@lfdr.de>; Mon, 28 Sep 2020 11:00:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A13227E515
+	for <lists+ecryptfs@lfdr.de>; Wed, 30 Sep 2020 11:25:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726565AbgI1JAS convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+ecryptfs@lfdr.de>); Mon, 28 Sep 2020 05:00:18 -0400
-Received: from mx.tsjbaires.gov.ar ([200.73.158.130]:44557 "EHLO
-        webmail.tsjbaires.gov.ar" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726461AbgI1JAS (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Mon, 28 Sep 2020 05:00:18 -0400
-X-Greylist: delayed 485 seconds by postgrey-1.27 at vger.kernel.org; Mon, 28 Sep 2020 05:00:17 EDT
-Received: from svrborges.tsjbaires.gov.ar ([10.10.10.12]) by
- svrborges.tsjbaires.gov.ar ([10.10.10.12]) with mapi; Mon, 28 Sep 2020
- 05:42:10 -0300
-From:   Claudio Cohen <ccohen@tsjbaires.gov.ar>
-Date:   Mon, 28 Sep 2020 05:42:08 -0300
-Subject: 
-Thread-Index: AQHWlXM/cgGU5hKiu0qmZ5inB3+Dcw==
-Message-ID: <4B1437038E76064F98C3AAF27796110DF40B6632BA@svrborges.tsjbaires.gov.ar>
-Accept-Language: en-US, es-AR
-Content-Language: en-AU
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US, es-AR
-Content-Type: text/plain; charset="Windows-1252"
-Content-Transfer-Encoding: 8BIT
+        id S1728149AbgI3JZ0 (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Wed, 30 Sep 2020 05:25:26 -0400
+Received: from [110.74.151.213] ([110.74.151.213]:37278 "EHLO
+        mail.bless.gov.my" rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725823AbgI3JZ0 (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Wed, 30 Sep 2020 05:25:26 -0400
+Received: from User (unknown [172.20.84.1])
+        by mail.bless.gov.my (Postfix) with SMTP id 3B937685037D;
+        Wed, 30 Sep 2020 09:17:44 +0800 (MYT)
+Reply-To: <iinfo446@gmail.com>
+From:   "Mrs. Susan Carter" <test@mail.bless.gov.my>
+Subject: Good day,    
+Date:   Wed, 30 Sep 2020 02:18:05 +0100
 MIME-Version: 1.0
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain;
+        charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+Message-Id: <20200930011745.3B937685037D@mail.bless.gov.my>
+To:     undisclosed-recipients:;
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
+Good day,
 
+My name are Mrs. Susan Carter an America but a United Kingdom Citizen, I???m 57 years old, widow, married to late Eng Martins Carter who is a British, who until his death worked with Dutch Filtration for Twenty-Six years before he died in the year 2015 after a brief illness that lasted only five days.
 
+When my late husband was alive he deposited the sum of US$50 Million in bank USA through his Financial Lawyer in the United State of America and we all agreed as a couple to donate all of that to charity. Following my health (Lung Cancer), my Doctor told me that I may not live longer than required due to my health condition.
 
-Wir bieten Privat- und Geschäftskredite an. Ich bin ein zugelassener und zertifizierter Kreditgeber mit langjähriger Erfahrung in der Kreditvergabe. Wir vergeben Sicherheiten und nicht besicherte Kredite in Höhe von 10.000,00 € bis maximal 500.000.000,00 € mit einem festen Zinssatz von 3% eine jährliche Basis. Brauchen Sie einen Kredit? Mailen Sie uns an:  tinahook.loans@gmail.com
+Looking forward to seeing someone who can use the money for charitable work.
 
-Mailen Sie uns an:   tinahook.loans@gmail.com
-
-"Piense antes de imprimir. Ahorrar papel es cuidar nuestro ambiente" Ley 2.736
+Best Regards
+Yours sincerely
+Mrs. Susan Carter
