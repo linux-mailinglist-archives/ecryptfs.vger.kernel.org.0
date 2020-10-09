@@ -2,78 +2,107 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 58DF5286424
-	for <lists+ecryptfs@lfdr.de>; Wed,  7 Oct 2020 18:30:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D31E288B46
+	for <lists+ecryptfs@lfdr.de>; Fri,  9 Oct 2020 16:32:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727981AbgJGQai (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Wed, 7 Oct 2020 12:30:38 -0400
-Received: from sonic309-14.consmr.mail.bf2.yahoo.com ([74.6.129.124]:34869
-        "EHLO sonic309-14.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727908AbgJGQai (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Wed, 7 Oct 2020 12:30:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1602088237; bh=PxMwWzXvs+dqOoH0/FHvFmQpYH2JguaCUHYAVLLmaiw=; h=Date:From:Reply-To:Subject:References:From:Subject; b=bSXRsQDLv/trIglwvR6ekx+5n0zoRDOnRIXoYId4rspfmVyDQ+HO6eYmXiLiOQIPWR6dJBYdY4M1q979OOQ1TKjDFtnwKquq1Ob3JMOTaIsyTSjilWMzNgLVTY4ji2kQ/JaQ6QKxdqIdzoPFh/74Q1bet+/el2lUyJID3dNnojhKSE1oFBWBY/mTdrUi0P73iHEcbJI+Iq/hvn5QsLxuwV7VGZBIMwvdvP/iGc6pjOdpcpQ1qEtBs932WktMM+3FPKW+TcmFBAduZNiV9+axEah3eYjSRSd2ZoMwal6qX4Ti6Uclw1xfmwyFcHhMWElQyc00lSMLda0YLqtvuqhdcw==
-X-YMail-OSG: dnUtNsIVM1ksuZcOc23XYRVNRi2KvP98NXGHdsAi28G.4.j3LzR3teOzcMgJdV6
- I9RFmM0M3xx0XbrxH8auo_1akYgWVB.dRSVHIzgRK0z5hKx5VFXU4dJtCGAc22MGL5lLZwLuriqx
- spHXYJhLgjdOnN7IWn6k8UVsktxReUTOZSvffpMNjGN6HQM2GZkYT4zJYWbavaVbDj4squR6VDsG
- FUPdmjFf_TeRoNar3kYz09J7F737j0hKxKrB5C1UoqySZ4CrJkeCYcCqo6qjLzguiHgWollDFs9G
- wfUhfC__40GHcoR5U.tnb5qO9NkrcEsDCxVN0Yl3TF9R7SuF9eZUUNRi6p1q1qFpmebYHOu0LYlg
- XDWhmcA8Gwj76jCE8zPtY.ndhdUj32w1_jwb8T.5ImGSXELCGBTytNYFshPcp8Ua2JkFFvF7AEdq
- iHZ5_uGt.SmED8hs8oTSH81SBw.PrKO2a867uLjDMYkzg3YMMlzoagsbI._.zcvxQLQF3Z4wI7go
- HVgXyVOK3cgsxDNN9uLZ0PBzPZupw7knpfbTrMUHtBZ0zq90ClywEq7ct3yk4MBS9Sr1iFfm4ZNu
- oWrDUHzm_I8nKttgpWvu4sc9nJFuwsr9mOBdy8h726BxmI.VKfukWu91TYmzhiuAm6.MkLwTx5s7
- aUsvcBlxc0MxNly27ydL4MsSXXLkzfERFT6x9xuzEIoAD8yMO2jUSh5l6KqoNH9z2EVoW5YZOhrr
- OEsIeDnDNTRHYneliFW4sDaexyko3TwKr2Pp7JlEigfgiCb4iF6gqxgc4mr2thIYq4bkT4Ls_81K
- X4aQbMndFHLEAO_QuNMA54Rb3AqGudPYJJ7V8CoZFGKKmyEOz_ThVLuAueq.wZI53AczG8jVl7se
- pLPk5ZMEidaXsZIHJSu7XTUaZj4YR.y0fxjcsA9LW5OHxpz2ZH6AJq36gQAFb8Sd1DQ9OVPJZ0G1
- LWM3bpXug5ZtmnJBAVWOTCE2scF5vKdFgupYZWPle66bt9DbMw9OQwMUvOZEvxs7moY0PLV5aiA6
- d5ekeyaKjOhGBmVwJg2SYofzVimr63heoPJpFi8u902gixnanCPdsaH7mvQ7PGE3BRBl2yMRiQr7
- EH6veU.EzJ1aDRCvkc7RuOoHy6vFYKXRaJCGllfAgmslsFZCzucfimYVY8Q9sPv_QmZQkiy_r_KR
- IofCL2oGnGutvGQued8CdlpR1KyU2Q22Q.Rmrk9sIRuQg4gq9UwmZgqkKL7l2Ezb8LJzN4CtP4Vy
- 9oiQiOtjhDsbbwwEZqzPwNLMX.k2hDjTEKqth9LNJb3MGugX0Usz4sIS3uH974jxBeXagmm3eoh8
- aHcJXeRD2GmKa6Rws6fMUn_xzhK0JeENSAISfAuT4nF6t03_3FQfzo47ObE0mORHnDgvPwAH9BR8
- B9pNTnrTSHLzrBEGuV7FORtCOmb27cguo1_W8_ZbjsY_Dog--
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic309.consmr.mail.bf2.yahoo.com with HTTP; Wed, 7 Oct 2020 16:30:37 +0000
-Date:   Wed, 7 Oct 2020 16:30:36 +0000 (UTC)
-From:   Marilyn Robert <fredodinga22@gmail.com>
-Reply-To: marilyobert@gmail.com
-Message-ID: <1859654730.147012.1602088236348@mail.yahoo.com>
-Subject: =?UTF-8?B?0J3QsNGY0LzQuNC70LAg0LrQsNGYINCz0L7RgdC/0L7QtNCw0YDQvtGC?=
+        id S2388728AbgJIOcT (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Fri, 9 Oct 2020 10:32:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53634 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388853AbgJIObL (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Fri, 9 Oct 2020 10:31:11 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E8C4C0613D7;
+        Fri,  9 Oct 2020 07:31:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=GeyZChjU8Oj99Pp+9Mi0xQ6/HJ6pKkZb0kZT9pF9iBE=; b=Dq9QSGgeteBqpVdE+hBXk+LzdL
+        I4AVG5F9x8v0QGJ5MRwNuBqwfxHyMo/Io8eUCPuH8g6FiNs6SFWDDC/LaxdgLL9IRmO378buAs0Nd
+        /9fFuziR9D8ptZW2K48QSlR0cl+tAHJWxW9OWT6KzQpFo64yaxYXBs+NwGFwnEH1szT9X5UKIDv9a
+        I4IgyXpNyes45ny+RuOTSQ/+VIMqtrQ/O+Dt6tEE5DLIEE5Bys7Feal0RaDC9hjliaOa48W9e4I15
+        evQwTi1i6I1cP89eget5ZT673r2Hl0R5jp619lb54zyWDhXlpnWQV50yOUzipONAoMNyZ2lMu4spW
+        D5naUVtg==;
+Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kQtQI-0005uQ-A9; Fri, 09 Oct 2020 14:31:06 +0000
+From:   "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To:     linux-fsdevel@vger.kernel.org
+Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        linux-mm@kvack.org, v9fs-developer@lists.sourceforge.net,
+        linux-kernel@vger.kernel.org, linux-afs@lists.infradead.org,
+        ceph-devel@vger.kernel.org, linux-cifs@vger.kernel.org,
+        ecryptfs@vger.kernel.org, linux-um@lists.infradead.org,
+        linux-mtd@lists.infradead.org, Richard Weinberger <richard@nod.at>,
+        linux-xfs@vger.kernel.org
+Subject: [PATCH v2 00/16] Allow readpage to return a locked page
+Date:   Fri,  9 Oct 2020 15:30:48 +0100
+Message-Id: <20201009143104.22673-1-willy@infradead.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
-References: <1859654730.147012.1602088236348.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.16795 YMailNodin Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-DQoNCtCd0LDRmNC80LjQu9CwINC60LDRmCDQs9C+0YHQv9C+0LTQsNGA0L7Rgg0KDQrQiNCw0YEg
-0YHRg9C8IDY4LdCz0L7QtNC40YjQvdCwINC20LXQvdCwLCDQutC+0ZjQsCDRgdGC0YDQsNC00LAg
-0L7QtCDQv9GA0L7QtNC+0LvQttC10L0g0LrQsNGA0YbQuNC90L7QvCDQvdCwINC00L7RmNC60LAs
-INC+0LQg0YHQuNGC0LUg0LzQtdC00LjRhtC40L3RgdC60Lgg0LjQvdC00LjQutCw0YbQuNC4LCDQ
-vNC+0ZjQsNGC0LAg0YHQvtGB0YLQvtGY0LHQsCDQvdCw0LLQuNGB0YLQuNC90LAg0YHQtSDQstC7
-0L7RiNC4INC4INC+0YfQuNCz0LvQtdC00L3QviDQtSDQtNC10LrQsCDQvNC+0LbQtdCx0Lgg0L3Q
-tdC80LAg0LTQsCDQttC40LLQtdCw0Lwg0L/QvtCy0LXRnNC1INC+0LQg0YjQtdGB0YIg0LzQtdGB
-0LXRhtC4INC60LDQutC+INGA0LXQt9GD0LvRgtCw0YIg0L3QsCDQsdGA0LfQuNC+0YIg0YDQsNGB
-0YIg0Lgg0LHQvtC70LrQsNGC0LAg0YjRgtC+INGB0LUg0ZjQsNCy0YPQstCwINC60LDRmCDQvdC1
-0LAuINCc0L7RmNC+0YIg0YHQvtC/0YDRg9CzINC/0L7Rh9C40L3QsCDQvdC10LrQvtC70LrRgyDQ
-s9C+0LTQuNC90Lgg0L3QsNC90LDQt9Cw0LQg0Lgg0L3QsNGI0LjRgtC1INC00L7Qu9Cz0Lgg0LPQ
-vtC00LjQvdC4INCx0YDQsNC6INC90LUg0LHQtdCwINCx0LvQsNCz0L7RgdC70L7QstC10L3QuCDR
-gdC+INC90LjRgtGDINC10LTQvdC+INC00LXRgtC1LCDQv9C+INC90LXQs9C+0LLQsNGC0LAg0YHQ
-vNGA0YIg0LPQviDQvdCw0YHQu9C10LTQuNCyINGG0LXQu9C+0YLQviDQvdC10LPQvtCy0L4g0LHQ
-vtCz0LDRgtGB0YLQstC+Lg0KDQrQlNC+0LDRk9Cw0Lwg0LrQsNGYINCy0LDRgSDQvtGC0LrQsNC6
-0L4g0YHQtSDQv9C+0LzQvtC70LjQsiDQt9CwINGC0L7QsCwg0L/QvtC00LPQvtGC0LLQtdC9INGB
-0YPQvCDQtNCwINC00L7QvdC40YDQsNC8INGB0YPQvNCwINC+0LQgMiwgMzAwLCAwMDAg0LXQstGA
-0LAg0LfQsCDQv9C+0LzQvtGIINC90LAg0YHQuNGA0L7QvNCw0YjQvdC40YLQtSwg0YHQuNGA0L7Q
-vNCw0YjQvdC40YLQtSDQuCDQv9C+0LzQsNC70LrRgyDQv9GA0LjQstC40LvQtdCz0LjRgNCw0L3Q
-uNGC0LUg0LzQtdGT0YMg0LLQsNGI0LjRgtC1INGB0L7QsdGA0LDQvdC40ZjQsCAvINC+0L/RiNGC
-0LXRgdGC0LLQvi4g0JfQsNCx0LXQu9C10LbQtdGC0LUg0LTQtdC60LAg0L7QstC+0Zgg0YTQvtC9
-0LQg0LUg0LTQtdC/0L7QvdC40YDQsNC9INCy0L4g0LHQsNC90LrQsCDQutCw0LTQtSDRiNGC0L4g
-0YDQsNCx0L7RgtC10YjQtSDQvNC+0ZjQvtGCINGB0L7Qv9GA0YPQsy4gQXBwcmVjaWF0ZdC1INGG
-0LXQvdCw0Lwg0LDQutC+INC+0LHRgNC90LXRgtC1INCy0L3QuNC80LDQvdC40LUg0L3QsCDQvNC+
-0LXRgtC+INCx0LDRgNCw0ZrQtSDQt9CwINC/0YDQvtC/0LDQs9C40YDQsNGa0LUg0L3QsCDQvNCw
-0YHQsNC20LDRgtCwINC90LAg0LrRgNCw0LvRgdGC0LLQvtGC0L4sINGc0LUg0LLQuCDQtNCw0LTQ
-sNC8INC/0L7QstC10ZzQtSDQtNC10YLQsNC70Lgg0LfQsCDRgtC+0LAg0LrQsNC60L4g0LTQsCDQ
-v9C+0YHRgtCw0L/QuNGC0LUuDQoNCtCR0LvQsNCz0L7QtNCw0YDQsNC8DQrQky3Rk9CwINCc0LXR
-gNC40LvQuNC9INCg0L7QsdC10YDRgg==
+Linus recently made the page lock more fair.  That means that the old
+pattern where we returned from ->readpage with the page unlocked and
+then attempted to re-lock it will send us to the back of the queue for
+this page's lock.
+
+A further benefit is that a synchronous readpage implementation allows
+us to return an error to someone who might actually care about it.
+There's no need to SetPageError, but I don't want to learn about how
+a dozen filesystems handle I/O errors (hint: they're all different),
+so I have not attempted to change that.  Except for iomap.
+
+Ideally all filesystems would return from ->readpage with the page
+Uptodate and Locked, but it's a bit painful to convert all the
+asynchronous readpage implementations to synchronous.  The first 14
+filesystems converted are already synchronous.  The last two patches
+convert iomap to synchronous readpage.
+
+This patchset is against iomap-for-next.  Andrew, it would make merging
+the THP patchset much easier if you could merge at least the first patch
+adding AOP_UPDATED_PAGE during the merge window which opens next week.
+
+Matthew Wilcox (Oracle) (16):
+  mm: Add AOP_UPDATED_PAGE return value
+  mm: Inline wait_on_page_read into its one caller
+  9p: Tell the VFS that readpage was synchronous
+  afs: Tell the VFS that readpage was synchronous
+  ceph: Tell the VFS that readpage was synchronous
+  cifs: Tell the VFS that readpage was synchronous
+  cramfs: Tell the VFS that readpage was synchronous
+  ecryptfs: Tell the VFS that readpage was synchronous
+  fuse: Tell the VFS that readpage was synchronous
+  hostfs: Tell the VFS that readpage was synchronous
+  jffs2: Tell the VFS that readpage was synchronous
+  ubifs: Tell the VFS that readpage was synchronous
+  udf: Tell the VFS that readpage was synchronous
+  vboxsf: Tell the VFS that readpage was synchronous
+  iomap: Inline iomap_iop_set_range_uptodate into its one caller
+  iomap: Make readpage synchronous
+
+ Documentation/filesystems/locking.rst |  7 +-
+ Documentation/filesystems/vfs.rst     | 21 ++++--
+ fs/9p/vfs_addr.c                      |  6 +-
+ fs/afs/file.c                         |  3 +-
+ fs/ceph/addr.c                        |  9 +--
+ fs/cifs/file.c                        |  8 ++-
+ fs/cramfs/inode.c                     |  5 +-
+ fs/ecryptfs/mmap.c                    | 11 ++--
+ fs/fuse/file.c                        |  2 +
+ fs/hostfs/hostfs_kern.c               |  2 +
+ fs/iomap/buffered-io.c                | 92 ++++++++++++++-------------
+ fs/jffs2/file.c                       |  6 +-
+ fs/ubifs/file.c                       | 16 +++--
+ fs/udf/file.c                         |  3 +-
+ fs/vboxsf/file.c                      |  2 +
+ include/linux/fs.h                    |  5 ++
+ mm/filemap.c                          | 33 +++++-----
+ 17 files changed, 135 insertions(+), 96 deletions(-)
+
+-- 
+2.28.0
+
