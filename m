@@ -2,52 +2,87 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 54AFE28F05E
-	for <lists+ecryptfs@lfdr.de>; Thu, 15 Oct 2020 12:50:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB4F028F18F
+	for <lists+ecryptfs@lfdr.de>; Thu, 15 Oct 2020 13:55:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727209AbgJOKuf (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Thu, 15 Oct 2020 06:50:35 -0400
-Received: from edge.kilargo.pl ([77.252.52.110]:27100 "EHLO edge.kilargo.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726019AbgJOKuf (ORCPT <rfc822;ecryptfs@vger.kernel.org>);
-        Thu, 15 Oct 2020 06:50:35 -0400
-X-Greylist: delayed 327 seconds by postgrey-1.27 at vger.kernel.org; Thu, 15 Oct 2020 06:50:34 EDT
-Received: from mail.kilargo.pl (77.252.52.107) by edge.kilargo.pl
- (77.252.52.109) with Microsoft SMTP Server (TLS) id 8.3.485.1; Thu, 15 Oct
- 2020 12:45:06 +0200
-Received: from User (185.248.12.71) by MAIL.kilargo.pl (172.22.0.36) with
- Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 15 Oct 2020 12:45:00 +0200
-Reply-To: <kim.leang2011@yahoo.com>
-From:   Kim Leang <mechanik@kilargo.pl>
-Subject: Greeting! !!
-Date:   Thu, 15 Oct 2020 13:45:04 +0300
+        id S1730085AbgJOLyY (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Thu, 15 Oct 2020 07:54:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60604 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726583AbgJOLtx (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Thu, 15 Oct 2020 07:49:53 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 703C7C061755;
+        Thu, 15 Oct 2020 04:49:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=XLRuihqm3fAlHyAROY0lvBAgKqxOu9ggAgyL2LNoHgw=; b=VixR6nbubUCnsr4ZO2wy9wuxCn
+        lduZ4bu+AY2nVEOKTBe3JvtWf0PlYzWVbpiellQE6WWeKJ46G0qRMjoBJK9Zqxld+20RhqXCyTXW8
+        iIJ7jl6BzmDlIQEHhkYHBhTOphSFccJhtJ7PpwARQc60tLRYyOXI9J4I06bLQgXnncAM+vpCMN1TW
+        moWLhI0VJd33AOfpSmp24xN24NWqTOcT4f7uyXVJtcRgmtAdi8WW/5Tj8q5TbdPOmTEfJAcHjHHpN
+        vx2Me/S+s+qLI0dsDRm2ZiSRjkSNyE2miUVgJCU5cSIyqF0lNfp5SeuzMdGwwLIvbsLqhY94JNLFJ
+        JtXRqa5w==;
+Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kT1lV-0004fH-KR; Thu, 15 Oct 2020 11:49:49 +0000
+Date:   Thu, 15 Oct 2020 12:49:49 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        v9fs-developer@lists.sourceforge.net, linux-kernel@vger.kernel.org,
+        linux-afs@lists.infradead.org, ceph-devel@vger.kernel.org,
+        linux-cifs@vger.kernel.org, ecryptfs@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-mtd@lists.infradead.org,
+        Richard Weinberger <richard@nod.at>, linux-xfs@vger.kernel.org
+Subject: Re: [PATCH v2 00/16] Allow readpage to return a locked page
+Message-ID: <20201015114949.GY20115@casper.infradead.org>
+References: <20201009143104.22673-1-willy@infradead.org>
+ <20201015090242.GA12879@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-ID: <4e8da70a7123469bb3ec4818d89fe1ce@mail.kilargo.pl>
-To:     Undisclosed recipients:;
-X-Originating-IP: [185.248.12.71]
-X-ClientProxiedBy: mail.kilargo.pl (172.22.0.36) To MAIL.kilargo.pl
- (172.22.0.36)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A295AAB9B6B64766B
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201015090242.GA12879@infradead.org>
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Greeting!
+On Thu, Oct 15, 2020 at 10:02:42AM +0100, Christoph Hellwig wrote:
+> On Fri, Oct 09, 2020 at 03:30:48PM +0100, Matthew Wilcox (Oracle) wrote:
+> > Ideally all filesystems would return from ->readpage with the page
+> > Uptodate and Locked, but it's a bit painful to convert all the
+> > asynchronous readpage implementations to synchronous.  The first 14
+> > filesystems converted are already synchronous.  The last two patches
+> > convert iomap to synchronous readpage.
+> 
+> Is it really that bad?  It seems like a lot of the remainig file systems
+> use the generic mpage/buffer/nobh helpers.
+> 
+> But I guess this series is a good first step.
 
-I am contacting you to receive and share with me an abandoned fund ( $21,537.000.00 ) left in our bank by a deceased customer. I was going through the Internet search when I found your email address. My name is Mr. Kim Leang.
+I'm just testing a patch to mpage_readpage():
 
-I want to utilize this opportunity and make use of this fund if I should present your name to the bank to stand as his business associate/ trustee for the fund to be released to you via Visa card for easy withdrawals in any VISA ATM machine anywhere in the World.
++++ b/fs/mpage.c
+@@ -406,11 +406,17 @@ int mpage_readpage(struct page *page, get_block_t get_block)
+                .nr_pages = 1,
+                .get_block = get_block,
+        };
++       int err;
+ 
+        args.bio = do_mpage_readpage(&args);
+-       if (args.bio)
+-               mpage_bio_submit(REQ_OP_READ, 0, args.bio);
+-       return 0;
++       if (!args.bio)
++               return 0;
++       bio_set_op_attrs(args.bio, REQ_OP_READ, 0);
++       guard_bio_eod(args.bio);
++       err = submit_bio_wait(args.bio);
++       if (!err)
++               err = AOP_UPDATED_PAGE;
++       return err;
+ }
+ EXPORT_SYMBOL(mpage_readpage);
+ 
 
-The bank will also give you international online transfer options. With these you can transfer the funds without any risk.
-
-Should you be interested in working with me in this project? Please reply back and let's benefit from this golden opportunity.You are my first contact. I shall wait a few days and if I do not hear from you, I shall look for another person.
-
-Thanks and have a nice day,
-Mr. Kim Leang.
+but I'm not looking forward to block_read_full_page().
