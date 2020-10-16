@@ -2,85 +2,108 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B3FA28FE5E
-	for <lists+ecryptfs@lfdr.de>; Fri, 16 Oct 2020 08:36:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8062290946
+	for <lists+ecryptfs@lfdr.de>; Fri, 16 Oct 2020 18:05:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394252AbgJPGft (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Fri, 16 Oct 2020 02:35:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37192 "EHLO
+        id S2410593AbgJPQFF (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Fri, 16 Oct 2020 12:05:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2394251AbgJPGft (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Fri, 16 Oct 2020 02:35:49 -0400
+        with ESMTP id S2410556AbgJPQEs (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Fri, 16 Oct 2020 12:04:48 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 642FAC061755;
-        Thu, 15 Oct 2020 23:35:49 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89F17C0613D3;
+        Fri, 16 Oct 2020 09:04:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=eAA1eJndUJazjd9wD1gXENLx75tdwnXKcLKd7pL1gTU=; b=SBWbXHnwsC7WyfY9k/gweEYk5A
-        p+2fGdIWIVbT7n9C1xTGSaGtmyZHzjIApovUpFs3FufX4XdbGFnHU75YYi+FL0hcvw3i3u16C115J
-        vBIBNtCO07eyGfiLvCyk/WBfHjfSjVgCLpEOQ7wnWZ8GEoyBAj9psYz6+FTNojyIXPKbj6fBUPuk0
-        zVWH6r2qB41hpph2TFteLdPL3avD3zzvX1Xi6yRJXcEccBlOV0jh+OOtS58d2jEesSCt4agpAfL7C
-        KsoAEaxAJk/5vbf1akWUscAxYxQjQY3spErwPnoC4n1qtlyzfcn0RaaErSNQgIVsGk30H4ziVJgZ0
-        Cv2kunvQ==;
-Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kTJL8-0001O0-W2; Fri, 16 Oct 2020 06:35:47 +0000
-Date:   Fri, 16 Oct 2020 07:35:46 +0100
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        v9fs-developer@lists.sourceforge.net, linux-kernel@vger.kernel.org,
-        linux-afs@lists.infradead.org, ceph-devel@vger.kernel.org,
-        linux-cifs@vger.kernel.org, ecryptfs@vger.kernel.org,
-        linux-um@lists.infradead.org, linux-mtd@lists.infradead.org,
-        Richard Weinberger <richard@nod.at>, linux-xfs@vger.kernel.org
-Subject: Re: [PATCH v2 16/16] iomap: Make readpage synchronous
-Message-ID: <20201016063546.GA4808@infradead.org>
-References: <20201009143104.22673-1-willy@infradead.org>
- <20201009143104.22673-17-willy@infradead.org>
- <20201015094203.GA21420@infradead.org>
- <20201015164333.GA20115@casper.infradead.org>
- <20201015175848.GA4145@infradead.org>
- <20201015190312.GB20115@casper.infradead.org>
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=1gAdnouxzpGmlXDQWytpWvnXaVVvGdMiUWIOHN43YgI=; b=PHsOXRefPXYbuJLyhWUENQjtiv
+        PvaSV2vCC8WINCdV5AEp+CWhJHRK1p+aNonulN42m466RQIlXw3IHvb/RmNXaOhRzldy1UxbTuDqY
+        NcaDewCnsmzuXcHVpziXWnYI9ue3WklexPhlQxnJI0qP9K+wrBh2T/E3jt7iyKhERHWrykln9HYHU
+        AcuhU7UL2O5ncbuQK7iGexv0LcVyc1NEntKTSG4YYsK1VFL9hLXL98h0ZxzQvFe/4kZJfHEsSaX7C
+        dIWtul+Pv9CexE12o1k6i9W7t8kyhYtguoGau7Kf/zgMdTW5lDReKoy2VvafZqPjD58NOmUCeSSsV
+        Ecb8d3sw==;
+Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kTSDk-0004s5-Ui; Fri, 16 Oct 2020 16:04:44 +0000
+From:   "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To:     linux-fsdevel@vger.kernel.org
+Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        linux-mm@kvack.org, David Howells <dhowells@redhat.com>,
+        Steve French <sfrench@samba.org>, linux-cifs@vger.kernel.org,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Tyler Hicks <code@tyhicks.com>, ecryptfs@vger.kernel.org,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        linux-ext4@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
+        Hans de Goede <hdegoede@redhat.com>
+Subject: [PATCH v3 00/18] Allow readpage to return a locked page
+Date:   Fri, 16 Oct 2020 17:04:25 +0100
+Message-Id: <20201016160443.18685-1-willy@infradead.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201015190312.GB20115@casper.infradead.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-On Thu, Oct 15, 2020 at 08:03:12PM +0100, Matthew Wilcox wrote:
-> I honestly don't see the problem.  We have to assign the status
-> conditionally anyway so we don't overwrite an error with a subsequent
-> success.
+I've dropped the conversion of readpage implementations to synchronous
+from this patchset.  I realised I'd neglected the requirement for making
+the sleep killable, and that turns out to be more convoluted to fix.
 
-Yes, but having a potential NULL pointer to a common structure is just
-waiting for trouble.
+So these patches add:
+ - An error-path bugfix for cachefiles.
+ - The ability for the filesystem to tell the caller of ->readpage
+   that the read was successful and the page was not unlocked.  This is
+   a performance improvement for some scenarios that I think are rare.
+ - Mildly improved error handling for ext4.
 
-> 
-> > True.  I'd still prefer the AOP_UPDATED_PAGE as the fallthrough case
-> > and an explicit goto out_unlock, though.
-> 
-> So this?
-> 
->         if (ctx.bio) {
->                 submit_bio(ctx.bio);
->                 wait_for_completion(&ctx.done);
->                 if (ret < 0)
->                         goto err;
->                 ret = blk_status_to_errno(ctx.status);
->         }
-> 
->         if (ret < 0)
->                 goto err;
->         return AOP_UPDATED_PAGE;
-> err:
->         unlock_page(page);
->         return ret;
-> 
+v2: https://lore.kernel.org/linux-fsdevel/20201009143104.22673-1-willy@infradead.org/
+v1: https://lore.kernel.org/linux-fsdevel/20200917151050.5363-1-willy@infradead.org/
+Matthew Wilcox (Oracle) (18):
+  cachefiles: Handle readpage error correctly
+  swap: Call aops->readahead if appropriate
+  fs: Add AOP_UPDATED_PAGE return value
+  mm/filemap: Inline wait_on_page_read into its one caller
+  9p: Tell the VFS that readpage was synchronous
+  afs: Tell the VFS that readpage was synchronous
+  ceph: Tell the VFS that readpage was synchronous
+  cifs: Tell the VFS that readpage was synchronous
+  cramfs: Tell the VFS that readpage was synchronous
+  ecryptfs: Tell the VFS that readpage was synchronous
+  ext4: Tell the VFS that readpage was synchronous
+  ext4: Return error from ext4_readpage
+  fuse: Tell the VFS that readpage was synchronous
+  hostfs: Tell the VFS that readpage was synchronous
+  jffs2: Tell the VFS that readpage was synchronous
+  ubifs: Tell the VFS that readpage was synchronous
+  udf: Tell the VFS that readpage was synchronous
+  vboxsf: Tell the VFS that readpage was synchronous
 
-Looks good.
+ Documentation/filesystems/locking.rst |  7 +++---
+ Documentation/filesystems/vfs.rst     | 21 +++++++++++------
+ fs/9p/vfs_addr.c                      |  6 ++++-
+ fs/afs/file.c                         |  3 ++-
+ fs/buffer.c                           | 15 +++++++-----
+ fs/cachefiles/rdwr.c                  |  9 ++++++++
+ fs/ceph/addr.c                        |  9 ++++----
+ fs/cifs/file.c                        |  8 +++++--
+ fs/cramfs/inode.c                     |  5 ++--
+ fs/ecryptfs/mmap.c                    | 11 +++++----
+ fs/ext4/inline.c                      |  9 +++++---
+ fs/ext4/readpage.c                    | 24 +++++++++++--------
+ fs/fuse/file.c                        |  2 ++
+ fs/hostfs/hostfs_kern.c               |  2 ++
+ fs/jffs2/file.c                       |  6 +++--
+ fs/ubifs/file.c                       | 16 ++++++++-----
+ fs/udf/file.c                         |  3 +--
+ fs/vboxsf/file.c                      |  2 ++
+ include/linux/fs.h                    |  5 ++++
+ mm/filemap.c                          | 33 +++++++++++++--------------
+ mm/page_io.c                          | 27 ++++++++++++++++++++--
+ mm/readahead.c                        |  3 ++-
+ 22 files changed, 151 insertions(+), 75 deletions(-)
+
+-- 
+2.28.0
+
