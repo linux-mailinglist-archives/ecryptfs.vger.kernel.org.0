@@ -2,38 +2,38 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 039072B440A
-	for <lists+ecryptfs@lfdr.de>; Mon, 16 Nov 2020 13:53:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D57DD2B672F
+	for <lists+ecryptfs@lfdr.de>; Tue, 17 Nov 2020 15:14:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726455AbgKPMwp convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+ecryptfs@lfdr.de>); Mon, 16 Nov 2020 07:52:45 -0500
-Received: from tigeramira.ro ([88.158.78.30]:35168 "EHLO mail.tigeramira.ro"
+        id S1728346AbgKQOOe convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+ecryptfs@lfdr.de>); Tue, 17 Nov 2020 09:14:34 -0500
+Received: from tigeramira.ro ([88.158.78.30]:32520 "EHLO mail.tigeramira.ro"
         rhost-flags-OK-FAIL-OK-OK) by vger.kernel.org with ESMTP
-        id S1726097AbgKPMwp (ORCPT <rfc822;ecryptfs@vger.kernel.org>);
-        Mon, 16 Nov 2020 07:52:45 -0500
+        id S1728176AbgKQOOe (ORCPT <rfc822;ecryptfs@vger.kernel.org>);
+        Tue, 17 Nov 2020 09:14:34 -0500
 Received: from localhost (localhost [127.0.0.1])
-        by mail.tigeramira.ro (Postfix) with ESMTP id 7B2ACA70A9A
-        for <ecryptfs@vger.kernel.org>; Sat, 14 Nov 2020 09:35:26 +0200 (EET)
+        by mail.tigeramira.ro (Postfix) with ESMTP id BB141C98B4F
+        for <ecryptfs@vger.kernel.org>; Mon, 16 Nov 2020 15:26:17 +0200 (EET)
 Received: from mail.tigeramira.ro ([127.0.0.1])
         by localhost (mail.tigeramira.ro [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id W0V11F-fKZ1H for <ecryptfs@vger.kernel.org>;
-        Sat, 14 Nov 2020 09:35:24 +0200 (EET)
+        with ESMTP id n6lqmhCex6si for <ecryptfs@vger.kernel.org>;
+        Mon, 16 Nov 2020 15:26:14 +0200 (EET)
 Received: from mail.tigeramira.ro (localhost [127.0.0.1])
-        by mail.tigeramira.ro (Postfix) with ESMTP id C75CE969A67
-        for <ecryptfs@vger.kernel.org>; Fri, 13 Nov 2020 16:57:03 +0200 (EET)
+        by mail.tigeramira.ro (Postfix) with ESMTP id 0BED7A7F722
+        for <ecryptfs@vger.kernel.org>; Sat, 14 Nov 2020 12:26:17 +0200 (EET)
 Received: from [156.96.44.214] (unknown [192.168.12.254])
-        by mail.tigeramira.ro (Postfix) with ESMTP id EC36D914346
-        for <ecryptfs@vger.kernel.org>; Fri, 13 Nov 2020 13:31:25 +0200 (EET)
+        by mail.tigeramira.ro (Postfix) with ESMTP id E21C2D3FD99
+        for <ecryptfs@vger.kernel.org>; Tue, 10 Nov 2020 17:09:47 +0200 (EET)
 Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8BIT
 Content-Description: Mail message body
-Subject: Corporate and Personal Loan::,
+Subject: Corporate and Personal Loan/
 To:     ecryptfs@vger.kernel.org
 From:   "Investment  Corporate" <financialcapability6@gmail.com>
-Date:   Fri, 13 Nov 2020 02:31:40 -0800
+Date:   Tue, 10 Nov 2020 06:10:16 -0800
 Reply-To: hmurrah39@gmail.com
-Message-Id: <20201113113126.EC36D914346@mail.tigeramira.ro>
+Message-Id: <20201110150948.E21C2D3FD99@mail.tigeramira.ro>
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
