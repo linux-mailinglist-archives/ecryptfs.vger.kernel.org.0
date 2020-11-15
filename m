@@ -2,20 +2,20 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CF4D72AE9EA
-	for <lists+ecryptfs@lfdr.de>; Wed, 11 Nov 2020 08:24:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E60AB2B368A
+	for <lists+ecryptfs@lfdr.de>; Sun, 15 Nov 2020 17:44:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726525AbgKKHXq convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+ecryptfs@lfdr.de>); Wed, 11 Nov 2020 02:23:46 -0500
-Received: from sw73-70-41.adsl.seed.net.tw ([203.73.70.41]:43124 "EHLO
+        id S1727319AbgKOQn7 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+ecryptfs@lfdr.de>); Sun, 15 Nov 2020 11:43:59 -0500
+Received: from sw73-70-41.adsl.seed.net.tw ([203.73.70.41]:33244 "EHLO
         oa.trendtek.com.tw" rhost-flags-OK-FAIL-OK-OK) by vger.kernel.org
-        with ESMTP id S1726140AbgKKHXp (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Wed, 11 Nov 2020 02:23:45 -0500
+        with ESMTP id S1727318AbgKOQn7 (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Sun, 15 Nov 2020 11:43:59 -0500
 Received: from [156.96.44.214] ([156.96.44.214])
         (authenticated bits=0)
-        by oa.trendtek.com.tw (8.13.8/8.13.1) with ESMTP id 0AB7N0LQ023250
-        for <ecryptfs@vger.kernel.org>; Wed, 11 Nov 2020 15:23:38 +0800
-Message-Id: <202011110723.0AB7N0LQ023250@oa.trendtek.com.tw>
+        by oa.trendtek.com.tw (8.13.8/8.13.1) with ESMTP id 0AFGhrjG031370
+        for <ecryptfs@vger.kernel.org>; Mon, 16 Nov 2020 00:43:56 +0800
+Message-Id: <202011151643.0AFGhrjG031370@oa.trendtek.com.tw>
 Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -23,7 +23,7 @@ Content-Description: Mail message body
 Subject: Corporate and Personal Loan *
 To:     ecryptfs@vger.kernel.org
 From:   "Investment  Corporate" <financialcapability6@gmail.com>
-Date:   Wed, 11 Nov 2020 00:30:42 -0800
+Date:   Sun, 15 Nov 2020 08:43:51 -0800
 Reply-To: hmurrah39@gmail.com
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
