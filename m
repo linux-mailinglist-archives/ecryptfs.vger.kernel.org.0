@@ -2,56 +2,61 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 878262B8F63
-	for <lists+ecryptfs@lfdr.de>; Thu, 19 Nov 2020 10:52:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B6852BA5B7
+	for <lists+ecryptfs@lfdr.de>; Fri, 20 Nov 2020 10:17:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726480AbgKSJvY convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+ecryptfs@lfdr.de>); Thu, 19 Nov 2020 04:51:24 -0500
-Received: from tigeramira.ro ([88.158.78.30]:55124 "EHLO mail.tigeramira.ro"
-        rhost-flags-OK-FAIL-OK-OK) by vger.kernel.org with ESMTP
-        id S1726316AbgKSJvY (ORCPT <rfc822;ecryptfs@vger.kernel.org>);
-        Thu, 19 Nov 2020 04:51:24 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by mail.tigeramira.ro (Postfix) with ESMTP id 27D12CB1CAC
-        for <ecryptfs@vger.kernel.org>; Tue, 17 Nov 2020 04:59:01 +0200 (EET)
-Received: from mail.tigeramira.ro ([127.0.0.1])
-        by localhost (mail.tigeramira.ro [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id 8I8Ytc8quOLB for <ecryptfs@vger.kernel.org>;
-        Tue, 17 Nov 2020 04:58:45 +0200 (EET)
-Received: from mail.tigeramira.ro (localhost [127.0.0.1])
-        by mail.tigeramira.ro (Postfix) with ESMTP id D523BC15E04
-        for <ecryptfs@vger.kernel.org>; Sat, 14 Nov 2020 21:21:14 +0200 (EET)
-Received: from [156.96.44.214] (unknown [192.168.12.254])
-        by mail.tigeramira.ro (Postfix) with ESMTP id 21212998D26
-        for <ecryptfs@vger.kernel.org>; Fri, 13 Nov 2020 19:08:08 +0200 (EET)
-Content-Type: text/plain; charset="iso-8859-1"
+        id S1727070AbgKTJQG (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Fri, 20 Nov 2020 04:16:06 -0500
+Received: from mail.boldwhite24.com ([80.211.42.67]:47794 "EHLO
+        mail.boldwhite24.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727091AbgKTJQF (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Fri, 20 Nov 2020 04:16:05 -0500
+X-Greylist: delayed 559 seconds by postgrey-1.27 at vger.kernel.org; Fri, 20 Nov 2020 04:16:04 EST
+Received: by mail.boldwhite24.com (Postfix, from userid 1001)
+        id 16551A5417; Fri, 20 Nov 2020 09:06:03 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=boldwhite24.com;
+        s=mail; t=1605863178;
+        bh=hS3ibs4caZkahrzgcMN2TAJo2B2H5Muwb2NidDYlIzQ=;
+        h=Date:From:To:Subject:From;
+        b=DyBAAcoqgev8RgSUZPEXrcnM/IrdnWpnlj4S88I/NILg1gArMaSjzIrWzLi9gRD/H
+         E3xhMCd+TvEk7fTI3b91iSGlEjb/Zd+/LeRgZVwyqLwb/+QoMu7DGzQXnbbhpqG+w1
+         K+GH9+39K/hjUJMmXYAMEwxCbKFdB8i7ZabAO3cOMhahm5p1v563vEh92ByfwWpfUg
+         2dnHbNuBq0Y6qcWKM8xnazArsaTpsEkKGhSyu0qHIhYCqtVOMHO0TmBf42p9TqmtZO
+         bwiUmA74iK/efm9u27fg251Oqr6/29EvS/r9soE4ehnKOV1bYyu5NfJqCBhh3QDHO1
+         kYTY0Btl1/oMg==
+Received: by mail.boldwhite24.com for <ecryptfs@vger.kernel.org>; Fri, 20 Nov 2020 09:05:56 GMT
+Message-ID: <20201120074500-0.1.2d.95mg.0.63llb8a1k9@boldwhite24.com>
+Date:   Fri, 20 Nov 2020 09:05:56 GMT
+From:   =?UTF-8?Q? "Diego_S=C3=A1nchez" ?= <diego.sanchez@boldwhite24.com>
+To:     <ecryptfs@vger.kernel.org>
+Subject: Disinfection
+X-Mailer: mail.boldwhite24.com
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: Corporate and Personal Loan::,
-To:     ecryptfs@vger.kernel.org
-From:   "Investment  Corporate" <financialcapability6@gmail.com>
-Date:   Fri, 13 Nov 2020 08:08:20 -0800
-Reply-To: hmurrah39@gmail.com
-Message-Id: <20201113170809.21212998D26@mail.tigeramira.ro>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Hello ecryptfs@vger.kernel.org
+Good morning,
 
+looking for companies interested in raising additional capital by diversi=
+fying their offer in soaps, liquids and gels for hand disinfection and co=
+smetics for body and hair care.
 
-We are Base Investment Company offering Corporate and Personal Loan at 3% Interest Rate for a duration of 10Years.
+The distribution of innovative products corresponding to the current pref=
+erences of customers in the field of hygiene and preventive healthcare al=
+lows our partners to gain new markets and achieve better economic results=
+=2E
 
+In addition to products with bactericidal action, our range includes show=
+er gels, shampoos and hair conditioners, as well as efficient, concentrat=
+ed detergents.
 
-We also pay 1% commission to brokers, who introduce project owners for finance or other opportunities.
+The versatility (suitable for all skin types) combined with an affordable=
+ price means that customers make an informed choice of a product among ot=
+hers available on the market.
 
+Are you interested in cooperation?
 
-Please get back to me if you are interested for more
-
-details.
-
-
-Yours faithfully,
-
-Hashim Murrah
+Diego S=C3=A1nchez
