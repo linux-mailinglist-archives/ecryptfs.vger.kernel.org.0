@@ -2,149 +2,86 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C97842C1184
-	for <lists+ecryptfs@lfdr.de>; Mon, 23 Nov 2020 18:08:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E97182C6915
+	for <lists+ecryptfs@lfdr.de>; Fri, 27 Nov 2020 17:05:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732295AbgKWRGU (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Mon, 23 Nov 2020 12:06:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43635 "EHLO
+        id S1730366AbgK0QFX (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Fri, 27 Nov 2020 11:05:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52533 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731413AbgKWRGN (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Mon, 23 Nov 2020 12:06:13 -0500
+        by vger.kernel.org with ESMTP id S1730324AbgK0QFX (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Fri, 27 Nov 2020 11:05:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1606151171;
+        s=mimecast20190719; t=1606493122;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ETdBmUCF01QVQJOZ+sQu9TUGQeVKu9xOEmE1E5gBvfU=;
-        b=BtEofZ03By1sp6OyH8lSI6IT4Bb/Q48OsWV2XnBXmdgQcceGh9rKSaQV86czSHO4W4CJHn
-        vUaUaH4n0l1WmtKl1NY4JjZQEtZdHR6F0okj/kLdyZp+LnqjvTzaYPmjipu9+IS6RcbTNg
-        lanzsvwsZXvmVS2IMlU/0SstZMlkjqs=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-177-E7xC4mqLOCaVJ8yf92VVBQ-1; Mon, 23 Nov 2020 12:06:09 -0500
-X-MC-Unique: E7xC4mqLOCaVJ8yf92VVBQ-1
-Received: by mail-qv1-f72.google.com with SMTP id dp12so13459933qvb.2
-        for <ecryptfs@vger.kernel.org>; Mon, 23 Nov 2020 09:06:09 -0800 (PST)
+         to:to:cc:cc; bh=Lx5QA+1c/hyrsXjP+K1B8IolDHDv6r6q6dP4B5qcGoc=;
+        b=POaVOR24hsnKcBHh9kwojPvpmE1eqTqt5lmW9b//QU4Rcb0u5mS5eMw6Dvwg/bO36rKV9C
+        XWehChOo6S5kgh65GhURUrzq8kB8MwiK8hA6ZqhrcRL2cTeiiWB9bjjmjqoYM6YYjafi2L
+        JDnLb1/VNcCAdTd2QFdxepDcC/wlQZY=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-258-oyUx3IXeNJmQyD8T0Py03g-1; Fri, 27 Nov 2020 11:05:20 -0500
+X-MC-Unique: oyUx3IXeNJmQyD8T0Py03g-1
+Received: by mail-qk1-f200.google.com with SMTP id p129so3948434qkc.20
+        for <ecryptfs@vger.kernel.org>; Fri, 27 Nov 2020 08:05:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=ETdBmUCF01QVQJOZ+sQu9TUGQeVKu9xOEmE1E5gBvfU=;
-        b=fDm4vY3So1Uggv3uD38ctJbL+GD/+Mf3WiMh1qPq+hhSPW/GUsgWGzDlIIE8WqGh8m
-         CNPvauUi3IRw334PgDPM7HwJ59Ef5nfEv18+uB4oVKyvQcJkFYC2XQ5SCG5kvNlUZ5E3
-         a6ezuK5iVBeTt2pSeRfwjPfB7OS+ArtMu9k5JnXyQ+Rhm7wwIqopp8rwOry66Elw+AfN
-         8zddaiKdHQeSqLfFTD9YZjPsy6rjyoA2zjL31WbbrW9yYzATLRzycImr1fvuoxI80ey+
-         5s4z4LgwPAQqWVusNx2S5Y8vMOOpO5TPFQr2KOxKbKFo0rrtBhbjB5+YdzxQFSnTm+XK
-         3QJQ==
-X-Gm-Message-State: AOAM532oY1v7i5LoDHTm7lcAFKZGX6U36Cw3l3FmVDwPtwa9BJfTxeiL
-        F5Pihbddj4Szp574BjLBCPY2+sKMmcFc+9qtAjM9ZaRegAYsE3o+2HQCv2nRJt3LXf5omSklBU1
-        nRIk/Ak+a8tx5+4IBIGw=
-X-Received: by 2002:ac8:5d53:: with SMTP id g19mr70885qtx.354.1606151168820;
-        Mon, 23 Nov 2020 09:06:08 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwHR8oVpP3xv7xpCkK6lH4mawBfXgRI3GL2dEiLGp13/vfLrDKV7SBtsWnvpv2iFDtHltekRw==
-X-Received: by 2002:ac8:5d53:: with SMTP id g19mr70839qtx.354.1606151168572;
-        Mon, 23 Nov 2020 09:06:08 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=Lx5QA+1c/hyrsXjP+K1B8IolDHDv6r6q6dP4B5qcGoc=;
+        b=i2avgEzWHFGL8v7JyFff/vKf7eBFDExO5Kc3LC14Hp2ytpqvLipt1xFkbm+a+aynjV
+         Zh2TJyzOCa/IXgLVypcH7yGZAej4zneThHuPlxNgAXkb67X16GfOvm6st1PXywVkVWVH
+         T4LdpzQEKqnFOGEzxkx3JqNyXCjKZgnVMOjLKfmCDmRDZb3nRrOVxpdUWPfbC4tnIJYZ
+         qxa9TMjz+eZAKRzrO2HHP6DlUTvfy0DZJBoKi/nzNIp8gqR6WNkbaFR7RW1+ha3ADZS6
+         7NMy7hEmydmkd1lVQHeJcnD6/Lz2OvO2vBkWLCyDYzZpDQet8oSPLgD0eaugQmsRPjQ8
+         sWQw==
+X-Gm-Message-State: AOAM532N0QxzURGtapBV4ake5MaGadY2d4pqo0N6gvcb6BnF31HIyN9L
+        sbLlDEaBJ1wKQG89RvkXNWfwPopgfofOPCQu19o4OqET7HKCB6+LEZcZMEdVbivXupMfECKa6PC
+        /PcnxspPvwdzOs+X64Hc=
+X-Received: by 2002:ac8:7651:: with SMTP id i17mr9095756qtr.248.1606493119664;
+        Fri, 27 Nov 2020 08:05:19 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwrS1i55kyNvlHzcDjmRasvRmA+DWO57YRKCEb4T+Hdkk6tGNT/JOTtakf7XgXiuVwklbeUHQ==
+X-Received: by 2002:ac8:7651:: with SMTP id i17mr9095725qtr.248.1606493119425;
+        Fri, 27 Nov 2020 08:05:19 -0800 (PST)
 Received: from trix.remote.csb (075-142-250-213.res.spectrum.com. [75.142.250.213])
-        by smtp.gmail.com with ESMTPSA id o187sm10226153qkb.120.2020.11.23.09.06.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Nov 2020 09:06:07 -0800 (PST)
-Subject: Re: [RFC] MAINTAINERS tag for cleanup robot
-To:     Joe Perches <joe@perches.com>, clang-built-linux@googlegroups.com
-Cc:     linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-        xen-devel@lists.xenproject.org, tboot-devel@lists.sourceforge.net,
-        kvm@vger.kernel.org, linux-crypto@vger.kernel.org,
-        linux-acpi@vger.kernel.org, devel@acpica.org,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org, netdev@vger.kernel.org,
-        linux-media@vger.kernel.org, MPT-FusionLinux.pdl@broadcom.com,
-        linux-scsi@vger.kernel.org, linux-wireless@vger.kernel.org,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-omap@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        ecryptfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        cluster-devel@redhat.com, linux-mtd@lists.infradead.org,
-        keyrings@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        coreteam@netfilter.org, alsa-devel@alsa-project.org,
-        bpf@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-        linux-nfs@vger.kernel.org, patches@opensource.cirrus.com
-References: <20201121165058.1644182-1-trix@redhat.com>
- <2105f0c05e9eae8bee8e17dcc5314474b3c0bc73.camel@perches.com>
- <6e8c1926-4209-8f10-d0f9-72c875a85a88@redhat.com>
- <859bae8ddae3238116824192f6ddf1c91a381913.camel@perches.com>
-From:   Tom Rix <trix@redhat.com>
-Message-ID: <88eeba27-ee36-df63-8cd9-3cccbe5e0850@redhat.com>
-Date:   Mon, 23 Nov 2020 09:06:03 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
-MIME-Version: 1.0
-In-Reply-To: <859bae8ddae3238116824192f6ddf1c91a381913.camel@perches.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+        by smtp.gmail.com with ESMTPSA id c27sm6359681qkk.57.2020.11.27.08.05.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Nov 2020 08:05:18 -0800 (PST)
+From:   trix@redhat.com
+To:     code@tyhicks.com, hannes@cmpxchg.org, mhocko@suse.com,
+        longman@redhat.com, herbert@gondor.apana.org.au,
+        ebiggers@google.com
+Cc:     ecryptfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tom Rix <trix@redhat.com>
+Subject: [PATCH] eCryptfs: add a semicolon
+Date:   Fri, 27 Nov 2020 08:05:13 -0800
+Message-Id: <20201127160513.2619747-1-trix@redhat.com>
+X-Mailer: git-send-email 2.18.4
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
+From: Tom Rix <trix@redhat.com>
 
-On 11/22/20 10:22 AM, Joe Perches wrote:
-> On Sun, 2020-11-22 at 08:33 -0800, Tom Rix wrote:
->> On 11/21/20 9:10 AM, Joe Perches wrote:
->>> On Sat, 2020-11-21 at 08:50 -0800, trix@redhat.com wrote:
->>>> A difficult part of automating commits is composing the subsystem
->>>> preamble in the commit log.  For the ongoing effort of a fixer producing
->>>> one or two fixes a release the use of 'treewide:' does not seem appropriate.
->>>>
->>>> It would be better if the normal prefix was used.  Unfortunately normal is
->>>> not consistent across the tree.
->>>>
->>>> So I am looking for comments for adding a new tag to the MAINTAINERS file
->>>>
->>>> 	D: Commit subsystem prefix
->>>>
->>>> ex/ for FPGA DFL DRIVERS
->>>>
->>>> 	D: fpga: dfl:
->>> I'm all for it.  Good luck with the effort.  It's not completely trivial.
->>>
->>> From a decade ago:
->>>
->>> https://lore.kernel.org/lkml/1289919077.28741.50.camel@Joe-Laptop/
->>>
->>> (and that thread started with extra semicolon patches too)
->> Reading the history, how about this.
->>
->> get_maintainer.pl outputs a single prefix, if multiple files have the
->> same prefix it works, if they don't its an error.
->>
->> Another script 'commit_one_file.sh' does the call to get_mainainter.pl
->> to get the prefix and be called by run-clang-tools.py to get the fixer
->> specific message.
-> It's not whether the script used is get_maintainer or any other script,
-> the question is really if the MAINTAINERS file is the appropriate place
-> to store per-subsystem patch specific prefixes.
->
-> It is.
->
-> Then the question should be how are the forms described and what is the
-> inheritance priority.  My preference would be to have a default of
-> inherit the parent base and add basename(subsystem dirname).
->
-> Commit history seems to have standardized on using colons as the separator
-> between the commit prefix and the subject.
->
-> A good mechanism to explore how various subsystems have uses prefixes in
-> the past might be something like:
->
-> $ git log --no-merges --pretty='%s' -<commit_count> <subsystem_path> | \
->   perl -n -e 'print substr($_, 0, rindex($_, ":") + 1) . "\n";' | \
->   sort | uniq -c | sort -rn
+Function like macros should have a semicolon.
 
-Thanks, I have shamelessly stolen this line and limited the commits to the maintainer.
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ fs/ecryptfs/keystore.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I will post something once the generation of the prefixes is done.
-
-Tom
+diff --git a/fs/ecryptfs/keystore.c b/fs/ecryptfs/keystore.c
+index f6a17d259db7..2abd219cfeec 100644
+--- a/fs/ecryptfs/keystore.c
++++ b/fs/ecryptfs/keystore.c
+@@ -1172,7 +1172,7 @@ decrypt_pki_encrypted_session_key(struct ecryptfs_auth_tok *auth_tok,
+ 	rc = ecryptfs_cipher_code_to_string(crypt_stat->cipher, cipher_code);
+ 	if (rc) {
+ 		ecryptfs_printk(KERN_ERR, "Cipher code [%d] is invalid\n",
+-				cipher_code)
++				cipher_code);
+ 		goto out;
+ 	}
+ 	crypt_stat->flags |= ECRYPTFS_KEY_VALID;
+-- 
+2.18.4
 
