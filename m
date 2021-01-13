@@ -2,81 +2,67 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B7372F02CD
-	for <lists+ecryptfs@lfdr.de>; Sat,  9 Jan 2021 19:15:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3467F2F51CB
+	for <lists+ecryptfs@lfdr.de>; Wed, 13 Jan 2021 19:19:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725926AbhAISPb (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Sat, 9 Jan 2021 13:15:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37108 "EHLO
+        id S1727198AbhAMSSN (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Wed, 13 Jan 2021 13:18:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725872AbhAISPa (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Sat, 9 Jan 2021 13:15:30 -0500
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58264C061786
-        for <ecryptfs@vger.kernel.org>; Sat,  9 Jan 2021 10:14:50 -0800 (PST)
-Received: by mail-lf1-x131.google.com with SMTP id h205so30953205lfd.5
-        for <ecryptfs@vger.kernel.org>; Sat, 09 Jan 2021 10:14:50 -0800 (PST)
+        with ESMTP id S1726429AbhAMSSM (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Wed, 13 Jan 2021 13:18:12 -0500
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76A3EC061575
+        for <ecryptfs@vger.kernel.org>; Wed, 13 Jan 2021 10:17:32 -0800 (PST)
+Received: by mail-qk1-x741.google.com with SMTP id d14so3091996qkc.13
+        for <ecryptfs@vger.kernel.org>; Wed, 13 Jan 2021 10:17:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=p2tEoRxSR0ND4Q5W04SeKoQNOCFAovy/UQrDlk01CLk=;
-        b=czmKOdezBZe2hEER+CtfbHwhcXnG1qMGx8L55ZTZYQPdmrgdTPBkV8uP6aXUIeRDlP
-         Zu3X5ge4DE5UFwEtnHDyiYrWHF4X8ea4S30Nehthsm4iBxnH5lUXoOPAZXluW8eI6MAk
-         N/Ol1E2Bq4GBsoeazNY2MSsWg465OlBAs0emyO5XBcB8x5+dwVh/dWavhG8DJ0Q5P1x8
-         YnchmUt1rHhU6c05tA6JyEgdU7ec0qkhXA6nDYoRRx+i8V9r51T4ACRISoK1W+PZjeqE
-         TsA60/gi291eAKCeGOqfShF/17rdgQ113qLXWXkyrlPK8+cWWqYAcUcdnkA+d2bPIVqJ
-         hlQw==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=zkv0Q58PPvkSvJu6d30h6KYA2gvkC/VcWaVEKk6ruOk=;
+        b=O4hEvWfkNjyQ6+C66TuqbGGuuBv8ofTifr7Gqa4fCgALDO5Gy5BGIblnFZh635gNVC
+         6VbMGaOp7L1ykbBNPyrW1EKxejAWCvyFAT+NqbNEEDqVdUPAj/78LbVdsnwNpM8k2pOg
+         hJ/MdS2jSLsjGkF5xHb2rf5GJGYWDZmQbtJt8eJyO3DA++D2R5D+ZohO7Cj+ju3n0x5J
+         tGl/WF4ShTA4jVXHDRZqSA2pr/pJaX2B5CKsN1y2SnsSkkNkeuPFaTBLXMbX1mmPkXAi
+         XAKXhOQevohAPOfGHrCSQsgyjv5czLrMk93A4xejGElMXKXQ8wWIR5BN6yT6OVE8P2jb
+         PlLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=p2tEoRxSR0ND4Q5W04SeKoQNOCFAovy/UQrDlk01CLk=;
-        b=Gfh4+iumJYNDBKmxweZlvvu7OG+T/pDIdkkx7XE9spgFSeCvUN3DBio5qMzvRUEB72
-         uhngeRmkmFp2bnrirUMDAeqpKn7XPMHORAFjz/c7/r2+hCUjCUv4qWXIEK5lYP+6EBxU
-         FeRUr1hJzvVLvywaAwoJ6zlvZJnqJ/g4CYA0QawpL671kBSimHcRQLGP0j6crzEnj+35
-         N82lfZ8xINgcVHxlWTR+cBOlrE2yfuJYwFI98Nxi6wFub0R0mBDcQMR9gLWmkfOXIByR
-         R+kJs0MUUKya0Z4TrkQdfmhoSZPAmbYFDD5gaF5c3rMnIiER2yqseqou7gupFCuVTu0G
-         eAaQ==
-X-Gm-Message-State: AOAM533zqRO9jGFV/pLkYxDSeLyAYiAwJLBAqCpBK1AE+9JKpamAWZQ0
-        vEXfyo/WTOGuNEGxkTnoGDEC9o+ZGfypbH1OxNo=
-X-Google-Smtp-Source: ABdhPJy24r99qVQ0bfISBOlu90IpXYeKAwYzALeMHzQTNuNAMxDBdghwAcDHCoZPsoLeNqyquHxvVr5rI/g+abwDA8s=
-X-Received: by 2002:a2e:586:: with SMTP id 128mr4309894ljf.273.1610216088750;
- Sat, 09 Jan 2021 10:14:48 -0800 (PST)
+         :subject:to;
+        bh=zkv0Q58PPvkSvJu6d30h6KYA2gvkC/VcWaVEKk6ruOk=;
+        b=SMDyXiBvq2vYRppm7LbScHH4R83yoB3UVkYmlZcwMEcLWuP/9rUIAkw33Aw+b3pCZs
+         iUp7qAmTX0WCUSSenYNOEHPeIkJBAyFAgWhor/2Str1Bnabd3BzSXkzcdN9tNiYjMpGI
+         NoIYEad7eEz/hrqkzdRk458d34uNI+gUCMSt1hE1Zgd3o8Xnfh4IlBtXz5cXBPias3IW
+         Z1v03tpYOm5ex2pUOfLg8BHEF6dedh9LZTW3b3pCl4p79O7SNgFeGYVL1XVg/MqGZf+2
+         uNmoGhh6ZQpXO94qictvdnST/KeBIHskkQ/JmZiVDhF7tniZ0W28RCWO9YDEQYK8D24X
+         B3OQ==
+X-Gm-Message-State: AOAM533b+9kTQ9b9ZSIuiMhjylv4nOMPpFygwAtd8kUShhJiX+EC6IHm
+        PDvvlipuDm60ty3r0TKpU/1i3O1w9S5ft2yksTs=
+X-Google-Smtp-Source: ABdhPJzFPiO0PSw0awNwx8w5pAv/Ww3isC8XJJga5XjLzVhNpBboKtYnSSBJkcPZc36AivB4VUe32dBd70+iUmtii4w=
+X-Received: by 2002:a25:a86:: with SMTP id 128mr4722297ybk.370.1610561851656;
+ Wed, 13 Jan 2021 10:17:31 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a05:6504:5ae:0:0:0:0 with HTTP; Sat, 9 Jan 2021 10:14:48
- -0800 (PST)
-Reply-To: stefanopessina34@gmail.com
-From:   STEFANO PESSINA <jackmacus402@gmail.com>
-Date:   Sat, 9 Jan 2021 10:14:48 -0800
-Message-ID: <CALpVmxfh_10QbPZrd62KPT0KJ=q6jqfju+2883Vv8AAVmcnbTA@mail.gmail.com>
-Subject: =?UTF-8?B?SGVyemxpY2hlIEdsw7xja3fDvG5zY2hl?=
+Received: by 2002:a05:7110:a38c:b029:31:3fb9:baa1 with HTTP; Wed, 13 Jan 2021
+ 10:17:31 -0800 (PST)
+Reply-To: jerrykloubarlyngessan@gmail.com
+From:   Jerry Kloubarly Ngessan <dw5234296@gmail.com>
+Date:   Wed, 13 Jan 2021 18:17:31 +0000
+Message-ID: <CAO=SjhaLbgJWJBjAwXQFUE9tt=w5z7bwUAzHVFJxGCnpSbgoHw@mail.gmail.com>
+Subject: Mr.Jerry Kloubarly Ngessan
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Hallo,
-
-Ich bin Stefano Pessina, ein italienischer Wirtschaftsmagnat, Investor
-und Philanthrop. Der stellvertretende Vorsitzende, Chief Executive
-Officer (CEO) und der gr=C3=B6=C3=9Fte Einzelaktion=C3=A4r der Walgreens Bo=
-ots
-Alliance. Ich habe 25 Prozent meines pers=C3=B6nlichen Verm=C3=B6gens f=C3=
-=BCr
-wohlt=C3=A4tige Zwecke verschenkt. Und ich habe auch zugesagt, den Rest von
-25% in diesem Jahr 2021 an Einzelpersonen zu verschenken. Ich habe
-beschlossen, Ihnen 2.200.000,00 =E2=82=AC (zwei Millionen zweihunderttausen=
-d
-Euro) zu spenden. Wenn Sie an meiner Spende interessiert sind,
-kontaktieren Sie mich f=C3=BCr weitere Informationen. Sie k=C3=B6nnen auch =
-mehr
-=C3=BCber mich =C3=BCber den unten stehenden Link lesen
-
-https://en.wikipedia.org/wiki/Stefano_Pessina
-
-Herzlicher Gruss
-CEO Walgreens Boots Alliance
-Stefano Pessina
+Hello Please
+I am Mr. Jerry Kloubarly Ngessan, I stopped at your email from our
+international business directory in my research for a reliable person
+to partner with, I have a business that will profit us both that I
+want us to discuss. You can contact me for more details for convenient
+business discussion if you are interested.
+My email is   (jerrykloubarlyngessan@gmail.com)  I will be glad to
+hear from you soon for more  details
+Thanks for your time and waiting for your response
+Mr.Jerry Kloubarly Ngessan
