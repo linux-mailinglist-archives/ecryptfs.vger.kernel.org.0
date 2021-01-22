@@ -2,67 +2,57 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3467F2F51CB
-	for <lists+ecryptfs@lfdr.de>; Wed, 13 Jan 2021 19:19:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 829C7300DCF
+	for <lists+ecryptfs@lfdr.de>; Fri, 22 Jan 2021 21:35:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727198AbhAMSSN (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Wed, 13 Jan 2021 13:18:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58568 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726429AbhAMSSM (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Wed, 13 Jan 2021 13:18:12 -0500
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76A3EC061575
-        for <ecryptfs@vger.kernel.org>; Wed, 13 Jan 2021 10:17:32 -0800 (PST)
-Received: by mail-qk1-x741.google.com with SMTP id d14so3091996qkc.13
-        for <ecryptfs@vger.kernel.org>; Wed, 13 Jan 2021 10:17:32 -0800 (PST)
+        id S1729524AbhAVUe1 (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Fri, 22 Jan 2021 15:34:27 -0500
+Received: from mail.padangpariamankab.go.id ([103.94.3.123]:40864 "EHLO
+        mail.padangpariamankab.go.id" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729829AbhAVUb1 (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Fri, 22 Jan 2021 15:31:27 -0500
+X-Greylist: delayed 840 seconds by postgrey-1.27 at vger.kernel.org; Fri, 22 Jan 2021 15:31:26 EST
+Received: from localhost (localhost [127.0.0.1])
+        by mail.padangpariamankab.go.id (Postfix) with ESMTP id 15D766E6421;
+        Sat, 23 Jan 2021 03:13:51 +0700 (WIB)
+Received: from mail.padangpariamankab.go.id ([127.0.0.1])
+        by localhost (mail.padangpariamankab.go.id [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id xQO3b6ef20uk; Sat, 23 Jan 2021 03:13:50 +0700 (WIB)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.padangpariamankab.go.id (Postfix) with ESMTP id 3A9DD6E642E;
+        Sat, 23 Jan 2021 03:13:50 +0700 (WIB)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.padangpariamankab.go.id 3A9DD6E642E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=zkv0Q58PPvkSvJu6d30h6KYA2gvkC/VcWaVEKk6ruOk=;
-        b=O4hEvWfkNjyQ6+C66TuqbGGuuBv8ofTifr7Gqa4fCgALDO5Gy5BGIblnFZh635gNVC
-         6VbMGaOp7L1ykbBNPyrW1EKxejAWCvyFAT+NqbNEEDqVdUPAj/78LbVdsnwNpM8k2pOg
-         hJ/MdS2jSLsjGkF5xHb2rf5GJGYWDZmQbtJt8eJyO3DA++D2R5D+ZohO7Cj+ju3n0x5J
-         tGl/WF4ShTA4jVXHDRZqSA2pr/pJaX2B5CKsN1y2SnsSkkNkeuPFaTBLXMbX1mmPkXAi
-         XAKXhOQevohAPOfGHrCSQsgyjv5czLrMk93A4xejGElMXKXQ8wWIR5BN6yT6OVE8P2jb
-         PlLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=zkv0Q58PPvkSvJu6d30h6KYA2gvkC/VcWaVEKk6ruOk=;
-        b=SMDyXiBvq2vYRppm7LbScHH4R83yoB3UVkYmlZcwMEcLWuP/9rUIAkw33Aw+b3pCZs
-         iUp7qAmTX0WCUSSenYNOEHPeIkJBAyFAgWhor/2Str1Bnabd3BzSXkzcdN9tNiYjMpGI
-         NoIYEad7eEz/hrqkzdRk458d34uNI+gUCMSt1hE1Zgd3o8Xnfh4IlBtXz5cXBPias3IW
-         Z1v03tpYOm5ex2pUOfLg8BHEF6dedh9LZTW3b3pCl4p79O7SNgFeGYVL1XVg/MqGZf+2
-         uNmoGhh6ZQpXO94qictvdnST/KeBIHskkQ/JmZiVDhF7tniZ0W28RCWO9YDEQYK8D24X
-         B3OQ==
-X-Gm-Message-State: AOAM533b+9kTQ9b9ZSIuiMhjylv4nOMPpFygwAtd8kUShhJiX+EC6IHm
-        PDvvlipuDm60ty3r0TKpU/1i3O1w9S5ft2yksTs=
-X-Google-Smtp-Source: ABdhPJzFPiO0PSw0awNwx8w5pAv/Ww3isC8XJJga5XjLzVhNpBboKtYnSSBJkcPZc36AivB4VUe32dBd70+iUmtii4w=
-X-Received: by 2002:a25:a86:: with SMTP id 128mr4722297ybk.370.1610561851656;
- Wed, 13 Jan 2021 10:17:31 -0800 (PST)
+        d=padangpariamankab.go.id; s=D2C6CDEC-3607-11EA-BC8A-EEDE4AB8B776;
+        t=1611346430; bh=4AhSoXRU63EAbbOwseUY/pxjidGey07DskAQ7pZ9AvE=;
+        h=Date:From:Message-ID:MIME-Version;
+        b=ZhwIWx803eXRSnOMjtX15Irly19cadCFl9UeEPJyOrVxmI+z6MwLfqeZDqmOLxE//
+         Ieu11Z/QI43rAMOGnAA+y219p7HaRX6aiadrImU4j9Qxzqbyuxx+3+vnFUt9bol8M1
+         gPfkzuKqGQv8ptioGf/UFagTwgMSl2iAJAIi+VTA=
+X-Virus-Scanned: amavisd-new at padangpariamankab.go.id
+Received: from mail.padangpariamankab.go.id ([127.0.0.1])
+        by localhost (mail.padangpariamankab.go.id [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id vwXR-C3lvEz5; Sat, 23 Jan 2021 03:13:49 +0700 (WIB)
+Received: from mail.padangpariamankab.go.id (mail.padangpariamankab.go.id [103.94.3.123])
+        by mail.padangpariamankab.go.id (Postfix) with ESMTP id 2B5A36E6414;
+        Sat, 23 Jan 2021 03:13:47 +0700 (WIB)
+Date:   Sat, 23 Jan 2021 03:13:46 +0700 (WIB)
+From:   GREENLIGHT <rsud@padangpariamankab.go.id>
+Reply-To: "Greenlight Financial Services " <greenlightservices@usa.com>
+Message-ID: <1885143043.14827.1611346426971.JavaMail.zimbra@padangpariamankab.go.id>
+Subject: Update
 MIME-Version: 1.0
-Received: by 2002:a05:7110:a38c:b029:31:3fb9:baa1 with HTTP; Wed, 13 Jan 2021
- 10:17:31 -0800 (PST)
-Reply-To: jerrykloubarlyngessan@gmail.com
-From:   Jerry Kloubarly Ngessan <dw5234296@gmail.com>
-Date:   Wed, 13 Jan 2021 18:17:31 +0000
-Message-ID: <CAO=SjhaLbgJWJBjAwXQFUE9tt=w5z7bwUAzHVFJxGCnpSbgoHw@mail.gmail.com>
-Subject: Mr.Jerry Kloubarly Ngessan
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [103.94.3.123]
+X-Mailer: Zimbra 8.8.15_GA_3895 (zclient/8.8.15_GA_3895)
+Thread-Index: r1ksnc7szY6ov+p3q2pACNHT6W4CqQ==
+Thread-Topic: Update
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Hello Please
-I am Mr. Jerry Kloubarly Ngessan, I stopped at your email from our
-international business directory in my research for a reliable person
-to partner with, I have a business that will profit us both that I
-want us to discuss. You can contact me for more details for convenient
-business discussion if you are interested.
-My email is   (jerrykloubarlyngessan@gmail.com)  I will be glad to
-hear from you soon for more  details
-Thanks for your time and waiting for your response
-Mr.Jerry Kloubarly Ngessan
+
+
+We offer Reliable/Low Interest Rate Financial Services to Companies & Individuals including; Start-Up Business, Loans & Mortgage ETC. Apply Now
