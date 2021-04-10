@@ -2,83 +2,52 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 05EA535A336
-	for <lists+ecryptfs@lfdr.de>; Fri,  9 Apr 2021 18:26:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48A7435A987
+	for <lists+ecryptfs@lfdr.de>; Sat, 10 Apr 2021 02:31:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233934AbhDIQ0T (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Fri, 9 Apr 2021 12:26:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34238 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233674AbhDIQ0S (ORCPT <rfc822;ecryptfs@vger.kernel.org>);
-        Fri, 9 Apr 2021 12:26:18 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 34B576103E;
-        Fri,  9 Apr 2021 16:26:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617985565;
-        bh=/Hl5eHU8L4xr6JaOlwwlyG6clIdkW90gmNVCkqKbsJI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pnBOIp04pVcL4je5JxqNo+Q5HD23QWJ0wqjtE9noWMDU3YFNk4yfI87IYaFinoiuO
-         ybiFqXHjtT6VM350vRtJmE7/HXin3vFCa+Tf7d+ZDWzHDOcBJaxc12nj8qQ1KUTgOI
-         Z2RAPV3e4feiaJ81tPsus8CNtAULeP3Ytz5a1ROfTR4OyDnBiMz0ghL9ZG/FzcbBYA
-         W4ihsHmPH1Vu0m1BA/sdfqEVLZlLlGfkl/9PMIIvd5uSKg3jUmlZNVyqhMMFNbI8/9
-         RyKnlSMT6KW1NZ7y/kVYc816UT+iT4EK9HaeKpg5N91S6sO4Zww3DcjUnuekN7yxyP
-         /H4FYI+ZeJ7Qw==
-From:   Christian Brauner <brauner@kernel.org>
-To:     Tyler Hicks <code@tyhicks.com>, ecryptfs@vger.kernel.org
-Cc:     linux-fsdevel@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>
-Subject: [PATCH 3/3] ecryptfs: extend ro check to private mount
-Date:   Fri,  9 Apr 2021 18:24:22 +0200
-Message-Id: <20210409162422.1326565-4-brauner@kernel.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210409162422.1326565-1-brauner@kernel.org>
+        id S235224AbhDJAb0 (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Fri, 9 Apr 2021 20:31:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46762 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235215AbhDJAb0 (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Fri, 9 Apr 2021 20:31:26 -0400
+Received: from zeniv-ca.linux.org.uk (zeniv-ca.linux.org.uk [IPv6:2607:5300:60:148a::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72B89C061762;
+        Fri,  9 Apr 2021 17:31:11 -0700 (PDT)
+Received: from viro by zeniv-ca.linux.org.uk with local (Exim 4.94 #2 (Red Hat Linux))
+        id 1lV1Wg-00490e-Ew; Sat, 10 Apr 2021 00:31:02 +0000
+Date:   Sat, 10 Apr 2021 00:31:02 +0000
+From:   Al Viro <viro@zeniv.linux.org.uk>
+To:     Christian Brauner <brauner@kernel.org>
+Cc:     Tyler Hicks <code@tyhicks.com>, ecryptfs@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Miklos Szeredi <miklos@szeredi.hu>
+Subject: Re: [PATCH 2/3] ecryptfs: use private mount in path
+Message-ID: <YHDxxunCKNuV34Oz@zeniv-ca.linux.org.uk>
 References: <20210409162422.1326565-1-brauner@kernel.org>
+ <20210409162422.1326565-3-brauner@kernel.org>
 MIME-Version: 1.0
-X-Patch-Hashes: v=1; h=sha256; i=TJq3ADscBRuq3vVMRrZQ25nFLYThkfCmWR4OfInmRrw=; m=1ciTf4lEciTeOTFMYE8Ti/zNFh88dj9ns8fWVydD8Es=; p=lH6ypLy7nBSAU1Y8+OlROQnduiSVhzKO3zb3sUcPmzw=; g=0d107768135058226d796803890d0dee0a0e7ec6
-X-Patch-Sig: m=pgp; i=christian.brauner@ubuntu.com; s=0x0x91C61BC06578DCA2; b=iHUEABYKAB0WIQRAhzRXHqcMeLMyaSiRxhvAZXjcogUCYHB/qwAKCRCRxhvAZXjcoqPRAQDNdrN i3wEqHRmR7SJY4F0Q5iNfmpejbX7iJwoaooOKIQD+ONXL9uXlqTTTfpuw2HNXE7y9BIaV0nX4TY+o Bx2U+ww=
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210409162422.1326565-3-brauner@kernel.org>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-From: Christian Brauner <christian.brauner@ubuntu.com>
+On Fri, Apr 09, 2021 at 06:24:21PM +0200, Christian Brauner wrote:
 
-So far ecryptfs only verified that the superblock wasn't read-only but
-didn't check whether the mount was. This made sense when we did not use
-a private mount because the read-only state could change at any point.
+> Reading through the codebase of ecryptfs it currently takes path->mnt
+> and then retrieves that path whenever it needs to perform operations in
+> the underlying filesystem. Simply drop the old path->mnt once we've
+> created a private mount and place the new private mnt into path->mnt.
+> This should be all that is needed to make this work since ecryptfs uses
+> the same lower path's vfsmount to construct the paths it uses to operate
+> on the underlying filesystem.
 
-Now that we have a private mount and mount properties can't change
-behind our back extend the read-only check to include the vfsmount.
+> +	mnt = clone_private_mount(&path);
 
-The __mnt_is_readonly() helper will check both the mount and the
-superblock.  Note that before we checked root->d_sb and now we check
-mnt->mnt_sb but since we have a matching <vfsmount, dentry> pair here
-this is only syntactical change, not a semantic one.
-
-Overlayfs and cachefiles have been changed to check this as well.
-
-Cc: Amir Goldstein <amir73il@gmail.com>
-Cc: Tyler Hicks <code@tyhicks.com>
-Cc: ecryptfs@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
----
- fs/ecryptfs/main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/fs/ecryptfs/main.c b/fs/ecryptfs/main.c
-index 9dcf9a0dd37b..cdf37d856c62 100644
---- a/fs/ecryptfs/main.c
-+++ b/fs/ecryptfs/main.c
-@@ -569,7 +569,7 @@ static struct dentry *ecryptfs_mount(struct file_system_type *fs_type, int flags
- 	 *   1) The lower mount is ro
- 	 *   2) The ecryptfs_encrypted_view mount option is specified
- 	 */
--	if (sb_rdonly(path.dentry->d_sb) || mount_crypt_stat->flags & ECRYPTFS_ENCRYPTED_VIEW_ENABLED)
-+	if (__mnt_is_readonly(mnt) || mount_crypt_stat->flags & ECRYPTFS_ENCRYPTED_VIEW_ENABLED)
- 		s->s_flags |= SB_RDONLY;
- 
- 	s->s_maxbytes = path.dentry->d_sb->s_maxbytes;
--- 
-2.27.0
-
+Incidentally, why is that thing anything other than a trivial wrapper
+for mnt_clone_internal() (if that - I'm not convinced that the check of
+unbindable is the right thing to do here).  Miklos?
