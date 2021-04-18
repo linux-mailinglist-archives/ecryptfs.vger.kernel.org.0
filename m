@@ -2,96 +2,79 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D932363707
-	for <lists+ecryptfs@lfdr.de>; Sun, 18 Apr 2021 19:38:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DAEA3638BC
+	for <lists+ecryptfs@lfdr.de>; Mon, 19 Apr 2021 02:07:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232284AbhDRRi5 (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Sun, 18 Apr 2021 13:38:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56828 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231735AbhDRRix (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Sun, 18 Apr 2021 13:38:53 -0400
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD547C061760
-        for <ecryptfs@vger.kernel.org>; Sun, 18 Apr 2021 10:38:21 -0700 (PDT)
-Received: by mail-ot1-x334.google.com with SMTP id c8-20020a9d78480000b0290289e9d1b7bcso16382772otm.4
-        for <ecryptfs@vger.kernel.org>; Sun, 18 Apr 2021 10:38:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tyhicks-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=4Uxy/H46ztQJA5yFK5/pTHWRVi7fZP2Q+MrW5rsMwqY=;
-        b=Gva1qvx4iFfSYu3tVAAa/nf0Gygn2Z/8jvJycdnWsP853BjMLCiqZbYk193OnUPt7a
-         S1Brb3IGQ/eznu5B+yANi72um/2cpBe/KLXGVXV2MPRmygjBNq486GBXhayHE7o9PCMd
-         JshnV5VAWeiDC1mO1UDSNAUdJQn0RD8lhwD/IsZ+4durD12wasQazXTHEZgm3X6BR5Ki
-         46UInMYZSP9tR2tI2P5Qmk7TcHLUrExeMBJx2/rr/4pvkGSGnzRgKyD13nbzFpwbzrZW
-         55FwlzzGhyT8r6L8nx1RTyyVIR6SXSqyhSeN6XN15/LWeQLcZdxkZwE6ekVcL7wp739D
-         Z7zQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=4Uxy/H46ztQJA5yFK5/pTHWRVi7fZP2Q+MrW5rsMwqY=;
-        b=YqyPo0cN+EWYHci7S7VQJ1nI136n7fFeGb3+n6Qmvozcu+MGV25u1lJ/sMWYdEPZmS
-         p48UYFoJgF8rl6S4gyrTbuA56GkLPsnXTQtydcoPVGXDB9vtqQ62anIczuIMIq6iCI8l
-         ozDSXb53q/U9KQ+FRU9v9dxjzBvdw5ZgyrX7Pqjw93EVvMWTGMuAyMWsXRwsWAFrN90M
-         o1+9sbdYrBOsaKjfPYgHosI0XfDwJQegfcPUalGGKtloQ/RFc8BEChsXx1GB62W5m5PO
-         bcP5k/Avo1p1KWGAd4mehbCzi7QAUR29vi/Dbxy4HvnwOKKdmTcl71uRT7FaIvstphPq
-         Srog==
-X-Gm-Message-State: AOAM531ClZaig8O/XdJS7B0x7y/nThz8P+mGa067E8IT8vpFoN7DImQP
-        2XAKFqyWFV1pdLSvF+rKG2GTJGQAlBNrzQv1Hyw=
-X-Google-Smtp-Source: ABdhPJyUlglvgYT5lkSeMHQ7k65T4T9H4d6kPTiZnBydiNyBWmK3DZY+EBeemqwHrg9qf44ksrKyeg==
-X-Received: by 2002:a05:6830:4111:: with SMTP id w17mr12028953ott.99.1618767501020;
-        Sun, 18 Apr 2021 10:38:21 -0700 (PDT)
-Received: from elm (162-237-133-238.lightspeed.rcsntx.sbcglobal.net. [162.237.133.238])
-        by smtp.gmail.com with ESMTPSA id n104sm2920071ota.27.2021.04.18.10.38.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Apr 2021 10:38:20 -0700 (PDT)
-Date:   Sun, 18 Apr 2021 12:38:19 -0500
-From:   Tyler Hicks <code@tyhicks.com>
-To:     Sascha Hauer <s.hauer@pengutronix.de>
-Cc:     ecryptfs@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ecryptfs: Fix typo in message
-Message-ID: <20210418173819.GE398325@elm>
-References: <20210224113059.28445-1-s.hauer@pengutronix.de>
+        id S232288AbhDSAIO (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Sun, 18 Apr 2021 20:08:14 -0400
+Received: from mbox.abcom.al ([217.73.143.249]:48970 "EHLO mbox.abcom.al"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231489AbhDSAIN (ORCPT <rfc822;ecryptfs@vger.kernel.org>);
+        Sun, 18 Apr 2021 20:08:13 -0400
+X-Greylist: delayed 471 seconds by postgrey-1.27 at vger.kernel.org; Sun, 18 Apr 2021 20:08:13 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by mbox.abcom.al (Postfix) with ESMTP id B4B4B1208F1D1;
+        Mon, 19 Apr 2021 01:57:41 +0200 (CEST)
+Received: from mbox.abcom.al ([127.0.0.1])
+        by localhost (mbox.abcom.al [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id VIOfEDwTVkx0; Mon, 19 Apr 2021 01:57:41 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by mbox.abcom.al (Postfix) with ESMTP id 652E2120E34C2;
+        Mon, 19 Apr 2021 01:57:41 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mbox.abcom.al 652E2120E34C2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=abcom.al;
+        s=0F3BA0EE-D5D4-11E8-9596-F9115129F2F4; t=1618790261;
+        bh=p2Sn/5BeV1TeOpE0g2OnXyVNOPHFXRN2kak+hb1GY3o=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=lVSDvZCyUFyX062zx4cx57ahUZT9wfyAUtkdlRGDwgXLq/5AAy0pM41kuuspCDsnR
+         pkkFI6pvud11T2hTaY7W4rjJxfZGPPe2syAQsYXZfBMvys6SmC22UESxC97xB+dKCV
+         5z2HhafXbKGAMIfEVGFo4Cc6UMRg+PcwLAfzyWv+F3GNlL3sRU9TijXz4cAwsuEBZN
+         ngwewYIP/gsbHHGQtMRYrjEjxYxDAMBwfHME8V7U50eOavu/lI5GbEgroaYYXsXu1i
+         dhXwK3FhPTqeHJ2REzud80MRXI6FxR3e+YcMnG+Y7liKtML3SwPuc7FZNpEDs5AGW7
+         bGnjoNr0NWT+A==
+X-Virus-Scanned: amavisd-new at mbox.abcom.al
+Received: from mbox.abcom.al ([127.0.0.1])
+        by localhost (mbox.abcom.al [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id fuvCLHbDxvqf; Mon, 19 Apr 2021 01:57:41 +0200 (CEST)
+Received: from [192.168.43.60] (unknown [105.4.4.115])
+        by mbox.abcom.al (Postfix) with ESMTPSA id E4A5D1208F1D1;
+        Mon, 19 Apr 2021 01:57:34 +0200 (CEST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210224113059.28445-1-s.hauer@pengutronix.de>
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: =?utf-8?q?Hallo=2C_Sie_haben_eine_Spende_von_=E2=82=AC_2=2E000=2E000=2C00?=
+To:     Recipients <abashi@abcom.al>
+From:   <abashi@abcom.al>
+Date:   Mon, 19 Apr 2021 01:56:34 +0200
+Reply-To: billlawrencedonationorg@yahoo.com
+Message-Id: <20210418235734.E4A5D1208F1D1@mbox.abcom.al>
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-On 2021-02-24 12:30:59, Sascha Hauer wrote:
-> ecryptfs_decrypt_page() issues a warning "Error encrypting extent". This
-> should be "Error decrypting extent" instead.
-> 
-> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+Sehr geehrter Herr / Frau
+Ich gr=C3=BC=C3=9Fe Sie im Namen des Herrn. Diese Nachricht wird Ihnen als =
+Benachrichtigung gesendet, dass Sie ausgew=C3=A4hlt wurden, um von meinem W=
+ohlt=C3=A4tigkeitsprojekt zu profitieren, das darauf abzielt, Leben zu ber=
+=C3=BChren und denen zu helfen, die ich auf der ganzen Welt kann, wie Gott =
+mich gesegnet hat.
+Ich habe die Powerball-Lotterie in H=C3=B6he von 150 Millionen USD am 16. D=
+ezember 2019 gewonnen und ich habe mich freiwillig entschlossen, Ihnen eine=
+n Betrag von (2.000.000,00 =E2=82=AC) als Wohlt=C3=A4tigkeitsorganisation z=
+u spenden. Ich versuche, zuf=C3=A4llige Menschen aus verschiedenen Quellen =
+und Moden zu erreichen, um das Leben aus verschiedenen Quellen zu ber=C3=BC=
+hren Winkel. Deshalb erhalten Sie hier die Nachricht.
+Sie wurden als einer der gl=C3=BCcklichen Empf=C3=A4nger registriert, die 2=
+ Millionen Euro erhalten haben. Diese Spende wird Ihnen gegeben, damit Sie =
+Ihre pers=C3=B6nlichen Probleme versch=C3=A4rfen und uns zum gro=C3=9Fen Te=
+il gro=C3=9Fz=C3=BCgig dabei helfen k=C3=B6nnen, die weniger gl=C3=BCcklich=
+en Waisen und gemeinn=C3=BCtzigen Organisationen in Ihrem Land zu unterst=
+=C3=BCtzen Nachbarschaftslokalit=C3=A4t
+Zur =C3=9Cberpr=C3=BCfung: //www.powerball.com/winner-story/150-million-pow=
+erball-ticket-claimed
 
-Thanks! This looks good. I'll add the following fixes line while
-applying:
+Kontaktieren Sie mich erneut, um Spenden zu erhalten. E-Mail: billlawrenced=
+onationorg@yahoo.com
 
-Fixes: 0216f7f79217 ("eCryptfs: replace encrypt, decrypt, and inode size write")
-
-Tyler
-
-> ---
->  fs/ecryptfs/crypto.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/fs/ecryptfs/crypto.c b/fs/ecryptfs/crypto.c
-> index a48116aae02c..0fed4ff02f69 100644
-> --- a/fs/ecryptfs/crypto.c
-> +++ b/fs/ecryptfs/crypto.c
-> @@ -535,7 +535,7 @@ int ecryptfs_decrypt_page(struct page *page)
->  		rc = crypt_extent(crypt_stat, page, page,
->  				  extent_offset, DECRYPT);
->  		if (rc) {
-> -			printk(KERN_ERR "%s: Error encrypting extent; "
-> +			printk(KERN_ERR "%s: Error decrypting extent; "
->  			       "rc = [%d]\n", __func__, rc);
->  			goto out;
->  		}
-> -- 
-> 2.29.2
-> 
+Vielen Dank, Bill Lawrence
