@@ -2,281 +2,114 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A628363AC1
-	for <lists+ecryptfs@lfdr.de>; Mon, 19 Apr 2021 07:01:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CDC8363AE2
+	for <lists+ecryptfs@lfdr.de>; Mon, 19 Apr 2021 07:09:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230002AbhDSFCJ (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Mon, 19 Apr 2021 01:02:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33786 "EHLO
+        id S231203AbhDSFKA (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Mon, 19 Apr 2021 01:10:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229980AbhDSFCI (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Mon, 19 Apr 2021 01:02:08 -0400
-Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com [IPv6:2607:f8b0:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F17EC061760
-        for <ecryptfs@vger.kernel.org>; Sun, 18 Apr 2021 22:01:39 -0700 (PDT)
-Received: by mail-ot1-x333.google.com with SMTP id f75-20020a9d03d10000b0290280def9ab76so26350949otf.12
-        for <ecryptfs@vger.kernel.org>; Sun, 18 Apr 2021 22:01:39 -0700 (PDT)
+        with ESMTP id S230490AbhDSFJ7 (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Mon, 19 Apr 2021 01:09:59 -0400
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88B74C061760
+        for <ecryptfs@vger.kernel.org>; Sun, 18 Apr 2021 22:09:29 -0700 (PDT)
+Received: by mail-oi1-x229.google.com with SMTP id b3so19545786oie.5
+        for <ecryptfs@vger.kernel.org>; Sun, 18 Apr 2021 22:09:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=tyhicks-com.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=Gc6u9uo+vC8RulIlt1GcE2iAKlGQUh2yZ4IyWMGgTvI=;
-        b=p14frPcsaEpvIGz4weobGdBhnoPOpSAUWGgbIKY98KGfuLlIMGdzi3szJManARmcmR
-         txQHuSALNpm7leLSuSSpl3QEN6CsL+iLd0ZPyqWB4W1s8WTROpy8GjTiuElB46877x2g
-         PFuY1OS4IfhuxaEPj46GuN04kxqmEKnQUplKe8ZvH8whWkYERHVdhzSbmoPcbcrBZwjC
-         jMjB0HardJy1qKqY8LVE+/Rew4OpUwXHggiI/amL49oF3d2VDcY54FOzizF+vdkRN4OF
-         SaBlRF+jFGkZNdxVUt0lPuXm47Vy7gCZRi8m0F+c74PsdYHzPR0TYPqvRAMGXZRdf/kq
-         MJfQ==
+        bh=fABlF+14BfgwTL8mrmDU7zMG3h8rFyGf7GZuESKF/uo=;
+        b=r8GN68W5U1zMvQXpILWJgnXUF96294k/mjGkfrf6wnUHEIPjlP9bXpjG5R6R7S9Woh
+         vlAqSYFgpJcn+iE2R7zrcTQzFx5vfMgMl6rSczOCnc7JKGF17JBBp1HnVu4Wk/pKlgRK
+         G+6OatlZuWFHgDRMtgcX7ykD+6uGh4Nu5/+asDShEbc7jZEeYywVyxVOUIh9VfJuPW/K
+         Xsxgoo0rsbkU/0Abzw9FwsWAdtvQTbXT5hmSAhS7A8FEtZNQB3nKje0jMh0jBELbhdw6
+         gEWbtw/gUWpp0HOT5B97ShKrJoztUEqbmk3H+iTZnwfrQjHqm+JEZGFwAUHIUBQVegs2
+         Dihg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=Gc6u9uo+vC8RulIlt1GcE2iAKlGQUh2yZ4IyWMGgTvI=;
-        b=rG5h/ISCeiUqhdzhWxsvgw8/KwAI3iI8ixF52ZUuqH5/fI77I838e9pUuTwRtF0R4a
-         +n5ToK4usGwIMBgLW76Eh+JhxKx1NOGjTg/DBmrn8wNhQAliU3sdeC9dQenx1VU9E0z1
-         fzEuVk4h3HE3iHA1ijGFjEShDMnVUUOdOmg+JZAumx4Jb66cvFgWyl2Def2Z1GRT8Xtj
-         HZlUDseZzud5FCPwE+rqgDNcpuWKj9LG5WvsKGyPq+gK2sQk9zuUrQHaiJdEDc1+yXtG
-         mqTm8i6KKNbylXSgwOMnwyjs+xbwFeWsfI5+dV+UGROGz60VeddNfBPV0XOACdpXzOpd
-         5g5w==
-X-Gm-Message-State: AOAM530xM4qu+t1ED5H1u5NtiTLu6+PtwgBLDwAv7asWIyUUWL3RxZVz
-        C+x4i2PQW73gYlD1yqp+TPm1DA==
-X-Google-Smtp-Source: ABdhPJxIHP6Lp44PcHiceGNDeLqR1knJimk4Ui6aGv/XuM5ngvXWAAsVwtri+ckj82Sw/X8uHEgB7A==
-X-Received: by 2002:a9d:7342:: with SMTP id l2mr13558576otk.175.1618808498876;
-        Sun, 18 Apr 2021 22:01:38 -0700 (PDT)
+        bh=fABlF+14BfgwTL8mrmDU7zMG3h8rFyGf7GZuESKF/uo=;
+        b=GvI4+tTzkObf7iabhJKnBRipipJZ5jhayq58NWOg5LVJuCkeIynRQgS9BpO+oirvDd
+         BqF1XnXTlc3xev6nRF8wVsQLTbsxrWVYDln3TfpCh8kO9TUieUQgNQoI3IZ3gggVJNgV
+         K4IBjgEQVjxj3HvsyPgUHFVbwQ+RP1k1I/dr40AKD7wqtAAlUAyKnFjySY+BL/5P59jM
+         jmWj28HLO/7JNyHeQNAdJBrto5LvnGK23Qn8nRzr1opWZwYguDHo2JgOtHy0aKllo9tn
+         QLaoDHCFAX5sjZrnIGY75iauj8+8WYXxtCyw1WpMzquRbSdJU/li2lO2qqG+lJ5kPcwQ
+         wFSQ==
+X-Gm-Message-State: AOAM530smk4ObvH9nCq/BxwkryhaPQZFueUgCYR92UUspWE1Y8cx7voR
+        dxvQ4OunK+/tvcziPttP2OKnkQ==
+X-Google-Smtp-Source: ABdhPJyuYzBsn68fl9VLHc7H54GcpcAV6KleKpLXoBj5CGl6GoWvD7RzUYe+oS5rlv9IZQcBX4jN+w==
+X-Received: by 2002:a05:6808:f0a:: with SMTP id m10mr15432070oiw.48.1618808968841;
+        Sun, 18 Apr 2021 22:09:28 -0700 (PDT)
 Received: from elm (162-237-133-238.lightspeed.rcsntx.sbcglobal.net. [162.237.133.238])
-        by smtp.gmail.com with ESMTPSA id 68sm3219655otc.54.2021.04.18.22.01.38
+        by smtp.gmail.com with ESMTPSA id v81sm42860oie.13.2021.04.18.22.09.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Apr 2021 22:01:38 -0700 (PDT)
-Date:   Mon, 19 Apr 2021 00:01:28 -0500
+        Sun, 18 Apr 2021 22:09:28 -0700 (PDT)
+Date:   Mon, 19 Apr 2021 00:09:26 -0500
 From:   Tyler Hicks <code@tyhicks.com>
-To:     Christian Brauner <brauner@kernel.org>
-Cc:     linux-fsdevel@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>,
-        Christoph Hellwig <hch@lst.de>,
-        David Howells <dhowells@redhat.com>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>, ecryptfs@vger.kernel.org,
-        linux-cachefs@redhat.com,
-        Christian Brauner <christian.brauner@ubuntu.com>
-Subject: Re: [PATCH 6/7] ecryptfs: switch to using a private mount
-Message-ID: <20210419050128.GA405651@elm>
-References: <20210414123750.2110159-1-brauner@kernel.org>
- <20210414123750.2110159-7-brauner@kernel.org>
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Andreas Gruenbacher <agruenba@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Bob Peterson <rpeterso@redhat.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        cluster-devel@redhat.com, David Howells <dhowells@redhat.com>,
+        ecryptfs@vger.kernel.org, Eric Biggers <ebiggers@google.com>,
+        James Morris <jamorris@linux.microsoft.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        "Michael A. Halcrow" <mahalcro@us.ibm.com>,
+        "Michael A. Halcrow" <mhalcrow@us.ibm.com>,
+        "Michael C. Thompsion" <mcthomps@us.ibm.com>,
+        Michal Hocko <mhocko@suse.com>,
+        "Trevor S. Highland" <trevor.highland@gmail.com>,
+        Tycho Andersen <tycho@tycho.pizza>,
+        Waiman Long <longman@redhat.com>
+Subject: Re: [PATCH 00/31] Rid W=1 warnings from GFS2 and EncryptFS
+Message-ID: <20210419050926.GB405651@elm>
+References: <20210330164458.1625478-1-lee.jones@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210414123750.2110159-7-brauner@kernel.org>
+In-Reply-To: <20210330164458.1625478-1-lee.jones@linaro.org>
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-On 2021-04-14 14:37:50, Christian Brauner wrote:
-> From: Christian Brauner <christian.brauner@ubuntu.com>
+On 2021-03-30 17:44:27, Lee Jones wrote:
+> This set is part of a larger effort attempting to clean-up W=1
+> kernel builds, which are currently overwhelmingly riddled with
+> niggly little warnings.
 > 
-> Since [1] we support creating private mounts from a given path's
-> vfsmount. This makes them very suitable for any filesystem or
-> filesystem functionality that piggybacks on paths of another filesystem.
-> Overlayfs, cachefiles, and ecryptfs are three prime examples.
+> There is more to do in filesystems.  Another set will follow.
 > 
-> Since private mounts aren't attached in the filesystem they aren't
-> affected by mount property changes after ecryptfs makes use of them.
-> This seems a rather desirable property as the underlying path can't e.g.
-> suddenly go from read-write to read-only and in general it means that
-> ecryptfs is always in full control of the underlying mount after the
-> user has allowed it to be used (apart from operations that affect the
-> superblock of course).
-> 
-> Besides that it also makes things simpler for a variety of other vfs
-> features. One concrete example is fanotify. When the path->mnt of the
-> path that is used as a cache has been marked with FAN_MARK_MOUNT the
-> semantics get tricky as it isn't clear whether the watchers of path->mnt
-> should get notified about fsnotify events when files are created by
-> ecryptfs via path->mnt. Using a private mount let's us elegantly
-> handle this case too and aligns the behavior of stacks created by
-> overlayfs and cachefiles.
-> 
-> This change comes with a proper simplification in how ecryptfs currently
-> handles the lower_path it stashes as private information in its
-> dentries. Currently it always does:
-> 
->         ecryptfs_set_dentry_private(dentry, dentry_info);
->         dentry_info->lower_path.mnt = mntget(path->mnt);
->         dentry_info->lower_path.dentry = lower_dentry;
-> 
-> and then during .d_relase() in ecryptfs_d_release():
-> 
->         path_put(&p->lower_path);
-> 
-> which is odd since afaict path->mnt is guaranteed to be the mnt stashed
-> during ecryptfs_mount():
-> 
->         ecryptfs_set_dentry_private(s->s_root, root_info);
->         root_info->lower_path = path;
-> 
-> So that mntget() seems somewhat pointless but there might be reasons
-> that I'm missing in how the interpose logic for ecryptfs works.
-> 
-> While switching to a long-term private mount via clone_private_mount()
-> let's get rid of the gratuitous mntget() and mntput()/path_put().
-> Instead, stash away the private mount in ecryptfs' s_fs_info and call
-> kern_unmount() in .kill_sb() so we only take the mntput() hit once.
-> 
-> I've added a WARN_ON_ONCE() into ecryptfs_lookup_interpose() triggering
-> if the stashed private mount and the path's mount don't match. I think
-> that would be a proper bug even without that clone_private_mount()
-> change in this patch.
-> 
-> [1]: c771d683a62e ("vfs: introduce clone_private_mount()")
-> Cc: Amir Goldstein <amir73il@gmail.com>
-> Cc: Tyler Hicks <code@tyhicks.com>
-> Cc: Miklos Szeredi <mszeredi@redhat.com>
-> Cc: ecryptfs@vger.kernel.org
-> Cc: linux-fsdevel@vger.kernel.org
-> Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
+> Lee Jones (31):
+...
+>   fs: ecryptfs: read_write: File headers do not make good candidates for
+>     kernel-doc
+>   fs: ecryptfs: debug: Demote a couple of kernel-doc abuses
+>   fs: ecryptfs: dentry: File headers are not good candidates for
+>     kernel-doc
+>   fs: ecryptfs: kthread: Demote file header and provide description for
+>     'cred'
+>   fs: ecryptfs: file: Demote kernel-doc abuses
+>   fs: ecryptfs: super: Fix formatting, naming and kernel-doc abuses
+>   fs: ecryptfs: messaging: Add missing param descriptions and demote
+>     abuses
+>   fs: ecryptfs: main: Demote a bunch of non-conformant kernel-doc
+>     headers
+>   fs: ecryptfs: miscdev: File headers are not good kernel-doc candidates
+>   fs: ecryptfs: crypto: Supply some missing param descriptions and
+>     demote abuses
+>   fs: ecryptfs: mmap: Help out one function header and demote other
+>     abuses
+>   fs: ecryptfs: inode: Help out nearly-there header and demote
+>     non-conformant ones
+>   fs: ecryptfs: keystore: Fix some kernel-doc issues and demote
+>     non-conformant headers
 
-This patch and the following one both look technically correct to me. I
-do want to spend a little time manually testing these changes, though.
-I'm hoping to have that done by end of day Tuesday.
+I've applied the eCryptfs fixes to the next branch of
+tyhicks/ecryptfs.git. Thanks for the clean-up!
 
 Tyler
-
-> ---
->  fs/ecryptfs/dentry.c          |  6 +++++-
->  fs/ecryptfs/ecryptfs_kernel.h |  9 +++++++++
->  fs/ecryptfs/inode.c           |  5 ++++-
->  fs/ecryptfs/main.c            | 29 ++++++++++++++++++++++++-----
->  4 files changed, 42 insertions(+), 7 deletions(-)
-> 
-> diff --git a/fs/ecryptfs/dentry.c b/fs/ecryptfs/dentry.c
-> index 44606f079efb..e5edafa165d4 100644
-> --- a/fs/ecryptfs/dentry.c
-> +++ b/fs/ecryptfs/dentry.c
-> @@ -67,7 +67,11 @@ static void ecryptfs_d_release(struct dentry *dentry)
->  {
->  	struct ecryptfs_dentry_info *p = dentry->d_fsdata;
->  	if (p) {
-> -		path_put(&p->lower_path);
-> +		/*
-> +		 * p->lower_path.mnt is a private mount which will be released
-> +		 * when the superblock shuts down so we only need to dput here.
-> +		 */
-> +		dput(p->lower_path.dentry);
->  		call_rcu(&p->rcu, ecryptfs_dentry_free_rcu);
->  	}
->  }
-> diff --git a/fs/ecryptfs/ecryptfs_kernel.h b/fs/ecryptfs/ecryptfs_kernel.h
-> index e6ac78c62ca4..f89d0f7bb3fe 100644
-> --- a/fs/ecryptfs/ecryptfs_kernel.h
-> +++ b/fs/ecryptfs/ecryptfs_kernel.h
-> @@ -352,6 +352,7 @@ struct ecryptfs_mount_crypt_stat {
->  struct ecryptfs_sb_info {
->  	struct super_block *wsi_sb;
->  	struct ecryptfs_mount_crypt_stat mount_crypt_stat;
-> +	struct vfsmount *mnt;
->  };
->  
->  /* file private data. */
-> @@ -496,6 +497,14 @@ ecryptfs_set_superblock_lower(struct super_block *sb,
->  	((struct ecryptfs_sb_info *)sb->s_fs_info)->wsi_sb = lower_sb;
->  }
->  
-> +static inline void
-> +ecryptfs_set_superblock_lower_mnt(struct super_block *sb,
-> +				  struct vfsmount *mnt)
-> +{
-> +	struct ecryptfs_sb_info *sbi = sb->s_fs_info;
-> +	sbi->mnt = mnt;
-> +}
-> +
->  static inline struct ecryptfs_dentry_info *
->  ecryptfs_dentry_to_private(struct dentry *dentry)
->  {
-> diff --git a/fs/ecryptfs/inode.c b/fs/ecryptfs/inode.c
-> index 18e9285fbb4c..204df4bf476d 100644
-> --- a/fs/ecryptfs/inode.c
-> +++ b/fs/ecryptfs/inode.c
-> @@ -324,6 +324,7 @@ static struct dentry *ecryptfs_lookup_interpose(struct dentry *dentry,
->  				     struct dentry *lower_dentry)
->  {
->  	struct path *path = ecryptfs_dentry_to_lower_path(dentry->d_parent);
-> +	struct ecryptfs_sb_info *sb_info = ecryptfs_superblock_to_private(dentry->d_sb);
->  	struct inode *inode, *lower_inode;
->  	struct ecryptfs_dentry_info *dentry_info;
->  	int rc = 0;
-> @@ -339,7 +340,9 @@ static struct dentry *ecryptfs_lookup_interpose(struct dentry *dentry,
->  	BUG_ON(!d_count(lower_dentry));
->  
->  	ecryptfs_set_dentry_private(dentry, dentry_info);
-> -	dentry_info->lower_path.mnt = mntget(path->mnt);
-> +	/* Warn if we somehow ended up with an unexpected path. */
-> +	WARN_ON_ONCE(path->mnt != sb_info->mnt);
-> +	dentry_info->lower_path.mnt = path->mnt;
->  	dentry_info->lower_path.dentry = lower_dentry;
->  
->  	/*
-> diff --git a/fs/ecryptfs/main.c b/fs/ecryptfs/main.c
-> index cdf40a54a35d..3ba2c0f349a3 100644
-> --- a/fs/ecryptfs/main.c
-> +++ b/fs/ecryptfs/main.c
-> @@ -476,6 +476,7 @@ static struct file_system_type ecryptfs_fs_type;
->  static struct dentry *ecryptfs_mount(struct file_system_type *fs_type, int flags,
->  			const char *dev_name, void *raw_data)
->  {
-> +	struct vfsmount *mnt;
->  	struct super_block *s;
->  	struct ecryptfs_sb_info *sbi;
->  	struct ecryptfs_mount_crypt_stat *mount_crypt_stat;
-> @@ -537,6 +538,16 @@ static struct dentry *ecryptfs_mount(struct file_system_type *fs_type, int flags
->  		goto out_free;
->  	}
->  
-> +	mnt = clone_private_mount(&path);
-> +	if (IS_ERR(mnt)) {
-> +		rc = PTR_ERR(mnt);
-> +		pr_warn("Failed to create private mount for ecryptfs\n");
-> +		goto out_free;
-> +	}
-> +
-> +	/* Record our long-term lower mount. */
-> +	ecryptfs_set_superblock_lower_mnt(s, mnt);
-> +
->  	if (check_ruid && !uid_eq(d_inode(path.dentry)->i_uid, current_uid())) {
->  		rc = -EPERM;
->  		printk(KERN_ERR "Mount of device (uid: %d) not owned by "
-> @@ -590,9 +601,15 @@ static struct dentry *ecryptfs_mount(struct file_system_type *fs_type, int flags
->  	if (!root_info)
->  		goto out_free;
->  
-> +	/* Use our private mount from now on. */
-> +	root_info->lower_path.mnt = mnt;
-> +	root_info->lower_path.dentry = dget(path.dentry);
-> +
-> +	/* We created a private clone of this mount above so drop the path. */
-> +	path_put(&path);
-> +
->  	/* ->kill_sb() will take care of root_info */
->  	ecryptfs_set_dentry_private(s->s_root, root_info);
-> -	root_info->lower_path = path;
->  
->  	s->s_flags |= SB_ACTIVE;
->  	return dget(s->s_root);
-> @@ -619,11 +636,13 @@ static struct dentry *ecryptfs_mount(struct file_system_type *fs_type, int flags
->  static void ecryptfs_kill_block_super(struct super_block *sb)
->  {
->  	struct ecryptfs_sb_info *sb_info = ecryptfs_superblock_to_private(sb);
-> +
->  	kill_anon_super(sb);
-> -	if (!sb_info)
-> -		return;
-> -	ecryptfs_destroy_mount_crypt_stat(&sb_info->mount_crypt_stat);
-> -	kmem_cache_free(ecryptfs_sb_info_cache, sb_info);
-> +	if (sb_info) {
-> +		kern_unmount(sb_info->mnt);
-> +		ecryptfs_destroy_mount_crypt_stat(&sb_info->mount_crypt_stat);
-> +		kmem_cache_free(ecryptfs_sb_info_cache, sb_info);
-> +	}
->  }
->  
->  static struct file_system_type ecryptfs_fs_type = {
-> -- 
-> 2.27.0
-> 
