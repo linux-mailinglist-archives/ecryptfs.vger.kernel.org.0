@@ -2,49 +2,66 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E9BA3AE2BE
-	for <lists+ecryptfs@lfdr.de>; Mon, 21 Jun 2021 07:26:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B2C23B1A81
+	for <lists+ecryptfs@lfdr.de>; Wed, 23 Jun 2021 14:51:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229719AbhFUF2b (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Mon, 21 Jun 2021 01:28:31 -0400
-Received: from verein.lst.de ([213.95.11.211]:40524 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229486AbhFUF23 (ORCPT <rfc822;ecryptfs@vger.kernel.org>);
-        Mon, 21 Jun 2021 01:28:29 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 1E33B68BEB; Mon, 21 Jun 2021 07:26:13 +0200 (CEST)
-Date:   Mon, 21 Jun 2021 07:26:12 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Dmitry Osipenko <digetx@gmail.com>, Tyler Hicks <code@tyhicks.com>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jan Kara <jack@suse.cz>, Al Viro <viro@zeniv.linux.org.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, ecryptfs@vger.kernel.org
-Subject: Re: [PATCH 3/3] mm: require ->set_page_dirty to be explicitly wire
- up
-Message-ID: <20210621052612.GA4064@lst.de>
-References: <20210614061512.3966143-1-hch@lst.de> <20210614061512.3966143-4-hch@lst.de> <ddafcc0d-8636-46ca-44b7-54392e0d22b4@gmail.com>
+        id S230182AbhFWMxr convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+ecryptfs@lfdr.de>); Wed, 23 Jun 2021 08:53:47 -0400
+Received: from [183.90.58.236] ([183.90.58.236]:40644 "EHLO ns1.zackeruz.tk"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230019AbhFWMxr (ORCPT <rfc822;ecryptfs@vger.kernel.org>);
+        Wed, 23 Jun 2021 08:53:47 -0400
+Received: from johnlewis.com (unknown [192.168.20.1])
+        by ns1.zackeruz.tk (Postfix) with ESMTPSA id 5B31C8440E9
+        for <ecryptfs@vger.kernel.org>; Wed, 23 Jun 2021 20:51:27 +0800 (+08)
+Reply-To: robert_turner@johnlewis-trading.com,
+          pippawicks.sales@johnlewis-trading.com
+From:   John Lewis & Partnersip <robert.turner107@johnlewis.com>
+To:     ecryptfs@vger.kernel.org
+Subject: 6/23/2021 Product Inquiry 
+Date:   23 Jun 2021 12:51:26 +0000
+Message-ID: <20210623094110.FEDCAB141AD35FB7@johnlewis.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ddafcc0d-8636-46ca-44b7-54392e0d22b4@gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-On Fri, Jun 18, 2021 at 10:23:55PM +0300, Dmitry Osipenko wrote:
-> >  21 files changed, 29 insertions(+), 14 deletions(-)
-> 
-> The ecryptfs is now crashing with NULL deference, please fix.
+Dear ecryptfs
 
-Which means it crashed the same before on configs without CONFIG_BLOCK.
+The famous brand John Lewis Partnership, is UK's largest multi-
+channel retailer with over 126 shops and multiple expansion in 
+Africa furnished by European/Asian/American products. We are 
+sourcing new products to attract new customers and also retain 
+our existing ones, create new partnerships with companies dealing 
+with different kinds of goods globally.
 
-Tyler, can you look at what ecryptfs should do for ->set_page_dirty?
-Currently it implicitly gets __set_page_dirty_buffers for kernels
-with COFIG_BLOCK set, but given that this function looks at buffer_heads
-that ecryptfs doesn't use it can't really be the right choice.
-__set_page_dirty_nobuffers will probably work, but I'd love to see an
-audit of the page dirtying and writeback for ecryptfs while we're at it.
+Your company's products are of interest to our market as we have 
+an amazing market for your products.
+
+Provide us your current catalog through email to review more. We 
+hope to be able to order with you and start a long-term friendly,
+respectable and solid business partnership. Please we would 
+appreciate it if you could send us your stock availability via 
+email if any.
+
+Our payment terms are 15 days net in Europe, 30 days Net in UK 
+and 30 days net in Asia/USA as we operate with over 5297 
+suppliers around the globe for the past 50 years now. For 
+immediate response Send your reply to robert_turner@johnlewis-
+trading.com for us to be able to 
+treat with care and urgency.
+
+
+Best Regards
+
+Rob Turner
+Head Of Procurement Operations
+John Lewis & Partners.
+robert_turner@johnlewis-trading.com
+Tel: +44-7451-274090
+WhatsApp: +447497483925
+www.johnlewis.com
+REGISTERED OFFICE: 171 VICTORIA STREET, LONDON SW1E 5NN 
