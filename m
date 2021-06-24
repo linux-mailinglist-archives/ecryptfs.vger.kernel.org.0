@@ -2,52 +2,53 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 768DE3B2FC6
-	for <lists+ecryptfs@lfdr.de>; Thu, 24 Jun 2021 15:08:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD3993B7293
+	for <lists+ecryptfs@lfdr.de>; Tue, 29 Jun 2021 14:53:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229940AbhFXNKa (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Thu, 24 Jun 2021 09:10:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54236 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229881AbhFXNKa (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Thu, 24 Jun 2021 09:10:30 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0FD2C061574;
-        Thu, 24 Jun 2021 06:08:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=qMR3ifTEdaYF345Y+tblX3vqZF74ggO7ZhF+xbE6Ujo=; b=WaTDeTDOGvmzf3KDbKqrwUL/W0
-        OyIBYqTjDjQSY5POnb9ziMW+0EsvCWpRg2MSaJK7xtZy0bDFNB51b44/6VLBmI4lpp+gjjZtEe8+w
-        pFnBwkPvhujxK6CTPJJNAFAAt9InatUbi7KVCz3qXWG6ywQCIF5G7JPoR2SzDHTSeL9gI5xccjXTj
-        VNw/PhuzSJAy0i9Q2w8w37RmHAe7nmUIwulTaDBl16RM5+rlnMLf80oFFfxsrglCUI5BzJ19U51hF
-        aOT4JA057UxCTvGpFGMWZC1ekJGDQ/YZDbX6viiJm9bGrbe+hBJKEySJOceeBUT2rbpstM53JZJ+w
-        iW1IYvCw==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1lwP59-00GbCq-W1; Thu, 24 Jun 2021 13:07:59 +0000
-Date:   Thu, 24 Jun 2021 14:07:47 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     akpm@linux-foundation.org, code@tyhicks.com,
-        ecryptfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] ecryptfs: add a ->set_page_dirty cludge
-Message-ID: <YNSDoyG7VqgJbxS0@casper.infradead.org>
-References: <20210624125250.536369-1-hch@lst.de>
+        id S233006AbhF2Mzf convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+ecryptfs@lfdr.de>); Tue, 29 Jun 2021 08:55:35 -0400
+Received: from [218.75.92.58] ([218.75.92.58]:65332 "EHLO WIN-VTPUBHNS72V"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S232498AbhF2Mze (ORCPT <rfc822;ecryptfs@vger.kernel.org>);
+        Tue, 29 Jun 2021 08:55:34 -0400
+Received: from [192.168.43.47] (Unknown [197.210.85.75])
+        by WIN-VTPUBHNS72V with ESMTPA
+        ; Thu, 24 Jun 2021 20:46:43 +0800
+Message-ID: <0ACA9BA3-0618-4669-AD14-F814B94CEC4C@WIN-VTPUBHNS72V>
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210624125250.536369-1-hch@lst.de>
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: URGENT ATTENTION
+To:     Recipients <wjjt@wjjt.cn>
+From:   "Andres Auchincloss" <wjjt@wjjt.cn>
+Date:   Thu, 24 Jun 2021 14:46:17 +0200
+Reply-To: andresauchincloss926@gmail.com
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-On Thu, Jun 24, 2021 at 02:52:50PM +0200, Christoph Hellwig wrote:
-> "fix" ecryptfs to work the same as before the recent change to the
-> behavior without a ->set_page_dirty method.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+Hi,
 
-Acked-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+I will like to use this opportunity to wish you a productive time in 2021 and also confide in you to finalize this transaction of mutual benefits. It may seem strange to you, but it is real. This is a transaction that has no risk at all, due process shall be followed and it shall be carried out under the ambit of the financial laws. Being the Chief Financial Officer, BP Plc. I want to trust and put in your care Eighteen Million British Pounds Sterling, The funds were acquired from an over-invoiced payment from a past contract executed in one of my departments.
 
-This is atrocious, but we can't really do better.
+I can't successfully achieve this transaction without presenting you as foreign contractor who will provide a bank account to receive the funds.
+
+Documentation for the claim of the funds will be legally processed and documented, so I will need your full cooperation on this matter for our mutual benefits. We will discuss details if you are interested to work with me to secure this funds. I will appreciate your prompt response in every bit of our communication. Stay Blessed and Stay Safe.
+
+
+
+Best Regards
+
+
+
+
+Tel: +1 (587) 770-0485
+Andres .B. Auchincloss
+Chief financial officerBP Petroleum p.l.c.
+
+
+
+
+                                  Copyright ©? 1996-2021
+
