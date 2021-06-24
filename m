@@ -2,66 +2,79 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B2C23B1A81
-	for <lists+ecryptfs@lfdr.de>; Wed, 23 Jun 2021 14:51:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC95A3B2F6D
+	for <lists+ecryptfs@lfdr.de>; Thu, 24 Jun 2021 14:53:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230182AbhFWMxr convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+ecryptfs@lfdr.de>); Wed, 23 Jun 2021 08:53:47 -0400
-Received: from [183.90.58.236] ([183.90.58.236]:40644 "EHLO ns1.zackeruz.tk"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230019AbhFWMxr (ORCPT <rfc822;ecryptfs@vger.kernel.org>);
-        Wed, 23 Jun 2021 08:53:47 -0400
-Received: from johnlewis.com (unknown [192.168.20.1])
-        by ns1.zackeruz.tk (Postfix) with ESMTPSA id 5B31C8440E9
-        for <ecryptfs@vger.kernel.org>; Wed, 23 Jun 2021 20:51:27 +0800 (+08)
-Reply-To: robert_turner@johnlewis-trading.com,
-          pippawicks.sales@johnlewis-trading.com
-From:   John Lewis & Partnersip <robert.turner107@johnlewis.com>
-To:     ecryptfs@vger.kernel.org
-Subject: 6/23/2021 Product Inquiry 
-Date:   23 Jun 2021 12:51:26 +0000
-Message-ID: <20210623094110.FEDCAB141AD35FB7@johnlewis.com>
+        id S230236AbhFXMzq (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Thu, 24 Jun 2021 08:55:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50844 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231262AbhFXMzq (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Thu, 24 Jun 2021 08:55:46 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60B5EC061574;
+        Thu, 24 Jun 2021 05:53:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=Zby1cv3k7TPvTR1dET271ZGDFyCAZ0wjGKz7eFC0/b8=; b=Cp/ty0N/4jxxqncvZuTU9CqzUz
+        5sgoMSMvgede3l70qAJlh/7UsPt5OZ8/IxHorbo3zs0bRNmmyjMHNW1v5qIzByykMQofHHPCD7n4R
+        K3SarkENsvUZ2aDYNeTcfp7JnfABRI57tyZ8BH835DJixtNpG7FNQEA9hzfb2yWA3HmezQFOMpL06
+        vpzWbzok2nxlhSsDfRX7WGL3X4G1nhJ7kKl4WAITSCEOMDQjVZbdVUE7YnDCGqID5kuoul9wjJNhn
+        V4GXqwKbT5VdRWyLbT89hlQHeHimopLBcOBeCcHO74r7IWO5GRLw9PqLUCMJaMHB1wRqMkqebjxE2
+        2D90kLKQ==;
+Received: from 213-225-9-92.nat.highway.a1.net ([213.225.9.92] helo=localhost)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1lwOqj-00GaS7-2s; Thu, 24 Jun 2021 12:53:01 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     akpm@linux-foundation.org
+Cc:     code@tyhicks.com, ecryptfs@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: [PATCH] ecryptfs: add a ->set_page_dirty cludge
+Date:   Thu, 24 Jun 2021 14:52:50 +0200
+Message-Id: <20210624125250.536369-1-hch@lst.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Dear ecryptfs
+"fix" ecryptfs to work the same as before the recent change to the
+behavior without a ->set_page_dirty method.
 
-The famous brand John Lewis Partnership, is UK's largest multi-
-channel retailer with over 126 shops and multiple expansion in 
-Africa furnished by European/Asian/American products. We are 
-sourcing new products to attract new customers and also retain 
-our existing ones, create new partnerships with companies dealing 
-with different kinds of goods globally.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ fs/ecryptfs/mmap.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-Your company's products are of interest to our market as we have 
-an amazing market for your products.
+diff --git a/fs/ecryptfs/mmap.c b/fs/ecryptfs/mmap.c
+index 392e721b50a3..7d85e64ea62f 100644
+--- a/fs/ecryptfs/mmap.c
++++ b/fs/ecryptfs/mmap.c
+@@ -533,7 +533,20 @@ static sector_t ecryptfs_bmap(struct address_space *mapping, sector_t block)
+ 	return block;
+ }
+ 
++#include <linux/buffer_head.h>
++
+ const struct address_space_operations ecryptfs_aops = {
++	/*
++	 * XXX: This is pretty broken for multiple reasons: ecryptfs does not
++	 * actually use buffer_heads, and ecryptfs will crash without
++	 * CONFIG_BLOCK.  But it matches the behavior before the default for
++	 * address_space_operations without the ->set_page_dirty method was
++	 * cleaned up, so this is the best we can do without maintainer
++	 * feedback.
++	 */
++#ifdef CONFIG_BLOCK
++	.set_page_dirty = __set_page_dirty_buffers,
++#endif
+ 	.writepage = ecryptfs_writepage,
+ 	.readpage = ecryptfs_readpage,
+ 	.write_begin = ecryptfs_write_begin,
+-- 
+2.30.2
 
-Provide us your current catalog through email to review more. We 
-hope to be able to order with you and start a long-term friendly,
-respectable and solid business partnership. Please we would 
-appreciate it if you could send us your stock availability via 
-email if any.
-
-Our payment terms are 15 days net in Europe, 30 days Net in UK 
-and 30 days net in Asia/USA as we operate with over 5297 
-suppliers around the globe for the past 50 years now. For 
-immediate response Send your reply to robert_turner@johnlewis-
-trading.com for us to be able to 
-treat with care and urgency.
-
-
-Best Regards
-
-Rob Turner
-Head Of Procurement Operations
-John Lewis & Partners.
-robert_turner@johnlewis-trading.com
-Tel: +44-7451-274090
-WhatsApp: +447497483925
-www.johnlewis.com
-REGISTERED OFFICE: 171 VICTORIA STREET, LONDON SW1E 5NN 
