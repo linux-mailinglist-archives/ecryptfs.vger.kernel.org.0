@@ -2,73 +2,59 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA79E3FFE00
-	for <lists+ecryptfs@lfdr.de>; Fri,  3 Sep 2021 12:10:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 836EF406FCB
+	for <lists+ecryptfs@lfdr.de>; Fri, 10 Sep 2021 18:38:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348987AbhICKLT (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Fri, 3 Sep 2021 06:11:19 -0400
-Received: from mail.repatriados.gov.py ([168.90.176.63]:64961 "EHLO
-        mail.repatriados.gov.py" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349078AbhICKLS (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Fri, 3 Sep 2021 06:11:18 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.repatriados.gov.py (Postfix) with ESMTP id 8351B70220;
-        Wed,  1 Sep 2021 01:34:10 -0400 (-04)
-Received: from mail.repatriados.gov.py ([127.0.0.1])
-        by localhost (mail.repatriados.gov.py [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id lSKyMeLR9M4w; Wed,  1 Sep 2021 01:34:09 -0400 (-04)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.repatriados.gov.py (Postfix) with ESMTP id 642DE634FC;
-        Tue, 31 Aug 2021 23:39:23 -0400 (-04)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.repatriados.gov.py 642DE634FC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=repatriados.gov.py;
-        s=66AB3A4C-4957-11E8-AF15-073A956E488A; t=1630467563;
-        bh=re+Bi7IjhFEavKutGVOnSLzHkgr9hnVuewhYSbG4AUw=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=ajc/PPe97x/FENUtcqh/OlqfQkZuUzPRU2f6X+xo5sm2ofPposBJPD2HvF3blYCEx
-         8dgY027gqOuT+srYiuVP1wIOoFWNgbj2bCECGohXY8DCu74tamYv6lclOjTJfzTVQn
-         TCdu1Jkj4pBfj1vV8amzUAZOi+K4SkmyvKnjhu5efdM26yMks5hrmnMp4gzfQDxqTi
-         TjCjm8FqZg8Kfu9ZVeoSMwnbvZpuaaEoECVkvg8aKAFzw7+1UesiCKjKD1xEoqVWmm
-         GMhljJ8hmyWeuwRifErOPWBQ6HRGhkWNcKhslvxgOzA5a5+f4rXvw/Oa/pnCpbEnKJ
-         aeIWi4hdr90Pg==
-X-Virus-Scanned: amavisd-new at repatriados.gov.py
-Received: from mail.repatriados.gov.py ([127.0.0.1])
-        by localhost (mail.repatriados.gov.py [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id uMIJSb8zfmlV; Tue, 31 Aug 2021 23:39:21 -0400 (-04)
-Received: from cris-PC.www.huaweimobilewifi.com (unknown [105.4.4.195])
-        by mail.repatriados.gov.py (Postfix) with ESMTPSA id 9180A61E5B;
-        Tue, 31 Aug 2021 21:43:41 -0400 (-04)
-Content-Type: text/plain; charset="iso-8859-1"
+        id S230175AbhIJQjs (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Fri, 10 Sep 2021 12:39:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58216 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229466AbhIJQjl (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Fri, 10 Sep 2021 12:39:41 -0400
+Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com [IPv6:2607:f8b0:4864:20::e33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EAA0C061756
+        for <ecryptfs@vger.kernel.org>; Fri, 10 Sep 2021 09:38:29 -0700 (PDT)
+Received: by mail-vs1-xe33.google.com with SMTP id s25so2110871vsa.9
+        for <ecryptfs@vger.kernel.org>; Fri, 10 Sep 2021 09:38:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=uL3JqTS491sh9eatc/CmqHx8weUzMhHXy7xQtmq4wBw=;
+        b=OfNPjCyKQ0LB4myhKqfqF6hTifJT32dzBIAqdFb+7CKr4W72s6W7wD+w5RUpzArgIZ
+         ziUbOm+lUdN5hXHpQaoaTPD49pMiIGnq4/TZc4r7sa2a+NhL7IztsPQXTimhlfaZnIsa
+         2SOX2r5mAJcc9gAwA/OxWQaF10xb7iyTFFPcn4yxbi63WcBldvgg//YEPP7ep0UvpMTz
+         YDUezxIvU2OY5JUbahP8qiGmufxH8FQ/8TiwdlbJVGAQrasc80PKtCo36qgXHb3Pp0At
+         Mka6foOLZKICBCt3zez64ARbnZ6c/6ku6P398SAtDBmrggrYqPRBONlZjK8mnIKjn3zi
+         5S+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=uL3JqTS491sh9eatc/CmqHx8weUzMhHXy7xQtmq4wBw=;
+        b=yA6fx10nv7OC7SyjYhYu+ZjS7hmSeNtHfs5zNj6XlKImGfyEJ6otKIs55UvIymXgYb
+         LvRroIbxuB2WywvvkIc90OtjB/6HZ4pYOUZLBW/TuN17W80DLoJtsQvm1kzGFnZyCal6
+         fFmjE8hWK5TaBLepmsCwe3i8jKN8H+iTDlIA+Z9dMlqWjvT4N0I47cQaT+sabLVPLvLH
+         abzKA7IPXPeszs8ekqH2BQbrKdD3I55lwezIPhL0kTy5s5w0qOTb2tXzbEUfe+2mCc34
+         LOyNvQ3uoYjADoo+v/IysGbJrKvQxi9JVcnDs95a69IoF2DbiYSGcwyz5FqTb3Py54rK
+         6Ezg==
+X-Gm-Message-State: AOAM53195CJ56SGn9qZ6QMon2Frf+qAhQrqpYvWOPrUfgyWESsAC+FBY
+        VZUmh63ykcpy7WmER/0VRWmFnEZXC49Djv6KSL0=
+X-Google-Smtp-Source: ABdhPJyPEXwwxzRXmRFmWba5Li09Nn2tR6KeNe8rXaEorB3Nf6M2jj9p+btVfPot0CkVgoidHXdY/oVXQusWiiNeG9Q=
+X-Received: by 2002:a67:f054:: with SMTP id q20mr1546824vsm.61.1631291908715;
+ Fri, 10 Sep 2021 09:38:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: =?utf-8?q?Wohlt=C3=A4tigkeitsspende_von_2=2E000=2E000_Euro?=
-To:     Recipients <mdominguez@repatriados.gov.py>
-From:   ''Charles jackon'' <mdominguez@repatriados.gov.py>
-Date:   Wed, 01 Sep 2021 03:44:13 +0200
-Reply-To: charlesjacksonjr001@gmail.com
-Message-Id: <20210901014342.9180A61E5B@mail.repatriados.gov.py>
+Received: by 2002:a9f:37b1:0:0:0:0:0 with HTTP; Fri, 10 Sep 2021 09:38:28
+ -0700 (PDT)
+Reply-To: sgtkayla2001@gmail.com
+From:   Kayla Manthey <gnidignonvalentin7@gmail.com>
+Date:   Fri, 10 Sep 2021 16:38:28 +0000
+Message-ID: <CAOcq9douOX7aairPANY=dKT8yVxBZn8ofTaZhmRBJ_wFr_gPvw@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Hallo
-
-Ich bin Charles W. Jackson aus North Carolina, Vereinigte Staaten von Ameri=
-ka, und ich bin der Gewinner des Mega-Millionen-Jackpots von 344 Millionen =
-US-Dollar. Ich spende die Summe von 2.000.000 Millionen Euro als Teil der H=
-ilfsgelder f=FCr das Corona-Virus.
-
-Dies ist Ihr Spendencode: [CJ530342019]
-
-www.youtube.com/watch?v=3DBSr8myiLPMQ
-
-
-Bitte antworten Sie auf diese E-Mail mit dem SPENDERCODE:
-
-charlesjacksonjr001@gmail.com
-
-Ich hoffe, dass Sie und Ihre Familie dies durchkommen
-
-
-Herr Charles Jackson
+Alsjeblieft, ik zou graag willen weten of je mijn vorige bericht hebt
+ontvangen, bedankt.
