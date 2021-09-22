@@ -2,60 +2,71 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CB07410DD9
-	for <lists+ecryptfs@lfdr.de>; Mon, 20 Sep 2021 01:37:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58CCE41518B
+	for <lists+ecryptfs@lfdr.de>; Wed, 22 Sep 2021 22:42:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233468AbhISXjN (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Sun, 19 Sep 2021 19:39:13 -0400
-Received: from mx22.pku.edu.cn ([162.105.129.185]:51755 "EHLO pku.edu.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229517AbhISXjM (ORCPT <rfc822;ecryptfs@vger.kernel.org>);
-        Sun, 19 Sep 2021 19:39:12 -0400
-X-Greylist: delayed 391 seconds by postgrey-1.27 at vger.kernel.org; Sun, 19 Sep 2021 19:39:11 EDT
+        id S237592AbhIVUnq (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Wed, 22 Sep 2021 16:43:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59226 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237555AbhIVUnq (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Wed, 22 Sep 2021 16:43:46 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE2D2C061574
+        for <ecryptfs@vger.kernel.org>; Wed, 22 Sep 2021 13:42:15 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id p29so16711344lfa.11
+        for <ecryptfs@vger.kernel.org>; Wed, 22 Sep 2021 13:42:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=pku.edu.cn; s=dkim; h=Received:Content-Type:MIME-Version:
-        Content-Transfer-Encoding:Content-Description:Subject:To:From:
-        Date:Reply-To:Message-Id; bh=4SQycJvyJG7NkjsVBRzIWrjvnNLmkSeuS4r
-        QKL+iKW8=; b=ccdq0HvAtcc5BBB47KGowO4h4CDUC+MDfgI1Dbz92fHGKzYpHe3
-        k/dXTlzQlNGURFgBv+AE1xEoD9A1pm5lbz1lwq1IaINFvSgvR+siZoR/G/Vr2uz4
-        JtED/WDYCSOgyzmxVgeVdirLb4sLGx8X2JsaXssp3jrmhu6dzjepF0KE=
-Received: from info.mktr02mbhqeetpzgq4nubectta.syx.internal.cloudapp.net (unknown [20.196.195.140])
-        by front01 (Coremail) with SMTP id 5oFpogC3v4c9gkdh4dNJAA--.22842S2651;
-        Mon, 20 Sep 2021 07:30:59 +0800 (CST)
-Content-Type: text/plain; charset="iso-8859-1"
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=ijKrByR1/KtEp2Ut8Wj0vMi00kBZm/A/r1gPwOEYZIg=;
+        b=XicgS+DZcSRrJCUYShOVTSuMC0iJtuo8rprGFogb+LoL76BjnjY5Wyb0Bemxjn+41t
+         tIf3yIup2sHIEfBojZFavMZNf/MG3pPg7Pi/a+VUEhQZgfJ6tRs/OvCN5Nhx37ISZdWV
+         B/sRfA6+OpFn3xuOWV/1x4UlvEdfUo2/C9+/IctQTKgmQHqrFeMv9xHek0pHI/diiJy4
+         fUhHaIQApZNCF1ScOnhrjZAvGsUxpf8GrTSjiDUaBbz65ZyVeLDag0wc+VlSrkyx8Una
+         Dwq2Oa/Y+iu/RwOzpuOcv20OTLoQ03F57kZPGgNEKGhrvtPyKyJiK41cCk8VsDho5ASi
+         BHdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=ijKrByR1/KtEp2Ut8Wj0vMi00kBZm/A/r1gPwOEYZIg=;
+        b=vx5o48Mktxs1Wmat4i5u5kpXA2THo+mgRb4uj5o2XVAFlbiLJNzJshdXJFUm6csagX
+         p0O1Wy+bWBAHIPYOoirgeq+xcjkgH7Al4EU/TXzBqhPMRzRVFFio1xsR5PGnI9cIAS2x
+         6DHnKkwVccI7nYhcEA7WFFtoN5/w+v0WzFg9NXzg3r4fcLRZSu/ys+yHmdWqUSRnezw0
+         z2nZiEwGAyVjGy6PcIR3tLpWV2t6lF1Ezl5ETvPg75RFlyaLrrl6ay+YVRPq6pyj2c1D
+         jrxlur3MAQV9gPago2cV+7Jf/Dp1yRwWkhQ+xiW0B2BuCVmdxL/FaGUzaX9qB3ccbkFy
+         JRoA==
+X-Gm-Message-State: AOAM531tzJJjA7I2IKxZKQLHY9hwk8/1AOEHSrEPrUD5EHNuqDpkvxJn
+        FZurt0SdecimTFKE55XoSdQsGbWok5wn3K4ciww=
+X-Google-Smtp-Source: ABdhPJy+Pp8RPPqGkuveBv7li8v/0ThnVyKgxtGiWmLGDPOmUAA3cHMAOApT70KTUoJyocFlIXMxXHM8yKdXZLdo+M0=
+X-Received: by 2002:a2e:a6a4:: with SMTP id q36mr1339213lje.120.1632343334251;
+ Wed, 22 Sep 2021 13:42:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Hello
-To:     Recipients <xszzzx@pku.edu.cn>
-From:   "Ms. Reem A" <xszzzx@pku.edu.cn>
-Date:   Sun, 19 Sep 2021 23:30:46 +0000
-Reply-To: reem2744@yandex.com
-X-CM-TRANSID: 5oFpogC3v4c9gkdh4dNJAA--.22842S2651
-Message-Id: <6147C834.12EFFE.22188@pku.edu.cn>
-Authentication-Results: front01; spf=neutral smtp.mail=xszzzx@pku.edu.
-        cn;
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-        VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU
-        =
-X-CM-SenderInfo: hj0v66t2061yvxohv3gofq/1tbiAQMJECsxYiEipAAOsK
+Sender: ratcliffijames58@gmail.com
+Received: by 2002:a05:6504:5067:0:0:0:0 with HTTP; Wed, 22 Sep 2021 13:42:13
+ -0700 (PDT)
+From:   Aisha Al-Qaddafi <aisha.gdaffi24@gmail.com>
+Date:   Wed, 22 Sep 2021 21:42:13 +0100
+X-Google-Sender-Auth: IN5NypzPq4yTkGk4HDNkO2m4TA0
+Message-ID: <CAKVTYWT91_tx8uwJpEuHWaEtWmnMmsaGZzYm5Kt8Mor8QFMmEA@mail.gmail.com>
+Subject: My Dear Friend
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Hello,
-
-I have a reserved funds i intends to loan or invest in a lucrative business=
- in your country. I am only interested in a high yielding business with a m=
-inimum risk. My expected ROI(return on investment) is between 5-10% for a d=
-uration of 10 renewable years. I am also offering 3% annual remuneration to=
- any interested fund manager.
-
-If you can handle this fund in a good investment or take it as a loan, repl=
-y to this email only: reem.alhashimi@yandex.com
-
-I look forward to your favorable response.
-
-Best Regards,
-Ms. Reem
-
+Assalamu alaikum,
+I came across your e-mail contact prior to a private search while in
+need of your assistance. I am Aisha Al-Qaddafi, the only biological,
+Daughter of Former President of Libya Col. Muammar Al-Qaddafi. Am a
+single Mother and a Widow with three Children. I have investment funds
+worth Twenty Seven Million Five Hundred Thousand United State Dollar
+($27.500.000.00 ) and i need a trusted  investment Manager/Partner
+because of my current refugee status, however, I am interested in you
+for investment project assistance in your country. If you are willing
+to handle this project on my behalf kindly reply urgently to enable me
+to provide you more information about the investment
+funds.
+Best Regards
