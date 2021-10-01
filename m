@@ -2,76 +2,66 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 64F9641E468
-	for <lists+ecryptfs@lfdr.de>; Fri,  1 Oct 2021 00:58:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D225741EBED
+	for <lists+ecryptfs@lfdr.de>; Fri,  1 Oct 2021 13:30:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245627AbhI3XA1 (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Thu, 30 Sep 2021 19:00:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40920 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240718AbhI3XAY (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Thu, 30 Sep 2021 19:00:24 -0400
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E80E8C06176C
-        for <ecryptfs@vger.kernel.org>; Thu, 30 Sep 2021 15:58:40 -0700 (PDT)
-Received: by mail-lf1-x133.google.com with SMTP id x27so31589490lfu.5
-        for <ecryptfs@vger.kernel.org>; Thu, 30 Sep 2021 15:58:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=AnIUtRQtDgk3YDJAatwz+LXUKRWPbctJNdAprjwvZ5o=;
-        b=FYrpNEp0zwymsUrUWvdUY9zg7bQqbIGfxDPPCHvF42IJ3bBpebm7KBYvtEnhjVJU+k
-         kc0RkBkQWIC9qz9CmBvVwjaqxOXjsJrW+nKNcZSRCDscgYzAFIAzmbAFq4EDpnq2sNEI
-         sbWlhfW7LvmJcBf2lYyFaAQ1NoPe0MZZNTMSdqwxSZQ9FrihxeYL48acwLrCVx0/oOCu
-         bo/5xgQpQVGtvQrGXriciZI6ZLcCfsanEfD3fSOc+k4HKjLcd5FiNq+W1H/K1U0FLt0x
-         TtjtVS2fUVBBlnpRN7k6ja0F1yP1w+LTfJJvd97Etbqlgl/4h4tpEJiIbsHj2huvYLaO
-         4TFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=AnIUtRQtDgk3YDJAatwz+LXUKRWPbctJNdAprjwvZ5o=;
-        b=YBOYUmCnjm63wOQBiIbxagmhACtspl8WGmWn9w12HaUUjIkNHqV6hUO9aJkaw0S1YJ
-         R0F8NVD4JUH8mQetqBCiVIZDsltW5shLa8JPcrXAJfy7fYXIHEaIzrGeYu3/GIDxDvWg
-         AuXDFiVaZs66rgZAMtOKr2KzEZ1vJ/v2OhUVPPygP0ON490BrCiua6hriEqg4ZTnA/5g
-         HXoaZ0EnkJNlXD3WWavBvoSoJ1iCAlBj8QhMiSL+qaalBinxAJwDqu1HaLVWPGwmUneN
-         AQIEHiirzfZGtSiHLKPzV4ey28Ry2vlnT3AOrwVOynFVIGwI4oul5GbqY4PxKjMdxkb8
-         XHow==
-X-Gm-Message-State: AOAM5309U0Mbrtu/6/zk3w1rzp88cgP+ymoF7T1FMKvzyeufn52FKVjk
-        p7Z/NMJAbD5+a5O0MJDHCVJiK2boNz62abi8qn0=
-X-Google-Smtp-Source: ABdhPJx4GVBpAqUdpSc6GV2Ccser+SzsoFXEvbqpvIweCdcopVV+06RlyWu2S8RAkedNbXO5I85gVF7ApS9JXlkXPY0=
-X-Received: by 2002:a2e:98c3:: with SMTP id s3mr8845623ljj.430.1633042719148;
- Thu, 30 Sep 2021 15:58:39 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a05:6512:5d8:0:0:0:0 with HTTP; Thu, 30 Sep 2021 15:58:38
- -0700 (PDT)
-Reply-To: southwestloanco59@gmail.com
-From:   SOUTHWESTLOANCO <saniabdullahinng2020@gmail.com>
-Date:   Thu, 30 Sep 2021 15:58:38 -0700
-Message-ID: <CA+3X9TwgMQ7NU-AkrdA8VQ5-2PDYbids5N+jtor+L_1QHLjV2w@mail.gmail.com>
-Subject: Dear owner,
-To:     undisclosed-recipients:;
+        id S1353865AbhJALbt (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Fri, 1 Oct 2021 07:31:49 -0400
+Received: from smtp-out005.kontent.com ([81.88.40.219]:45948 "EHLO
+        smtp-out005.kontent.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1353780AbhJALbs (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Fri, 1 Oct 2021 07:31:48 -0400
+X-Greylist: delayed 1504 seconds by postgrey-1.27 at vger.kernel.org; Fri, 01 Oct 2021 07:31:48 EDT
+Received: from rakete.bodenbinder.de (p4ffdb9d4.dip0.t-ipconnect.de [79.253.185.212])
+        (Authenticated sender: bodenbinder_de@smtp-out005.kontent.com)
+        by smtp-out005.kontent.com (Postfix) with ESMTPA id F1131300CC19
+        for <ecryptfs@vger.kernel.org>; Fri,  1 Oct 2021 13:04:58 +0200 (CEST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        by rakete.bodenbinder.de (Postfix) with ESMTP id C5A592B0C858
+        for <ecryptfs@vger.kernel.org>; Fri,  1 Oct 2021 13:04:58 +0200 (CEST)
+Message-ID: <e0af3fe10229d90357dd351b4348ec6af59f2e3f.camel@bodenbinder.de>
+Subject: bad file permissions: write but no read access
+From:   Matthias Bodenbinder <matthias@bodenbinder.de>
+Reply-To: matthias@bodenbinder.de
+To:     ecryptfs@vger.kernel.org
+Date:   Fri, 01 Oct 2021 13:04:58 +0200
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
--- 
-Good day,
-          Do you need a loan ? We offer any kind of loan to repay in
-6months with just 2% interest
+Hi,
 
-Kindly Reply with below information
+I hundreds of files in my ecryptfs home which I can write (e.g. rename them) but I can not read them resp. open them. A chmod as
+user or even as root is not working. 
 
-NAME...............
-ADDRESS..........
-OCCUPATION....
-AGE...................
-PHONE..............
-AMOUNT NEEDED......
+Example:
 
-Regards
+34# file wencke-18te.xcf
+wencke-18te.xcf: writable, regular file, no read permission
 
-Contact  Mr Gary Edward +13182955380
+35# ll wencke-18te.xcf
+.rw-r--r-- matthias matthias 41 MB Thu Aug  3 16:00:46 2017 wencke-18te.xcf
 
-Remittance Department southwestloanco59@gmail.com
+36# getfacl wencke-18te.xcf 
+# file: wencke-18te.xcf
+# owner: matthias
+# group: matthias
+user::rw-
+group::r--
+other::r--
+
+37# chmod 644 wencke-18te.xcf
+chmod: changing permissions of 'wencke-18te.xcf': Input/output error
+
+The underlying ecryptfs directory /home/.ecryptfs/matthias/ with .Private and .ecryptfs subdirectories is readable without error.
+I can rsync it to my backup server. But when I mount it from the backup server with ecryptfs-recover-private I have the same
+issue.
+
+What can I do to fix that and make the files readable again?
+
+Matthias
+
