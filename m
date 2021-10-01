@@ -2,66 +2,71 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D225741EBED
-	for <lists+ecryptfs@lfdr.de>; Fri,  1 Oct 2021 13:30:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BC9241EC4F
+	for <lists+ecryptfs@lfdr.de>; Fri,  1 Oct 2021 13:37:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353865AbhJALbt (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Fri, 1 Oct 2021 07:31:49 -0400
-Received: from smtp-out005.kontent.com ([81.88.40.219]:45948 "EHLO
-        smtp-out005.kontent.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353780AbhJALbs (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Fri, 1 Oct 2021 07:31:48 -0400
-X-Greylist: delayed 1504 seconds by postgrey-1.27 at vger.kernel.org; Fri, 01 Oct 2021 07:31:48 EDT
-Received: from rakete.bodenbinder.de (p4ffdb9d4.dip0.t-ipconnect.de [79.253.185.212])
-        (Authenticated sender: bodenbinder_de@smtp-out005.kontent.com)
-        by smtp-out005.kontent.com (Postfix) with ESMTPA id F1131300CC19
-        for <ecryptfs@vger.kernel.org>; Fri,  1 Oct 2021 13:04:58 +0200 (CEST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        by rakete.bodenbinder.de (Postfix) with ESMTP id C5A592B0C858
-        for <ecryptfs@vger.kernel.org>; Fri,  1 Oct 2021 13:04:58 +0200 (CEST)
-Message-ID: <e0af3fe10229d90357dd351b4348ec6af59f2e3f.camel@bodenbinder.de>
-Subject: bad file permissions: write but no read access
-From:   Matthias Bodenbinder <matthias@bodenbinder.de>
-Reply-To: matthias@bodenbinder.de
-To:     ecryptfs@vger.kernel.org
-Date:   Fri, 01 Oct 2021 13:04:58 +0200
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 
+        id S1354005AbhJALin (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Fri, 1 Oct 2021 07:38:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41752 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1353918AbhJALin (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Fri, 1 Oct 2021 07:38:43 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5508C06177B
+        for <ecryptfs@vger.kernel.org>; Fri,  1 Oct 2021 04:36:58 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id g7so32933683edv.1
+        for <ecryptfs@vger.kernel.org>; Fri, 01 Oct 2021 04:36:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=5L/E4eErsLvrvRSyjenHMn1XgR3BfAibYkaUBTxnmho=;
+        b=E/ZQs9cLmJkth2Q8cc5U/otLIE9Kx/cH5Lkj/gQnHR1/cqsX4TKQXq26pA+7DQz6IC
+         o2me6ZHWDpDYjs9Hzs382MzIejiRj9IZuIRRVx53a1HVPhi05La8kQZ6eo3/jP/U1GDL
+         CLSqhqZsKwdqehjq4fuDZvxyOiCWdMoiMaI8QZZB/JDL1EEdILWnBIFaD3AyZVOvz1Q3
+         nRqlT9FplFhwRRkB6FuvjTcR+Bzm9yd0OhDBeQ3RvGIdxv6KpdJl03zx1SzEXwAg32VO
+         FoY3l4BUcyJ02ascCAwXxnqjP3kAKK3QSD9tbnAYwqxHEt3NRa0GZZCGU7RKA9HCbG6G
+         K/bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=5L/E4eErsLvrvRSyjenHMn1XgR3BfAibYkaUBTxnmho=;
+        b=NpLdfbQY5zbeRAn0iq9fxazFit0RkSwhwgg0fF3uj5iZxQBaSwnSnW27TW6xQEBqpv
+         m9QDKNiCgs87T6jPbzMyHldm10/j8HXKE58XymOrO/dO4obFt86RNBz4uRLwcxaVufn9
+         E4g5V/7e86Af2vQw83rTfBmjaEEjCt9okebKVk0iVHVQits1f8GMal3n+IvbROqnBKoc
+         Q/qptAMl/ymlCFrKHeO+pBEncI5ODkUhnyourYUOinLH61/25knqepKO6DM8uD1oWAH7
+         H1t5x3tcd+0jHgweafG0POw8mvjYI+LrQ6Ov7ktGzAzVAB5ErIfNSZh+I1EIo68tkaBD
+         Rr7A==
+X-Gm-Message-State: AOAM533im7Uq4mKWvaRAX1L1mMH1+7Hv3u73mr3viGhTFsz7l9TNbtk3
+        tAb+nTvaLcRex5DNc9r8IYnHVSHXdEOmZaLCF9o=
+X-Google-Smtp-Source: ABdhPJxxnlx2JTzk4rKi0IekdwyJWnTHbsFoK8akhZzZEpaijFMqOVtcHxQ6zVIdOIUOPVkE81IhDGmYU6etYUVyTco=
+X-Received: by 2002:a17:906:564e:: with SMTP id v14mr5645544ejr.424.1633088216927;
+ Fri, 01 Oct 2021 04:36:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a17:906:724a:0:0:0:0 with HTTP; Fri, 1 Oct 2021 04:36:56
+ -0700 (PDT)
+Reply-To: joymat52@gmail.com
+From:   Joyce Thomas <tjoyc1234@gmail.com>
+Date:   Fri, 1 Oct 2021 04:36:56 -0700
+Message-ID: <CAF-RpUgYM140rK4-SVsgRM4q9F2+9RZnhASEUudO=95_JARAiA@mail.gmail.com>
+Subject: ATTN:
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Hi,
-
-I hundreds of files in my ecryptfs home which I can write (e.g. rename them) but I can not read them resp. open them. A chmod as
-user or even as root is not working. 
-
-Example:
-
-34# file wencke-18te.xcf
-wencke-18te.xcf: writable, regular file, no read permission
-
-35# ll wencke-18te.xcf
-.rw-r--r-- matthias matthias 41 MB Thu Aug  3 16:00:46 2017 wencke-18te.xcf
-
-36# getfacl wencke-18te.xcf 
-# file: wencke-18te.xcf
-# owner: matthias
-# group: matthias
-user::rw-
-group::r--
-other::r--
-
-37# chmod 644 wencke-18te.xcf
-chmod: changing permissions of 'wencke-18te.xcf': Input/output error
-
-The underlying ecryptfs directory /home/.ecryptfs/matthias/ with .Private and .ecryptfs subdirectories is readable without error.
-I can rsync it to my backup server. But when I mount it from the backup server with ecryptfs-recover-private I have the same
-issue.
-
-What can I do to fix that and make the files readable again?
-
-Matthias
-
+Hello Dear
+My Name is Mr. Joyce Thomas. Contact me for more information on the
+transfer of ($7.9 million dollars) left by my late client from your
+Country. I want to present you as a business partner and next of kin
+of the fund. I will give you the details of this transaction, as soon
+as I hear from you. I need the information below:
+Full Name:
+Address:
+Occupation:
+Age:
+Personal Email:
+Personal Telephone:
+Best Regards,
+Mr.Joyce  Thomas
