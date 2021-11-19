@@ -2,59 +2,59 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A6A2244D134
-	for <lists+ecryptfs@lfdr.de>; Thu, 11 Nov 2021 06:07:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BD26D457A51
+	for <lists+ecryptfs@lfdr.de>; Sat, 20 Nov 2021 01:59:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231429AbhKKFJy convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+ecryptfs@lfdr.de>); Thu, 11 Nov 2021 00:09:54 -0500
-Received: from host-200-90-157-143.netpc.ec ([200.90.157.143]:53116 "EHLO
-        mail.gruponetpc.com" rhost-flags-OK-FAIL-OK-OK) by vger.kernel.org
-        with ESMTP id S230339AbhKKFJx (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Thu, 11 Nov 2021 00:09:53 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by mail.gruponetpc.com (Postfix) with ESMTP id D1863E10103;
-        Wed, 10 Nov 2021 08:37:32 -0500 (-05)
-Received: from mail.gruponetpc.com ([127.0.0.1])
-        by localhost (mail.gruponetpc.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id WjNEITAaZKIO; Wed, 10 Nov 2021 08:37:32 -0500 (-05)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.gruponetpc.com (Postfix) with ESMTP id 3B1377EC341;
-        Tue,  9 Nov 2021 22:21:57 -0500 (-05)
-X-Virus-Scanned: amavisd-new at gruponetpc.com
-Received: from mail.gruponetpc.com ([127.0.0.1])
-        by localhost (mail.gruponetpc.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id KuaR5x8DaMpo; Tue,  9 Nov 2021 22:21:56 -0500 (-05)
-Received: from [192.168.0.108] (unknown [93.182.105.113])
-        by mail.gruponetpc.com (Postfix) with ESMTPSA id EE63E8667B7;
-        Tue,  9 Nov 2021 15:25:14 -0500 (-05)
-Content-Type: text/plain; charset="utf-8"
+        id S231466AbhKTBCK (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Fri, 19 Nov 2021 20:02:10 -0500
+Received: from mx07-00227901.pphosted.com ([185.132.182.185]:54846 "EHLO
+        mx08-00227901.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S229523AbhKTBCK (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Fri, 19 Nov 2021 20:02:10 -0500
+X-Greylist: delayed 61199 seconds by postgrey-1.27 at vger.kernel.org; Fri, 19 Nov 2021 20:02:09 EST
+Received: from pps.filterd (m0097675.ppops.net [127.0.0.1])
+        by mx07-.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1AJ7mUcD004792;
+        Fri, 19 Nov 2021 08:57:21 +0100
+Received: from zbw2k16ex03.bardusch.net ([185.80.186.174])
+        by mx07-.pphosted.com (PPS) with ESMTPS id 3cdjtyh39a-20
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
+        Fri, 19 Nov 2021 08:57:21 +0100
+Received: from zbw2k16ex02.bardusch.net (172.25.1.2) by
+ zbw2k16ex03.bardusch.net (172.25.1.3) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id 15.1.2308.20;
+ Fri, 19 Nov 2021 08:57:18 +0100
+Received: from User (172.25.1.131) by zbw2k16ex02.bardusch.net (172.25.1.2)
+ with Microsoft SMTP Server id 15.1.2308.20 via Frontend Transport; Fri, 19
+ Nov 2021 08:57:08 +0100
+Reply-To: <josechoondak@gmail.com>
+From:   Joseph Choondak <info@ndd.co.mz>
+Subject: I hope this email finds you well.
+Date:   Thu, 18 Nov 2021 23:57:21 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: donation
-To:     Recipients <ecouso@mail.gruponetpc.com>
-From:   ecouso@mail.gruponetpc.com
-Date:   Tue, 09 Nov 2021 20:24:41 +0000
-Reply-To: stefanopessina35@gmail.com
-Message-Id: <20211109202514.EE63E8667B7@mail.gruponetpc.com>
+Content-Type: text/plain; charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+Message-ID: <e7bc50c2-d05a-4b67-88d1-8dac910a53f7@zbw2k16ex02.bardusch.net>
+To:     Undisclosed recipients:;
+X-Proofpoint-ORIG-GUID: sJkk_lLsDrerVHWSRjXPASiTUumGQ5s8
+X-Proofpoint-GUID: sJkk_lLsDrerVHWSRjXPASiTUumGQ5s8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-11-19_07,2021-11-17_01,2020-04-07_01
+X-Proofpoint-Spam-Reason: orgsafe
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
+May I please ask with considerable urgency for your kind assistance with the following matter.
+I'm a financial person, I think  I have something huge you might be interested in.
+
+Looking forward to hearing from you.
 
 
-Hallo,
-
-Ich bin STEFANO PESSINA. Ich bin ein italienisch-monegassischer Milliardär und stellvertretender Vorsitzender, Chief Executive Officer (CEO) und größter Einzelaktionär der Walgreens Boots Alliance. Au   fgrund dieser aktuellen Situation (Corona-Virus), die sich auf der ganzen Welt ausbreitet, spenden ich selbst und andere 19 italienische Milliardäre mehr als 45 Millionen US-Dollar, um das Coronavirus in Italien zu bekämpfen. Ich habe auch zugesagt, 1.500.000,00 € an Einzelpersonen, Kirchen und Waisenhäuser usw. zu spenden. Ich habe mich entschieden, Ihnen 1.500.000,00 € zu spenden, da Ihre E-Mail-Adresse zu den glücklichen Gewinnern gehört. Wenn Sie an meiner Spende interessiert sind, kontaktieren Sie mich für weitere Informationen. Du kannst auch über den untenstehenden Link mehr über mich lesen
-
-https://en.wikipedia.org/wiki/Stefano_Pessina
-
-Herzlicher Gruss
-Stellvertretender Vorsitzender und Geschäftsführer,
-Walgreens Boots-Allianz.
-Stefano Pessina
-
-E-Mail: stefanopessina35@gmail.com
-
-
-
+Respectfully!!
+Joseph Choondak
+Account Executive.
