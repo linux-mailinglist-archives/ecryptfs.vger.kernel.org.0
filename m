@@ -2,85 +2,73 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD92F4770A9
-	for <lists+ecryptfs@lfdr.de>; Thu, 16 Dec 2021 12:42:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A38D47BC3A
+	for <lists+ecryptfs@lfdr.de>; Tue, 21 Dec 2021 09:55:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233473AbhLPLmp (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Thu, 16 Dec 2021 06:42:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60196 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233173AbhLPLmc (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Thu, 16 Dec 2021 06:42:32 -0500
-Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77BBDC061799
-        for <ecryptfs@vger.kernel.org>; Thu, 16 Dec 2021 03:42:29 -0800 (PST)
-Received: by mail-qt1-x831.google.com with SMTP id f20so25121913qtb.4
-        for <ecryptfs@vger.kernel.org>; Thu, 16 Dec 2021 03:42:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=xre5um49Rnqa1tZMCD58Cd6UlD4MleswKAp3tzt2gjo=;
-        b=XAiY5JQCbKhUV3kfV68NxknTY8076aQ+jZiIG+NNSnrj8SbWsLA5ZyVis9Hv7MDsX5
-         Wp1aJ8rEmDfQ1U3vhA+W5Q6fUW0sQxhqwaHiosPbQFbyYijHt4Icvm/T0vEK5/kKmBc+
-         QqELCOAj0es+5TzRQyWwGBhwQGehjbOewfhMN3/S4hQw7QoR6Y3+tDzh1TbUcqm1TT9t
-         NYT2/qpfB6ahTcpnyVYoBu/0br0EmuZ66fyA68h0ieuZcBkGcxPgfheRqd2GHCJMPyzP
-         6QgpFUXd/uCVTtz1/hZUUGudKd9Q0ZImcSJeB1tjd8lIsCPvJkt1eKVnbTcB60Kk9v0/
-         CoRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=xre5um49Rnqa1tZMCD58Cd6UlD4MleswKAp3tzt2gjo=;
-        b=biexXwudSnpJg2L6gCrOkzmOaaZ3idgubuvmLTlesDOFbcMeZ+KR6i1EETzHOpM+2P
-         3hNc9WKH0yIGbk8eXelLwg4RfHfmSlEWbD/IKlpORjJASHIu5Eg9KimwBQ4NdmP45cng
-         FEiBXRjl3r3yEm6HgQNuSs2+koy50w3SID2u5E4PEjebPWc4azIHse24odV+zMnYuoBx
-         VeQyCvy8VbeNkN2KPWWdV9lIETSj2n9jvwWpj8AwFrFoXWlApRx5DecuvxPPO0m3b1rD
-         HXHVez5sgUlOFAP1uVnZbmzsg7jsjQkEtHw8j7SfEbCXhUDGiQtRkQtpKAaRPgzExKKP
-         +Kow==
-X-Gm-Message-State: AOAM533mFF+EEJUq52AXEo0qSdK5Q/lHMO0UQ2frvDb3sm37jYI32bJ4
-        GW1q19EixO42qXa4zvBHNC+brVVVU4bldcnh304=
-X-Google-Smtp-Source: ABdhPJxzAaV5DauAecsJzqBWmheSvDxk3ghiLfb6YRovClVg4kL4yUlGwYUFAnV+1q8jYrfo3AT6l8iJutzsg/2jTPA=
-X-Received: by 2002:a05:622a:1d4:: with SMTP id t20mr16497208qtw.84.1639654948506;
- Thu, 16 Dec 2021 03:42:28 -0800 (PST)
+        id S233654AbhLUIzl (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Tue, 21 Dec 2021 03:55:41 -0500
+Received: from mail.webdeluxgroup.com ([51.195.117.175]:56416 "EHLO
+        mail.webdeluxgroup.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233874AbhLUIzl (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Tue, 21 Dec 2021 03:55:41 -0500
+Received: by mail.webdeluxgroup.com (Postfix, from userid 1002)
+        id 8EC33A20A1; Tue, 21 Dec 2021 08:55:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=webdeluxgroup.com;
+        s=mail; t=1640076938;
+        bh=Ikssx+VmDQhoHuLzKgesrzZ3VGIyKr0VUFS/Kpp5X4A=;
+        h=Date:From:To:Subject:From;
+        b=zpMlEzpbiFD8a5gXBwhLcz/R/GKaWeHEzY5bZ8HnUjigso3aXw6/Ss81ahutRFwG9
+         jPhv2cB8egNcEqYh0R1K+UCt6yCx/M2ZTzlaRBa1Or7LP8W4WRqkoCX95pa7C3oOnm
+         4Sa6gEm/oOYnduHu+M7rpXyO2PnYkBRur/HHWfEMuvPQvz5Dp4PIF8qavlsNJMXy6H
+         DOUqf4fPwZIUYXzsI74M1ZzFlEb6c+FoEm28diepMbye9qxtO0itF8HfktL8AgpsLW
+         WXG6KHWOtmK529dnOawVxah7DRKIncWOt3jZxwieI6Iwmwc+P9h0BoHNDkFggTXbme
+         6S+JkqVmZK7qA==
+Received: by mail.webdeluxgroup.com for <ecryptfs@vger.kernel.org>; Tue, 21 Dec 2021 08:55:24 GMT
+Message-ID: <20211221074500-0.1.3w.b75x.0.p7vmej7fvw@webdeluxgroup.com>
+Date:   Tue, 21 Dec 2021 08:55:24 GMT
+From:   =?UTF-8?Q? "Ji=C5=99=C3=AD_Novotn=C3=BD" ?= 
+        <jiri.novotny@webdeluxgroup.com>
+To:     <ecryptfs@vger.kernel.org>
+Subject: =?UTF-8?Q?=C3=9Asp=C4=9Bch_kampan=C4=9B?=
+X-Mailer: mail.webdeluxgroup.com
 MIME-Version: 1.0
-Received: by 2002:a05:622a:199c:0:0:0:0 with HTTP; Thu, 16 Dec 2021 03:42:28
- -0800 (PST)
-Reply-To: selviasantiago1@gmail.com
-From:   Selvia Santiago <mariamatinez119@gmail.com>
-Date:   Thu, 16 Dec 2021 11:42:28 +0000
-Message-ID: <CAONDhKOtxcgjB1YEPd0RXNOVbbQ8k-9k32v_cdFxEKFzk62kJg@mail.gmail.com>
-Subject: Urgent
-To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
--- 
-Urgent
+Dobr=C3=BD den,
 
-I am Mrs. Selvia Santiago from Abidjan, Cote D'Ivoire, I am a widow
-suffering from long time illness (Cancer), there is funds I inherited
-from my late loving husband Mr. Santiago Carlos, the sum of (US$2.7
-Million Dollars) which he deposited in bank before his death, I need a
-honest and Faithful person that can use these funds for humanity work.
+Prod=C3=A1v=C3=A1te sv=C3=A9 v=C3=BDrobky p=C5=99=C3=ADmo spot=C5=99ebite=
+l=C5=AFm prost=C5=99ednictv=C3=ADm kan=C3=A1lu E-Commerce?=20
 
-I took this decision because I don't have any child that will inherit
-this money and I don't want a situation where this money will be used
-in an ungodly way. That is why I am taking this decision, and my
-doctor has confirmed to me that I have less than two weeks to live,
-having known my condition I decided to donate this fund to a charity
-or individual that will utilize this money to assist the poor and the
-needy in accordance to my instructions.
+Pokud ano, r=C3=A1d bych v=C3=A1m p=C5=99edstavil mo=C5=BEnosti a p=C5=99=
+=C3=ADklady, jak zv=C3=BD=C5=A1it v=C3=BDnosy z tohoto kan=C3=A1lu.=20
 
-I want you to use 70% of this funds for orphanages, school, church,
-widows, propagating the word and other humanity works,The remaining
-30% should be yours for your efforts as the new beneficiary.
+P=C5=99ed =C4=8Dasem se n=C3=A1m ozvala spole=C4=8Dnost, kter=C3=A1 cht=C4=
+=9Bla v=C3=BDrazn=C4=9B zlep=C5=A1it v=C3=BDsledky ve v=C5=A1ech kan=C3=A1=
+lech, jejich=C5=BE prost=C5=99ednictv=C3=ADm oslovuje z=C3=A1kazn=C3=ADky=
+=2E
 
-Please if you would be able to use these funds for humanity work
-kindly reply me. As soon as I have received your response, I will give
-you further directives on how you are to go about the claims of the
-said funds.
+C=C3=ADlem bylo dos=C3=A1hnout stabiln=C3=ADch, m=C4=9B=C5=99iteln=C3=BDc=
+h v=C3=BDnos=C5=AF a tak=C3=A9 roz=C5=A1=C3=AD=C5=99it p=C5=AFsobnost na =
+mezin=C3=A1rodn=C3=AD trhy.=20
 
-Remain blessed.
-Mrs Selvia Santiago.
+Zjednodu=C5=A1ili jsme strukturu kampan=C3=AD, zlep=C5=A1ili rozmanitost =
+reklam a komunikace a tak=C3=A9 jsme vytvo=C5=99ili nestandardn=C3=AD kat=
+alog v=C3=BDrobk=C5=AF. Implementovali jsme =C5=99e=C5=A1en=C3=AD, kter=C3=
+=A1 vedla k lep=C5=A1=C3=ADmu v=C3=BDsledku CPC, zv=C3=BD=C5=A1en=C3=AD C=
+TR a zlep=C5=A1en=C3=AD konverze potenci=C3=A1ln=C3=ADch z=C3=A1kazn=C3=AD=
+k=C5=AF na nakupuj=C3=ADc=C3=AD z=C3=A1kazn=C3=ADky.=20
+
+D=C3=ADky na=C5=A1im komplexn=C3=ADm aktivit=C3=A1m se v=C3=BDrazn=C4=9B =
+zv=C3=BD=C5=A1il ROI index a v=C3=BDnosy a=C5=BE o 95 %. Stoj=C3=AD za to=
+ probrat, jak to ve Va=C5=A1=C3=AD spole=C4=8Dnosti vypad=C3=A1 a co v=C3=
+=A1m m=C5=AF=C5=BEeme nab=C3=ADdnout. Pokud m=C3=A1te z=C3=A1jem o kr=C3=A1=
+tk=C3=BD rozhovor, dejte mi v=C4=9Bd=C4=9Bt. N=C3=A1=C5=A1 anglicky mluv=C3=
+=ADc=C3=AD z=C3=A1stupce V=C3=A1s bude okam=C5=BEit=C4=9B kontaktovat.
+
+
+S p=C5=99=C3=A1telsk=C3=BDm pozdravem
+Ji=C5=99=C3=AD Novotn=C3=BD
