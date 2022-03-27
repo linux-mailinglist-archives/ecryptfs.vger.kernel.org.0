@@ -2,96 +2,72 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C1C44E2DE2
-	for <lists+ecryptfs@lfdr.de>; Mon, 21 Mar 2022 17:28:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A0674E8735
+	for <lists+ecryptfs@lfdr.de>; Sun, 27 Mar 2022 12:15:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351096AbiCUQ3e (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Mon, 21 Mar 2022 12:29:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52168 "EHLO
+        id S231953AbiC0KRX convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+ecryptfs@lfdr.de>); Sun, 27 Mar 2022 06:17:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351099AbiCUQ3d (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Mon, 21 Mar 2022 12:29:33 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF3C0F7E
-        for <ecryptfs@vger.kernel.org>; Mon, 21 Mar 2022 09:28:07 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id q8so10095500wrc.0
-        for <ecryptfs@vger.kernel.org>; Mon, 21 Mar 2022 09:28:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:mime-version:content-transfer-encoding
-         :content-description:subject:to:from:date:reply-to;
-        bh=sfxo1dqqTrr7e28OuTBjrwUEPnrevaNVUdgTMF56Ktk=;
-        b=N66aCbNjFJzA21lYg4XBusa/RLw2WelP7G3RgOdqQCtVNd4m7eYBaVQ0qsmR2QVZWj
-         MbaSBOBRTyQ++7BOgBejTDGRlOLWI7VGjNLBMqXt56Esk4BKjOP48WRSR+S5TveB7q8m
-         OCC3P9zlUBo5qgPqqp2th79LHi2+tDHusnU2qIHjso5CXpjOq7lnaf5m4tCPYrVC0cFh
-         r/7TtnPMl5lRcfzgpSarVCZ8gbT14ZQmXU1uiYPTGYqKQoo8S7tT0GqcH2aydDPKfFyM
-         FF71wtXJq6kkKEezALxmQBgawpVqxnE8Ru+Z5VF6J4wkcoPU94IHvZOabJqE/QLpIeTP
-         /JoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:mime-version
-         :content-transfer-encoding:content-description:subject:to:from:date
-         :reply-to;
-        bh=sfxo1dqqTrr7e28OuTBjrwUEPnrevaNVUdgTMF56Ktk=;
-        b=5HxnIyd+ZGUv4m+0vCsSWev5hGla6O/epoE7uJ/eVjZIuU2XL32HYm7xSLso2lobnm
-         R+gQGOGc1N70gBV4n+Dmu3QGjepxCiHR3X0HawbsNDf0J/DC/bsLCZIGcw9t0O+OaHAE
-         LWVFvkeuBUBY28aFbi0rjMTmaOjsmKTPyKux9MGi1eukreA+PGPWKPPBUcGjTzVlhCD6
-         JNNS6KugxuGoW2W9a1i94bfaA/DZwTpG2QFjfGhjClIAG2y0EOjxCrgq5WCuaVl/rlJZ
-         uT0BTLpSfvOTqyoOewKgpU55f6zZ1ZMtkHRw7vjmqrfDcQ7FEvYe298PKN4Z1bo6/vuh
-         Qozg==
-X-Gm-Message-State: AOAM532oQ1bjodQ3LEQvRU3Qsj3m48/G08r6V5B1x8gpxiapLMhNyCBD
-        JZvwUZqJVihnDOMxtgr8oug=
-X-Google-Smtp-Source: ABdhPJw/G2UZRhcuSxas5MUwbGWCCH5xnkR+lrii07458y1lpy985Ac+gDYnZKZ5INLv8rdwAe5wCw==
-X-Received: by 2002:adf:f4c7:0:b0:203:fb33:332f with SMTP id h7-20020adff4c7000000b00203fb33332fmr11413796wrp.280.1647880086543;
-        Mon, 21 Mar 2022 09:28:06 -0700 (PDT)
-Received: from [192.168.43.30] ([197.211.61.62])
-        by smtp.gmail.com with ESMTPSA id o27-20020a05600c511b00b0038c8fba0bb3sm7765916wms.15.2022.03.21.09.28.01
-        (version=TLS1 cipher=AES128-SHA bits=128/128);
-        Mon, 21 Mar 2022 09:28:06 -0700 (PDT)
-Message-ID: <6238a796.1c69fb81.41225.ca82@mx.google.com>
+        with ESMTP id S230101AbiC0KRX (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Sun, 27 Mar 2022 06:17:23 -0400
+X-Greylist: delayed 63 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 27 Mar 2022 03:15:44 PDT
+Received: from webmail.zap.co.ao (webmail.zap.co.ao [212.0.160.234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F24413DC5
+        for <ecryptfs@vger.kernel.org>; Sun, 27 Mar 2022 03:15:43 -0700 (PDT)
+Received: from info.mhvqerywi4muvkclihzd3fbddg.qx.internal.cloudapp.net
+ (13.70.158.215) by FINMBX01.zap.co.ao (10.192.55.20) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.2; Sun, 27 Mar 2022 11:14:32 +0100
 Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8BIT
 Content-Description: Mail message body
-Subject: meine Spende
-To:     rimamnyangishaku@gmail.com
-From:   rimamnyangishaku@gmail.com
-Date:   Mon, 21 Mar 2022 09:27:55 -0700
-Reply-To: mariaelisabethschaeffler70@gmail.com
-X-Spam-Status: No, score=3.3 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS,
+Subject: Re: Assist Ukarine
+To:     Recipients <zap@zap.co.ao>
+From:   UKRAIN WAR <zap@zap.co.ao>
+Date:   Sun, 27 Mar 2022 10:14:23 +0000
+Reply-To: <wetttttwwttrttr@yandex.com>
+Message-ID: <91995979a70445219cdb18d2eb6bf60c@FINMBX01.zap.co.ao>
+X-ClientProxiedBy: FINCAS01.zap.co.ao (10.192.55.18) To FINMBX01.zap.co.ao
+ (10.192.55.20)
+X-Spam-Status: Yes, score=6.2 required=5.0 tests=ADVANCE_FEE_5_NEW,BAYES_60,
+        FREEMAIL_FORGED_REPLYTO,FREEMAIL_REPLYTO,HK_RANDOM_REPLYTO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ***
+X-Spam-Report: *  1.5 BAYES_60 BODY: Bayes spam probability is 60 to 80%
+        *      [score: 0.6655]
+        *  1.0 HK_RANDOM_REPLYTO Reply-To username looks random
+        * -0.0 RCVD_IN_MSPIKE_H3 RBL: Good reputation (+3)
+        *      [212.0.160.234 listed in wl.mailspike.net]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        * -0.0 RCVD_IN_MSPIKE_WL Mailspike good senders
+        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+        *  0.6 ADVANCE_FEE_5_NEW Appears to be advance fee fraud (Nigerian
+        *      419)
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
- Hallo,
+  My name is Alexei Navalny from Russia whom Vladimir Putin President of Russia the detects  is jailing me because I'm against his evil war plans against Ukraine. killing of Russia people  and the world in general. 
 
- =
+You can read more with below links:
+https://www.bbc.com/news/world-europe-16057045
+https://www.theguardian.com/world/2022/feb/15/alexei-navalny-faces-10-more-years-prison-focus-ukraine-crisis-russia
 
+ I will be happy to serve the 15 years in jail imposed by Putin but I need to assist Ukraine's displaced people around the world with the money I secretly deposited in one of the Turkish private  banks, now such money will be returned to Russian because d western world has blocked Russia . If you agreed to assist me 25% of the total sum will be for your assistance and the 75% will be used to assist the Ukraine displaced by Putin war.
 
-Ich bin Frau Maria Elisabeth Schaeffler, eine deutsche Gesch=E4ftsmagnatin,=
- Investorin und Philanthropin. Ich bin der Vorsitzende von Wipro Limited. I=
-ch habe 25 Prozent meines pers=F6nlichen Verm=F6gens f=FCr wohlt=E4tige Zwe=
-cke ausgegeben. Und ich habe auch versprochen, den Rest von 25% in diesem J=
-ahr 2021 an Einzelpersonen zu verschenken. Ich habe beschlossen, Ihnen 1.50=
-0.000,00 Euro zu spenden. Wenn Sie an meiner Spende interessiert sind, kont=
-aktieren Sie mich f=FCr weitere Informationen.
+If you agreed and are also willing to keep  this transaction confidential, I will send you all the details to approach the bank.
 
+I contacted you because I need somebody out of Russia to do this job.
 
-Sie k=F6nnen auch mehr =FCber mich =FCber den unten stehenden Link lesen
+Please reply me here: aleshkanav@yandex.ru
 
-https://en.wikipedia.org/wiki/Maria-Elisabeth_Schaeffler
-
-Sch=F6ne Gr=FC=DFe
-
-Gesch=E4ftsf=FChrer Wipro Limited
-
-Maria Elisabeth Schaeffler
-
-E-Mail: mariaelisabethschaeffler70@gmail.com
+Regards,
+Alexei Navalny
