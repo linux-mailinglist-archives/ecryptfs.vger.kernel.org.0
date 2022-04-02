@@ -2,35 +2,34 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 930DE4F060C
-	for <lists+ecryptfs@lfdr.de>; Sat,  2 Apr 2022 22:07:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23FA44F0653
+	for <lists+ecryptfs@lfdr.de>; Sat,  2 Apr 2022 22:54:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232148AbiDBUJn (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Sat, 2 Apr 2022 16:09:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34414 "EHLO
+        id S229663AbiDBU4m (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Sat, 2 Apr 2022 16:56:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229776AbiDBUJn (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Sat, 2 Apr 2022 16:09:43 -0400
-X-Greylist: delayed 331 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 02 Apr 2022 13:07:50 PDT
-Received: from mta-out-04.alice.it (mta-out-04.alice.it [217.169.118.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1C5DF1017D2
-        for <ecryptfs@vger.kernel.org>; Sat,  2 Apr 2022 13:07:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alice.it; s=20211207; t=1648930070; 
+        with ESMTP id S230382AbiDBU4l (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Sat, 2 Apr 2022 16:56:41 -0400
+Received: from mta-out-03.alice.it (mta-out-03.alice.it [217.169.118.9])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id EA2E3186F5
+        for <ecryptfs@vger.kernel.org>; Sat,  2 Apr 2022 13:54:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alice.it; s=20211207; t=1648932889; 
         bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
         h=Reply-To:From:To:Date:Message-ID:MIME-Version;
-        b=mXaNGzuYLEvv8jHkMPLeNaazGme4+5RGSwQHnE2ZvNmd2Iz6jvm3oeGyr+hb70KLE+eOBRVQ3+lm9k+G1y+RcjyF0kWFB+CiwVcMGXoKJsPxTPr38tKuSvZbVgAiQ0AvhREKKvkxozcZKd+uCB7QUz6ocahtVV1DZ6GGE1O2ccXyzxi7ble5+E96e7ZDYKNDIt4PIMNRAWBv2s1yVGWkz3LSrE7fs5hkZ/sp8P0py5dFYfYTJ0bcJ5HJGLHSqKoV+HqV91pwedVJY9QsTDqDUPvXzlfEziDepLeuOjJBosVBDL4rGwInkD1GmYA2+vYXZZpFLd6nKC36HmErwUutmA==
-X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgedvvddrudeikedgudegiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfvgffngfevqffokffvtefnkfetpdfqfgfvnecuuegrihhlohhuthemuceftddunecugfhmphhthicushhusghjvggtthculddutddmnefgmhhpthihucgsohguhiculdehtddmnecujfgurheprhfhvfffkfggsedttdeftddttddtnecuhfhrohhmpeghvgcuhhgrvhgvucgrnhcuohhffhgvrhcuthhouchinhhvvghsthcuihhnucihohhurhcutghouhhnthhrhicuuhhnuggvrhcurgcujhhoihhnthcuvhgvnhhtuhhrvgcuphgrrhhtnhgvrhhshhhiphcuphhlvggrshgvuchrvghplhihuchfohhruchmohhrvgcuuggvthgrihhlshcuoegsihhrohhlohesrghlihgtvgdrihhtqeenucggtffrrghtthgvrhhnpeetffeulefhheffieeltefgvedtffejhedtheefhfevueeitdeiffeuhfehudffudenucfkphepudelkedrkedrkeehrddvhedtnecuvehluhhsthgvrhfuihiivgepfeegudenucfrrghrrghmpehhvghloheprghlihgtvgdrihhtpdhinhgvthepudelkedrkedrkeehrddvhedtpdhmrghilhhfrhhomhepsghirhholhhosegrlhhitggvrdhithdpnhgspghrtghpthhtohepuddprhgtphhtthhopegvtghrhihpthhfshesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+        b=MeNcxk7qxuqbmT4yiNtEAwUjBZI+WFO4G5Ac4Dq1UcIAv+XxQcoSTgWDm7U1thOnWCbvmAw5QmJY1u3Q5m7OLWBVo5TG5zPMzJGPmgmHHtuxYDJrzSYoSXmR0PW0ySktC1vkfASJizMEoRi7GIJvAADcMGLt1r8gpWV/j/227Td/HoTBpgo3DMisA4ijNFLcINBZLhvoQXTHMG+ZDIxpdu170p7UaJ0GFK0I/pq7qLfvg6PbgCKf0qLb5XPzfYwB3/dLCYgwpqceZ/UVRGa/kGaZfTt/PnpR8wOFWWMGjiygNIFMTvsvln0VcZmM15x76R/r9ByyRRpu8Ih/xXSmew==
+X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgedvvddrudeikedgudehiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfvgffngfevqffokffvtefnkfetpdfqfgfvnecuuegrihhlohhuthemuceftddunecugfhmphhthicushhusghjvggtthculddutddmnefgmhhpthihucgsohguhiculdehtddmnecujfgurheprhfhvfffkfggsedttdeftddttddtnecuhfhrohhmpeghvgcuhhgrvhgvucgrnhcuohhffhgvrhcuthhouchinhhvvghsthcuihhnucihohhurhcutghouhhnthhrhicuuhhnuggvrhcurgcujhhoihhnthcuvhgvnhhtuhhrvgcuphgrrhhtnhgvrhhshhhiphcuphhlvggrshgvuchrvghplhihuchfohhruchmohhrvgcuuggvthgrihhlshcuoegsihhrohhlohesrghlihgtvgdrihhtqeenucggtffrrghtthgvrhhnpeetffeulefhheffieeltefgvedtffejhedtheefhfevueeitdeiffeuhfehudffudenucfkphepudelkedrkedrkeehrddvhedtnecuvehluhhsthgvrhfuihiivgepieegfeenucfrrghrrghmpehhvghloheprghlihgtvgdrihhtpdhinhgvthepudelkedrkedrkeehrddvhedtpdhmrghilhhfrhhomhepsghirhholhhosegrlhhitggvrdhithdpnhgspghrtghpthhtohepuddprhgtphhtthhopegvtghrhihpthhfshesvhhgvghrrdhkvghrnhgvlhdrohhrgh
 X-RazorGate-Vade-Verdict: clean 60
 X-RazorGate-Vade-Classification: clean
-Received: from alice.it (198.8.85.250) by mta-out-04.alice.it (5.8.807.04) (authenticated as birolo@alice.it)
-        id 623DC2DC00DF675E for ecryptfs@vger.kernel.org; Sat, 2 Apr 2022 22:02:17 +0200
+Received: from alice.it (198.8.85.250) by mta-out-03.alice.it (5.8.807.04) (authenticated as birolo@alice.it)
+        id 623C9D0500DE22A4 for ecryptfs@vger.kernel.org; Sat, 2 Apr 2022 22:54:46 +0200
 Reply-To: dougfied20@inbox.lv
 From:   We have an offer to invest in your country under a
          joint venture partnership please reply for more
          details <birolo@alice.it>
 To:     ecryptfs@vger.kernel.org
-Date:   02 Apr 2022 13:02:14 -0700
-Message-ID: <20220402130214.7092C7BEEB955EF1@alice.it>
+Date:   02 Apr 2022 13:54:43 -0700
+Message-ID: <20220402135443.4CFBF5919CBAC471@alice.it>
 MIME-Version: 1.0
 X-Spam-Status: Yes, score=5.7 required=5.0 tests=BAYES_50,BODY_EMPTY,
         DKIM_INVALID,DKIM_SIGNED,EMPTY_MESSAGE,FREEMAIL_FROM,FREEMAIL_REPLYTO,
@@ -39,11 +38,11 @@ X-Spam-Status: Yes, score=5.7 required=5.0 tests=BAYES_50,BODY_EMPTY,
         autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at https://www.dnswl.org/,
         *       low trust
-        *      [217.169.118.10 listed in list.dnswl.org]
+        *      [217.169.118.9 listed in list.dnswl.org]
         *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5341]
+        *      [score: 0.5003]
         *  0.0 RCVD_IN_MSPIKE_L4 RBL: Bad reputation (-4)
-        *      [217.169.118.10 listed in bl.mailspike.net]
+        *      [217.169.118.9 listed in bl.mailspike.net]
         *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
         *      provider
         *      [birolo[at]alice.it]
