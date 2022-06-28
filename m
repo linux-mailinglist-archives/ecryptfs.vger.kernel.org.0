@@ -2,89 +2,166 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F21D755C44D
-	for <lists+ecryptfs@lfdr.de>; Tue, 28 Jun 2022 14:49:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AEC2155ED0D
+	for <lists+ecryptfs@lfdr.de>; Tue, 28 Jun 2022 20:50:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233558AbiF0MPB convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+ecryptfs@lfdr.de>); Mon, 27 Jun 2022 08:15:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52718 "EHLO
+        id S230442AbiF1SuL (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Tue, 28 Jun 2022 14:50:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233238AbiF0MPA (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Mon, 27 Jun 2022 08:15:00 -0400
-Received: from mail.transporteandreu.com.ar (unknown [190.15.217.91])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AA53DEC7
-        for <ecryptfs@vger.kernel.org>; Mon, 27 Jun 2022 05:14:58 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.transporteandreu.com.ar (Postfix) with ESMTP id 974C050BF50EA
-        for <ecryptfs@vger.kernel.org>; Mon, 27 Jun 2022 09:14:39 -0300 (-03)
-Received: from mail.transporteandreu.com.ar ([127.0.0.1])
-        by localhost (mail.transporteandreu.com.ar [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id a8L4ZMiq9Wom for <ecryptfs@vger.kernel.org>;
-        Mon, 27 Jun 2022 09:14:39 -0300 (-03)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.transporteandreu.com.ar (Postfix) with ESMTP id 3A803477CA6E4
-        for <ecryptfs@vger.kernel.org>; Mon, 27 Jun 2022 09:14:39 -0300 (-03)
-X-Virus-Scanned: amavisd-new at transporteandreu.com.ar
-Received: from mail.transporteandreu.com.ar ([127.0.0.1])
-        by localhost (mail.transporteandreu.com.ar [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id RLoZaFMCYSvR for <ecryptfs@vger.kernel.org>;
-        Mon, 27 Jun 2022 09:14:39 -0300 (-03)
-Received: from johnlewis.com (ec2-35-89-234-8.us-west-2.compute.amazonaws.com [35.89.234.8])
-        by mail.transporteandreu.com.ar (Postfix) with ESMTPSA id 6727F40D6691C
-        for <ecryptfs@vger.kernel.org>; Mon, 27 Jun 2022 09:14:37 -0300 (-03)
-Reply-To: robert_turner@johnlewis-trades.com
-From:   John Lewis & Partners <robert_turner041@johnlewis.com>
-To:     ecryptfs@vger.kernel.org
-Subject: Pre Order Enquiry
-Date:   27 Jun 2022 22:14:33 +1000
-Message-ID: <20220627170711.E11F1F03CF5D2131@johnlewis.com>
+        with ESMTP id S234041AbiF1St7 (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Tue, 28 Jun 2022 14:49:59 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71B1024956;
+        Tue, 28 Jun 2022 11:49:58 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id d17so13361411wrc.10;
+        Tue, 28 Jun 2022 11:49:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=v12W7lrwEZaMnJj/8/YW2fjv7549ZdYfdH8DoyJsAPU=;
+        b=Oc8qV2LqyBUhEWiuQFy7QvJeR4shc+Sfl5kJtkr/YIsuWRVZbdRkF8CD9PUPE1Vn8F
+         evZHqpoMaVN6ODzvR68EVjtVmhEZl+Il3Qymm1rCZBpUUnLcToS7JJTZSDiFLiz86SSy
+         APZ87lZJ/aWVOpMlctUc46BcvpePcH3tQD+Y8+ldRzayq6i3gMWZhevjZurKQcJXBiLQ
+         yqWFVebYZRbjyNATEDol9ONAP7t86DmjoVI81ODlhal7Yb1I7JPNKLyZ3RnCYMSaMMTv
+         u9UpzNY39krMjzIKeeIQRhxc4+Aej06Bd19deVppPpLEjXZoYJKr5Jk3xHZd3LIFnMin
+         KmIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=v12W7lrwEZaMnJj/8/YW2fjv7549ZdYfdH8DoyJsAPU=;
+        b=wFfHRWYPD088Z1qlSN0c7QbMNy/tZPfnzcMMKzCi8HndxPlnoHDEXq7bytuas37XDp
+         d7qn9C4V/ZdWV5kKn/Wb3I/H8CgGk3b1Xg7+8IzMN5mm7HmQ8a2vEbxhaFEBQLZHCa8m
+         jwAlTCTMPW/jFkvsivF02j7p2hkRgDQgdDPI/uAj5YEhJgGHG/NGLBqy0c1W9/PtK5WT
+         z50AoiBhzbYRwgEkL8+J/ikTp2cpTBX2LY9cF97VC0/hxZRPGrRltUMT+vapBPL5rcgn
+         eNyQwaysm3hRuSHv79p5/JuGxISItur5Fne7N6N+2HTRsy4cHDrdFqEOyWi+chSdd2Tf
+         GEdw==
+X-Gm-Message-State: AJIora/4r2HLmIp/gOOkf/STm5yEID+dAaaGSAH9tf5rQpuEnoluSuZk
+        nGPp8aUnC4+FygBvl/QgmcyYsMPQig4=
+X-Google-Smtp-Source: AGRyM1ue70t4mReX8BosJPQG8RZjjJfVbUvjGPOzvXYf2h4d6+aXr3IYvgrLVgeEsaKhmBPo4Ugu5w==
+X-Received: by 2002:a5d:6b91:0:b0:21b:bc0b:7282 with SMTP id n17-20020a5d6b91000000b0021bbc0b7282mr19213599wrx.375.1656442196924;
+        Tue, 28 Jun 2022 11:49:56 -0700 (PDT)
+Received: from localhost.localdomain (host-87-6-98-182.retail.telecomitalia.it. [87.6.98.182])
+        by smtp.gmail.com with ESMTPSA id z21-20020a1c4c15000000b0039c871d3191sm460368wmf.3.2022.06.28.11.49.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jun 2022 11:49:54 -0700 (PDT)
+From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To:     Tyler Hicks <code@tyhicks.com>,
+        Christian Brauner <brauner@kernel.org>,
+        Seth Forshee <sforshee@digitalocean.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jan Kara <jack@suse.cz>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        "Theodore Ts'o" <tytso@mit.edu>, ecryptfs@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+        Ira Weiny <ira.weiny@intel.com>
+Subject: [RFC PATCH] ecryptfs: Replace kmap() with kmap_local_page()
+Date:   Tue, 28 Jun 2022 20:49:50 +0200
+Message-Id: <20220628184950.2045-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=4.3 required=5.0 tests=ADVANCE_FEE_3_NEW,BAYES_50,
-        KHOP_HELO_FCRDNS,SPF_FAIL,SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Dear ecryptfs
+The use of kmap() is being deprecated in favor of kmap_local_page().
 
+With kmap_local_page() the mappings are per thread, CPU local and not
+globally visible.
 
- 
-The world famous brand John Lewis & Partners, is UK's largest 
-multi-channel retailer with over 126 shops and multiple expansion 
-in Africa furnished by European/Asian/American products. We are
-sourcing new products to attract new customers and also retain 
-our existing ones, create new partnerships with companies dealing 
-with different kinds of goods globally.
- 
-Your company's products are of interest to our market as we have 
-an amazing market for your products.Provide us your current 
-catalog through email to review more. We hope to be able to order
-with you and start a long-term friendly, respectable and solid 
-business partnership. Please we would appreciate it if you could 
-send us your stock availability via email if any.
+Use kmap_local_page() on all calling sites where kmap() is currently used.
 
+The mappings in fs/ecryptfs seem to conform to the prerequisites for
+easy conversions to kmap_local_page(), however I am not familiar with this
+code.
+
+This is why this is an RFC PATCH. I'd appreciate if people familiar with
+eCryptfs could test and confirm whether these conversions are safe or not.
+
+Suggested-by: Ira Weiny <ira.weiny@intel.com>
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
+ fs/ecryptfs/crypto.c     | 8 ++++----
+ fs/ecryptfs/read_write.c | 8 ++++----
+ 2 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/fs/ecryptfs/crypto.c b/fs/ecryptfs/crypto.c
+index e3f5d7f3c8a0..03263ebcccc6 100644
+--- a/fs/ecryptfs/crypto.c
++++ b/fs/ecryptfs/crypto.c
+@@ -465,10 +465,10 @@ int ecryptfs_encrypt_page(struct page *page)
+ 	}
  
-Our payment terms are 15 days net in Europe, 30 days Net in UK 
-and 30 days net in Asia/USA as we have operated with over 5297 
-suppliers around the globe for the past 50 years now. For
-immediate response Send your reply to "robert_turner@johnlewis-
-trades.com" for us to be able to treat with care and urgency.
+ 	lower_offset = lower_offset_for_page(crypt_stat, page);
+-	enc_extent_virt = kmap(enc_extent_page);
++	enc_extent_virt = kmap_local_page(enc_extent_page);
+ 	rc = ecryptfs_write_lower(ecryptfs_inode, enc_extent_virt, lower_offset,
+ 				  PAGE_SIZE);
+-	kunmap(enc_extent_page);
++	kunmap_local(enc_extent_virt);
+ 	if (rc < 0) {
+ 		ecryptfs_printk(KERN_ERR,
+ 			"Error attempting to write lower page; rc = [%d]\n",
+@@ -514,10 +514,10 @@ int ecryptfs_decrypt_page(struct page *page)
+ 	BUG_ON(!(crypt_stat->flags & ECRYPTFS_ENCRYPTED));
  
+ 	lower_offset = lower_offset_for_page(crypt_stat, page);
+-	page_virt = kmap(page);
++	page_virt = kmap_local_page(page);
+ 	rc = ecryptfs_read_lower(page_virt, lower_offset, PAGE_SIZE,
+ 				 ecryptfs_inode);
+-	kunmap(page);
++	kunmap_local(page_virt);
+ 	if (rc < 0) {
+ 		ecryptfs_printk(KERN_ERR,
+ 			"Error attempting to read lower page; rc = [%d]\n",
+diff --git a/fs/ecryptfs/read_write.c b/fs/ecryptfs/read_write.c
+index 60bdcaddcbe5..5edf027c8359 100644
+--- a/fs/ecryptfs/read_write.c
++++ b/fs/ecryptfs/read_write.c
+@@ -64,11 +64,11 @@ int ecryptfs_write_lower_page_segment(struct inode *ecryptfs_inode,
  
-Best Regards
-Rob Turner
-Head Of Procurement Operations
-John Lewis & Partners.
-robert_turner@johnlewis-trades.com
-Tel: +44-7451-274090
-WhatsApp: +447497483925
-www.johnlewis.com
-REGISTERED OFFICE: 171 VICTORIA STREET, LONDON SW1E 5NN
+ 	offset = ((((loff_t)page_for_lower->index) << PAGE_SHIFT)
+ 		  + offset_in_page);
+-	virt = kmap(page_for_lower);
++	virt = kmap_local_page(page_for_lower);
+ 	rc = ecryptfs_write_lower(ecryptfs_inode, virt, offset, size);
+ 	if (rc > 0)
+ 		rc = 0;
+-	kunmap(page_for_lower);
++	kunmap_local(virt);
+ 	return rc;
+ }
+ 
+@@ -253,11 +253,11 @@ int ecryptfs_read_lower_page_segment(struct page *page_for_ecryptfs,
+ 	int rc;
+ 
+ 	offset = ((((loff_t)page_index) << PAGE_SHIFT) + offset_in_page);
+-	virt = kmap(page_for_ecryptfs);
++	virt = kmap_local_page(page_for_ecryptfs);
+ 	rc = ecryptfs_read_lower(virt, offset, size, ecryptfs_inode);
+ 	if (rc > 0)
+ 		rc = 0;
+-	kunmap(page_for_ecryptfs);
++	kunmap_local(virt);
+ 	flush_dcache_page(page_for_ecryptfs);
+ 	return rc;
+ }
+-- 
+2.36.1
 
