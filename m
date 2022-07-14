@@ -2,74 +2,74 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7619C573E51
-	for <lists+ecryptfs@lfdr.de>; Wed, 13 Jul 2022 22:55:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73BBC57471E
+	for <lists+ecryptfs@lfdr.de>; Thu, 14 Jul 2022 10:37:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237321AbiGMUzG (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Wed, 13 Jul 2022 16:55:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49866 "EHLO
+        id S236831AbiGNIhQ (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Thu, 14 Jul 2022 04:37:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237372AbiGMUyu (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Wed, 13 Jul 2022 16:54:50 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88A4632050
-        for <ecryptfs@vger.kernel.org>; Wed, 13 Jul 2022 13:54:49 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id t1so6222822ejd.12
-        for <ecryptfs@vger.kernel.org>; Wed, 13 Jul 2022 13:54:49 -0700 (PDT)
+        with ESMTP id S236908AbiGNIhC (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Thu, 14 Jul 2022 04:37:02 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86C6F3ED4F
+        for <ecryptfs@vger.kernel.org>; Thu, 14 Jul 2022 01:37:01 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id r9so1620016lfp.10
+        for <ecryptfs@vger.kernel.org>; Thu, 14 Jul 2022 01:37:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=h0ZslgqQ94UM3iGDYCZGEx8ZwvbYHY5ZrQARiO/Kpbc=;
-        b=qkz8hPtS/Jj9+4/ycYg0rkjiTFGm03tU4eUD+vOP8MXiuK0MLiTQJM84/LkJzLIVmL
-         R5OdQEy101T2Ijz7EdE33kAE3sS+WeQPh+nJHJH4C1/Yo0NTQC22pqQ5XfngWG9ci/ej
-         KcXJc5pqu0cUxy0MnEb1DlCAwFB3TJgLu5fNHVs0IRf3l0OQYJ3si3i+7zBlwAN5dTgU
-         jkJtoWl7PDyzrmJdcpqUl4fvNo0wCteVu4AgBJ1Ouz7vqe48+uPN71Tp95R/y7kkcJqp
-         pnWEBK2Y+c8QyX5p/2xZpgQV4q6nQUiM7oZH2IUyCDjiKoKZSOqBPjlSX3ka6jIsAV7c
-         Mbvw==
+        bh=H3bGT1ZyGPu3PRQJlJHyQI9TvTjBPuNSyHjFOzNfiP0=;
+        b=gaDZ6UkvWmoGLPkb5BiwWKXrxZqJRKNx4T2fn6EvGAM0nTMCvTzxyP4EuJ913j6Iv+
+         SvMX4/pvx4tmhR/0cDdL9pbkcCOAwg/dZQZJjKvYYHG5zoS6pTup2xrhZON7aPFodE61
+         jbdbe7f5x1iqsxnbqtRGk5VVyYe+GfguXyW53v/Jtk7m9BRLrugVau1mwPBhoM15I1rO
+         FgfB/JoMGOti2QefdfOSOcdpcygQeBiN0idXo3yCL6hW5Cz+uWpratECqWcSagxAB5xP
+         zT+sUZ3pJE3RjDVpLi/6z/hZ8yL43zLlaxwdm4ILJ3e9Bke6wVp5k2l7GAKtdogOGzmZ
+         5LQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:reply-to:from:date:message-id
          :subject:to;
-        bh=h0ZslgqQ94UM3iGDYCZGEx8ZwvbYHY5ZrQARiO/Kpbc=;
-        b=6rLBLfKmcaVl7+19/QZYJXvbn6NGp8qQ0rznwIsHn1FESMh63W0oI1zdQAT/Reunim
-         tGd7SIIlCQy0w5xL0ipe+6G+SBpuHrUWBo+p6KCO4PK5RV8OtOPcYKTIHGwu40CXAxox
-         lSKshUdV8/yA5jlgC4eP+wee94ZwCxu1+E3GUNms57LolG3XLZpd+oCgXYyhW7i6uasN
-         PJfAwqI1mSGiEqiunUHpSgpo5j8IfzyhiauhbbFkEx14rNrRbTXIVJeUTIUyv6LqVgwG
-         qOgcrypVK3yyotqdEg/MhgOQywb4xvGTd1hNFiu+5wPpCjgIUozFKqJiSDMj8/TryW36
-         8MRw==
-X-Gm-Message-State: AJIora/xn5PFuGJzVFBH2nHAEwSzky4mxD1ebfjaqDiQ97I/vBZNbohn
-        8zpEQTJTlIjPGk/QSnEObzmLQZi86qqdnWVaONk=
-X-Google-Smtp-Source: AGRyM1vqHiuVzTgUI33dbgGJytn/nhn5FXvsV3ZsloUlpquAhLFOyODfb4BsZwwLn5hCP1aX4URQAmiHEtF7Dc4RmHY=
-X-Received: by 2002:a17:907:7347:b0:72d:78bb:b0d7 with SMTP id
- dq7-20020a170907734700b0072d78bbb0d7mr3005619ejc.45.1657745687789; Wed, 13
- Jul 2022 13:54:47 -0700 (PDT)
+        bh=H3bGT1ZyGPu3PRQJlJHyQI9TvTjBPuNSyHjFOzNfiP0=;
+        b=oiIPn71KBtj/G38ESLcnMFBxVG4XzVIr8qIb4m1JTPqvRJ2mZT64CnkfqVCOhtXmuG
+         52+86IBnjSOR5xi/EOAxsIBEPu6d6t4PQOJiIomgWXVCTyZw64Ua7pRKZ6S8V6oJ0bSv
+         E9GM33S0AzILAQD3Gv3SDAhF6u2iUJ/ShZITlGwdFJAyeCKq9VH9a6Fi9bjztQi1Iyvc
+         JpcccT7gmM+rxLbHNyqo7kwHRfiPFwVeFZ4s0YHWDQ/ChPe1sasmY2HxjbdK3nKPv/2U
+         GKTM6nPysf0CxdUzNEHfV/4vn8uGoVF90Mn+30U9/hTidrbzVavW0oxNXC0PbKz4+5qq
+         zbyQ==
+X-Gm-Message-State: AJIora/CV4XLDoWSWNyDSi28xn0a+m3F3SQg8NQh9kOT/U8RKiGxSdDz
+        TBHv/iIRi6m7eTgt+Yivi6F74ZB1Kudeq8j6ES8=
+X-Google-Smtp-Source: AGRyM1vX4Zd9WIWDxqKGtP81mt11peMiDiT310/qUqT5enM4eeA2HoIqQaHp0s5sIeDBZVZu8TIFwya2pg7lDHDFDeo=
+X-Received: by 2002:a05:6512:4004:b0:48a:12dc:7f63 with SMTP id
+ br4-20020a056512400400b0048a12dc7f63mr2033540lfb.131.1657787820892; Thu, 14
+ Jul 2022 01:37:00 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a17:906:1c06:b0:72d:5fc7:686 with HTTP; Wed, 13 Jul 2022
- 13:54:46 -0700 (PDT)
-Reply-To: lilywilliam989@gmail.com
-From:   Lily William <savadogoidrissaboursouma@gmail.com>
-Date:   Wed, 13 Jul 2022 12:54:46 -0800
-Message-ID: <CAA6zzomA_0oo-+_pYSJMGG1wSHwCttBxNArRE+=1KFzzXb39hA@mail.gmail.com>
-Subject: Hi Dear,
+Received: by 2002:a2e:9041:0:0:0:0:0 with HTTP; Thu, 14 Jul 2022 01:37:00
+ -0700 (PDT)
+Reply-To: abdwabbomaddahm@gmail.com
+From:   Abdwabbo Maddah <abdwabbomaddah746@gmail.com>
+Date:   Thu, 14 Jul 2022 09:37:00 +0100
+Message-ID: <CAFC-3ieta-vbGq7=-xp9Wgp2Sr8SYhFWTPWR2J6JsyQ_pZJxLQ@mail.gmail.com>
+Subject: Get back to me... URGENT
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: Yes, score=5.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
         *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:635 listed in]
+        *      [2a00:1450:4864:20:0:0:0:136 listed in]
         [list.dnswl.org]
         *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5007]
+        *      [score: 0.4990]
         *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
         *      provider
-        *      [savadogoidrissaboursouma[at]gmail.com]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [lilywilliam989[at]gmail.com]
+        *      [abdwabbomaddah746[at]gmail.com]
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [abdwabbomaddah746[at]gmail.com]
         * -0.0 SPF_PASS SPF: sender matches SPF record
         *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
         * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -90,16 +90,9 @@ Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Hi Dear,
-
-My name is Dr Lily William from the United States.I am a French and
-American nationality (dual) living in the U.S and sometimes in France
-for Work Purpose.
-
-I hope you consider my friend request. I will share some of my pics
-and more details about myself when I get your response.
-
-Thanks
-
-With love
-Lily
+-- 
+Dear,
+I had sent you a mail but i don't think you received it that's why am
+writing you again.It is important you get back to me as soon as you
+can.
+Abd-Wabbo Maddah
