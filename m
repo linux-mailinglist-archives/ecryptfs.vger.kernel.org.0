@@ -2,149 +2,152 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AC7D5B1CB1
-	for <lists+ecryptfs@lfdr.de>; Thu,  8 Sep 2022 14:22:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F4B55B8FA2
+	for <lists+ecryptfs@lfdr.de>; Wed, 14 Sep 2022 22:21:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231728AbiIHMWM (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Thu, 8 Sep 2022 08:22:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44172 "EHLO
+        id S229740AbiINUVQ (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Wed, 14 Sep 2022 16:21:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231656AbiIHMV5 (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Thu, 8 Sep 2022 08:21:57 -0400
-Received: from mail-ua1-x941.google.com (mail-ua1-x941.google.com [IPv6:2607:f8b0:4864:20::941])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B36AF6B85
-        for <ecryptfs@vger.kernel.org>; Thu,  8 Sep 2022 05:21:51 -0700 (PDT)
-Received: by mail-ua1-x941.google.com with SMTP id z14so6622473uam.10
-        for <ecryptfs@vger.kernel.org>; Thu, 08 Sep 2022 05:21:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:from:to:cc:subject:date;
-        bh=61JNgHFLNVCOHtS3GBlVT+sTDzg02TjYElOUCZQYEf8=;
-        b=VFAl8nN+F0jnp7mknBowWWPgKdAbiBCjW3QULCQfSss7aWTHmOx0lTqwSVJMxQ4t42
-         1CkjzgFqZS39zwY5PMaAUuDP257v8KI6IDIH6EtoblmWSZg+WvurP1kfXBIN0DOSGVwo
-         UuHX8rs4uauGtdXAh6Waz4P+KrFHGIMeKkoe6z1B8dJmtPCU21eex/gGDFVqleBFT2yB
-         mqhQpezgoDLfzbc8wmOzHjlj9JeLtcJp7fMfIBZs7ODXPxSJuSRiKMz5SD0dkB4kzLnf
-         4fwVlZUpNZhFxosnJPS7esAYsrx9x8DXMywysMxLp5yohwzaFCsQKqZ1BSLb1aug8fPS
-         ivbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=61JNgHFLNVCOHtS3GBlVT+sTDzg02TjYElOUCZQYEf8=;
-        b=MOyB0WZfBdBNYRkZ6TKnn4SO6FmAwUm94n8hSQlF3R/40XKnsETpBPLsF4/53oK5RJ
-         /76uwzmGr+iWP21FbEsC8FAGQvPB4vZ6kNOJsHrNUBdHcYEEorHBsL8kR1gG3Vzuz3tk
-         Zr4iBpMuBjhxPojc1CvYSnkmM8vfxJspN/5axMQFIy9JMjNoq+MnmWRfzV4VU7zwxiwi
-         /A2nhgfMl/bfmgwISueHEsZ/DLxFEyOIkp3A/OpVluM91Lyy+Tr7GtYeFz5pdHM4K0bK
-         owkuDFBmPrZADeewJCFHtX/ehRXLzlMUuxlPvjaUs73RkCECVl5YtHMzkT20uusw+7fS
-         kNbA==
-X-Gm-Message-State: ACgBeo33knbiw/ikjM5z8fTsYltbF5v70Cg5IpBcLJob+tRSC2ZAcdI7
-        nh1tTftyL+cdO1sThU8ZMZF8ZPlhSr8o/YV/naU=
-X-Google-Smtp-Source: AA6agR5tSJ091NeM5tXewmGtICzcO4PpV3ipf/rAJVNWqc4E8kfj+TT0NOhJU4qQaUW9qtgXVifY4nUYsn2fHJkTG+U=
-X-Received: by 2002:ab0:7696:0:b0:3af:8ee3:a5ed with SMTP id
- v22-20020ab07696000000b003af8ee3a5edmr2773119uaq.123.1662639710265; Thu, 08
- Sep 2022 05:21:50 -0700 (PDT)
+        with ESMTP id S229479AbiINUVP (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Wed, 14 Sep 2022 16:21:15 -0400
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01hn2201.outbound.protection.outlook.com [52.100.164.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6940982747
+        for <ecryptfs@vger.kernel.org>; Wed, 14 Sep 2022 13:21:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AqODICaeSyO9VUFSIBqP4AxqNuowZQo1dP3sGB3zeCb3wE6B8EHkbVtYSCY7rVct/BGYVRvZ7JGccQ9U0sYG20H27bPbuK3qiOuxiU5lF6JMVJYnZhfalypgJsw+39bRYsPxUD6eroWCJ3LJgKaaA5h6lopTiVdE84e2THwVz74AyyiodRunvhwAgoyVnQ9c0C4R/q+3vVkh/zk8q7DiFVDhKwTUdmQO9bSyBGYeFT4PhzzUGEO0d9F9Bfb/LYwFGS+fe3jLLJAUuTRqta8sobTGGxphoBNLhx4msDUdrzWoIXw2/HvluPfMkHI0kIYX2kZKmTxmRZZviNg1y5XTQg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Bs10Md+15nMnyayKLyd22Uv+/ZH79IcFcpzuzGLq1Fg=;
+ b=PNuk6blUe/zSbcKqim5Iteuya7hezO1dD+o8pWW1P2s9elnC39gOtzcILTaa59HE10WnhJKq5fXOzifdZnrJ/n/9WV+541fLWd0m2qH6fZ5MbxrWrXm585DdbmpCXba39LUIvu+ozy9c3EzsRiiYJaJZFu6TBse3xQFrCy+sxU/IE0UbzGe7dgW01Bg/cUNx4NfQcmjS3VqcMb6Ec2Z8yb7RZGXpcSIT/eTS42PH7lg8plQbeD6Mh4mFJZSv4FE4eKJ1Qml6XijYmDlvyKdsAshTrQKcZNeAVcgoKDGVBL8Qe9sLL+05gbuBjdva+Ql1RmbcwUyqo82PDNbOrgzqvw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 37.19.199.139) smtp.rcpttodomain=ovdm.co.za smtp.mailfrom=t4.cims.jp;
+ dmarc=bestguesspass action=none header.from=t4.cims.jp; dkim=none (message
+ not signed); arc=none (0)
+Received: from PS1PR03CA0013.apcprd03.prod.outlook.com (2603:1096:803:3d::25)
+ by SEZPR04MB6805.apcprd04.prod.outlook.com (2603:1096:101:e6::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.22; Wed, 14 Sep
+ 2022 20:21:09 +0000
+Received: from PSAAPC01FT048.eop-APC01.prod.protection.outlook.com
+ (2603:1096:803:3d:cafe::60) by PS1PR03CA0013.outlook.office365.com
+ (2603:1096:803:3d::25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.6 via Frontend
+ Transport; Wed, 14 Sep 2022 20:21:09 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 37.19.199.139)
+ smtp.mailfrom=t4.cims.jp; dkim=none (message not signed)
+ header.d=none;dmarc=bestguesspass action=none header.from=t4.cims.jp;
+Received-SPF: Pass (protection.outlook.com: domain of t4.cims.jp designates
+ 37.19.199.139 as permitted sender) receiver=protection.outlook.com;
+ client-ip=37.19.199.139; helo=User; pr=M
+Received: from mail.prasarana.com.my (58.26.8.158) by
+ PSAAPC01FT048.mail.protection.outlook.com (10.13.38.164) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5632.12 via Frontend Transport; Wed, 14 Sep 2022 20:21:08 +0000
+Received: from MRL-EXH-02.prasarana.com.my (10.128.66.101) by
+ MRL-EXH-01.prasarana.com.my (10.128.66.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.14; Thu, 15 Sep 2022 04:20:48 +0800
+Received: from User (37.19.199.139) by MRL-EXH-02.prasarana.com.my
+ (10.128.66.101) with Microsoft SMTP Server id 15.1.2176.14 via Frontend
+ Transport; Thu, 15 Sep 2022 04:20:16 +0800
+Reply-To: <rhashimi202222@kakao.com>
+From:   Consultant Swift Capital Loans Ltd <info@t4.cims.jp>
+Subject: I hope you are doing well, and business is great!
+Date:   Thu, 15 Sep 2022 04:20:57 +0800
 MIME-Version: 1.0
-Received: by 2002:a59:cd46:0:b0:2de:33c9:46ec with HTTP; Thu, 8 Sep 2022
- 05:21:49 -0700 (PDT)
-Reply-To: mrtonyelumelu98@gmail.com
-From:   "Mrs. Cristalina Georgieva" <vladyslavavladyslava8444@gmail.com>
-Date:   Thu, 8 Sep 2022 13:21:49 +0100
-Message-ID: <CALAqp35CZgOSceRuk0zdMfnQLkat2+7seFd77+9GjQNYDwx3jA@mail.gmail.com>
-Subject: hi
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-X-Spam-Status: No, score=2.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS,
-        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Level: **
+Content-Type: text/plain; charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+Message-ID: <5ff0be87-bf8a-44a3-b9e3-9e5ed3e05071@MRL-EXH-02.prasarana.com.my>
+To:     Undisclosed recipients:;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-SkipListedInternetSender: ip=[37.19.199.139];domain=User
+X-MS-Exchange-ExternalOriginalInternetSender: ip=[37.19.199.139];domain=User
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PSAAPC01FT048:EE_|SEZPR04MB6805:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3bc3c4aa-7227-4f31-ab46-08da968ea8b3
+X-MS-Exchange-AtpMessageProperties: SA|SL
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: =?windows-1251?Q?7qDorjyIAXORzlP8SyjXlfQ1sHKHbkWfhYWKuI5opUxo1PZITr6TKxnu?=
+ =?windows-1251?Q?bAyxSvtUJTId7iRzS15DSe+HiPrdmqtcrBGnPLJVItKYQt6XYTEksl2v?=
+ =?windows-1251?Q?P+QdksP9MlzxTMKdWODSoURJ2HBtuO3errudReSJoEoFJHc7EIFjiwcw?=
+ =?windows-1251?Q?apqYweL8S4Lh0vnU2w5MOZzkjzLj8mDX4GLtpEvr+0m9XMWwpGbTb+vX?=
+ =?windows-1251?Q?yeCOW9ZP1cdSF1CFFwQXCCqgM4TYgXUUXFRnJQr3NevxoAkaLKQRKhk2?=
+ =?windows-1251?Q?l72gZ+zGayQ2mbZRXBHOBlR/U0LQvjbb61wG6e6/wz4JIAb5H/JKyt5C?=
+ =?windows-1251?Q?0B6lxZfAhc+BQgnxGQ3jgWIFaTkSloKT4FA1RhePwBi0XR3gFnkVpbjE?=
+ =?windows-1251?Q?PHVRT8XGeWBrqRQdM1iUfSIiKJh9HH9RsVLlAXflAhp1e/5kjXu9qJCL?=
+ =?windows-1251?Q?J4fWm9mP/Uk+Q95zfPi9oOOjAaP/U4dlLBZUQcZ7UxcVCmfLP9qG4bBj?=
+ =?windows-1251?Q?aJrY5bl5jeKe6zgvfr8frp/swf8WRCvpmkwbU4KHaLc58+8y2XqxLm8i?=
+ =?windows-1251?Q?RGr2pLpqzh1s1GlzHlX+KI1axwRHudaEUc9QEvgAzDHaVP3weiYfRU3P?=
+ =?windows-1251?Q?yCQlLQMCU4/VWUtDLlrca10AbLyWEw2JbSZEtUGxv1RtgOk1LjPjhJpF?=
+ =?windows-1251?Q?vRDQYHT8f2kgD1t5IRUBJFiyCIxrRbgs35wwEocfpWedQcNzs2qliz8q?=
+ =?windows-1251?Q?v3CuWuOkJ61PxRBuSE5w7Kwd6l0bK2F9luS5nHocpsD/8wb/3WFIqKYW?=
+ =?windows-1251?Q?dmmFsXVlHfIGB0v5CFwCV5wwqxES6mRy7/xGELNKwEt3h3zHy+/pRy49?=
+ =?windows-1251?Q?4/BcC/CPomILag+ms1rGlszknpWHUeLEUiH/70YlTpQu0udbiXfgvoyy?=
+ =?windows-1251?Q?58Pc+amtvVcMPj8zmfi8gs+lvpNr2MXRvb6x2oJpSjSOa2HKa+PNpAU5?=
+ =?windows-1251?Q?toyXXl3b5ZxZ+q4CGR8/zdwyYmZ/kNmxmdW1YLrP+d0SJUvelePYo4N5?=
+ =?windows-1251?Q?ESrYdpxP1d1JZt5PRr07FG3hEtqbaTdc8UEIpCeW0e5TKkJp+vJD56dq?=
+ =?windows-1251?Q?H+CG9REJdb2LZMCfGJ6XOf2tQ7/cQAD9jx/vTBf/sQZEyGJdOjVcpmH8?=
+ =?windows-1251?Q?TtDf/kWbEkOiWGCL/LsQjoljio4ieNFrfA6usV6+BB8/VrS9Ay4xLYHR?=
+ =?windows-1251?Q?nz8uaRT6u/ilW/vDVykSTWtf4ANt7EDrLjz4QZW1AnIPvfkqGjsSGp+h?=
+ =?windows-1251?Q?P0pRxetdIvvX0a5w35G/tYLuGW8k/tPcGcRubdf5Fo3tfPa4?=
+X-Forefront-Antispam-Report: CIP:58.26.8.158;CTRY:US;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:User;PTR:unn-37-19-199-139.datapacket.com;CAT:OSPM;SFS:(13230022)(4636009)(396003)(376002)(346002)(136003)(39860400002)(451199015)(46966006)(40470700004)(41300700001)(82740400003)(498600001)(109986005)(6666004)(70586007)(70206006)(8676002)(36906005)(81166007)(316002)(40460700003)(32850700003)(156005)(35950700001)(9686003)(26005)(47076005)(86362001)(336012)(956004)(31696002)(7406005)(82310400005)(31686004)(40480700001)(2906002)(4744005)(7366002)(7416002)(5660300002)(8936002)(2700400008);DIR:OUT;SFP:1501;
+X-OriginatorOrg: myprasarana.onmicrosoft.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2022 20:21:08.4497
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3bc3c4aa-7227-4f31-ab46-08da968ea8b3
+X-MS-Exchange-CrossTenant-Id: 3cbb2ff2-27fb-4993-aecf-bf16995e64c0
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3cbb2ff2-27fb-4993-aecf-bf16995e64c0;Ip=[58.26.8.158];Helo=[mail.prasarana.com.my]
+X-MS-Exchange-CrossTenant-AuthSource: PSAAPC01FT048.eop-APC01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR04MB6805
+X-Spam-Status: Yes, score=6.2 required=5.0 tests=AXB_XMAILER_MIMEOLE_OL_024C2,
+        AXB_X_FF_SEZ_S,BAYES_50,FORGED_MUA_OUTLOOK,FSL_CTYPE_WIN1251,
+        FSL_NEW_HELO_USER,HEADER_FROM_DIFFERENT_DOMAINS,NSL_RCVD_FROM_USER,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [52.100.164.201 listed in list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5116]
+        *  0.0 NSL_RCVD_FROM_USER Received from User
+        *  3.2 AXB_X_FF_SEZ_S Forefront sez this is spam
+        *  0.0 FSL_CTYPE_WIN1251 Content-Type only seen in 419 spam
+        * -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
+        *  0.2 HEADER_FROM_DIFFERENT_DOMAINS From and EnvelopeFrom 2nd level
+        *      mail domains are different
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  0.0 AXB_XMAILER_MIMEOLE_OL_024C2 Yet another X header trait
+        *  0.0 FSL_NEW_HELO_USER Spam's using Helo and User
+        *  1.9 FORGED_MUA_OUTLOOK Forged mail pretending to be from MS Outlook
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-2LXZhtiv2YjZgiDYp9mE2YbZgtivINin2YTYr9mI2YTZiiAoSS5NLkYpDQrYtNi52KjYqSDYpdiv
-2KfYsdipINin2YTYr9mK2YjZhiDYp9mE2K/ZiNmE2YrYqSDYjA0KIyAxOTAwINiMINi02KfYsdi5
-INin2YTYsdim2YrYsw0KDQrZhdix2K3YqNmL2Kcg2KjZg9mFINmB2Yog2LnZhtmI2KfZhiDYp9mE
-2KjYsdmK2K8g2KfZhNil2YTZg9iq2LHZiNmG2Yog2KfZhNix2LPZhdmKINmE2YTZhdiv2YrYsSBJ
-Lk0uRi4g2YPYsdmK2LPYqtin2YTZitmG2Kcg2KzZiNix2KzZitmB2KcNCg0KDQrYudiy2YrYstmK
-INin2YTZhdiz2KrZgdmK2K8hDQoNCtmE2YLYryDYs9mF2K0g2YTZhtinINmI2LLZitixINin2YTY
-rtiy2KfZhtipINin2YTZhdi52YrZhiDYrdiv2YrYq9mL2Kcg2YjYp9mE2YfZitim2Kkg2KfZhNit
-2KfZg9mF2Kkg2YTZhNiz2YTYt9ipINin2YTZhtmC2K/ZitipDQrZhNmE2KPZhdmFINin2YTZhdiq
-2K3Yr9ipINio2YHYrdi1INin2YTYo9mF2YjYp9mEINin2YTYqtmKINmE2YUg2KrYqtmFINin2YTZ
-hdi32KfZhNio2Kkg2KjZh9inINmI2KfZhNiq2Yog2YTYt9in2YTZhdinINmD2KfZhtiqDQrZhdiv
-2YrZhtipINmE2K3Zg9mI2YXYqSDYp9mE2KPZhdmFINin2YTZhdiq2K3Yr9ipINiMINmE2LDZhNmD
-INiq2YUg2KfYqtmH2KfZhSDZhdin2YTZg9mK2YfYpyDYqNin2YTYp9it2KrZitin2YQuDQrYp9mE
-2YXYrdiq2KfZhNmI2YYg2KfZhNiw2YrZhiDZitiz2KrYrtiv2YXZiNmGINin2LPZhSDYp9mE2KPZ
-hdmFINin2YTZhdiq2K3Yr9ipINiMINmI2YHZgtmL2Kcg2YTYs9is2YQg2KrYrtiy2YrZhiDYp9mE
-2KjZitin2YbYp9iqDQrZhdi5INi52YbZiNin2YYg2KfZhNio2LHZitivINin2YTYpdmE2YPYqtix
-2YjZhtmKINmE2YbYuNin2YXZhtinINij2KvZhtin2KEg2KfZhNiq2K3ZgtmK2YIg2KfZhNiw2Yog
-2KPYrNix2YrZhtin2Ycg2Iwg2YHYpdmGDQrYr9mB2LnYqtmDINmF2K/Ysdis2Kkg2YHZiiDZgtin
-2KbZhdipINiq2LbZhSAxNTAg2YXYs9iq2YHZitiv2YvYpyDZgdmKINin2YTZgdim2KfYqiDYp9mE
-2KrYp9mE2YrYqTog2LXZhtiv2YjZgiDZitin2YbYtdmK2KgNCti62YrYsSDZhdmP2LPZhNmO2ZHZ
-hSAvINi12YbYr9mI2YIg2YrYp9mG2LXZitioINi62YrYsSDZhdiv2YHZiNi5IC8g2YjYsdin2KvY
-qSDZhtmC2YQg2LrZitixINmF2YPYqtmF2YTYqSAvINij2YXZiNin2YQNCtin2YTYudmC2K8uDQoN
-CtmC2KfZhSDZhdiz2KTZiNmE2Ygg2KfZhNio2YbZgyDYp9mE2YHYp9iz2K8g2Iwg2KfZhNiw2YrZ
-hiDYp9ix2KrZg9io2YjYpyDYp9mE2YHYs9in2K8g2YXZhiDYo9is2YQg2KfZhNin2K3YqtmK2KfZ
-hCDYudmE2YkNCtij2YXZiNin2YTZgyDYjCDYqNiq2KPYrtmK2LEg2K/Zgdi52YMg2KjYtNmD2YQg
-2LrZitixINmF2LnZgtmI2YQg2Iwg2YXZhdinINij2K/ZiSDYpdmE2Ykg2KrYrdmF2YTZgyDYp9mE
-2YPYq9mK2LEg2YXZhg0K2KfZhNiq2YPYp9mE2YrZgSDZiNiq2KPYrtmK2LEg2LrZitixINmF2LnZ
-gtmI2YQg2YHZiiDZgtio2YjZhCDZhdiv2YHZiNi52KfYqtmDLiDYp9iu2KrYp9ix2Kog2KfZhNij
-2YXZhSDYp9mE2YXYqtit2K/YqQ0K2YjYtdmG2K/ZiNmCINin2YTZhtmC2K8g2KfZhNiv2YjZhNmK
-IChJTUYpINiv2YHYuSDYrNmF2YrYuSDYp9mE2KrYudmI2YrYttin2Kog2YTZgCAxNTAg2YXYs9iq
-2YHZitiv2YvYpyDYqNin2LPYqtiu2K/Yp9mFDQrYqNi32KfZgtin2KogVmlzYSBBVE0g2YXZhiDY
-o9mF2LHZitmD2Kcg2KfZhNi02YXYp9mE2YrYqSDZiNij2YXYsdmK2YPYpyDYp9mE2KzZhtmI2KjZ
-itipINmI2KfZhNmI2YTYp9mK2KfYqiDYp9mE2YXYqtit2K/YqQ0K2YjYo9mI2LHZiNio2Kcg2YjY
-otiz2YrYpyDZiNit2YjZhCDYp9mE2LnYp9mE2YUg2Iwg2K3ZitirINiq2KrZiNmB2LEg2KrZgtmG
-2YrYqSDYp9mE2K/Zgdi5INin2YTYudin2YTZhdmK2Kkg2YfYsNmHDQrZhNmE2YXYs9iq2YfZhNmD
-2YrZhiDZiNin2YTYtNix2YPYp9iqINmI2KfZhNmF2KTYs9iz2KfYqiDYp9mE2YXYp9mE2YrYqS4g
-2YjZitiz2YXYrSDZhNmE2K3Zg9mI2YXYp9iqINio2KfYs9iq2K7Yr9in2YUg2KfZhNi52YXZhNin
-2KoNCtin2YTYsdmC2YXZitipINio2K/ZhNin2Ysg2YXZhiDYp9mE2YbZgtivINmI2KfZhNi02YrZ
-g9in2KouDQoNCtmE2YLYryDZgtmF2YbYpyDYqNin2YTYqtix2KrZitioINmE2LPYr9in2K8g2YXY
-r9mB2YjYudin2KrZgyDYqNin2LPYqtiu2K/Yp9mFINio2LfYp9mC2KkgVmlzYSBBVE0g2YjYs9mK
-2KrZhSDYpdi12K/Yp9ix2YfYpw0K2YTZgyDZiNil2LHYs9in2YTZh9inINmF2KjYp9i02LHYqdmL
-INil2YTZiSDYudmG2YjYp9mG2YMg2LnYqNixINij2Yog2K7Yr9mF2KfYqiDYqNix2YrYryDYs9ix
-2YrYuSDZhdiq2KfYrdipLiDYqNi52K8NCtin2YTYp9iq2LXYp9mEINio2YbYpyDYjCDYs9mK2KrZ
-hSDYqtit2YjZitmEINmF2KjZhNi6IDHYjDUwMNiMMDAwLjAwINiv2YjZhNin2LEg2KPZhdix2YrZ
-g9mKINil2YTZiSDYqNi32KfZgtipIFZpc2ENCkFUTSDYjCDZiNin2YTYqtmKINiz2KrYs9mF2K0g
-2YTZgyDYqNiz2K3YqCDYo9mF2YjYp9mE2YMg2LnZhiDYt9ix2YrZgiDYs9it2Kgg2YXYpyDZhNin
-INmK2YLZhCDYudmGIDEw2IwwMDAg2K/ZiNmE2KfYsQ0K2KPZhdix2YrZg9mKINmB2Yog2KfZhNmK
-2YjZhSDZhdmGINij2Yog2YXYp9mD2YrZhtipINi12LHYp9mBINii2YTZiiDZgdmKINio2YTYr9mD
-LiDYqNmG2KfYodmLINi52YTZiSDYt9mE2KjZgyDYjCDZitmF2YPZhtmDDQrYstmK2KfYr9ipINin
-2YTYrdivINil2YTZiSAyMNiMMDAwLjAwINiv2YjZhNin2LEg2YHZiiDYp9mE2YrZiNmFLiDZgdmK
-INmH2LDYpyDYp9mE2LXYr9ivINiMINmK2KzYqCDYudmE2YrZgw0K2KfZhNin2KrYtdin2YQg2KjY
-pdiv2KfYsdipINin2YTZhdiv2YHZiNi52KfYqiDZiNin2YTYqtit2YjZitmE2KfYqiDYp9mE2K/Z
-iNmE2YrYqSDZiNiq2YLYr9mK2YUg2KfZhNmF2LnZhNmI2YXYp9iqINin2YTZhdi32YTZiNio2KkN
-CtmF2YYg2K7ZhNin2YQ6DQoNCjEuINin2LPZhdmDINin2YTZg9in2YXZhCAuLi4uLi4uLi4uLi4u
-Lg0KMi4g2LnZhtmI2KfZhtmDINin2YTZg9in2YXZhCAuLi4NCjMuINin2YTYrNmG2LPZitipIC4u
-Li4uLi4uLi4uLi4uLi4NCjQuINiq2KfYsdmK2K4g2KfZhNmF2YrZhNin2K8gLyDYp9mE2KzZhtiz
-IC4uLi4uLi4uLg0KNS4g2KfZhNiq2K7Ytdi1IC4uLg0KNi4g2LHZgtmFINin2YTZh9in2KrZgSAu
-Li4uLi4uLi4NCjcuINi52YbZiNin2YYg2KfZhNio2LHZitivINin2YTYpdmE2YPYqtix2YjZhtmK
-INmE2LTYsdmD2KrZgyAuLi4uLi4NCjguINi52YbZiNin2YYg2KfZhNio2LHZitivINin2YTYpdmE
-2YPYqtix2YjZhtmKINin2YTYtNiu2LXZiiAuLi4uLi4NCg0KDQrZhNiq2K3Yr9mK2K8g2YfYsNin
-INin2YTYsdmF2LIgKNin2YTYsdin2KjYtzogQ0xJRU5ULTk2Ni8xNikg2Iwg2KfYs9iq2K7Yr9mF
-2Ycg2YPZhdmI2LbZiNi5INmE2YTYqNix2YrYrw0K2KfZhNil2YTZg9iq2LHZiNmG2Yog2KfZhNiu
-2KfYtSDYqNmDINmI2K3Yp9mI2YQg2KrZgtiv2YrZhSDYp9mE2YXYudmE2YjZhdin2Kog2KfZhNmF
-2LDZg9mI2LHYqSDYo9i52YTYp9mHINil2YTZiSDYp9mE2YXZiNi42YHZitmGDQrYp9mE2KrYp9mE
-2YrZitmGINmE2KXYtdiv2KfYsSDZiNiq2LPZhNmK2YUg2KjYt9in2YLYqSBWaXNhIEFUTSDYmw0K
-DQrZhtmI2LXZitmDINio2YHYqtitINi52YbZiNin2YYg2KjYsdmK2K8g2KXZhNmD2KrYsdmI2YbZ
-iiDYtNiu2LXZiiDYqNix2YLZhSDYrNiv2YrYryDZhNmE2LPZhdin2K0g2YTZiNmD2YrZhCDYp9mE
-2KjZhtmDINio2KrYqtio2LkNCtmH2LDZhyDYp9mE2YXYr9mB2YjYudin2Kog2YjYqtio2KfYr9mE
-INin2YTYsdiz2KfYptmEINmE2YXZhti5INin2YTZhdiy2YrYryDZhdmGINin2YTYqtij2K7Zitix
-INij2Ygg2KfZhNiq2YjYrNmK2Ycg2KfZhNiu2KfYt9imDQrZhNij2YXZiNin2YTZgy4g2KfYqti1
-2YQg2KjZiNmD2YrZhCDYp9mE2KjZhtmDINin2YTYpdmB2LHZitmC2Yog2KfZhNmF2KrYrdivINin
-2YTYotmGINio2KfYs9iq2K7Yr9in2YUg2YXYudmE2YjZhdin2KoNCtin2YTYp9iq2LXYp9mEINij
-2K/Zhtin2Yc6DQoNCtin2YTYtNiu2LUg2KfZhNmF2LPYpNmI2YQ6INin2YTYs9mK2K8g2KrZiNmG
-2Yog2KXZhNmI2YXZitmE2YgNCtil2K/Yp9ix2Kkg2KrYrdmI2YrZhCDYo9mF2YjYp9mEINin2YTY
-qti52YjZiti22KfYqiDYjCDYrNmH2Kkg2KfZhNin2KrYtdin2YQg2KjYp9mE2KjYsdmK2K8g2KfZ
-hNil2YTZg9iq2LHZiNmG2Yog2YTYqNmG2YMNCtil2YHYsdmK2YLZitinINin2YTZhdiq2K3Yrzog
-KG1ydG9ueWVsdW1lbHU5OEBnbWFpbC5jb20pDQoNCtmG2K3Yqtin2Kwg2KXZhNmJINix2K8g2LPY
-sdmK2Lkg2LnZhNmJINmH2LDYpyDYp9mE2KjYsdmK2K8g2KfZhNil2YTZg9iq2LHZiNmG2Yog2YTY
-qtis2YbYqCDYp9mE2YXYstmK2K8g2YXZhiDYp9mE2KrYo9iu2YrYsS4NCg0K2LXYr9mK2YLZgyDY
-p9mE2YXYrtmE2LUNCtin2YTYs9mR2YrYr9ipLiDZg9ix2YrYs9iq2KfZhNmK2YbYpyDYrNmI2LHY
-rNmK2YHYpw0K
+Hello,
+
+I hope you are doing well, and business is great!
+However, if you need working capital to further grow and expand your business, we may be a perfect fit for you. I am Ms. Kaori Ichikawa Swift Capital Loans Ltd Consultant, Our loans are NOT based on your personal credit, and NO collateral is required.
+
+We are a Direct Lender who can approve your loan today, and fund as Early as Tomorrow.
+
+Once your reply I will send you the official website to complete your application
+
+Waiting for your reply.
+
+Regards
+Ms. Kaori Ichikawa
+Consultant Swift Capital Loans Ltd
