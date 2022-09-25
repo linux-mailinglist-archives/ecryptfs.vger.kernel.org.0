@@ -2,85 +2,111 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F37C5E66C3
-	for <lists+ecryptfs@lfdr.de>; Thu, 22 Sep 2022 17:18:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 310F45E94B5
+	for <lists+ecryptfs@lfdr.de>; Sun, 25 Sep 2022 19:15:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232050AbiIVPSy (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Thu, 22 Sep 2022 11:18:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41180 "EHLO
+        id S229767AbiIYRPb (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Sun, 25 Sep 2022 13:15:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231984AbiIVPSn (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Thu, 22 Sep 2022 11:18:43 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A381AEF08F;
-        Thu, 22 Sep 2022 08:18:42 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 41DD6635D8;
-        Thu, 22 Sep 2022 15:18:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12D81C433B5;
-        Thu, 22 Sep 2022 15:18:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1663859921;
-        bh=vjtzaI6fQogsoDW17FlX5AgCfjQQ175EgJ3HMzyUBXw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=XXokH8ZH+JxH+G1+lckiQpjJ08UAqlUbAA9olUw/bjcXIj3womNBXprh/mpPd8rE7
-         atU6rZ990EwPicAo3tn/yLhQ1v/8soRtNxRDpLjSlHxdAqEL61OM0pc2H71eJ5dxNt
-         du2BDw1dBKYuqK3CrYSfsT5BZ6t3y5JpXZ5hhdyMwCBipgPMn1SgHr6uargvgomaq7
-         +WA1s61Fir/YytFIM0FxNX/TYOpsdVRoaMQGq9BkhgOIJvuUvhJfhgaaEs5oCKvm4o
-         MOaNmb9QoIRpKwErnh2+PS2XG8ukZJ4JILISRX2dGUXN+8UZlxynRA51becQyJoNVT
-         waVEeqsGmdRDw==
-From:   Christian Brauner <brauner@kernel.org>
-To:     linux-fsdevel@vger.kernel.org
-Cc:     Christian Brauner <brauner@kernel.org>,
-        Seth Forshee <sforshee@kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Tyler Hicks <code@tyhicks.com>, ecryptfs@vger.kernel.org
-Subject: [PATCH 25/29] ecryptfs: use stub posix acl handlers
-Date:   Thu, 22 Sep 2022 17:17:23 +0200
-Message-Id: <20220922151728.1557914-26-brauner@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220922151728.1557914-1-brauner@kernel.org>
-References: <20220922151728.1557914-1-brauner@kernel.org>
+        with ESMTP id S232781AbiIYRP3 (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Sun, 25 Sep 2022 13:15:29 -0400
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3066C237EE;
+        Sun, 25 Sep 2022 10:15:27 -0700 (PDT)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 04B03580360;
+        Sun, 25 Sep 2022 13:15:25 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Sun, 25 Sep 2022 13:15:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tyhicks.com; h=
+        cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm1; t=1664126124; x=1664126724; bh=G7CmDINNFw
+        Eug1pjE+IrFi+4XbDQVcMn0dRCfHoeG6c=; b=AYGxzRoZIo/HrkEutzvCA+d3/m
+        b+m0UqHZ45iANR0iLsRweFOk/SaRXLqTRgwhcft8KcSPinkHB9JzC4VNTV/CLb3o
+        QYm3Gz827xTLwablq6BNp/2nUKkyqWS7UiSQ5h/nbi/XL1FugXYxv6ogjvzonGRf
+        Ayt6HN9Ceh611VLUCOIrLz0JMuFpsbl15AY70Hw8ngYnYwWhsfwEp5jYfTo2zrKc
+        iZHRionXt2puymDcazZSPfgz8wZpIPmiqHg9Yo5hnXw0uKtdSsHvYQhxRTOyCTPM
+        E9Icmk1UUFH3+vwH8T+m4XO7CucQOa57z6XkTEmU8Lt5WYsd0v268DSKmkTA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        i78e14604.fm2; t=1664126124; x=1664126724; bh=G7CmDINNFwEug1pjE+
+        IrFi+4XbDQVcMn0dRCfHoeG6c=; b=EzZeoQrG7W605r0Om3MopheZDwVOdtpkKj
+        1X77Vk4Ceq99J3z66b1hcRoY27seYwLIU+g47ow/G+bFdV5x/FA4igf2sZ/VAGbh
+        ujiMumERpH2g5sdoqAnNyc3NcOfRtKF0+K9lxGI8/JcjT4D94vtdy6PAT6lzKNoH
+        WOx9rUiTETPpUPCSLWZoU9M7iV76vVSt+F/FXoP8CdSMdI0ji70n43Gmu9AISu/C
+        8A6yTDJJvwLH53S5V2H7PK+Q9gE05LvEwc/PT6sA7tp6+moaR5VUaUEzOQIwBPm9
+        oLgOJ7x7pwJ7d9D/4/L92inqqobMzZxLuXQuh1VnmG/Sf4LlmOvQ==
+X-ME-Sender: <xms:rIwwY4_pYjzCd1XjeUH6abAktRlXUwV_0ec88oyprJhcTRN_DDFDag>
+    <xme:rIwwYwsIvi0T-eFRks7mOnmcIxzhKqvrxae3kO6l2kdJo-riSAP14N8iVKYV9PP6o
+    RTDFu6VGyfrfEulk5k>
+X-ME-Received: <xmr:rIwwY-CmpyAJBHWwMsxo9N3Eyqu3m1i_0lg-kN7ro-ZWYaF4lpnSD4k4Eg0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeegtddguddufecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefvhihl
+    vghrucfjihgtkhhsuceotghouggvsehthihhihgtkhhsrdgtohhmqeenucggtffrrghtth
+    gvrhhnpedvhedvtddthfefhfdtgfelheefgefgudejueevkeduveekvdegjedttdefgfel
+    ieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegtoh
+    guvgesthihhhhitghkshdrtghomh
+X-ME-Proxy: <xmx:rIwwY4e5suIpVtlrLP9Z_3euaJ9CPXWwKIh-dMzVebNh2ybe4CC5pw>
+    <xmx:rIwwY9MMgG8e1DwqevrwDWkTbVbdJThfsWX1KyKwaZZ8V9Hmh2LMhg>
+    <xmx:rIwwYymkddLWUHivn8l26wajEyBBi42YoFarROgHmhm2O7vwAc61aw>
+    <xmx:rIwwY73OHv-WfKk47DGVJounRGbqFVPWwcg2kgGKRKn42FDf7Y8lK8x_y7c>
+Feedback-ID: i78e14604:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 25 Sep 2022 13:15:24 -0400 (EDT)
+Date:   Sun, 25 Sep 2022 12:15:11 -0500
+From:   Tyler Hicks <code@tyhicks.com>
+To:     Slark Xiao <slark_xiao@163.com>
+Cc:     linux-kernel@vger.kernel.org, ecryptfs@vger.kernel.org
+Subject: Re: [PATCH] ecryptfs: keystore: Fix typo 'the the' in comment
+Message-ID: <20220925171511.GA59018@sequoia>
+References: <20220722100212.79490-1-slark_xiao@163.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=786; i=brauner@kernel.org; h=from:subject; bh=vjtzaI6fQogsoDW17FlX5AgCfjQQ175EgJ3HMzyUBXw=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMSTr1NS8XdzOfZ1Bcc+sWXtblryuCgprE2WIDH9zRvjPKs/g H9U1HaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABOJ2cLIcPt8leRRJ67Fi3UVnjPMOd S52lmU2/DnU43akuvx0yP/rmRk6Ejeop9sNztL0sKi30HaTnv9u92/KgPKxIKz9lnuvGvHCAA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220722100212.79490-1-slark_xiao@163.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Now that ecryptfs supports the get and set acl inode operations and the
-vfs has been switched to the new posi api, ecryptfs can simply rely on
-the stub posix acl handlers.
+On 2022-07-22 18:02:12, Slark Xiao wrote:
+> Replace 'the the' with 'the' in the comment.
+> 
+> Signed-off-by: Slark Xiao <slark_xiao@163.com>
+> ---
 
-Signed-off-by: Christian Brauner (Microsoft) <brauner@kernel.org>
----
- fs/ecryptfs/inode.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Thanks! I've applied the cleanup.
 
-diff --git a/fs/ecryptfs/inode.c b/fs/ecryptfs/inode.c
-index c3d1ae688a19..bd6ae2582cd6 100644
---- a/fs/ecryptfs/inode.c
-+++ b/fs/ecryptfs/inode.c
-@@ -1210,6 +1210,10 @@ static const struct xattr_handler ecryptfs_xattr_handler = {
- };
- 
- const struct xattr_handler *ecryptfs_xattr_handlers[] = {
-+#ifdef CONFIG_XFS_POSIX_ACL
-+	&posix_acl_access_xattr_handler,
-+	&posix_acl_default_xattr_handler,
-+#endif
- 	&ecryptfs_xattr_handler,
- 	NULL
- };
--- 
-2.34.1
+Tyler
 
+>  fs/ecryptfs/keystore.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/ecryptfs/keystore.c b/fs/ecryptfs/keystore.c
+> index 3fe41964c0d8..2452d6fd7062 100644
+> --- a/fs/ecryptfs/keystore.c
+> +++ b/fs/ecryptfs/keystore.c
+> @@ -878,7 +878,7 @@ struct ecryptfs_parse_tag_70_packet_silly_stack {
+>   * @filename: This function kmalloc's the memory for the filename
+>   * @filename_size: This function sets this to the amount of memory
+>   *                 kmalloc'd for the filename
+> - * @packet_size: This function sets this to the the number of octets
+> + * @packet_size: This function sets this to the number of octets
+>   *               in the packet parsed
+>   * @mount_crypt_stat: The mount-wide cryptographic context
+>   * @data: The memory location containing the start of the tag 70
+> -- 
+> 2.25.1
+> 
