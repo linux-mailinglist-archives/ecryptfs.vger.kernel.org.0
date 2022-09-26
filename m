@@ -2,200 +2,138 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC4D95E94C3
-	for <lists+ecryptfs@lfdr.de>; Sun, 25 Sep 2022 19:19:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9ABC75EAABE
+	for <lists+ecryptfs@lfdr.de>; Mon, 26 Sep 2022 17:24:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230434AbiIYRS6 (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Sun, 25 Sep 2022 13:18:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40866 "EHLO
+        id S236527AbiIZPYg (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Mon, 26 Sep 2022 11:24:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230303AbiIYRS5 (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Sun, 25 Sep 2022 13:18:57 -0400
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00A5B2A958;
-        Sun, 25 Sep 2022 10:18:56 -0700 (PDT)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 5C1DE580360;
-        Sun, 25 Sep 2022 13:18:56 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Sun, 25 Sep 2022 13:18:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tyhicks.com; h=
-        cc:cc:content-transfer-encoding:content-type:date:date:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to; s=fm1; t=1664126336; x=
-        1664126936; bh=HCqk0OG1lzClXrvZZ9Tb9QvrGSh6HBbWcykRR6Kk2Y0=; b=j
-        KBmfVqDPZ+dfemNUlGd6XVoSgMVl8CnI/ZSB7rJd5mBjyncEiNfH7p/yuoRPaX8O
-        qDRHIIRbtSiBj7Y7xEiF+GpDZm87pLwpC7J61Ip4t/aPzdrEJmD9nTQFw11Aq1Ng
-        oX8LXApSwg6qgFtZq45d4Yt5pmPddsOwIp3AL+v2sc/bhT7lv8snzvBFc2MNKJKO
-        AiSsMAPUGvMnXiKjo0MgZ+9I9kBacSx0m+65/gt2KgXnrCLwUh7VIr+c5r/8TTcA
-        UfWLXqXfEfPWmz3Am/eMUV1VQnzbyru0N75Ku5WmJ9yx1YcpqVd0iIaTWt0rFWnu
-        FnUOmyJIKgB1yaiVgoUBQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:date:date:feedback-id:feedback-id:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=i78e14604.fm2; t=
-        1664126336; x=1664126936; bh=HCqk0OG1lzClXrvZZ9Tb9QvrGSh6HBbWcyk
-        RR6Kk2Y0=; b=sSOD1vtHJprAY2Qjb0g9c/PvHHFwf0rAB+JEXvjUv3LZatIEPh4
-        bx56Nj8yGGj4IOZXHIjZINs2TJonpr6SxcUGk87Umld40XgLzS+/BCADs8/0Lt14
-        GwBl0Mb39v6XiqsqPmw506zgu9JhdeSBliJlvXurE3P59BZgk9zZ5BC3LqR7ExV/
-        piwyrLCdouMXxgjQoRNbrnMbsTzoSHhUrJG/norF67Esy8Al6zxYR8VfeiYid/Bf
-        SnkosB+ww9vUDTl65VuiFn2qlaJtPilOxVu3DhHa5EfgGCQgcGhqZelpQwRSxjTj
-        yO6dg67qsGPrSvs32J9qOfZ2eoa0c1IjG8A==
-X-ME-Sender: <xms:f40wY62ZtsA3BUdqo9I_D0nvxy6K1P-1cvqZSH-LCrrNmN73QbBIOw>
-    <xme:f40wY9H4QhWIe7XTkG1TRfgF4f_aYjmnOjSx766tL1NzGAqngVnWHaX-GE0_RGUks
-    LunqKe0tHZxce7XAiA>
-X-ME-Received: <xmr:f40wYy4PHM8JVdttCWj-L7M_rcBAozo7NESmqzMA5gfSamoMOApBOxZ0AcQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeegtddguddufecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomhepvfih
-    lhgvrhcujfhitghkshcuoegtohguvgesthihhhhitghkshdrtghomheqnecuggftrfgrth
-    htvghrnhepgefhieeuheefkeetffefffekjefhgfefiedvveeiuedugfeufeefvdeihfeh
-    ieevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheptg
-    houggvsehthihhihgtkhhsrdgtohhm
-X-ME-Proxy: <xmx:f40wY7024YsyLwdLN4gcLuAuRYKjmY7kSXbJ8g8Zr00gZ6G4n6LGcw>
-    <xmx:f40wY9HgkX41jXBc4Dq3OGaelAHgYarD12Q6KCaUSXXXlATWPFgkNA>
-    <xmx:f40wY08bq_MBPGfhFRGBYXvXsptCKzOb5psdr1w5QygfAR857hw-tg>
-    <xmx:gI0wY8eIuES_HKeMY0xwh_n5shDMMz_8F--2jWRETO_90l3McgjoN0bc3Lw>
-Feedback-ID: i78e14604:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 25 Sep 2022 13:18:54 -0400 (EDT)
-Date:   Sun, 25 Sep 2022 12:18:52 -0500
-From:   Tyler Hicks <code@tyhicks.com>
-To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+        with ESMTP id S236653AbiIZPX6 (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Mon, 26 Sep 2022 11:23:58 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1977121AA;
+        Mon, 26 Sep 2022 07:09:35 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9EF9E60DD7;
+        Mon, 26 Sep 2022 14:09:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 268AAC433D7;
+        Mon, 26 Sep 2022 14:09:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1664201374;
+        bh=zx/WipUuAXwkCDciCFX/tqx0x7LwTgaqCoOVt3/0/4g=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=tl0H8E5hBKeJrA6NOTcMfaWu29I9OqtBkd2j61kpSpf5HVafs/HU8DaLWZSlUDBbF
+         vPEzVAit/X5e9X91AsZkz+DF/sD5UV0Ah39SPaYf95B7kBUY2Ow/WIGFYUP0g0IKFH
+         +xh9nmOEiZqNn8g+/3G+22fIX1jjlZY8bZcRrUpPy8jGhX5LsutE9oQPhniAki6fEy
+         /vIGGhQAtcbA0PqiFKEYvzFQAc8d9OgtSOUPD6jegMklVvmueGErhUJp6OahvRMrER
+         jVJF0pPk5j97HgKiroDPhPb5r/wIguQbzCXjx8OrRWGlMZyniddp+Fe2Xm/EUweivO
+         LHBfRV68AGhtw==
+From:   Christian Brauner <brauner@kernel.org>
+To:     linux-fsdevel@vger.kernel.org
 Cc:     Christian Brauner <brauner@kernel.org>,
-        Seth Forshee <sforshee@digitalocean.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Muchun Song <songmuchun@bytedance.com>,
-        ecryptfs@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Venkataramanan, Anirudh" <anirudh.venkataramanan@intel.com>,
-        Ira Weiny <ira.weiny@intel.com>
-Subject: Re: [RESEND PATCH] ecryptfs: Replace kmap() with kmap_local_page()
-Message-ID: <20220925171852.GD59018@sequoia>
-References: <20220901160704.25701-1-fmdefrancesco@gmail.com>
+        Seth Forshee <sforshee@kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Tyler Hicks <code@tyhicks.com>, ecryptfs@vger.kernel.org,
+        linux-security-module@vger.kernel.org
+Subject: [PATCH v2 20/30] ecryptfs: implement get acl method
+Date:   Mon, 26 Sep 2022 16:08:17 +0200
+Message-Id: <20220926140827.142806-21-brauner@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220926140827.142806-1-brauner@kernel.org>
+References: <20220926140827.142806-1-brauner@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2936; i=brauner@kernel.org; h=from:subject; bh=zx/WipUuAXwkCDciCFX/tqx0x7LwTgaqCoOVt3/0/4g=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMSQbbnJ83TjH8V+mUpVrZfk3eXdDz8Nrb7ievbJWfUfXutlJ LyP/dJSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAExEyZPhf4L7rCdKrHX7Jpgt1//3c3 mPWoPM1lWv57K1RG5O9Enz6WNk6C44f/+D2pUvRser/pzz3qrleuu0zZNPeh9fJDG927+UlRkA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220901160704.25701-1-fmdefrancesco@gmail.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-On 2022-09-01 18:07:04, Fabio M. De Francesco wrote:
-> The use of kmap() is being deprecated in favor of kmap_local_page().
-> 
-> There are two main problems with kmap(): (1) It comes with an overhead as
-> the mapping space is restricted and protected by a global lock for
-> synchronization and (2) it also requires global TLB invalidation when the
-> kmap’s pool wraps and it might block when the mapping space is fully
-> utilized until a slot becomes available.
-> 
-> With kmap_local_page() the mappings are per thread, CPU local, can take
-> page faults, and can be called from any context (including interrupts).
-> It is faster than kmap() in kernels with HIGHMEM enabled. Furthermore,
-> the tasks can be preempted and, when they are scheduled to run again, the
-> kernel virtual addresses are restored and still valid.
-> 
-> Since its use in fs/ecryptfs is safe everywhere, it should be preferred.
-> 
-> Therefore, replace kmap() with kmap_local_page() in fs/ecryptfs.
-> 
-> Cc: "Venkataramanan, Anirudh" <anirudh.venkataramanan@intel.com>
-> Suggested-by: Ira Weiny <ira.weiny@intel.com>
-> Reviewed-by: Ira Weiny <ira.weiny@intel.com>
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> ---
-> 
-> I'm resending this patch because some recipients were missing in the
-> previous submission. In the meantime I'm also adding some more information
-> in the commit message. There are no changes in the code.
+The current way of setting and getting posix acls through the generic
+xattr interface is error prone and type unsafe. The vfs needs to
+interpret and fixup posix acls before storing or reporting it to
+userspace. Various hacks exist to make this work. The code is hard to
+understand and difficult to maintain in it's current form. Instead of
+making this work by hacking posix acls through xattr handlers we are
+building a dedicated posix acl api around the get and set inode
+operations. This removes a lot of hackiness and makes the codepaths
+easier to maintain. A lot of background can be found in [1].
 
-Thanks for the additional information, Fabio. I've tested and applied
-it.
+In order to build a type safe posix api around get and set acl we need
+all filesystem to implement get and set acl.
 
-Tyler
+So far ecryptfs didn't implement get and set acl inode operations
+because it wanted easy access to the dentry. Now that we extended the
+set acl inode operation to take a dentry argument and added a new get
+acl inode operation that takes a dentry argument we can let ecryptfs
+implement get and set acl inode operations.
 
-> 
->  fs/ecryptfs/crypto.c     | 8 ++++----
->  fs/ecryptfs/read_write.c | 8 ++++----
->  2 files changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/fs/ecryptfs/crypto.c b/fs/ecryptfs/crypto.c
-> index e3f5d7f3c8a0..03263ebcccc6 100644
-> --- a/fs/ecryptfs/crypto.c
-> +++ b/fs/ecryptfs/crypto.c
-> @@ -465,10 +465,10 @@ int ecryptfs_encrypt_page(struct page *page)
->  	}
->  
->  	lower_offset = lower_offset_for_page(crypt_stat, page);
-> -	enc_extent_virt = kmap(enc_extent_page);
-> +	enc_extent_virt = kmap_local_page(enc_extent_page);
->  	rc = ecryptfs_write_lower(ecryptfs_inode, enc_extent_virt, lower_offset,
->  				  PAGE_SIZE);
-> -	kunmap(enc_extent_page);
-> +	kunmap_local(enc_extent_virt);
->  	if (rc < 0) {
->  		ecryptfs_printk(KERN_ERR,
->  			"Error attempting to write lower page; rc = [%d]\n",
-> @@ -514,10 +514,10 @@ int ecryptfs_decrypt_page(struct page *page)
->  	BUG_ON(!(crypt_stat->flags & ECRYPTFS_ENCRYPTED));
->  
->  	lower_offset = lower_offset_for_page(crypt_stat, page);
-> -	page_virt = kmap(page);
-> +	page_virt = kmap_local_page(page);
->  	rc = ecryptfs_read_lower(page_virt, lower_offset, PAGE_SIZE,
->  				 ecryptfs_inode);
-> -	kunmap(page);
-> +	kunmap_local(page_virt);
->  	if (rc < 0) {
->  		ecryptfs_printk(KERN_ERR,
->  			"Error attempting to read lower page; rc = [%d]\n",
-> diff --git a/fs/ecryptfs/read_write.c b/fs/ecryptfs/read_write.c
-> index 60bdcaddcbe5..5edf027c8359 100644
-> --- a/fs/ecryptfs/read_write.c
-> +++ b/fs/ecryptfs/read_write.c
-> @@ -64,11 +64,11 @@ int ecryptfs_write_lower_page_segment(struct inode *ecryptfs_inode,
->  
->  	offset = ((((loff_t)page_for_lower->index) << PAGE_SHIFT)
->  		  + offset_in_page);
-> -	virt = kmap(page_for_lower);
-> +	virt = kmap_local_page(page_for_lower);
->  	rc = ecryptfs_write_lower(ecryptfs_inode, virt, offset, size);
->  	if (rc > 0)
->  		rc = 0;
-> -	kunmap(page_for_lower);
-> +	kunmap_local(virt);
->  	return rc;
->  }
->  
-> @@ -253,11 +253,11 @@ int ecryptfs_read_lower_page_segment(struct page *page_for_ecryptfs,
->  	int rc;
->  
->  	offset = ((((loff_t)page_index) << PAGE_SHIFT) + offset_in_page);
-> -	virt = kmap(page_for_ecryptfs);
-> +	virt = kmap_local_page(page_for_ecryptfs);
->  	rc = ecryptfs_read_lower(virt, offset, size, ecryptfs_inode);
->  	if (rc > 0)
->  		rc = 0;
-> -	kunmap(page_for_ecryptfs);
-> +	kunmap_local(virt);
->  	flush_dcache_page(page_for_ecryptfs);
->  	return rc;
->  }
-> -- 
-> 2.37.2
-> 
+Note, until the vfs has been switched to the new posix acl api this
+patch is a non-functional change.
+
+Link: https://lore.kernel.org/all/20220801145520.1532837-1-brauner@kernel.org [1]
+Signed-off-by: Christian Brauner (Microsoft) <brauner@kernel.org>
+---
+
+Notes:
+    /* v2 */
+    unchanged
+
+ fs/ecryptfs/inode.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/fs/ecryptfs/inode.c b/fs/ecryptfs/inode.c
+index 16d50dface59..740312986388 100644
+--- a/fs/ecryptfs/inode.c
++++ b/fs/ecryptfs/inode.c
+@@ -18,6 +18,8 @@
+ #include <linux/fs_stack.h>
+ #include <linux/slab.h>
+ #include <linux/xattr.h>
++#include <linux/posix_acl.h>
++#include <linux/posix_acl_xattr.h>
+ #include <linux/fileattr.h>
+ #include <asm/unaligned.h>
+ #include "ecryptfs_kernel.h"
+@@ -1120,6 +1122,13 @@ static int ecryptfs_fileattr_set(struct user_namespace *mnt_userns,
+ 	return rc;
+ }
+ 
++static struct posix_acl *ecryptfs_get_acl(struct user_namespace *mnt_userns,
++					  struct dentry *dentry, int type)
++{
++	return vfs_get_acl(mnt_userns, ecryptfs_dentry_to_lower(dentry),
++			   posix_acl_xattr_name(type));
++}
++
+ const struct inode_operations ecryptfs_symlink_iops = {
+ 	.get_link = ecryptfs_get_link,
+ 	.permission = ecryptfs_permission,
+@@ -1143,6 +1152,7 @@ const struct inode_operations ecryptfs_dir_iops = {
+ 	.listxattr = ecryptfs_listxattr,
+ 	.fileattr_get = ecryptfs_fileattr_get,
+ 	.fileattr_set = ecryptfs_fileattr_set,
++	.get_acl = ecryptfs_get_acl,
+ };
+ 
+ const struct inode_operations ecryptfs_main_iops = {
+@@ -1152,6 +1162,7 @@ const struct inode_operations ecryptfs_main_iops = {
+ 	.listxattr = ecryptfs_listxattr,
+ 	.fileattr_get = ecryptfs_fileattr_get,
+ 	.fileattr_set = ecryptfs_fileattr_set,
++	.get_acl = ecryptfs_get_acl,
+ };
+ 
+ static int ecryptfs_xattr_get(const struct xattr_handler *handler,
+-- 
+2.34.1
+
