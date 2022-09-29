@@ -2,35 +2,35 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D5B2B5EE18C
-	for <lists+ecryptfs@lfdr.de>; Wed, 28 Sep 2022 18:16:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23CE35EF8F0
+	for <lists+ecryptfs@lfdr.de>; Thu, 29 Sep 2022 17:33:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234020AbiI1QQy (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Wed, 28 Sep 2022 12:16:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58220 "EHLO
+        id S235721AbiI2Pdw (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Thu, 29 Sep 2022 11:33:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234203AbiI1QO7 (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Wed, 28 Sep 2022 12:14:59 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15872E11ED;
-        Wed, 28 Sep 2022 09:13:57 -0700 (PDT)
+        with ESMTP id S235937AbiI2Pc3 (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Thu, 29 Sep 2022 11:32:29 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57DEC161CD2;
+        Thu, 29 Sep 2022 08:31:44 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 53389CE1C78;
-        Wed, 28 Sep 2022 16:13:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B96D5C43141;
-        Wed, 28 Sep 2022 16:13:51 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E594E6192F;
+        Thu, 29 Sep 2022 15:31:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4970DC43142;
+        Thu, 29 Sep 2022 15:31:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1664381633;
-        bh=H09RefG949umehebmHtne7EuOdbPisUUfcRyHIDEvgU=;
+        s=k20201202; t=1664465503;
+        bh=erFtz2T2ZcOr7t2yjHWhtkEHPFjqNbjtxEniGFVzakI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Px3wx+4bWT1f8AOnfNgkysq3+Ee8cp09OvAztbGXiqpYCP9XiBe9MCmaJbkxZPkFC
-         egvS7D9d/l/6EquT/U+Q08KFmc7vxHXPqlevNe8e1H8vXd74X+TkpC55jftF/cVYbm
-         dOXua7KmRhNDTi7da+hEwKKAGaSxn9N1TJWl4IMaCQnG4mqwoVHnDkUn2v60Cd2d9j
-         bH4Noz1cl4SLKYlAq0DeLiVlQoi4gGyUtiEz0+Em+pXSVVYn5RPj21yV4ryRgcEHeQ
-         cRVAmC8cB7+rRxZNHfM72Nb1gzenRf2h9fVDPFBe9zTL2g5n0rqQw03Xmxr9qaAjDz
-         zoYab/MKgsBlg==
+        b=iBL9TMEikuPHcyZFMICVHFH74A2AaAafD4uLQV0jtJ9aqZXzd1WYQ2z5/kXqdO51N
+         S2uOXEfWer6C4oP00jE9QnR52Jg1tLN6oTVk1Uw8bw0fFIe1YRbc6lBI0T9JZfz+UZ
+         b0R1z3urb5iJqnTMzyyCbyXOB0dJUmQVvZ9mEDz2jtS4MdNBHKOSWXeFuukNxOWGhj
+         yo7+iZbw81TuAUKJemksfEC2Q6AZ7cG/4eVaRikN3GBGtsQMPRygS8wrGPu6Zbw5Vj
+         KkJuEh+e3roAIr3O6IBsKbFqsgqOaSZZ0/5j54jcoNYBpJJg59imMRf/gqebYRXs+H
+         3OuCyyMjXEWaA==
 From:   Christian Brauner <brauner@kernel.org>
 To:     linux-fsdevel@vger.kernel.org
 Cc:     Christian Brauner <brauner@kernel.org>,
@@ -39,14 +39,14 @@ Cc:     Christian Brauner <brauner@kernel.org>,
         Al Viro <viro@zeniv.linux.org.uk>,
         Tyler Hicks <code@tyhicks.com>, ecryptfs@vger.kernel.org,
         linux-security-module@vger.kernel.org
-Subject: [PATCH v3 25/29] ecryptfs: use stub posix acl handlers
-Date:   Wed, 28 Sep 2022 18:08:39 +0200
-Message-Id: <20220928160843.382601-26-brauner@kernel.org>
+Subject: [PATCH v4 19/30] ecryptfs: implement get acl method
+Date:   Thu, 29 Sep 2022 17:30:29 +0200
+Message-Id: <20220929153041.500115-20-brauner@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220928160843.382601-1-brauner@kernel.org>
-References: <20220928160843.382601-1-brauner@kernel.org>
+In-Reply-To: <20220929153041.500115-1-brauner@kernel.org>
+References: <20220929153041.500115-1-brauner@kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=862; i=brauner@kernel.org; h=from:subject; bh=H09RefG949umehebmHtne7EuOdbPisUUfcRyHIDEvgU=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMSSbFNZ/Ftt7feM2rz9hm1VMNKuW75v0NzBUstT7a5r+0wjb pBXVHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABM58Jfhr2Dyuw+2L5b0MPWkcUu8ET JapliiMbVa++hvqQlTxffeucjwP2Jt/K8gMeZv88oKmy8uivxxMCv+9xK/IIGvLS0XziyQ5AMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3006; i=brauner@kernel.org; h=from:subject; bh=erFtz2T2ZcOr7t2yjHWhtkEHPFjqNbjtxEniGFVzakI=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMSSb7hJ9c8/7dNmadl2HILfWKxemhRVdZ3JX7zi8rHjpr817 JT9JdpSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEykr5nhv8uFyw8ez1ty9PqPJraGnu XtYlWBTEffMooK+bVkRtulqDAynBA9/2Zvw6ebYreX5/ueUtm8Sazik8rGRatmb0578pXnBycA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -58,10 +58,29 @@ Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Now that ecryptfs supports the get and set acl inode operations and the
-vfs has been switched to the new posi api, ecryptfs can simply rely on
-the stub posix acl handlers.
+The current way of setting and getting posix acls through the generic
+xattr interface is error prone and type unsafe. The vfs needs to
+interpret and fixup posix acls before storing or reporting it to
+userspace. Various hacks exist to make this work. The code is hard to
+understand and difficult to maintain in it's current form. Instead of
+making this work by hacking posix acls through xattr handlers we are
+building a dedicated posix acl api around the get and set inode
+operations. This removes a lot of hackiness and makes the codepaths
+easier to maintain. A lot of background can be found in [1].
 
+In order to build a type safe posix api around get and set acl we need
+all filesystem to implement get and set acl.
+
+So far ecryptfs didn't implement get and set acl inode operations
+because it wanted easy access to the dentry. Now that we extended the
+set acl inode operation to take a dentry argument and added a new get
+acl inode operation that takes a dentry argument we can let ecryptfs
+implement get and set acl inode operations.
+
+Note, until the vfs has been switched to the new posix acl api this
+patch is a non-functional change.
+
+Link: https://lore.kernel.org/all/20220801145520.1532837-1-brauner@kernel.org [1]
 Signed-off-by: Christian Brauner (Microsoft) <brauner@kernel.org>
 ---
 
@@ -71,25 +90,56 @@ Notes:
     
     /* v3 */
     unchanged
+    
+    /* v4 */
+    unchanged
 
- fs/ecryptfs/inode.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ fs/ecryptfs/inode.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/fs/ecryptfs/inode.c b/fs/ecryptfs/inode.c
-index c3d1ae688a19..bd6ae2582cd6 100644
+index 16d50dface59..740312986388 100644
 --- a/fs/ecryptfs/inode.c
 +++ b/fs/ecryptfs/inode.c
-@@ -1210,6 +1210,10 @@ static const struct xattr_handler ecryptfs_xattr_handler = {
+@@ -18,6 +18,8 @@
+ #include <linux/fs_stack.h>
+ #include <linux/slab.h>
+ #include <linux/xattr.h>
++#include <linux/posix_acl.h>
++#include <linux/posix_acl_xattr.h>
+ #include <linux/fileattr.h>
+ #include <asm/unaligned.h>
+ #include "ecryptfs_kernel.h"
+@@ -1120,6 +1122,13 @@ static int ecryptfs_fileattr_set(struct user_namespace *mnt_userns,
+ 	return rc;
+ }
+ 
++static struct posix_acl *ecryptfs_get_acl(struct user_namespace *mnt_userns,
++					  struct dentry *dentry, int type)
++{
++	return vfs_get_acl(mnt_userns, ecryptfs_dentry_to_lower(dentry),
++			   posix_acl_xattr_name(type));
++}
++
+ const struct inode_operations ecryptfs_symlink_iops = {
+ 	.get_link = ecryptfs_get_link,
+ 	.permission = ecryptfs_permission,
+@@ -1143,6 +1152,7 @@ const struct inode_operations ecryptfs_dir_iops = {
+ 	.listxattr = ecryptfs_listxattr,
+ 	.fileattr_get = ecryptfs_fileattr_get,
+ 	.fileattr_set = ecryptfs_fileattr_set,
++	.get_acl = ecryptfs_get_acl,
  };
  
- const struct xattr_handler *ecryptfs_xattr_handlers[] = {
-+#ifdef CONFIG_XFS_POSIX_ACL
-+	&posix_acl_access_xattr_handler,
-+	&posix_acl_default_xattr_handler,
-+#endif
- 	&ecryptfs_xattr_handler,
- 	NULL
+ const struct inode_operations ecryptfs_main_iops = {
+@@ -1152,6 +1162,7 @@ const struct inode_operations ecryptfs_main_iops = {
+ 	.listxattr = ecryptfs_listxattr,
+ 	.fileattr_get = ecryptfs_fileattr_get,
+ 	.fileattr_set = ecryptfs_fileattr_set,
++	.get_acl = ecryptfs_get_acl,
  };
+ 
+ static int ecryptfs_xattr_get(const struct xattr_handler *handler,
 -- 
 2.34.1
 
