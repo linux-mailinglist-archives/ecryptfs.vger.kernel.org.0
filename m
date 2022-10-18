@@ -2,106 +2,147 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D9B7A5F9D0C
-	for <lists+ecryptfs@lfdr.de>; Mon, 10 Oct 2022 12:49:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C318A602AD7
+	for <lists+ecryptfs@lfdr.de>; Tue, 18 Oct 2022 14:00:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230437AbiJJKtk (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Mon, 10 Oct 2022 06:49:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43136 "EHLO
+        id S230113AbiJRL74 (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Tue, 18 Oct 2022 07:59:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231769AbiJJKti (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Mon, 10 Oct 2022 06:49:38 -0400
-Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com [IPv6:2607:f8b0:4864:20::f42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2F106BCC6
-        for <ecryptfs@vger.kernel.org>; Mon, 10 Oct 2022 03:49:32 -0700 (PDT)
-Received: by mail-qv1-xf42.google.com with SMTP id i9so6900511qvu.1
-        for <ecryptfs@vger.kernel.org>; Mon, 10 Oct 2022 03:49:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oLr60vtiCFi1SKgOOBjNqFq00HF4tMgYoa3KMAS1Q7Q=;
-        b=LWJM9CAlwV7VHTldN32E8TZV6keL0yVBMtkgYo+J0+NQiSZWoanU66KNcT9Hba/75N
-         ZHao1ZHBrNQrF3U19R7hE6qat3R/h2E/F1LuMZjhz4BU1O9KqHIUc2cZwMHhkTxQe0Sj
-         VZvkh1o9HIvwdzeNvKFVOi4mf4+edIckZrps7PcoWZ/O2RnX0xUV+6W79MBaygsd+oVC
-         kPel9YJPiB2M9WFgI7WKGW/7Wmh/gYbpnEbymomlDAqCfcV+5fDZrqqgZwc7717HbpYd
-         CHvEW+CADnRe55sZFjVAXB2BDUqYWWbMOLuv6OJxy+ZcuXEZqtALwBNVhA1lPhEKJd/F
-         RrIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oLr60vtiCFi1SKgOOBjNqFq00HF4tMgYoa3KMAS1Q7Q=;
-        b=u46Xz22cQV8q8bwaRoIeOJyQXO5hjNB14hX/HpMliXBowxlijt0Vkgx+HxurOBaQys
-         i9e0r1hrj+7orN+oamF1vWNTj0ztIxF8UsQ/pwvJ3GT6yjHtuiXp8xZudhfogmRKNPeg
-         Ygv95hKLcEkAVbi2CCwHMJVotLbDHhUyrbIxzTKpYfQruat/MjceWMmZytsW7CE11GGD
-         inCg7IhEW9EYQQRDi+kRJNnF/E7/Dxp3tlMYAgb4dtnvO1bEWuCWD+sBtS/Rc++gLsB2
-         G7fe+ZneQ1o9PDyVdYIZtD59kqPCozRDEKHwfMTkl7GkNj/9xZKP/dEwZnkJ9BbsksHW
-         lWBA==
-X-Gm-Message-State: ACrzQf0jFSCBFs3BteR/rofZyG1UINN0i1LiNl8q4GZiTK45LRXdv/CC
-        POPtZQCI3iSZFN1jNH+XjPuTCvHlJWJauM/Z7i0=
-X-Google-Smtp-Source: AMsMyM5jVzRFy6hMMnTnqbamEPPo8DBYWyh2VXHlF+6jDe7dtqEpl/ylw3SDaobJ0JMbl1tbEjtMK+nEvwJ6W3fhD7o=
-X-Received: by 2002:ad4:5beb:0:b0:4b4:1a22:27ac with SMTP id
- k11-20020ad45beb000000b004b41a2227acmr1163690qvc.125.1665398971578; Mon, 10
- Oct 2022 03:49:31 -0700 (PDT)
+        with ESMTP id S229753AbiJRL7N (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Tue, 18 Oct 2022 07:59:13 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A566BE2E3;
+        Tue, 18 Oct 2022 04:58:09 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3CA1661070;
+        Tue, 18 Oct 2022 11:58:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6F31C433D7;
+        Tue, 18 Oct 2022 11:58:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1666094288;
+        bh=S9i09VBMclMgZEq1VCBMeyDE8+LIMogCuyZRYeuqOHI=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=kAe0Eq3FfBYL9zYuXPhO5lLye9FhRXBeeizt2l9rkccDEPy3Nyfn7BJ4mk/wMEpvd
+         AVEbuRoKELa6l3ZLWCGm+jXfWCv5YvmB6TAr2QL+opFbhuCX+wadQdu1Cbr4deEJrG
+         rOaQp3aGaRL8kWiTSDyzI/xExgcnGpoXfvQ1BcJ7pG55VBH95/Fkzg4FN5JzFMkkW0
+         h3j0aTYljwqtzUZNyKacN9jEKOAVWrVaU2ceeavZ0iKL0WAQ2nfNHcMexMxO7iTPsD
+         gj6p6Ipti40yoZ1T+8PmONnbHcdJxYyRnFapyB5lqyZlkp8Mu3NDkIgyKNT+ofzwIN
+         Y6LIhaTk3Nyrg==
+From:   Christian Brauner <brauner@kernel.org>
+To:     linux-fsdevel@vger.kernel.org
+Cc:     Christian Brauner <brauner@kernel.org>,
+        Seth Forshee <sforshee@kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Tyler Hicks <code@tyhicks.com>, ecryptfs@vger.kernel.org,
+        linux-security-module@vger.kernel.org
+Subject: [PATCH v5 19/30] ecryptfs: implement get acl method
+Date:   Tue, 18 Oct 2022 13:56:49 +0200
+Message-Id: <20221018115700.166010-20-brauner@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221018115700.166010-1-brauner@kernel.org>
+References: <20221018115700.166010-1-brauner@kernel.org>
 MIME-Version: 1.0
-Received: by 2002:ac8:5d8d:0:b0:39a:8ebf:547c with HTTP; Mon, 10 Oct 2022
- 03:49:31 -0700 (PDT)
-Reply-To: nn9122250@gmail.com
-From:   "Mr.K Mashal" <webermartin821@gmail.com>
-Date:   Mon, 10 Oct 2022 03:49:31 -0700
-Message-ID: <CACkRAYZHAgQ_XY7mMKF4nKJzYzHOKDNVmN=bi65JddL8grVhdA@mail.gmail.com>
-Subject: Opportunity
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=7.2 required=5.0 tests=BAYES_50,DEAR_SOMETHING,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_HK_NAME_FM_MR_MRS,UNDISC_FREEM autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:f42 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5096]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [webermartin821[at]gmail.com]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [nn9122250[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [webermartin821[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  2.0 DEAR_SOMETHING BODY: Contains 'Dear (something)'
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
-        *  3.1 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *******
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3041; i=brauner@kernel.org; h=from:subject; bh=S9i09VBMclMgZEq1VCBMeyDE8+LIMogCuyZRYeuqOHI=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMST7TdF4sSfp74f3XIdzi/+7+Vwr2yim1aq2f//ZyLzN13Ke JZ8X6yhlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZjIuhyG/6UB3V4bOro9BBczz+16aB AuY+v+T+/2nGjtdRukevLZzRkZevYqFqlVJb+27tcSEu8Tsip/xLqkwfJfW/OenUpO17dwAQA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Dear Sir,
+The current way of setting and getting posix acls through the generic
+xattr interface is error prone and type unsafe. The vfs needs to
+interpret and fixup posix acls before storing or reporting it to
+userspace. Various hacks exist to make this work. The code is hard to
+understand and difficult to maintain in it's current form. Instead of
+making this work by hacking posix acls through xattr handlers we are
+building a dedicated posix acl api around the get and set inode
+operations. This removes a lot of hackiness and makes the codepaths
+easier to maintain. A lot of background can be found in [1].
 
-Vital business opportunity in my position Interested kindly contact me
-for more details:dalh52179@gmail.com
+In order to build a type safe posix api around get and set acl we need
+all filesystem to implement get and set acl.
 
-   Regards
+So far ecryptfs didn't implement get and set acl inode operations
+because it wanted easy access to the dentry. Now that we extended the
+set acl inode operation to take a dentry argument and added a new get
+acl inode operation that takes a dentry argument we can let ecryptfs
+implement get and set acl inode operations.
 
-Mr.K.Mashal.
-dalh52179@gmail.com
+Note, until the vfs has been switched to the new posix acl api this
+patch is a non-functional change.
+
+Link: https://lore.kernel.org/all/20220801145520.1532837-1-brauner@kernel.org [1]
+Signed-off-by: Christian Brauner (Microsoft) <brauner@kernel.org>
+---
+
+Notes:
+    /* v2 */
+    unchanged
+    
+    /* v3 */
+    unchanged
+    
+    /* v4 */
+    unchanged
+    
+    /* v5 */
+    unchanged
+
+ fs/ecryptfs/inode.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/fs/ecryptfs/inode.c b/fs/ecryptfs/inode.c
+index c214fe0981bd..b4be9f6bafd2 100644
+--- a/fs/ecryptfs/inode.c
++++ b/fs/ecryptfs/inode.c
+@@ -18,6 +18,8 @@
+ #include <linux/fs_stack.h>
+ #include <linux/slab.h>
+ #include <linux/xattr.h>
++#include <linux/posix_acl.h>
++#include <linux/posix_acl_xattr.h>
+ #include <linux/fileattr.h>
+ #include <asm/unaligned.h>
+ #include "ecryptfs_kernel.h"
+@@ -1120,6 +1122,13 @@ static int ecryptfs_fileattr_set(struct user_namespace *mnt_userns,
+ 	return rc;
+ }
+ 
++static struct posix_acl *ecryptfs_get_acl(struct user_namespace *mnt_userns,
++					  struct dentry *dentry, int type)
++{
++	return vfs_get_acl(mnt_userns, ecryptfs_dentry_to_lower(dentry),
++			   posix_acl_xattr_name(type));
++}
++
+ const struct inode_operations ecryptfs_symlink_iops = {
+ 	.get_link = ecryptfs_get_link,
+ 	.permission = ecryptfs_permission,
+@@ -1143,6 +1152,7 @@ const struct inode_operations ecryptfs_dir_iops = {
+ 	.listxattr = ecryptfs_listxattr,
+ 	.fileattr_get = ecryptfs_fileattr_get,
+ 	.fileattr_set = ecryptfs_fileattr_set,
++	.get_acl = ecryptfs_get_acl,
+ };
+ 
+ const struct inode_operations ecryptfs_main_iops = {
+@@ -1152,6 +1162,7 @@ const struct inode_operations ecryptfs_main_iops = {
+ 	.listxattr = ecryptfs_listxattr,
+ 	.fileattr_get = ecryptfs_fileattr_get,
+ 	.fileattr_set = ecryptfs_fileattr_set,
++	.get_acl = ecryptfs_get_acl,
+ };
+ 
+ static int ecryptfs_xattr_get(const struct xattr_handler *handler,
+-- 
+2.34.1
+
