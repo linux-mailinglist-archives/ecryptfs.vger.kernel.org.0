@@ -2,101 +2,73 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F2ACC602AE0
-	for <lists+ecryptfs@lfdr.de>; Tue, 18 Oct 2022 14:00:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF21661DA6A
+	for <lists+ecryptfs@lfdr.de>; Sat,  5 Nov 2022 13:42:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229772AbiJRMAZ (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Tue, 18 Oct 2022 08:00:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58090 "EHLO
+        id S229469AbiKEMmt (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Sat, 5 Nov 2022 08:42:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229574AbiJRL7f (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Tue, 18 Oct 2022 07:59:35 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB8A3BE2EA;
-        Tue, 18 Oct 2022 04:58:27 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4919B614C5;
-        Tue, 18 Oct 2022 11:58:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC811C433C1;
-        Tue, 18 Oct 2022 11:58:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666094306;
-        bh=OQp6zgEJEYC3GPKa+bOlffEJkgDJk9Mgdne9iliqX28=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=vO4PHHFEKygKtMsOxzZdXvgGWB4HZIcTNQt6YGTGvmrLHwCJ2hq+yDE+r2Or9UAZZ
-         /HM1OJN2aF5A/erNigSe8i62zT2k3Xm7JwG+5LkA0ZrxDbXK85s6VTNJp0rxz/puGv
-         vclKd70Rs+dMB4zh/9jHZcRpYXNGrBOj0/WnHP1xnrkRKcgiQq/wANc8Kbmg/gRpuj
-         fE+R6armHt9ZZBVTpDa4EiCUGvJrwLLT8YF8i1OsECom8ujmWWQY85svTilsZgIuMY
-         +Lp28guSDcEdixO4gGGafMneOYrhMwj3+4QWxG5YpISDF5ZZGSXXDbwx0YuYCs3xs2
-         JwpTsrVEePwoA==
-From:   Christian Brauner <brauner@kernel.org>
-To:     linux-fsdevel@vger.kernel.org
-Cc:     Christian Brauner <brauner@kernel.org>,
-        Seth Forshee <sforshee@kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Tyler Hicks <code@tyhicks.com>, ecryptfs@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-Subject: [PATCH v5 26/30] ecryptfs: use stub posix acl handlers
-Date:   Tue, 18 Oct 2022 13:56:56 +0200
-Message-Id: <20221018115700.166010-27-brauner@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221018115700.166010-1-brauner@kernel.org>
-References: <20221018115700.166010-1-brauner@kernel.org>
+        with ESMTP id S229501AbiKEMms (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Sat, 5 Nov 2022 08:42:48 -0400
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25D3F186F3
+        for <ecryptfs@vger.kernel.org>; Sat,  5 Nov 2022 05:42:47 -0700 (PDT)
+Received: by mail-pg1-x532.google.com with SMTP id b62so6611999pgc.0
+        for <ecryptfs@vger.kernel.org>; Sat, 05 Nov 2022 05:42:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=c8XA1N0uaxkLO/wKHErNWHaSuu64k5Pjb5u9dmcZrOc=;
+        b=dRY7cM4kOS7dvhZ1U0BjG/XeLild/j0mXtgfm9IukbyzdTxvxrqajkI7Zx+n/kBuQO
+         HO4rhCIf6OLkJiTtS5OgV19w2jLxyLK8VChTot0RYrTXD+qiSnmml83cByCKJ9S3wg8R
+         /dF6ysy18Ru67tC7ohhdEbaVCr2CEG+h4v9xIz3mq8zA3ab8fdxE4AEdt7+1+KI03nIs
+         bX6E4/XOVfg0Yh96IPr32K19/flofQe/W5MH8oEri6RBYsAAbTHFw+x41w0NCY4/grZx
+         znpI50mYis4iiAaW13r2rq7A5nprj9zwFvk7HEw0pGepcC6+hPsJIWszGy3gjGTBj44P
+         6Tig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=c8XA1N0uaxkLO/wKHErNWHaSuu64k5Pjb5u9dmcZrOc=;
+        b=rLI8otfFETTmkNBrlinLwWcUx9P0uxS4aJmVFTvQZWZT+0tn+0cTS7X6Cf8AuEpz+e
+         FuwjmxU2y/PrecwOT6B7LWuuglDug7+URmHYo/qRYboEySvS64fiKG3YPzTKx58iiyjP
+         QUtXRMi1Cc5h7lxGCruqgeSOdyGOtcB9D1n8ZeYC+CaEH+gSJGApWjzzyWwsoegP85wR
+         mZ6+W+o+5qeoahMUfUDGs2s4sufT4UQp8N60/d979KEevkAEtmFDE1GoxPaOLg+WACoZ
+         znybogkc7kYsCVeXdzzH0eO0z0iskrTI7HWaj5sRUCJXmJYa2Jn36kDgVZ6WH9g4I7UN
+         MCvg==
+X-Gm-Message-State: ACrzQf2OIf+1I/vErm4JvZNHWrJq3QfyG4FHLR+Yx0A3jr7PRSNriZCM
+        NpZF9QmfveqITTaaVTIsmflaH65U7jgIPd1QQDQ=
+X-Google-Smtp-Source: AMsMyM59x+6gES9BwXVXW/ARU4ioBhiM5OVMchhDGDuCvOy5iyyb/SYb/kChsB6HunFGwhWeJcIBvxJNRvTP2j+H5jo=
+X-Received: by 2002:a63:6a87:0:b0:46f:8fcc:de1a with SMTP id
+ f129-20020a636a87000000b0046f8fccde1amr30838287pgc.429.1667652166651; Sat, 05
+ Nov 2022 05:42:46 -0700 (PDT)
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1028; i=brauner@kernel.org; h=from:subject; bh=OQp6zgEJEYC3GPKa+bOlffEJkgDJk9Mgdne9iliqX28=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMST7TdH8L3/+aMS1VA+rybEzTiclJLpYvDnwOuTPIeeE+W9e 6K6621HKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCR2zWMDBf0FjyPbFwb8LxJiL9q3s 8vU3xL1nGZPo8XrW8Q71HmuMbwP7dbSVsx8P71JUd+HJ9y+YeAsMc6uWeZGpvm7MnxDHHy5QMA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a05:6a20:548c:b0:a4:6bf8:6067 with HTTP; Sat, 5 Nov 2022
+ 05:42:46 -0700 (PDT)
+Reply-To: stefanopessia755@hotmail.com
+From:   Stefano Pessina <dkunitedfrontselfhelpgroup@gmail.com>
+Date:   Sat, 5 Nov 2022 15:42:46 +0300
+Message-ID: <CAJ0kvzUw03tJJrSho5fC=_DchstDCWHAgRTXQorzbNvNdGsg3w@mail.gmail.com>
+Subject: Geldspende
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=4.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Now that ecryptfs supports the get and set acl inode operations and the
-vfs has been switched to the new posi api, ecryptfs can simply rely on
-the stub posix acl handlers.
-
-Signed-off-by: Christian Brauner (Microsoft) <brauner@kernel.org>
----
-
-Notes:
-    /* v2 */
-    unchanged
-    
-    /* v3 */
-    unchanged
-    
-    /* v4 */
-    "Sedat Dilek (DHL Supply Chain)" <sedat.dilek@dhl.com>:
-    - s/CONFIG_XFS_POSIX_ACL/CONFIG_FS_POSIX_ACL/
-    
-    /* v5 */
-    unchanged
-
- fs/ecryptfs/inode.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/fs/ecryptfs/inode.c b/fs/ecryptfs/inode.c
-index 5802b93b2cda..f3cd00fac9c3 100644
---- a/fs/ecryptfs/inode.c
-+++ b/fs/ecryptfs/inode.c
-@@ -1210,6 +1210,10 @@ static const struct xattr_handler ecryptfs_xattr_handler = {
- };
- 
- const struct xattr_handler *ecryptfs_xattr_handlers[] = {
-+#ifdef CONFIG_FS_POSIX_ACL
-+	&posix_acl_access_xattr_handler,
-+	&posix_acl_default_xattr_handler,
-+#endif
- 	&ecryptfs_xattr_handler,
- 	NULL
- };
--- 
-2.34.1
-
+--=20
+Die Summe von 500.000,00 =E2=82=AC wurde Ihnen von STEFANO PESSINA gespende=
+t.
+Bitte kontaktieren Sie uns f=C3=BCr weitere Informationen =C3=BCber
+stefanopessia755@hotmail.com
