@@ -2,49 +2,43 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AAB2268C4D4
-	for <lists+ecryptfs@lfdr.de>; Mon,  6 Feb 2023 18:30:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BA49968D02E
+	for <lists+ecryptfs@lfdr.de>; Tue,  7 Feb 2023 08:10:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229489AbjBFRam (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Mon, 6 Feb 2023 12:30:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37032 "EHLO
+        id S230505AbjBGHKX (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Tue, 7 Feb 2023 02:10:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229944AbjBFRaf (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Mon, 6 Feb 2023 12:30:35 -0500
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAD94BBAB
-        for <ecryptfs@vger.kernel.org>; Mon,  6 Feb 2023 09:29:40 -0800 (PST)
-Received: by mail-qt1-f180.google.com with SMTP id g18so11346044qtb.6
-        for <ecryptfs@vger.kernel.org>; Mon, 06 Feb 2023 09:29:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=w/LaKIf+3pRA4MyQMhbr3PlVOqptn/pf/udFxon0+9Y=;
-        b=vvc/SQhXf7aOo1YEFEqlyqlp5n/7i2LZW51R8cq71tcyFlvr2fLvq11ZFuRXoFG2uq
-         OMjC9I/0vK5yBCck6w3CVV9kaBg+hGGpFDnH2kLVTo0MN0V+lUk6m1KXJr/dFaWwUOyN
-         giwUqKa2Io3T/WHTjgBMEooCizIrPqjVGEKXZUGy/OGxm+OCayU+/fzN/wSkKtH9VSyF
-         QNmJxmHbwYx9ZElMmWj9VZH2Izxd9yDETu/hsu5mNZ/of4/37WfslAQdxCvbwXxcniSz
-         aoEhjQcOfS8LxX96TEXadmGsyocHPw022oztG/PjoN8H/fxPHunCpbgs9jgfrCnOwa8U
-         zh1Q==
-X-Gm-Message-State: AO0yUKU3Hp1RwtEGkNozNUcc1CONn/ZwLlrNeMUMf6ehyXy5u71Bhxbj
-        vVjXbSNVYsDr7jIF6kJf4Gzn
-X-Google-Smtp-Source: AK7set/ae55jb9i/baaW/xLk4b7RJtQzOV+41D/ChSc6zOFdBQ9usaCQZSB0nyipHZthrt6kgVy39g==
-X-Received: by 2002:a05:622a:c7:b0:3ba:1398:c68d with SMTP id p7-20020a05622a00c700b003ba1398c68dmr150769qtw.16.1675704579799;
-        Mon, 06 Feb 2023 09:29:39 -0800 (PST)
-Received: from localhost (pool-68-160-166-30.bstnma.fios.verizon.net. [68.160.166.30])
-        by smtp.gmail.com with ESMTPSA id b13-20020ac844cd000000b003ba1ccba523sm3956815qto.93.2023.02.06.09.29.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Feb 2023 09:29:39 -0800 (PST)
-Date:   Mon, 6 Feb 2023 12:29:38 -0500
-From:   Mike Snitzer <snitzer@kernel.org>
+        with ESMTP id S231335AbjBGHKO (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Tue, 7 Feb 2023 02:10:14 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CF1C2278C;
+        Mon,  6 Feb 2023 23:10:13 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 0B2E2B81716;
+        Tue,  7 Feb 2023 07:10:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B308DC433D2;
+        Tue,  7 Feb 2023 07:10:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675753810;
+        bh=VvGaQpQYZUpL7fyQlSvZZVk0dw3V7tJuaCipJTwS3LE=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=gwRQHVQZXXLf3IlUyHa5iYI2x/L5N7XSGYnPzfWftS3FkFJWWNX+ramJHM7xTarTG
+         Fgushcdoy4VOIDfg3VQQQP4kIog7p+H4L7o0VDY8qDErtqPifDnrXgsxt9OHBq+iXU
+         I+S2kZQxITWQawon3Y5XMWeCmkTMQeQWFEXIZexhWPhnRKWfoHqhVjcICME87wNn1j
+         rrdd7K9B89hrQH7I8AO1EhiPCvkz74PSxs/U3JkKrspeJ77s1MWJpgxWFSz/e7yKmh
+         MgLTIhjDdW1JgOzu4Id1uQgkVRk19vXWNxZfbgtxWkE9czEOtwQfd002OTaqr5Gg4s
+         N82CH80wcAS1g==
+Date:   Mon, 6 Feb 2023 23:10:08 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
 To:     Herbert Xu <herbert@gondor.apana.org.au>
 Cc:     Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        Alasdair Kergon <agk@redhat.com>, dm-devel@redhat.com,
+        Alasdair Kergon <agk@redhat.com>,
+        Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
         "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
         Tyler Hicks <code@tyhicks.com>, ecryptfs@vger.kernel.org,
         Marcel Holtmann <marcel@holtmann.org>,
@@ -58,30 +52,46 @@ Cc:     Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
         John Fastabend <john.fastabend@gmail.com>,
         David Howells <dhowells@redhat.com>,
         Jarkko Sakkinen <jarkko@kernel.org>, keyrings@vger.kernel.org
-Subject: Re: [PATCH 11/17] dm: Remove completion function scaffolding
-Message-ID: <Y+E5AkiVTbjgXWjs@redhat.com>
+Subject: Re: [PATCH 0/17] crypto: api - Change completion callback argument
+ to void star
+Message-ID: <20230206231008.64c822c1@kernel.org>
+In-Reply-To: <Y+DUkqe1sagWaErA@gondor.apana.org.au>
 References: <Y+DUkqe1sagWaErA@gondor.apana.org.au>
- <E1pOydu-007zio-0W@formenos.hmeau.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <E1pOydu-007zio-0W@formenos.hmeau.com>
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-On Mon, Feb 06 2023 at  5:22P -0500,
-Herbert Xu <herbert@gondor.apana.org.au> wrote:
+On Mon, 6 Feb 2023 18:21:06 +0800 Herbert Xu wrote:
+> The crypto completion function currently takes a pointer to a
+> struct crypto_async_request object.  However, in reality the API
+> does not allow the use of any part of the object apart from the
+> data field.  For example, ahash/shash will create a fake object
+> on the stack to pass along a different data field.
 
-> This patch removes the temporary scaffolding now that the comletion
-> function signature has been converted.
+"different data field" == copy the value to a different structure?
+A bit hard to parse TBH.
+
+> This leads to potential bugs where the user may try to dereference
+> or otherwise use the crypto_async_request object.
 > 
-> Signed-off-by: Herbert Xu <herbert@gondor.apana.org.au>
+> This series changes the completion function to take a void *
+> argument instead of crypto_async_request.
+> 
+> This series touches code in a number of different subsystems.
+> Most of them are trivial except for tls which was actually buggy
+> as it did exactly what was described above.
 
-Acked-by: Mike Snitzer <snitzer@kernel.org>
+Buggy means bug could be hit in real light or buggy == did not use 
+the API right?
+
+> I'd like to pull all the changes through the crypto tree.  But
+> feel free to object if you'd like the relevant patches to go
+> through your trees instead and I'll split this up.
