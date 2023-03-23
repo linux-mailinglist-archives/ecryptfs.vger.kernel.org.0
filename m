@@ -2,121 +2,155 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 218626C677C
-	for <lists+ecryptfs@lfdr.de>; Thu, 23 Mar 2023 13:02:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BB6D46C6E60
+	for <lists+ecryptfs@lfdr.de>; Thu, 23 Mar 2023 18:05:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231674AbjCWMCT (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Thu, 23 Mar 2023 08:02:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45608 "EHLO
+        id S231690AbjCWRFo (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Thu, 23 Mar 2023 13:05:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231703AbjCWMB4 (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Thu, 23 Mar 2023 08:01:56 -0400
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com [IPv6:2607:f8b0:4864:20::830])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EC304C1C
-        for <ecryptfs@vger.kernel.org>; Thu, 23 Mar 2023 05:00:07 -0700 (PDT)
-Received: by mail-qt1-x830.google.com with SMTP id bz27so14394201qtb.1
-        for <ecryptfs@vger.kernel.org>; Thu, 23 Mar 2023 05:00:07 -0700 (PDT)
+        with ESMTP id S229680AbjCWRFo (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Thu, 23 Mar 2023 13:05:44 -0400
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E17EB123;
+        Thu, 23 Mar 2023 10:05:42 -0700 (PDT)
+Received: by mail-lj1-x234.google.com with SMTP id x20so4931164ljq.9;
+        Thu, 23 Mar 2023 10:05:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679572807;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IE0Q22t9nDUcBAUVsmYKmeg+5EtHh5OHc8AXl8b80GM=;
-        b=Z4GAoeXUgLdkhxm5NAIJeqNCp79AJfhB+nvelGKvpaIi2/KpUujbsI4tkX+5Bg4+S8
-         hFWKJ4ft4W6mBYzMTUZ31UyUTLVGu+NPLAF6DX+KiHU05rB7rOAF5GJ06SQ4dzyIhah5
-         tFYkjjBhhth4ybnTJajwplQ09n2bqhujf38dm3AaShKALWCjTlxSLCxZWu1JTI6/fYf9
-         KaugYcVB+kc7KBKrnvyVTUsmwY3aF0QMOVFUnrCLIT0Qmey+yZUJBani53aKXIajNlhb
-         QULpGdUbV2boPoNSqVcSI4UJR3pxhKE/pr/t9BG6BiG7qQqXN9iPsb+ONJ0ZBFo8Knpu
-         e3Hw==
+        d=gmail.com; s=20210112; t=1679591141;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=NL5YETvbTVX6NvgeIAiWqv8iSFPQe7SEcD7n2fM2gVI=;
+        b=XeI06lmqyrE2ixMlQwp5zgwZAEjsc7iD49ptf2wJTrnu2fBxESPOpX/iTgmFVdmxJR
+         SMzOckFwprXOXThMb0YsMcAZGBm/meIIYwfV3Qg+X7xkeUfM3PbVwJmqe6w1tFDk8lHK
+         OIT3ZeAHMXrun7/adcc2xqxXAoZp1MmiihDP50m+9K0fvNHXv9PeNEf4ak06RrHBkXeR
+         jmb+5PFVCZdNVc6aegSXcGUalFxg7MYctfiqYEfhftDRF1DNEPRxeFGeKRdc6NxRrX3S
+         1toWJVsvBo3qPS5593q7E+f94AdsRZPL9YOfdGvtFn0La7dvHoyTTeMvvYhqeUsYSLmk
+         P8WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679572807;
-        h=to:subject:message-id:date:from:reply-to:mime-version
+        d=1e100.net; s=20210112; t=1679591141;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IE0Q22t9nDUcBAUVsmYKmeg+5EtHh5OHc8AXl8b80GM=;
-        b=b8yPkww/0XLKX2OL09jT09ptTYovyFsQitLDHwznhK0v72uPK8Loyll0YM5eEpT4E2
-         PB3iy4zPy6FhFoll4cFivUbvsf5/ANWIm64BvyUmdm+j7B+v9Kyz4VZb7dmNQ5okScUq
-         Cnx6HtzCUOwfyyEvAG+8ShAALInHvh7wjlYS+1XJDF36R0v0eQEDMOuVsMXwcuxdosWE
-         w08keX0iAUBuIFBahweMGN4Y1DSsCg7AbsieUDK6VvUeCw7H0TsqVbItJs0gykGrBFvW
-         rMOTH/k6TkyZFywl6xBiBcs5wJi4GkhNCtH9o3FVHME1dhG2xG/81rgzl7aks1Sts/Ew
-         6d4A==
-X-Gm-Message-State: AO0yUKVAcAQnyVHTnQA4321UrlOIST+sFuuPDLZhmVM4WDLGuwrstU1N
-        wYJ8VvphPYwTFcCmwcROrv+rMHT2hJXK9IOhV+w=
-X-Google-Smtp-Source: AK7set++suY7xWFHn1Q2ytEor3tjpVs2K/xNzI4yGrXvZGhDZuyRPO44v8ax6+lc0A398MUp1a6abRQlKAmUZJEpGsg=
-X-Received: by 2002:a05:622a:83:b0:3d7:9d03:75a4 with SMTP id
- o3-20020a05622a008300b003d79d0375a4mr2587031qtw.13.1679572806465; Thu, 23 Mar
- 2023 05:00:06 -0700 (PDT)
+        bh=NL5YETvbTVX6NvgeIAiWqv8iSFPQe7SEcD7n2fM2gVI=;
+        b=3m1g9PApXelcensJseyyWHxR3drpWVUSEWlkelRkRd1NcghujjnHUnhpRr82U4Y6B6
+         Rxhp1c59K2xTcUjtBXdmx2sAsm7tRpXqKVxtAGak2OXSRx25byH7fMx8NvcFvoTczXsN
+         dDq4GdQo7F9QYR3WRtuy1drfilapFX7bMKMWo6OS9v4S6+cARImWYwRd/0jzpHPCc0nS
+         xNLwaFGEgnxiT8ixsOjr9g46Cz2D7pvn7uxqvbyL81K7JehtFUkenG8zt82Upcoq4CoV
+         NZ8oco7Aohgw6xYPxSkK1m0HTq8QQyN41Zx+yJKLaTOHDWmBhe4J7m3fFMdnbxe9RXQR
+         iJWw==
+X-Gm-Message-State: AAQBX9fsvxSIlC9UG7qjs/Q8WeFLL94MfnkQkZ7lrHOFw91nz9B/8XZk
+        E1Qfzt/lWxL9a7KcVO5e2lY=
+X-Google-Smtp-Source: AKy350akuSGeJefGGbCYLsuICjgCH/JYQszrC8QkAKLBapSxSiGpbvxyc++fNdgks1RW6NA6kCuEbQ==
+X-Received: by 2002:a2e:3219:0:b0:2a2:c618:1f51 with SMTP id y25-20020a2e3219000000b002a2c6181f51mr366045ljy.24.1679591141028;
+        Thu, 23 Mar 2023 10:05:41 -0700 (PDT)
+Received: from localhost ([2a02:168:633b:1:1e69:7aff:fe05:97e6])
+        by smtp.gmail.com with ESMTPSA id y2-20020a05651c020200b00295a33eda65sm3067484ljn.137.2023.03.23.10.05.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Mar 2023 10:05:40 -0700 (PDT)
+Date:   Thu, 23 Mar 2023 18:05:38 +0100
+From:   =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
+To:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
+Cc:     Christian Brauner <brauner@kernel.org>, landlock@lists.linux.dev,
+        Tyler Hicks <code@tyhicks.com>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        Linux-Fsdevel <linux-fsdevel@vger.kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        eCryptfs <ecryptfs@vger.kernel.org>
+Subject: Re: Does Landlock not work with eCryptfs?
+Message-ID: <ZByG4u1L6yF5kfeD@nuc>
+References: <20230319.2139b35f996f@gnoack.org>
+ <c1c9c688-c64d-adf2-cc96-dc2aaaae5944@digikod.net>
+ <20230320.c6b83047622f@gnoack.org>
+ <5d415985-d6ac-2312-3475-9d117f3be30f@digikod.net>
+ <e70f7926-21b6-fbce-c5d6-7b3899555535@digikod.net>
+ <20230321172450.crwyhiulcal6jvvk@wittgenstein>
+ <42ffeef4-e71f-dd2b-6332-c805d1db2e3f@digikod.net>
 MIME-Version: 1.0
-Received: by 2002:a05:622a:3cc:b0:3b0:621a:2f66 with HTTP; Thu, 23 Mar 2023
- 05:00:05 -0700 (PDT)
-Reply-To: annamalgorzata587@gmail.com
-From:   "Leszczynska Anna Malgorzata." <madamstewartpriisca@gmail.com>
-Date:   Thu, 23 Mar 2023 05:00:05 -0700
-Message-ID: <CAHesxDyRXVsZ-XhE=POzVx7YMy_VVRCVgJgqjo2tuya9yi-5UA@mail.gmail.com>
-Subject: Mrs. Leszczynska Anna Malgorzata.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=6.8 required=5.0 tests=ADVANCE_FEE_5_NEW,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        UNDISC_FREEM,UNDISC_MONEY autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:830 listed in]
-        [list.dnswl.org]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [madamstewartpriisca[at]gmail.com]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [annamalgorzata587[at]gmail.com]
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  2.9 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-        *  0.8 ADVANCE_FEE_5_NEW Appears to be advance fee fraud (Nigerian
-        *      419)
-        *  2.0 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: ******
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <42ffeef4-e71f-dd2b-6332-c805d1db2e3f@digikod.net>
+X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
++ecryptfs mailing list FYI
+
+Just some additional data points on the Landlock/eCryptfs issues.
+
+On Tue, Mar 21, 2023 at 07:16:28PM +0100, Mickaël Salaün wrote:
+> On 21/03/2023 18:24, Christian Brauner wrote:
+> > On Tue, Mar 21, 2023 at 05:36:19PM +0100, Mickaël Salaün wrote:
+> > > There is an inconsistency between ecryptfs_dir_open() and ecryptfs_open().
+> > > ecryptfs_dir_open() actually checks access right to the lower directory,
+> > > which is why landlocked processes may not access the upper directory when
+> > > reading its content. ecryptfs_open() uses a cache for upper files (which
+> > > could be a problem on its own). The execution flow is:
+> > > 
+> > > ecryptfs_open() -> ecryptfs_get_lower_file() -> ecryptfs_init_lower_file()
+> > > -> ecryptfs_privileged_open()
+> > > 
+> > > In ecryptfs_privileged_open(), the dentry_open() call failed if access to
+> > > the lower file is not allowed by Landlock (or other access-control systems).
+> > > Then wait_for_completion(&req.done) waits for a kernel's thread executing
+> > > ecryptfs_threadfn(), which uses the kernel's credential to access the lower
+> > > file.
+> > > 
+> > > I think there are two main solutions to fix this consistency issue:
+> > > - store the mounter credentials and uses them instead of the kernel's
+> > > credentials for lower file and directory access checks (ecryptfs_dir_open
+> > > and ecryptfs_threadfn changes);
+> > > - use the kernel's credentials for all lower file/dir access check,
+> > > especially in ecryptfs_dir_open().
+> > > 
+> > > I think using the mounter credentials makes more sense, is much safer, and
+> > > fits with overlayfs. It may not work in cases where the mounter doesn't have
+> > > access to the lower file hierarchy though.
+> > > 
+> > > File creation calls vfs_*() helpers (lower directory) and there is not path
+> > > nor file security hook calls for those, so it works unconditionally.
+> > > 
+> > >  From Landlock end users point of view, it makes more sense to grants access
+> > > to a file hierarchy (where access is already allowed) and be allowed to
+> > > access this file hierarchy, whatever it belongs to a specific filesystem
+> > > (and whatever the potential lower file hierarchy, which may be unknown to
+> > > users). This is how it works for overlayfs and I'd like to have the same
+> > > behavior for ecryptfs.
+> > 
+> > So given that ecryptfs is marked as "Odd Fixes" who is realistically
+> > going to do the work of switching it to a mounter's credentials model,
+> > making sure this doesn't regress anything, and dealing with any
+> > potential bugs caused by this. It might be potentially better to just
+> > refuse to combine Landlock with ecryptfs if that's possible.
+
+There is now a patch to mark it orphaned (independent of this thread):
+https://lore.kernel.org/all/20230320182103.46350-1-frank.li@vivo.com/
+
+> If Tyler is OK with the proposed solutions, I'll get a closer look at it in
+> a few months. If anyone is interested to work on that, I'd be happy to
+> review and test (the Landlock part).
+
+I wonder whether this problem of calling security hooks for the
+underlying directory might have been affecting AppArmor and SELinux as
+well?  There seem to be reports on the web, but it's possible that I
+am misinterpreting some of them:
+
+https://wiki.ubuntu.com/SecurityTeam/Roadmap
+  mentions this "unscheduled wishlist item":
+  "eCryptfs + SELinux/AppArmor integration, to protect encrypted data from root"
+
+https://askubuntu.com/a/1195430
+  reports that AppArmor does not work on an eCryptfs mount for their use case
+  "i tried adding the [eCryptfs] source folder as an alias in apparmor and it now works."
+
+—Günther
+
 -- 
-I am Mrs. Leszczynska Anna Malgorzatafrom  from Germany Presently
-admitted  in one of the hospitals here in Ivory Coast.
-
-I and my late husband do not have any child that is why I am donating
-this money to you having known my condition that I will join my late
-husband soonest.
-
-I wish to donate towards education and the less privileged I ask for
-your assistance. I am suffering from colon cancer I have some few
-weeks to live according to my doctor.
-
-The money should be used for this purpose.
-Motherless babies
-Children orphaned by aids.
-Destitute children
-Widows and Widowers.
-Children who cannot afford education.
-
-My husband stressed the importance of education and the less
-privileged I feel that this is what he would have wanted me to do with
-the money that he left for charity.
-
-These services bring so much joy to the kids. Together we are
-transforming lives and building brighter futures - but without you, it
-just would not be possible.
-
-Sincerely,
-
-Mrs. Leszczynska Anna Malgorzata.
