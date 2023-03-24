@@ -2,77 +2,77 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B3CD86C886B
-	for <lists+ecryptfs@lfdr.de>; Fri, 24 Mar 2023 23:34:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A127B6C8881
+	for <lists+ecryptfs@lfdr.de>; Fri, 24 Mar 2023 23:42:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232367AbjCXWeM (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Fri, 24 Mar 2023 18:34:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50388 "EHLO
+        id S232082AbjCXWmt (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Fri, 24 Mar 2023 18:42:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232422AbjCXWeJ (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Fri, 24 Mar 2023 18:34:09 -0400
+        with ESMTP id S231623AbjCXWms (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Fri, 24 Mar 2023 18:42:48 -0400
 Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60DC91F5C2;
-        Fri, 24 Mar 2023 15:33:45 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94151199F4;
+        Fri, 24 Mar 2023 15:42:47 -0700 (PDT)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.west.internal (Postfix) with ESMTP id A6E563200906;
-        Fri, 24 Mar 2023 18:32:27 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Fri, 24 Mar 2023 18:32:28 -0400
+        by mailout.west.internal (Postfix) with ESMTP id 73E213200981;
+        Fri, 24 Mar 2023 18:42:46 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Fri, 24 Mar 2023 18:42:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tyhicks.com; h=
         cc:cc:content-type:content-type:date:date:from:from:in-reply-to
         :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm1; t=1679697147; x=1679783547; bh=cE
-        vcJtvr4tb8xwrTcwABPpyCDNqZmGE4/8VmCSqSR9g=; b=GaAd+rWiieqSjuWlJc
-        roXXFOsXg7PE3LnYYdMoXYTAkc7iO30DZsBFZFPzxMDRzej0AvJAOO1BfSwmarBW
-        C+Cb6FSfRbwguXDHaJ1nh4qJeEQtviIhB0EZa6CpbBLnbeIAfAvPIQTb2OAHwfVU
-        Rf8ONvLYfYXKs86Db6fRnVY9jzLLEa/ex9AO6DoYxdrJaW8Vfhkz4e+R9izUsPQr
-        w9dMebtYiKm1siYZIvCTsyIKvKkPWjii+rDWC7zHEyqzGM91PoonKsH6QyW3A8W4
-        N4FECquoKNGXXa7hjMlU9pDb8Nbd0OXh5UlMQJkQEd5aM77FV4D6zNYOM6YyrGcD
-        Cq2Q==
+        :subject:subject:to:to; s=fm1; t=1679697766; x=1679784166; bh=/k
+        G3Is5UEmDRGP5oqsqcd7AP1D5atjOd1Y4XPuwuxCg=; b=UDGXSuNdr6lxmHSUFQ
+        CEesjboO8cSUJRDC0fwZI1xJw18cxwrM9RNoXmQYel7i/fNM85xAJU1WMGnkrGmg
+        fboAh99Jv74VQghaFosRTnXS89jRsaszHoi1pn6iaztJ8nNz3qh1XG2Od+dscNQh
+        O2T0WBPbxvMu+RFVMC1UatyGxGOZDjExxaW4adqr8hLesd6a2tiT8klTUsPhGRp8
+        eg0AxBTyOWfagIH89SryBHyMfq3T4FNi0EUkTa5F1Y+y/v//87qEYFK4wc7723VO
+        6Ep04icFHnY9z5J5zk8HRWDMoUurhng6OnMI8me9KIDP2fG2olS+hA2+bzjwjM8x
+        CGcA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:cc:content-type:content-type:date:date
         :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
         :message-id:mime-version:references:reply-to:sender:subject
         :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; t=1679697147; x=1679783547; bh=cEvcJtvr4tb8x
-        wrTcwABPpyCDNqZmGE4/8VmCSqSR9g=; b=ItoDkNnLsGBgMBjnsdc9CJVSJvYO8
-        vWGluMzpgTe6atAutB8Dl8Y06eojckCVv7p8wX+SELThmCFOoXK9+HOQU/6YETDf
-        QiL8ZrW0TvKIi32d7AJSnfHAfQICwNYSrxfyxKUM7e+gfgW2vdCWRyJlrL1VB+7/
-        q7liQgl+WfCAuP6CQL7SHm5SRT3zkVmacPGN+fBwgSxUCFrOTywX1oDSn9suGkP/
-        sXJyyfpxWP82xW0P70RXA27xQQtMsRgxBh6EzjXs8FT4inlmrCH12lhkMQtkeRyf
-        5evioDElg/Pn2USvRDH7lRxdCTeMdAvZSUtpM2YJgDal8rOLswwedMVww==
-X-ME-Sender: <xms:-iQeZKw0Txgz7TXB4GqZrl9Yrpgu-QyBFAcNJkVbBdcxqG0YcnFeuA>
-    <xme:-iQeZGQRkoF6ggpx7TGclOHTZtlm4QiSsBT0E0HzX2GesyGVuK7spd3Lg7L9KvetE
-    t2O1zbLphGYrqRjNOY>
-X-ME-Received: <xmr:-iQeZMWXYR5N_ACfgbr25WyLkwVamOM_GokiGWEYbHg4Qaor8m--hvp10wt2zMh3Vm8I7zlib5947vXb3uYorwU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdegiedgudeifecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefvhihl
-    vghrucfjihgtkhhsuceotghouggvsehthihhihgtkhhsrdgtohhmqeenucggtffrrghtth
-    gvrhhnpedvhedvtddthfefhfdtgfelheefgefgudejueevkeduveekvdegjedttdefgfel
-    ieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegtoh
-    guvgesthihhhhitghkshdrtghomh
-X-ME-Proxy: <xmx:-iQeZAgJaKKtUhb6k1uB6Dt5SxqzgmZk0Jx55D3Ea8CM_BODyTvVlg>
-    <xmx:-iQeZMDMDB5b-hPGuNwVsAt1HbpX013BZoY-hoNliTh_EhYGvSGLwg>
-    <xmx:-iQeZBJKTg3rXnYjPlt2O6Aqs945oy5ybhFwjXjAtUYM3ScVZMQ8Aw>
-    <xmx:-yQeZPOxXGc4UVnJhFx8vY_LmyDXKkCDOruoXhnhXSg61zrFA-j5Vg>
+        :x-sasl-enc; s=fm2; t=1679697766; x=1679784166; bh=/kG3Is5UEmDRG
+        P5oqsqcd7AP1D5atjOd1Y4XPuwuxCg=; b=EH/ruGD4Dc1Sspuwenr2AMb5W0BvD
+        Oqt+bynV8buoYrfyavz7gt5T+ifrySbmRBy7iO1sXluyjYfR6bGheazPObiLx2/l
+        QmaikoawbJhZh/SpMPQMDAY6UpMgKFa54VW90TCz+pzNkceo44hPeATP0D434333
+        Y6nzEgW6ab8M9hBkAQzFWPnxBNKHPE4fA3c/MfS9751VwATzzOvmSnQzF5TKChZV
+        23nvPtzvHaI6lkR2GPK7U6fIRnIbkuv6hgQ3PqtaFP8W8PtorPZtL/ww+3eeBCeG
+        uqLnCMHRRiVwXAboX93GFdsf9HGfHXFQimXd3XNKL1rjLL74BNt0wW6AA==
+X-ME-Sender: <xms:ZSceZNiJay37E7-l57P9fDVCRjpgJc9oKh5cWcGy03tPHR_SFAxTVg>
+    <xme:ZSceZCDdt5931xztthBBExDkeKazltYQQtPohx4L9ywdfNn2y-CFYXCRxYNA4yIST
+    4a2eH72g_dHXSKcuzQ>
+X-ME-Received: <xmr:ZSceZNE-1MLRHHat6sKkoui-5hDO8JTKA6j8a0vZs9pzHIphj21f5Gwt_oCYsGcpazJZoCVBXf36vzLcJoEw8LA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdegjedgtdduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehttd
+    ertddttddvnecuhfhrohhmpefvhihlvghrucfjihgtkhhsuceotghouggvsehthihhihgt
+    khhsrdgtohhmqeenucggtffrrghtthgvrhhnpedvhedvtddthfefhfdtgfelheefgefgud
+    ejueevkeduveekvdegjedttdefgfelieenucevlhhushhtvghrufhiiigvpedtnecurfgr
+    rhgrmhepmhgrihhlfhhrohhmpegtohguvgesthihhhhitghkshdrtghomh
+X-ME-Proxy: <xmx:ZSceZCTxXRB3Lrxw-c25FyeafRp52611ehUXVnWHr3L3SXtR7os03w>
+    <xmx:ZSceZKzIGSCV1CdZhCe6TXDsVsVYq_iNl3ZK2Z7twrBx9WnNFdMSug>
+    <xmx:ZSceZI6Vu3x7HpGZnIgUQhl_F7iGAenGveNxLXttmlnkTVrWGVKZFw>
+    <xmx:ZiceZO_eP0ssD5lveL0XiS0L23slOdYCiJV98oLGX_2qBRJ9qQ45Dg>
 Feedback-ID: i78e14604:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 24 Mar 2023 18:32:25 -0400 (EDT)
-Date:   Fri, 24 Mar 2023 17:32:11 -0500
+ 24 Mar 2023 18:42:45 -0400 (EDT)
+Date:   Fri, 24 Mar 2023 17:42:43 -0500
 From:   Tyler Hicks <code@tyhicks.com>
-To:     Zipeng Zhang <zhangzipeng0@foxmail.com>
-Cc:     herbert@gondor.apana.org.au, ecryptfs@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fs: ecryptfs: comment typo fix
-Message-ID: <ZB4k66w8/IJ6hf5C@sequoia>
-References: <tencent_3EF4F3D0717E80F131BF00B982698C34DF07@qq.com>
+To:     Yangtao Li <frank.li@vivo.com>
+Cc:     gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+        ecryptfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] MAINTAINERS: mark ecryptfs as orphan state
+Message-ID: <ZB4nYykRg6UwZ0cj@sequoia>
+References: <ZBlQT2Os/hB2Rxqh@kroah.com>
+ <20230322171910.60755-1-frank.li@vivo.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <tencent_3EF4F3D0717E80F131BF00B982698C34DF07@qq.com>
+In-Reply-To: <20230322171910.60755-1-frank.li@vivo.com>
 X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
         DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,
         SPF_HELO_PASS,SPF_PASS autolearn=unavailable autolearn_force=no
@@ -83,33 +83,28 @@ Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-On 2023-03-20 10:04:28, Zipeng Zhang wrote:
-> Comment typo fix "vitual" -> "virtual".
-> 
-> Signed-off-by: Zipeng Zhang <zhangzipeng0@foxmail.com>
+On 2023-03-23 01:19:10, Yangtao Li wrote:
+> +cc code@tyhicks.com, ecryptfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
 
-Thanks. I've pushed this to the eCryptfs next branch.
+Hey Yangtao - I think it is a good idea to deprecate eCryptfs and
+prepare for its removal in a couple years.
+
+It never received the dedication needed to sort out the stacked
+filesystem design issues and its crypto design is aging without
+updates/improvements for some time. The majority of the user base, which
+came about when Ubuntu added home dir encryption as an option in the
+installer, has greatly decreased since Ubuntu removed it from the
+installer and dropped official support several years back. Finally,
+fscrypt should provide a more than complete alternative for the majority
+of use cases.
+
+Deprecating and removing is the right thing to do.
+
+I can devote some time to limping it by until removal but would also
+appreciate a hand if anyone has time/interest.
 
 Tyler
 
-> ---
->  fs/ecryptfs/crypto.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/fs/ecryptfs/crypto.c b/fs/ecryptfs/crypto.c
-> index c16f0d660cb7..faa901cde636 100644
-> --- a/fs/ecryptfs/crypto.c
-> +++ b/fs/ecryptfs/crypto.c
-> @@ -1289,7 +1289,7 @@ static int ecryptfs_read_headers_virt(char *page_virt,
->  
->  /**
->   * ecryptfs_read_xattr_region
-> - * @page_virt: The vitual address into which to read the xattr data
-> + * @page_virt: The virtual address into which to read the xattr data
->   * @ecryptfs_inode: The eCryptfs inode
->   *
->   * Attempts to read the crypto metadata from the extended attribute
-> -- 
-> 2.39.2
-> 
-> 
+> Thx,
+> Yangtao
