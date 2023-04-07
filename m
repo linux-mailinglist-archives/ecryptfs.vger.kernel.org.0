@@ -2,102 +2,92 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE83A6D56F7
-	for <lists+ecryptfs@lfdr.de>; Tue,  4 Apr 2023 04:57:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17B306DA978
+	for <lists+ecryptfs@lfdr.de>; Fri,  7 Apr 2023 09:46:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232934AbjDDC55 (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Mon, 3 Apr 2023 22:57:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53604 "EHLO
+        id S229668AbjDGHp4 (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Fri, 7 Apr 2023 03:45:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229815AbjDDC54 (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Mon, 3 Apr 2023 22:57:56 -0400
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F70219BF;
-        Mon,  3 Apr 2023 19:57:54 -0700 (PDT)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailout.nyi.internal (Postfix) with ESMTP id 95FD55C00D0;
-        Mon,  3 Apr 2023 22:57:50 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Mon, 03 Apr 2023 22:57:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tyhicks.com; h=
-        cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm1; t=1680577070; x=1680663470; bh=h6
-        jLTmnRVW7snfNMmkgCLHM59jUMA2sAlcMAGdnV2Xw=; b=MBIg+WLiErbILUNtQa
-        S2T/3Hu+7s7AciF4vUlBsJCrOXevl/qXdAYvyINUHVIsPS96cjOZ06+FsarDzPxO
-        BJaJTc51YGnlLnJBv80xiFtRDpfW5hWcEoq8aEF2p2RQMN1J1803VoMkItMhLOTK
-        0Ma73UFs0mRaKmeJTxdXg+q4NbAHpoVEdsX/vyvZP3beLqjmWaqufC0voZVKvOl5
-        14sKq3Jf+NIc/QmkZWdC4uF5940OW3w4NBRlbyyDJmChtrDQ+U46JHljbtu9U/Sc
-        V/LJrfMRf3ASvgaZklOHb/50Ycr5HNgcLSbFC3T9AfhP2ptW4r+pN/gjNsSaqnwN
-        ri2A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; t=1680577070; x=1680663470; bh=h6jLTmnRVW7sn
-        fNMmkgCLHM59jUMA2sAlcMAGdnV2Xw=; b=N/q4XmWRayOyGwwitHNVIU3hybttd
-        T4kvZk7GWXCoNHPK995+hwrukRNqXtljw3xLvYA+H+adVwdvlNs7JVdv6qdulKNo
-        9TXB452tOfRLvdZgK4qFzJH4R7oefJmDmRq+LM1o7b72uyNpqC2AxAez6pp36cb2
-        DqnHvligJ+ByDK8mR5pVISgUrOWHnZ46/fxK4rYrRruK1c1AeV6ZQ6YWOKkL8xSJ
-        BvvD//OKSyiY2PK/E55bcxJVoPg6MheBkE0dj6zCxI6GodC1NJPeOD66GJ+oBlco
-        pHN8IRnJoUFbbjCBZNEbZ1swHHmXQnYt676qxaY9ur/UjIafBHMpUmlvA==
-X-ME-Sender: <xms:LpIrZKezI0kCc0MjYdNwLwl101Th2ey2KOY8GOnJekpdq-x_neieAA>
-    <xme:LpIrZEOkhe9wtiSSQUu_TYakg1okJsh-sAiKPE0UzWVErR2UPx7s88sbRcBfTu5dL
-    eoBjWzPBWw2H-gBJ-w>
-X-ME-Received: <xmr:LpIrZLh6n4xwUz6RhSYaHcyi5H622He1BJQg5v0D1X14wv1uLW1e2P1MPJ0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeikedggeekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehttd
-    ertddttddvnecuhfhrohhmpedfvfihlhgvrhcujfhitghkshculdfoihgtrhhoshhofhht
-    mddfuceotghouggvsehthihhihgtkhhsrdgtohhmqeenucggtffrrghtthgvrhhnpeehie
-    eiueevgfetlefhjeekleeutddtudelveevhfekgefhhffhtedtffehuedvteenucevlhhu
-    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegtohguvgesthihhh
-    hitghkshdrtghomh
-X-ME-Proxy: <xmx:LpIrZH_8qx56kyJOj0JSvTg4me-cjY-401L8xAXiH0AdjK4fY331Pw>
-    <xmx:LpIrZGtgbLeJhKIImAHQyuhAi8M6FywVUifzFsSmrtvMrgHvyMrCpg>
-    <xmx:LpIrZOHLT6Ufm1Osxv4VtLSHYIIz2qm0N2eljrtGfOn6Qu3nCMT6ug>
-    <xmx:LpIrZIJsfm60sLY0A_0UZxeWbrmNicGDmyrNJPHfkIZXsIE_aK3Vkg>
-Feedback-ID: i78e14604:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 3 Apr 2023 22:57:49 -0400 (EDT)
-Date:   Mon, 3 Apr 2023 21:57:48 -0500
-From:   "Tyler Hicks (Microsoft)" <code@tyhicks.com>
-To:     Yangtao Li <frank.li@vivo.com>
-Cc:     brauner@kernel.org, ecryptfs@vger.kernel.org,
-        gregkh@linuxfoundation.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] MAINTAINERS: mark ecryptfs as orphan state
-Message-ID: <ZCuSLNnFQEdOHW0c@sequoia>
-References: <20230403-frolic-constant-bc5d0fb13196@brauner>
- <20230403134432.46726-1-frank.li@vivo.com>
+        with ESMTP id S229531AbjDGHp4 (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Fri, 7 Apr 2023 03:45:56 -0400
+Received: from mail.gramblingfirm.com (mail.gramblingfirm.com [89.40.118.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D480A273
+        for <ecryptfs@vger.kernel.org>; Fri,  7 Apr 2023 00:45:54 -0700 (PDT)
+Received: by mail.gramblingfirm.com (Postfix, from userid 1001)
+        id 17E0F82ACE; Fri,  7 Apr 2023 08:45:44 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gramblingfirm.com;
+        s=mail; t=1680853552;
+        bh=gqzZsu7MXwZPzlbvSQiKceUrEEFPNw9Lezccrk6Bymo=;
+        h=Date:From:To:Subject:From;
+        b=q4cwRquAqYy4Qf5/ps3DaY1Og8tDDVnjXm63qsmIXeE/bNMO7hdSD5q3K5VqRSi71
+         6MLp8p395LT/uPtgmH81XfQtqtVgWKPvTdyehim+1xgJCWDYOBcUqGeEswzvjA5f5N
+         RUIhQYsbszShMG4MZw3Ii+kVpp8ibz9nX+LxiCdfCTy9yu4MkaOsurDq/KBAQPTrbL
+         VkNAZbuEg+wTAU1RLUMwLRSlVcJw0mx0MGTGR64doI6kRWEiZrNXHV07EYn04KxAhC
+         Sw4IwccG+CcIZThyX5ny0Y1GYX/MAvQFAEVu1iQRy5tRtraBwOz6yJpoUwBf0lH9Mb
+         97DqizTjy9pvA==
+Received: by mail.gramblingfirm.com for <ecryptfs@vger.kernel.org>; Fri,  7 Apr 2023 07:45:33 GMT
+Message-ID: <20230407074500-0.1.2t.50i3.0.i78o20kr1m@gramblingfirm.com>
+Date:   Fri,  7 Apr 2023 07:45:33 GMT
+From:   "Daniel Musil" <daniel.musil@gramblingfirm.com>
+To:     <ecryptfs@vger.kernel.org>
+Subject: Robotisation of production
+X-Mailer: mail.gramblingfirm.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230403134432.46726-1-frank.li@vivo.com>
-X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS autolearn=unavailable
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,RCVD_IN_SORBS_DUL,
+        SPF_HELO_NONE,SPF_PASS,URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Report: *  2.5 URIBL_DBL_SPAM Contains a spam URL listed in the Spamhaus DBL
+        *      blocklist
+        *      [URIs: gramblingfirm.com]
+        *  3.6 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
+        *      [89.40.118.123 listed in zen.spamhaus.org]
+        *  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
+        *      blocklist
+        *      [URIs: gramblingfirm.com]
+        *  0.0 RCVD_IN_SORBS_DUL RBL: SORBS: sent directly from dynamic IP
+        *      address
+        *      [89.40.118.123 listed in dnsbl.sorbs.net]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-On 2023-04-03 21:44:32, Yangtao Li wrote:
-> > I can devote some time to limping it by until removal but would also 
-> > appreciate a hand if anyone has time/interest.
-> 
-> I have time and interest, if possible, I would like to be a reviewer
-> before ecryptfs is removed.
+Hello,
 
-Hi - I don't think an additional reviewer is going to be sufficient to
-get eCryptfs into a good state long term. There are fairly large design
-problems that need more attention. I'll send a patch to deprecate and
-mark for removal in 2025.
+I am trying to reach the person who manages your machinery and/or is resp=
+onsible for the improvement and automation of production.=20
 
-I'll happily add you as a reviewer and appreciate your interest in
-helping.
+We deal with processes related to broadly defined robotisation and automa=
+tion of production. We support you in the design and implementation of au=
+tomation and control systems, the construction of control cabinets, their=
+ servicing and diagnostics of already existing devices.=20
 
-Tyler
+Thanks to a large team of specialists in various fields, we are able to i=
+mplement industrial robots, construct electrical installation facilities,=
+ provide solutions for monitoring of media consumption, and integrate mac=
+hines and devices into complete assemblies.
+
+What sets us apart is our versatility, many years of experience and a qua=
+lified team who have developed their knowledge over the years by carrying=
+ out projects for various industries and processes.
+
+I think it is worth discussing what this looks like in your company and w=
+hat we could offer. What do you think of my proposal?
+
+Best regards
+Daniel Musil
