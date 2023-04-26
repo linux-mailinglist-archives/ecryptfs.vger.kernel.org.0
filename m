@@ -2,53 +2,101 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EC6D6E9B5B
-	for <lists+ecryptfs@lfdr.de>; Thu, 20 Apr 2023 20:13:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5C4A6EF932
+	for <lists+ecryptfs@lfdr.de>; Wed, 26 Apr 2023 19:22:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231200AbjDTSN2 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+ecryptfs@lfdr.de>); Thu, 20 Apr 2023 14:13:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33692 "EHLO
+        id S233308AbjDZRWg (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Wed, 26 Apr 2023 13:22:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229644AbjDTSN2 (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Thu, 20 Apr 2023 14:13:28 -0400
-Received: from parfum-bhs.ru (mx.bhs32.ru [84.42.40.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD3E03A90
-        for <ecryptfs@vger.kernel.org>; Thu, 20 Apr 2023 11:13:24 -0700 (PDT)
-Message-ID: <2682167367-972413@parfum-bhs.ru>
-X-Spam-Status: No, score=4.9 required=5.0 tests=BAYES_00,FORGED_SPF_HELO,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        MSGID_FROM_MTA_HEADER,RCVD_IN_SBL_CSS,RCVD_IN_VALIDITY_RPBL,SPF_FAIL,
-        SPF_HELO_PASS,SPOOFED_FREEMAIL,SPOOFED_FREEM_REPTO,
-        TO_EQ_FM_DOM_SPF_FAIL,TO_EQ_FM_SPF_FAIL,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: 
-X-Footer: cGFyZnVtLWJocy5ydQ==
-Received: from localhost ([127.0.0.1])
-        by parfum-bhs.ru (Kerio Connect 9.2.8 patch 1) with ESMTPA;
-        Thu, 20 Apr 2023 21:12:58 +0300
-Content-Type: text/plain; charset="iso-8859-1"
+        with ESMTP id S231331AbjDZRWg (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Wed, 26 Apr 2023 13:22:36 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE2A4659C;
+        Wed, 26 Apr 2023 10:22:31 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-2f8405b3dc1so4631695f8f.3;
+        Wed, 26 Apr 2023 10:22:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682529750; x=1685121750;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=01hZS7A7jytOXyQf8r/c/6XNX53aVGNcnKzJAHehHTw=;
+        b=OBibne1aPzMp1xZq92cu/7tUFqIF9YuvnoESy+Gmt4+qOIk00xNI7o6e2o1zdKtBFm
+         EBLN0aNy9FYOFqm9tCQ4m9PurNEW2G8sW/7Gs5bemO7EBfmZdI0n0EeNlHouXmUxCAC0
+         K/Kmg5zrDuRTQnc0UQP7Kf41lE3N4sPIFmyT+XWZswcC9Yu7VaDIfw1f+g1jFXgNfdjH
+         F8/3RCqDY+HeQa5zgQ6Um9Us3JN+YTDDaKWYBNLf44boDGb289clhYiiEE45Kzxe94gT
+         QshUCAh5BaB74tX3q7yQKwr3hI14qSHdTeHvqDxmITXuPwNiaCCnTGn+yfVec25/2xsV
+         zpEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682529750; x=1685121750;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=01hZS7A7jytOXyQf8r/c/6XNX53aVGNcnKzJAHehHTw=;
+        b=jiGPZcXehMY8vFaFVpUYSD5QxDvBRqyn0KNgSX01lqiieqgjQ4M7GgMbujuuZdXjc0
+         ybUhAdc7U8biDrm8gB0HuKH1Kl7CEQDKZG/sfkiEfA2vmp4HljMhdAp9lGapBVX63Vyj
+         e5BVmzgpYFZSBADIUchbIGzzmAK9M2iH7t9tCC6A740yNVnvI6JHzJKgaHzF7qf2ihNz
+         1cegOQ6VslfpTZXsT9dPHQyNrqk06gtJ+neZAlRldb84NKS6xDGEzjuDsMxPh1xay7oQ
+         FV5zUFror8Uy4qWnnVhDFEYYDkJ2P27mk8MdtEansutzMUIiR6K4Gtk27OnW7znV6MRz
+         lFlQ==
+X-Gm-Message-State: AAQBX9ePvZruRIQGL5rBZBeCFL029/2/ij3b6AEFpIlQM6C/LhlVEZ7a
+        FzHU0m+oVO4REkKcLH1MGak=
+X-Google-Smtp-Source: AKy350Yl71g8ZkyU3xL+JBuIEkB73C4V/X1yVsiwQSxSK7YpxyUITrbsqrNAQKKJGxc4/m0SmBrt+w==
+X-Received: by 2002:a5d:5492:0:b0:2fa:9036:9cf with SMTP id h18-20020a5d5492000000b002fa903609cfmr15513729wrv.37.1682529749903;
+        Wed, 26 Apr 2023 10:22:29 -0700 (PDT)
+Received: from localhost.localdomain (host-87-21-14-179.retail.telecomitalia.it. [87.21.14.179])
+        by smtp.gmail.com with ESMTPSA id v21-20020a7bcb55000000b003f16f362ae7sm18675613wmj.21.2023.04.26.10.22.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Apr 2023 10:22:29 -0700 (PDT)
+From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To:     Tyler Hicks <code@tyhicks.com>,
+        Christian Brauner <brauner@kernel.org>,
+        Dave Chinner <dchinner@redhat.com>,
+        "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Al Viro <viro@zeniv.linux.org.uk>, ecryptfs@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/3] fs/ecryptfs: Replace kmap{,_atomic}() with kmap_local_page()
+Date:   Wed, 26 Apr 2023 19:22:20 +0200
+Message-Id: <20230426172223.8896-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: Good day!
-To:     Recipients <luyongzhen@asia.com>
-From:   luyongzhen@asia.com
-Date:   Thu, 20 Apr 2023 20:12:24 +0200
-Reply-To: luyongzhen28@gmail.com
-X-Spam-Level: ****
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Greetings,
+kmap() and kmap_atomic() have been deprecated in favor of
+kmap_local_page().
 
-  I have a mutual business proposal, which refers to the transfer of a large amount of money to an account abroad, with your help as a foreign partner as a beneficiary of the funds. Everything about this transaction will be legal without any bridge of financial authority both in my country and yours. If you are interested and I will give you more information about the project as soon as I receive your positive response.
+Therefore, replace kmap() and kmap_atomic() with kmap_local_page().
 
-Best regards,
+Tested in a QEMU/KVM x86_32 VM, 6GB RAM, booting a kernel with
+HIGHMEM64GB enabled.
 
-Executive Director.
+v1->v2: Patches 1/3 and 2/3 were not grouped in a series. Patch 3/3 is
+new. Therefore, currently one series groups all conversions needed if
+fs/ecryptfs. The subject of 2/3 changed to differentiate between it and
+3/3. Furthermore, the commit messages of 1/3 and 2/3 have been largely
+reworked.
 
-ICBC. China
+Fabio M. De Francesco (3):
+  fs/ecryptfs: Replace kmap() with kmap_local_page()
+  fs/ecryptfs: Use kmap_local_page() in ecryptfs_write()
+  fs/ecryptfs: Use kmap_local_page() in copy_up_encrypted_with_header()
+
+ fs/ecryptfs/crypto.c     |  8 ++++----
+ fs/ecryptfs/mmap.c       |  4 ++--
+ fs/ecryptfs/read_write.c | 12 ++++++------
+ 3 files changed, 12 insertions(+), 12 deletions(-)
+
+-- 
+2.40.0
 
