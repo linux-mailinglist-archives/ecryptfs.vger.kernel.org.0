@@ -2,74 +2,133 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A918709290
-	for <lists+ecryptfs@lfdr.de>; Fri, 19 May 2023 11:04:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A014270A3C1
+	for <lists+ecryptfs@lfdr.de>; Sat, 20 May 2023 02:04:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231315AbjESJEN (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Fri, 19 May 2023 05:04:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49952 "EHLO
+        id S231169AbjETADm (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Fri, 19 May 2023 20:03:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230064AbjESJEJ (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Fri, 19 May 2023 05:04:09 -0400
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B318199A
-        for <ecryptfs@vger.kernel.org>; Fri, 19 May 2023 02:03:36 -0700 (PDT)
-Received: by mail-oi1-x232.google.com with SMTP id 5614622812f47-392116b8f31so1117653b6e.2
-        for <ecryptfs@vger.kernel.org>; Fri, 19 May 2023 02:03:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684487015; x=1687079015;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4jlL8pzL6NVZbuVjV4h5KPilkuQmPMJRpXcDIhZ2tX0=;
-        b=CsVwniBqm2R6mGc8fdie3BOhI7ljQsWztFa0zcrYK1Rj3aBrUnieBXF84NEVX9z6IW
-         FE8heEo4v0Ci9SBhWZDpUab6bdj/8phn1BAdkRUt2Rlcfj5/t65L4OUs01ocFbStx6Ce
-         Xny0UUcVaveu7a/2jE52uXtaOQWxbyLrCUaQZG6AZrMSN9P+AF2pXrNx51/tKZmiHhNN
-         P3P/vCCweU+jGYT2AfjvwQE5gLiTSigurt9HscuKNmfig2a3srmgNuztAcD5SW7FyQYP
-         /+airziQi9gzDgYQvm3n0QrommrP8M/17vYBk+LEr2too6hdWSXGDEdINaGF5+wcNIAq
-         z7JQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684487015; x=1687079015;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4jlL8pzL6NVZbuVjV4h5KPilkuQmPMJRpXcDIhZ2tX0=;
-        b=VWFbTA06+OwSObmGPMXICTOT+PZjLw137ofK3j0GCyQQAI1QrC0yHgn/3hCfTh5ad9
-         MgvIxDeIYAHEgVNR1eqYnszFuRpZgf7c5nnKUyFeLXyoGyY7gUpGWZNNmruC7rVUSvXs
-         T5rJUpgZHackqpBJg5GnAdcUroLvK0eCgPEDfCibdc27wN+ggzcPjYgO9s2UOvVZ6hKi
-         t3UcQd0iSVBa06hVnGF77vIpahEhIiXSyV3ufWcG23p0BI+xyb2M0T/nBhksZ+Q8NDia
-         3FFT5wELqkF1Pguks3C4IugSAlsMTJU+SYedq1Z95yTzlhC7YM90FMhfKcYyUlos4SNw
-         tl/g==
-X-Gm-Message-State: AC+VfDzrlYlSpmaZrPf2bmSi4xkXYFhOSaWvipn9N+Lh8zsQPmE4J0dL
-        fao32kIQkk7eCDWn09tzaH0dtkoCXo8VJdJlXUA=
-X-Google-Smtp-Source: ACHHUZ665/buXE0fSL/wi0bgTsV7DhQe+hMMlpmwcUM8eDAt1riWy3pOk5v3/95rS8jnU2IWAPe0WJHsVebNGkzoSaA=
-X-Received: by 2002:a05:6808:94:b0:395:dcd5:52d9 with SMTP id
- s20-20020a056808009400b00395dcd552d9mr642916oic.33.1684487015639; Fri, 19 May
- 2023 02:03:35 -0700 (PDT)
+        with ESMTP id S230489AbjETADa (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Fri, 19 May 2023 20:03:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A729171C
+        for <ecryptfs@vger.kernel.org>; Fri, 19 May 2023 17:01:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1684540912;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=zZb+7DwI4egZIrF5pxcV1ZQbliPAo6greLJudpvGjhA=;
+        b=IpyLMx7vXnGdD0L9DZc568zv4blahMptjpuvQZgDY8D+L5ZuliYaKJQ/+Plq3/cAswkBu2
+        /RaWfebc+6yGC6Aq/dJqK20K1UbsPCGj2Ez1hWPPuIHRt97skXkRnJx3kXld0XRF2Y0+qZ
+        vTvI3Wc5zhK+aLab1UtySxIDkeJCJVw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-513-G93-k9ToPbKP465srY7iiw-1; Fri, 19 May 2023 20:01:48 -0400
+X-MC-Unique: G93-k9ToPbKP465srY7iiw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2F2AC85A5A8;
+        Sat, 20 May 2023 00:01:47 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.42.28.221])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 00F7E4F2DE0;
+        Sat, 20 May 2023 00:01:44 +0000 (UTC)
+From:   David Howells <dhowells@redhat.com>
+To:     Jens Axboe <axboe@kernel.dk>, Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>
+Cc:     David Howells <dhowells@redhat.com>,
+        Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+        Jeff Layton <jlayton@kernel.org>,
+        David Hildenbrand <david@redhat.com>,
+        Jason Gunthorpe <jgg@nvidia.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Hillf Danton <hdanton@sina.com>,
+        Christian Brauner <brauner@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Christoph Hellwig <hch@lst.de>, Tyler Hicks <code@tyhicks.com>,
+        ecryptfs@vger.kernel.org
+Subject: [PATCH v21 17/30] ecryptfs: Provide a splice-read stub
+Date:   Sat, 20 May 2023 01:00:36 +0100
+Message-Id: <20230520000049.2226926-18-dhowells@redhat.com>
+In-Reply-To: <20230520000049.2226926-1-dhowells@redhat.com>
+References: <20230520000049.2226926-1-dhowells@redhat.com>
 MIME-Version: 1.0
-Received: by 2002:a05:6358:63a6:b0:eb:2716:3f1d with HTTP; Fri, 19 May 2023
- 02:03:35 -0700 (PDT)
-Reply-To: ninacoulibaly03@myself.com
-From:   Nina Coulibaly <regionalmanager.nina@gmail.com>
-Date:   Fri, 19 May 2023 02:03:35 -0700
-Message-ID: <CAHTAA8p8ddbLtFycOnbC6u6h4bUCCLDbm3x0t-nUbmmNvMwdyQ@mail.gmail.com>
-Subject: from nina coulibaly
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Level: ****
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Dear,
+Provide a splice_read stub for ecryptfs to update the access time on the
+lower file after the operation.  Splicing from a direct I/O fd will update
+the access time when ->read_iter() is called.
 
-Please grant me permission to share a very crucial discussion with
-you.I am looking forward to hearing from you at your earliest
-convenience.
+Signed-off-by: David Howells <dhowells@redhat.com>
+cc: Christoph Hellwig <hch@lst.de>
+cc: Al Viro <viro@zeniv.linux.org.uk>
+cc: Jens Axboe <axboe@kernel.dk>
+cc: Tyler Hicks <code@tyhicks.com>
+cc: ecryptfs@vger.kernel.org
+cc: linux-fsdevel@vger.kernel.org
+cc: linux-block@vger.kernel.org
+cc: linux-mm@kvack.org
+---
+ fs/ecryptfs/file.c | 27 ++++++++++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
 
-Mrs. Nina Coulibaly
+diff --git a/fs/ecryptfs/file.c b/fs/ecryptfs/file.c
+index 268b74499c28..284395587be0 100644
+--- a/fs/ecryptfs/file.c
++++ b/fs/ecryptfs/file.c
+@@ -44,6 +44,31 @@ static ssize_t ecryptfs_read_update_atime(struct kiocb *iocb,
+ 	return rc;
+ }
+ 
++/*
++ * ecryptfs_splice_read_update_atime
++ *
++ * generic_file_splice_read updates the atime of upper layer inode.  But, it
++ * doesn't give us a chance to update the atime of the lower layer inode.  This
++ * function is a wrapper to generic_file_read.  It updates the atime of the
++ * lower level inode if generic_file_read returns without any errors. This is
++ * to be used only for file reads.  The function to be used for directory reads
++ * is ecryptfs_read.
++ */
++static ssize_t ecryptfs_splice_read_update_atime(struct file *in, loff_t *ppos,
++						 struct pipe_inode_info *pipe,
++						 size_t len, unsigned int flags)
++{
++	ssize_t rc;
++	const struct path *path;
++
++	rc = generic_file_splice_read(in, ppos, pipe, len, flags);
++	if (rc >= 0) {
++		path = ecryptfs_dentry_to_lower_path(in->f_path.dentry);
++		touch_atime(path);
++	}
++	return rc;
++}
++
+ struct ecryptfs_getdents_callback {
+ 	struct dir_context ctx;
+ 	struct dir_context *caller;
+@@ -414,5 +439,5 @@ const struct file_operations ecryptfs_main_fops = {
+ 	.release = ecryptfs_release,
+ 	.fsync = ecryptfs_fsync,
+ 	.fasync = ecryptfs_fasync,
+-	.splice_read = generic_file_splice_read,
++	.splice_read = ecryptfs_splice_read_update_atime,
+ };
+
