@@ -2,63 +2,119 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0642070CFB9
-	for <lists+ecryptfs@lfdr.de>; Tue, 23 May 2023 02:45:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6D29712AE5
+	for <lists+ecryptfs@lfdr.de>; Fri, 26 May 2023 18:42:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234674AbjEWAp4 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+ecryptfs@lfdr.de>); Mon, 22 May 2023 20:45:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46420 "EHLO
+        id S229664AbjEZQmb (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Fri, 26 May 2023 12:42:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235717AbjEWApf (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Mon, 22 May 2023 20:45:35 -0400
-Received: from mail.weeksenterprises.net (unknown [173.161.249.211])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2126330F8
-        for <ecryptfs@vger.kernel.org>; Mon, 22 May 2023 17:26:42 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.weeksenterprises.net (Postfix) with ESMTP id 98B005FF3CD8;
-        Mon, 22 May 2023 18:48:17 -0400 (EDT)
-Received: from mail.weeksenterprises.net ([127.0.0.1])
-        by localhost (weeksenterprises.net [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 0vxV75l6afCE; Mon, 22 May 2023 18:48:16 -0400 (EDT)
-Received: from [212.162.149.204] (unknown [212.162.149.204])
-        by mail.weeksenterprises.net (Postfix) with ESMTPA id 401C95FF2046;
-        Mon, 22 May 2023 18:30:27 -0400 (EDT)
-Content-Type: text/plain; charset="iso-8859-1"
+        with ESMTP id S236818AbjEZQma (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Fri, 26 May 2023 12:42:30 -0400
+X-Greylist: delayed 553 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 26 May 2023 09:42:26 PDT
+Received: from smtp-bc0a.mail.infomaniak.ch (smtp-bc0a.mail.infomaniak.ch [IPv6:2001:1600:4:17::bc0a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66C5C1B4
+        for <ecryptfs@vger.kernel.org>; Fri, 26 May 2023 09:42:26 -0700 (PDT)
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4QSVpc2hLFzMq9gR;
+        Fri, 26 May 2023 18:33:12 +0200 (CEST)
+Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4QSVpV20JTzMskdH;
+        Fri, 26 May 2023 18:33:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
+        s=20191114; t=1685118792;
+        bh=HJQhmbmtbBhKQKuJigfXUA3I5dGt5vNd+kwPhAR19ZE=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=QqUfw9dzLlsE/jUv5i4Jbgo6yOquEH/LNulEp4j1bWACweWhxdKLOxVud95fbWB4E
+         npEnxoPtqyuJGwkskhuE2oFCSu10WcSFOgyuW8dZTYuf1lnresczWPQXS0hze8B1ou
+         boYfLZK8RC3g7VGc+V2WpOIG30d240jDxiyeRn5Q=
+Message-ID: <75b4746d-d41e-7c9f-4bb0-42a46bda7f17@digikod.net>
+Date:   Fri, 26 May 2023 18:33:05 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: Re:
-To:     Recipients <gtonn@wodistrict.org>
-From:   "Advance Funding LTD" <gtonn@wodistrict.org>
-Date:   Mon, 22 May 2023 15:28:32 -0700
-Reply-To: aflimited@secretary.net
-Message-Id: <20230522223027.401C95FF2046@mail.weeksenterprises.net>
-X-Spam-Status: Yes, score=5.1 required=5.0 tests=BAYES_50,
-        FREEMAIL_FORGED_REPLYTO,KHOP_HELO_FCRDNS,LOTS_OF_MONEY,
-        MONEY_FREEMAIL_REPTO,RCVD_IN_MSPIKE_H2,SPF_FAIL,SPF_HELO_NONE,
-        TO_EQ_FM_DOM_SPF_FAIL,TO_EQ_FM_SPF_FAIL,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 SPF_FAIL SPF: sender does not match SPF record (fail)
-        *      [SPF failed: Please see http://www.openspf.org/Why?s=mfrom;id=gtonn%40wodistrict.org;ip=173.161.249.211;r=lindbergh.monkeyblade.net]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 RCVD_IN_MSPIKE_H2 RBL: Average reputation (+2)
-        *      [173.161.249.211 listed in wl.mailspike.net]
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
-        *  1.8 MONEY_FREEMAIL_REPTO Lots of money from someone using free
-        *      email?
-        *  0.0 TO_EQ_FM_DOM_SPF_FAIL To domain == From domain and external SPF
-        *       failed
-        *  0.0 TO_EQ_FM_SPF_FAIL To == From and external SPF failed
-        *  0.4 KHOP_HELO_FCRDNS Relay HELO differs from its IP's reverse DNS
-X-Spam-Level: *****
+User-Agent: 
+Subject: Re: [PATCH -next 0/2] lsm: Change inode_setattr() to take struct
+Content-Language: en-US
+To:     Christian Brauner <brauner@kernel.org>,
+        Xiu Jianfeng <xiujianfeng@huawei.com>
+Cc:     gregkh@linuxfoundation.org, rafael@kernel.org,
+        viro@zeniv.linux.org.uk, dhowells@redhat.com, code@tyhicks.com,
+        hirofumi@mail.parknet.co.jp, linkinjeon@kernel.org,
+        sfrench@samba.org, senozhatsky@chromium.org, tom@talpey.com,
+        chuck.lever@oracle.com, jlayton@kernel.org, miklos@szeredi.hu,
+        paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
+        stephen.smalley.work@gmail.com, eparis@parisplace.org,
+        casey@schaufler-ca.com, dchinner@redhat.com,
+        john.johansen@canonical.com, mcgrof@kernel.org,
+        mortonm@chromium.org, fred@cloudflare.com, mpe@ellerman.id.au,
+        nathanl@linux.ibm.com, gnoack3000@gmail.com,
+        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-cachefs@redhat.com,
+        ecryptfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+        linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
+        linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
+        wangweiyang2@huawei.com
+References: <20230505081200.254449-1-xiujianfeng@huawei.com>
+ <20230515-nutzen-umgekehrt-eee629a0101e@brauner>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+In-Reply-To: <20230515-nutzen-umgekehrt-eee629a0101e@brauner>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Infomaniak-Routing: alpha
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Wir sind ein erstklassiges Finanzinstitut, das interessierten Privatpersonen oder Unternehmen flexible Kredite in der Größenordnung von 10.000 bis 10 Millionen Euro zu einem Zinssatz von 2 % anbietet. E-Mail:aflimited@secretary.net
+
+On 15/05/2023 17:12, Christian Brauner wrote:
+> On Fri, May 05, 2023 at 04:11:58PM +0800, Xiu Jianfeng wrote:
+>> Hi,
+>>
+>> I am working on adding xattr/attr support for landlock [1], so we can
+>> control fs accesses such as chmod, chown, uptimes, setxattr, etc.. inside
+>> landlock sandbox. the LSM hooks as following are invoved:
+>> 1.inode_setattr
+>> 2.inode_setxattr
+>> 3.inode_removexattr
+>> 4.inode_set_acl
+>> 5.inode_remove_acl
+>> which are controlled by LANDLOCK_ACCESS_FS_WRITE_METADATA.
+>>
+>> and
+>> 1.inode_getattr
+>> 2.inode_get_acl
+>> 3.inode_getxattr
+>> 4.inode_listxattr
+>> which are controlled by LANDLOCK_ACCESS_FS_READ_METADATA
+> 
+> It would be helpful to get the complete, full picture.
+> 
+> Piecemeal extending vfs helpers with struct path arguments is costly,
+> will cause a lot of churn and will require a lot of review time from us.
+> 
+> Please give us the list of all security hooks to which you want to pass
+> a struct path (if there are more to come apart from the ones listed
+> here). Then please follow all callchains and identify the vfs helpers
+> that would need to be updated. Then please figure out where those
+> vfs helpers are called from and follow all callchains finding all
+> inode_operations that would have to be updated and passed a struct path
+> argument. So ultimately we'll end up with a list of vfs helpers and
+> inode_operations that would have to be changed.
+> 
+> I'm very reluctant to see anything merged without knowing _exactly_ what
+> you're getting us into.
+
+Ultimately we'd like the path-based LSMs to reach parity with the 
+inode-based LSMs. This proposal's goal is to provide users the ability 
+to control (in a complete and easy way) file metadata access. For these 
+we need to extend the inode_*attr hooks and inode_*acl hooks to handle 
+paths. The chown/chmod hooks are already good.
+
+In the future, I'd also like to be able to control directory traversals 
+(e.g. chdir), which currently only calls inode_permission().
+
+What would be the best way to reach this goal?
