@@ -2,97 +2,86 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9145672C40B
-	for <lists+ecryptfs@lfdr.de>; Mon, 12 Jun 2023 14:27:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E05EE7312DE
+	for <lists+ecryptfs@lfdr.de>; Thu, 15 Jun 2023 10:59:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230369AbjFLM13 (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Mon, 12 Jun 2023 08:27:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51782 "EHLO
+        id S239269AbjFOI7e (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Thu, 15 Jun 2023 04:59:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229541AbjFLM12 (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Mon, 12 Jun 2023 08:27:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7062130
-        for <ecryptfs@vger.kernel.org>; Mon, 12 Jun 2023 05:26:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1686572762;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=tTMhvLLlxLduku60kqh9t4hhU2KGCMkQO9qTJKYmDvE=;
-        b=ARn19Ew7MHAz00cixyaW4hDwMQybY3p327MHWFaEzdfwYTy/l1y8YZcpoNMQ0GPThHO1jP
-        efHqIKzYNnuQe8TlXxmNA/apY46rEP3b6lY08OTQ5XNmh8Tp6qpyC4uQvxWtDT0v4lnLam
-        ALuoh/NN09jjerCZjT4vAPty2gnblT8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-30-AynBElupPJ6WiOJw2BAedg-1; Mon, 12 Jun 2023 08:25:57 -0400
-X-MC-Unique: AynBElupPJ6WiOJw2BAedg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BDEEC3C11C67;
-        Mon, 12 Jun 2023 12:25:55 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.42.28.67])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 023222026833;
-        Mon, 12 Jun 2023 12:25:50 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <202306121557.2d17019b-oliver.sang@intel.com>
-References: <202306121557.2d17019b-oliver.sang@intel.com>
-To:     kernel test robot <oliver.sang@intel.com>
-Cc:     dhowells@redhat.com, oe-lkp@lists.linux.dev, lkp@intel.com,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-        Christian Brauner <brauner@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        David Hildenbrand <david@redhat.com>,
-        John Hubbard <jhubbard@nvidia.com>,
-        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-afs@lists.infradead.org, linux-btrfs@vger.kernel.org,
-        ecryptfs@vger.kernel.org, linux-erofs@lists.ozlabs.org,
-        linux-ext4@vger.kernel.org, cluster-devel@redhat.com,
-        linux-um@lists.infradead.org, linux-mtd@lists.infradead.org,
-        jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org,
-        linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev,
-        ocfs2-devel@oss.oracle.com,
-        linux-karma-devel@lists.sourceforge.net,
-        reiserfs-devel@vger.kernel.org, ying.huang@intel.com,
-        feng.tang@intel.com, fengwei.yin@intel.com
-Subject: Re: [linux-next:master] [splice] 2cb1e08985: stress-ng.sendfile.ops_per_sec 11.6% improvement
+        with ESMTP id S239192AbjFOI7d (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Thu, 15 Jun 2023 04:59:33 -0400
+X-Greylist: delayed 19488 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 15 Jun 2023 01:59:32 PDT
+Received: from mail.sitirkam.com (mail.aurorateknoglobal.com [103.126.10.58])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CE0A1720
+        for <ecryptfs@vger.kernel.org>; Thu, 15 Jun 2023 01:59:31 -0700 (PDT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.sitirkam.com (Postfix) with ESMTP id 5216D4E5D3C5;
+        Thu, 15 Jun 2023 07:52:46 +0700 (WIB)
+Received: from mail.sitirkam.com ([127.0.0.1])
+        by localhost (mail.sitirkam.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id Z8LtwRvmxz66; Thu, 15 Jun 2023 07:52:46 +0700 (WIB)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.sitirkam.com (Postfix) with ESMTP id 912184E5CA19;
+        Thu, 15 Jun 2023 07:52:30 +0700 (WIB)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.sitirkam.com 912184E5CA19
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sitirkam.com;
+        s=B8AB377C-ED3B-11EA-8736-9248CAEF674E; t=1686790350;
+        bh=q7vDHy+gLAr4GKZUDI+hjt8I93kvW09nNmGJORUTyfg=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=ar95dm4lqvNv3wmUI9CUQbHCRJRzD2I6pC+QETS6iMatZAK16VFdoWGwhQE++37u7
+         RmofedH8HG4LEhWAOzFPooG4mBB8pZ7GZ5EhirInFRuAjA3W6vLeTWBLqaK+TOMyq/
+         3Z8T4y0BviWRRjvlJBMYbUROq+aflFwutg3slPPrW+40q4XpRUGoWRK+8tqh10RzG2
+         OQzt7mTQ4Q4hklI2KYFSaCY7o5trdkgbwX1PFvkmgrR2gFE2ybfl63/mcM/z7zJ7A7
+         a8xmzuwY36xFmllU1IiqmmsQppblRstWyvCY0Qxo/UBNoZ45huI6yfzvNMfjKU0OgF
+         Rycth2t3KBbPA==
+X-Virus-Scanned: amavisd-new at mail.sitirkam.com
+Received: from mail.sitirkam.com ([127.0.0.1])
+        by localhost (mail.sitirkam.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id aLFjf4qBkkbp; Thu, 15 Jun 2023 07:52:30 +0700 (WIB)
+Received: from [185.169.4.111] (unknown [185.169.4.111])
+        by mail.sitirkam.com (Postfix) with ESMTPSA id 1D6974E5CF27;
+        Thu, 15 Jun 2023 07:52:15 +0700 (WIB)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <105868.1686572748.1@warthog.procyon.org.uk>
 Content-Transfer-Encoding: quoted-printable
-Date:   Mon, 12 Jun 2023 13:25:48 +0100
-Message-ID: <105869.1686572748@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Description: Mail message body
+Subject: Spende
+To:     Recipients <admin@sitirkam.com>
+From:   "Maria-Elisabeth Schaeffler" <admin@sitirkam.com>
+Date:   Wed, 14 Jun 2023 17:54:23 -0700
+Reply-To: schaefflermariaelisabeth1941@gmail.com
+Message-Id: <20230615005216.1D6974E5CF27@mail.sitirkam.com>
+X-Spam-Status: Yes, score=5.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,NIXSPAM_IXHASH,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [schaefflermariaelisabeth1941[at]gmail.com]
+        * -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
+        *  3.0 NIXSPAM_IXHASH http://www.nixspam.org/
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-kernel test robot <oliver.sang@intel.com> wrote:
+Your email account has been selected for a donation of =E2=82=AC1,700,000. =
+Please contact me for more information.
 
-> kernel test robot noticed a 11.6% improvement of stress-ng.sendfile.ops_=
-per_sec on:
-
-If it's sending to a socket, this is entirely feasible.  The
-splice_to_socket() function now sends multiple pages in one go to the netw=
-ork
-protocol's sendmsg() method to process instead of using sendpage to send o=
-ne
-page at a time.
-
-David
-
+Mrs Maria Elisabeth Schaeffler
+CEO SCHAEFFLER.
