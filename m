@@ -2,86 +2,90 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E05EE7312DE
-	for <lists+ecryptfs@lfdr.de>; Thu, 15 Jun 2023 10:59:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A77A8734D68
+	for <lists+ecryptfs@lfdr.de>; Mon, 19 Jun 2023 10:17:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239269AbjFOI7e (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Thu, 15 Jun 2023 04:59:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42190 "EHLO
+        id S230176AbjFSIRo (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Mon, 19 Jun 2023 04:17:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239192AbjFOI7d (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Thu, 15 Jun 2023 04:59:33 -0400
-X-Greylist: delayed 19488 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 15 Jun 2023 01:59:32 PDT
-Received: from mail.sitirkam.com (mail.aurorateknoglobal.com [103.126.10.58])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CE0A1720
-        for <ecryptfs@vger.kernel.org>; Thu, 15 Jun 2023 01:59:31 -0700 (PDT)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.sitirkam.com (Postfix) with ESMTP id 5216D4E5D3C5;
-        Thu, 15 Jun 2023 07:52:46 +0700 (WIB)
-Received: from mail.sitirkam.com ([127.0.0.1])
-        by localhost (mail.sitirkam.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id Z8LtwRvmxz66; Thu, 15 Jun 2023 07:52:46 +0700 (WIB)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.sitirkam.com (Postfix) with ESMTP id 912184E5CA19;
-        Thu, 15 Jun 2023 07:52:30 +0700 (WIB)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.sitirkam.com 912184E5CA19
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sitirkam.com;
-        s=B8AB377C-ED3B-11EA-8736-9248CAEF674E; t=1686790350;
-        bh=q7vDHy+gLAr4GKZUDI+hjt8I93kvW09nNmGJORUTyfg=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=ar95dm4lqvNv3wmUI9CUQbHCRJRzD2I6pC+QETS6iMatZAK16VFdoWGwhQE++37u7
-         RmofedH8HG4LEhWAOzFPooG4mBB8pZ7GZ5EhirInFRuAjA3W6vLeTWBLqaK+TOMyq/
-         3Z8T4y0BviWRRjvlJBMYbUROq+aflFwutg3slPPrW+40q4XpRUGoWRK+8tqh10RzG2
-         OQzt7mTQ4Q4hklI2KYFSaCY7o5trdkgbwX1PFvkmgrR2gFE2ybfl63/mcM/z7zJ7A7
-         a8xmzuwY36xFmllU1IiqmmsQppblRstWyvCY0Qxo/UBNoZ45huI6yfzvNMfjKU0OgF
-         Rycth2t3KBbPA==
-X-Virus-Scanned: amavisd-new at mail.sitirkam.com
-Received: from mail.sitirkam.com ([127.0.0.1])
-        by localhost (mail.sitirkam.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id aLFjf4qBkkbp; Thu, 15 Jun 2023 07:52:30 +0700 (WIB)
-Received: from [185.169.4.111] (unknown [185.169.4.111])
-        by mail.sitirkam.com (Postfix) with ESMTPSA id 1D6974E5CF27;
-        Thu, 15 Jun 2023 07:52:15 +0700 (WIB)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S229749AbjFSIRn (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Mon, 19 Jun 2023 04:17:43 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9A5F197
+        for <ecryptfs@vger.kernel.org>; Mon, 19 Jun 2023 01:17:41 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-3f9b258f3d8so3197155e9.1
+        for <ecryptfs@vger.kernel.org>; Mon, 19 Jun 2023 01:17:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687162660; x=1689754660;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=rJ/7Kbo9gs7zs3QTF5nFKkJrBjocKGAtdax9LA/wsFg=;
+        b=H+0E7pNp9pNZzhSLIjJvRVnOXXbI3e13G2NuiaL4Z5ksLG1VklHI5M6sJeJIyY6xdM
+         cUGIRTVcFwr14+8x+ut4EXKAbRthMtsyth9RkKPsW+Ag720IIXKwY3mPFlVpMWq24DFK
+         B1qyOPQcMy+vYna6qy3OHOl4oG1oFOfTik/U2Njh9DWZ47838GtsBc98V0Aw3OhzCPr0
+         5YjfEc3B/5wMzXnvqYJbYJUvDOmygagBfHdfGofUr5Y2S9yyhpHi6XPBteeceJzx7SeN
+         lsa7dgavhwc51iAjm/UPrM2gEEkDMu67dxskGSvOKbPhMB0LC/fTotZ6piG25Bhz1uIU
+         FXiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687162660; x=1689754660;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rJ/7Kbo9gs7zs3QTF5nFKkJrBjocKGAtdax9LA/wsFg=;
+        b=AsIruG0mo3r20mPwO1fGVSPFvAxxOLDRCSa8OVeZ1f1+CvwSS8td/SOGUUcgg4UtNP
+         sQLO8Gqkvxrr+7I7X3X0h6DY3jVRYHc75WfTR1wwUJekmtIG2Q2VFe50aShQM2ZbP2Vq
+         5vSGEZn2VeyQfXfDnaux7DDftBY86/SxWbA8o7NrXNnoJ40sYpZPqlP6agP37mTbur6w
+         a++UEbhHmnDX3zy1467dd8RVnHQaf57k+omoHGXK8/xWSZOrbFr+FH45nWaJEFAbQR4s
+         WnxImdLseCt+XE/MLr/LA5lrZ+lkA0DAgHdve/Ao5bLRVxbSvh9E05hH0AmRBt1i3V4Z
+         EbDg==
+X-Gm-Message-State: AC+VfDxSqDs6Ew5IKpJXnY43FFaLYNCBNuV3KE29Yh6GiSEOJPedwjYD
+        sy3pdRi1ZRL/x3/S+VoJHoP+2ipCamF+hXQcYQ==
+X-Google-Smtp-Source: ACHHUZ4xroxjb554vFvTZkEn5+JHpLoMlGFPbRAigQmrYdpVY3QU8OxUHNXVYdtEk8o5jyLAoD0ypxsEfe9SXsziyUU=
+X-Received: by 2002:a1c:cc07:0:b0:3f7:c92:57a0 with SMTP id
+ h7-20020a1ccc07000000b003f70c9257a0mr7418443wmb.14.1687162659986; Mon, 19 Jun
+ 2023 01:17:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Spende
-To:     Recipients <admin@sitirkam.com>
-From:   "Maria-Elisabeth Schaeffler" <admin@sitirkam.com>
-Date:   Wed, 14 Jun 2023 17:54:23 -0700
-Reply-To: schaefflermariaelisabeth1941@gmail.com
-Message-Id: <20230615005216.1D6974E5CF27@mail.sitirkam.com>
-X-Spam-Status: Yes, score=5.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,NIXSPAM_IXHASH,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [schaefflermariaelisabeth1941[at]gmail.com]
-        * -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
-        *  3.0 NIXSPAM_IXHASH http://www.nixspam.org/
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
-X-Spam-Level: *****
+Received: by 2002:a05:6020:a093:b0:28c:2d96:d817 with HTTP; Mon, 19 Jun 2023
+ 01:17:38 -0700 (PDT)
+From:   offer <carlos.charityfoundation102@gmail.com>
+Date:   Sun, 18 Jun 2023 20:17:38 -1200
+Message-ID: <CANef00XgbV60g9JNPDevg0F4pamPVwqqVDfaOzPdrJ7oQVGLrA@mail.gmail.com>
+Subject: Greetings From Saudi Arabia
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=3.8 required=5.0 tests=BAYES_50,DEAR_SOMETHING,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FREEMAIL_REPLY,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Your email account has been selected for a donation of =E2=82=AC1,700,000. =
-Please contact me for more information.
+Dear Sir,
 
-Mrs Maria Elisabeth Schaeffler
-CEO SCHAEFFLER.
+Need funding for your project or your business ? We are looking for
+foreign direct investment partners in any of the sectors stated below and we are
+willing to provide financing for up to US$ ten Billion to corporate
+bodies, companies, industries and entrepreneurs with profitable
+business ideas and investment projects that can generate the required
+ROI, so you can draw from this opportunity. We are currently providing
+funds in any of the sectors stated below. Energy & Power,
+construction, Agriculture, Acquisitions, Healthcare or Hospital, Real
+Estate, Oil & Gas, IT, technology, transport, mining,marine
+transportation and manufacturing, Education, hotels, etc. We are
+willing to finance your projects. We have developed a new funding
+method that does not take longer to receive funding from our
+customers. If you are seriously pursuing Foreign Direct Investment or
+Joint Venture for your projects in any of the sectors above or are you
+seeking a Loan to expand your Business or seeking funds to finance
+your business or project ? We are willing to fund your business and we
+would like you to provide us with your comprehensive business plan for
+our team of investment experts to review. Kindly contact me with below
+email: yousefahmedalgosaibi@consultant.com
+
+Regards
+Mr. Yousef Ahmed
