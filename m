@@ -2,40 +2,40 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BAD5F739E22
-	for <lists+ecryptfs@lfdr.de>; Thu, 22 Jun 2023 12:14:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2C2573B7C6
+	for <lists+ecryptfs@lfdr.de>; Fri, 23 Jun 2023 14:43:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230285AbjFVKOx (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Thu, 22 Jun 2023 06:14:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36808 "EHLO
+        id S230038AbjFWMnP (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Fri, 23 Jun 2023 08:43:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230009AbjFVKOw (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Thu, 22 Jun 2023 06:14:52 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73FA2DD;
-        Thu, 22 Jun 2023 03:14:49 -0700 (PDT)
+        with ESMTP id S229961AbjFWMnN (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Fri, 23 Jun 2023 08:43:13 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDE7C2969;
+        Fri, 23 Jun 2023 05:42:28 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id F2EBF617C7;
-        Thu, 22 Jun 2023 10:14:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2888C433C9;
-        Thu, 22 Jun 2023 10:14:31 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8268861A44;
+        Fri, 23 Jun 2023 12:42:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DB4BC433C8;
+        Fri, 23 Jun 2023 12:41:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687428888;
-        bh=7+cabg86v1cYpPv8vDJOW5RfunjhlSEWXfJLwIkmtqs=;
-        h=Subject:From:To:Date:In-Reply-To:References:From;
-        b=bash4qEoN8ysoF4HTnLUBoIb4R/VvEf+WW/D9VIwZ7IkIbfsRZHAuo5DrHgU3mESQ
-         YV3L6vJlJ5RLoTi5/71VkN5rQAydrP7yy38zcSGGfwasNdQxjqfQEDJO2KhRfaS72P
-         L3pOkZCMNStmacczTh8Bxts4KstAt3iUVQoAzfNq5O0qEkTp/AQ/ZxnvFiOtuM8Rrh
-         hGFigQvIDdzAyY8j4H2gTF58blmQ8XCJxFBrtJ8bp21DHjiO/HINP7f4QOOgCaaZnm
-         wPOh/3PFD9MITyv48Pm3mcErp57QuFgfhsUJhmJROqlUtadgwIZDzlw31/avwVXFpE
-         VwFt0TPP5toFA==
-Message-ID: <ad4bfb630128709588164db6f1fd2ef39c31d2a5.camel@kernel.org>
-Subject: Re: [PATCH 01/79] fs: add ctime accessors infrastructure
-From:   Jeff Layton <jlayton@kernel.org>
-To:     Damien Le Moal <dlemoal@kernel.org>, Jeremy Kerr <jk@ozlabs.org>,
+        s=k20201202; t=1687524146;
+        bh=ljQRDIRYG4TydFhjD0LuSn8BREerPmb4Ipkpa2QAq6Q=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=apfm6xvoeO6UvUfxPwNSOl0FaLWJ7ShkzzPeuSOb0bank70626+jFCCnlqxUCd2NX
+         mV+Eb3SlbyeKtShM0cPnGoccCVrProiQPYgaM4HyeW5epsbNbu8US+O9nrIP4r+ghW
+         Y8FmG2CVOdPNZ1eNovI71PsOzsGS/p5EOkEcjtA4zTWfFdhpQkNKBq1hEMuzxsWytK
+         w9zTBeB4xmhiyjllhLtRaoNC8lgBTTH19xNIsLsgb+18yFVUlxxLoSku7XQ5A1i1lR
+         WF4IRekFC21BVGIj1AxyqNGVCxMph3jwY74VjiaGchsSc5v31PlBNGYvRkbk2aFmu+
+         9KQZIm3JpdS0g==
+Date:   Fri, 23 Jun 2023 14:41:42 +0200
+From:   Christian Brauner <brauner@kernel.org>
+To:     Jeff Layton <jlayton@kernel.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>, Jeremy Kerr <jk@ozlabs.org>,
         Arnd Bergmann <arnd@arndb.de>,
         Michael Ellerman <mpe@ellerman.id.au>,
         Nicholas Piggin <npiggin@gmail.com>,
@@ -46,11 +46,10 @@ To:     Damien Le Moal <dlemoal@kernel.org>, Jeremy Kerr <jk@ozlabs.org>,
         Christian Borntraeger <borntraeger@linux.ibm.com>,
         Sven Schnelle <svens@linux.ibm.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arve =?ISO-8859-1?Q?Hj=F8nnev=E5g?= <arve@android.com>,
+        Arve =?utf-8?B?SGrDuG5uZXbDpWc=?= <arve@android.com>,
         Todd Kjos <tkjos@android.com>,
         Martijn Coenen <maco@android.com>,
         Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
         Carlos Llamas <cmllamas@google.com>,
         Suren Baghdasaryan <surenb@google.com>,
         Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
@@ -124,11 +123,11 @@ To:     Damien Le Moal <dlemoal@kernel.org>, Jeremy Kerr <jk@ozlabs.org>,
         Tom Talpey <tom@talpey.com>,
         Sergey Senozhatsky <senozhatsky@chromium.org>,
         Phillip Lougher <phillip@squashfs.org.uk>,
-        Steven Rostedt <rostedt@goodmis.org>,
         Masami Hiramatsu <mhiramat@kernel.org>,
         Evgeniy Dushistov <dushistov@mail.ru>,
         Hans de Goede <hdegoede@redhat.com>,
         "Darrick J. Wong" <djwong@kernel.org>,
+        Damien Le Moal <dlemoal@kernel.org>,
         Naohiro Aota <naohiro.aota@wdc.com>,
         Johannes Thumshirn <jth@kernel.org>,
         Alexei Starovoitov <ast@kernel.org>,
@@ -217,17 +216,18 @@ To:     Damien Le Moal <dlemoal@kernel.org>, Jeremy Kerr <jk@ozlabs.org>,
         bpf@vger.kernel.org, netdev@vger.kernel.org,
         apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org,
         selinux@vger.kernel.org
-Date:   Thu, 22 Jun 2023 06:14:30 -0400
-In-Reply-To: <99b3c749-23d9-6f09-fb75-6a84f3d1b066@kernel.org>
+Subject: Re: [PATCH 00/79] fs: new accessors for inode->i_ctime
+Message-ID: <20230623-wegelagerei-kanzlei-45cdcf5da157@brauner>
 References: <20230621144507.55591-1-jlayton@kernel.org>
-         <20230621144507.55591-2-jlayton@kernel.org>
-         <99b3c749-23d9-6f09-fb75-6a84f3d1b066@kernel.org>
-Content-Type: text/plain; charset="ISO-8859-15"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.3 (3.48.3-1.fc38) 
+ <20230621152141.5961cf5f@gandalf.local.home>
+ <2a5a069572b46b59dd16fe8d54e549a9b5bbb6eb.camel@kernel.org>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2a5a069572b46b59dd16fe8d54e549a9b5bbb6eb.camel@kernel.org>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -236,47 +236,28 @@ Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-On Thu, 2023-06-22 at 09:46 +0900, Damien Le Moal wrote:
-> On 6/21/23 23:45, Jeff Layton wrote:
-> > struct timespec64 has unused bits in the tv_nsec field that can be used
-> > for other purposes. In future patches, we're going to change how the
-> > inode->i_ctime is accessed in certain inodes in order to make use of
-> > them. In order to do that safely though, we'll need to eradicate raw
-> > accesses of the inode->i_ctime field from the kernel.
-> >=20
-> > Add new accessor functions for the ctime that we can use to replace the=
-m.
-> >=20
-> > Signed-off-by: Jeff Layton <jlayton@kernel.org>
->=20
-> [...]
->=20
-> > +/**
-> > + * inode_ctime_peek - fetch the current ctime from the inode
-> > + * @inode: inode from which to fetch ctime
-> > + *
-> > + * Grab the current ctime from the inode and return it.
-> > + */
-> > +static inline struct timespec64 inode_ctime_peek(const struct inode *i=
-node)
->=20
-> To be consistent with inode_ctime_set(), why not call this one inode_ctim=
-e_get()
+On Wed, Jun 21, 2023 at 03:52:27PM -0400, Jeff Layton wrote:
+> On Wed, 2023-06-21 at 15:21 -0400, Steven Rostedt wrote:
+> > On Wed, 21 Jun 2023 10:45:05 -0400
+> > Jeff Layton <jlayton@kernel.org> wrote:
+> > 
+> > > Most of this conversion was done via coccinelle, with a few of the more
+> > > non-standard accesses done by hand. There should be no behavioral
+> > > changes with this set. That will come later, as we convert individual
+> > > filesystems to use multigrain timestamps.
+> > 
+> > BTW, Linus has suggested to me that whenever a conccinelle script is used,
+> > it should be included in the change log.
+> > 
+> 
+> Ok, here's what I have. I note again that my usage of coccinelle is
+> pretty primitive, so I ended up doing a fair bit of by-hand fixing after
+> applying these.
+> 
+> Given the way that this change is broken up into 77 patches by
+> subsystem, to which changelogs should I add it? I could add it to the
+> "infrastructure" patch, but that's the one where I _didn't_ use it. 
+> 
+> Maybe to patch #79 (the one that renames i_ctime)?
 
-In later patches fetching the ctime for presentation may have side
-effects on certain filesystems. Using "peek" here is a hint that we want
-to avoid those side effects in these calls.
-
-> ? Also, inode_set_ctime() & inode_get_ctime() may be a little more natura=
-l. But
-> no strong opinion about that though.
->=20
-
-I like the consistency of the inode_ctime_* prefix. It makes it simpler
-to find these calls when grepping, etc.
-
-That said, my opinions on naming are pretty loosely-held, so if the
-consensus is that the names should as you suggest, I'll go along with
-it.
---=20
-Jeff Layton <jlayton@kernel.org>
+That works. I can also put this into a merge commit or pr message.
