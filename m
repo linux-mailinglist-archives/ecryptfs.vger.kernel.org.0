@@ -2,100 +2,95 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 111797437AE
-	for <lists+ecryptfs@lfdr.de>; Fri, 30 Jun 2023 10:45:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED0EB7437F9
+	for <lists+ecryptfs@lfdr.de>; Fri, 30 Jun 2023 11:13:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230453AbjF3Ip1 (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Fri, 30 Jun 2023 04:45:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49036 "EHLO
+        id S232624AbjF3JM2 (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Fri, 30 Jun 2023 05:12:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230009AbjF3Ip0 (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Fri, 30 Jun 2023 04:45:26 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC987194;
-        Fri, 30 Jun 2023 01:45:25 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 40CA2616FE;
-        Fri, 30 Jun 2023 08:45:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72995C433C8;
-        Fri, 30 Jun 2023 08:45:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1688114724;
-        bh=XCGEJy3R7r9qVEdodIrivlpUMg2Wf0w09Wh06MmqfKo=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=qYGriyuY2tStPWMV981uCR6OqpUX/wtnRmIwGMQ3laEM3IMXL8dDhFVcnZK9ojCNI
-         aEHF4JJeazTc0Z1NsmkdzpmKoZlUH6ao5cdFcUSxErg/lAFP4K2KIYyNdFNCdZGnNI
-         QnFR8IWiVZNRKWnHgUZVPtcdMJKRMZJpt7nYiEAXIdewNqW9mDbbLFGdWCtU6HvYCm
-         PNISEJy7QyzRudTeJ+bS5onYKnvJKmjHb4dOeO0P7mRjv6/ficWNt8FgvsI+3PSS2W
-         4fL73WDcCEwmVaz8Hm8e6lCLXKFuVgcpAw6glYqmoPLxo00V0rC1FirDJzYbV/srTV
-         SDXqMKN7TX2zQ==
-From:   Christian Brauner <brauner@kernel.org>
-To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc:     Christian Brauner <brauner@kernel.org>,
-        Tyler Hicks <code@tyhicks.com>,
-        Dave Chinner <dchinner@redhat.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Al Viro <viro@zeniv.linux.org.uk>, ecryptfs@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Eric Biggers <ebiggers@kernel.org>
-Subject: Re: [PATCH v2 0/3] fs/ecryptfs: Replace kmap{,_atomic}() with kmap_local_page()
-Date:   Fri, 30 Jun 2023 10:45:17 +0200
-Message-Id: <20230630-umfang-pumpt-a0cd2d6cdd91@brauner>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230426172223.8896-1-fmdefrancesco@gmail.com>
-References: <20230426172223.8896-1-fmdefrancesco@gmail.com>
+        with ESMTP id S231315AbjF3JM1 (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Fri, 30 Jun 2023 05:12:27 -0400
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30C6419A9;
+        Fri, 30 Jun 2023 02:12:26 -0700 (PDT)
+Received: by mail-qk1-x730.google.com with SMTP id af79cd13be357-76243a787a7so160583685a.2;
+        Fri, 30 Jun 2023 02:12:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1688116345; x=1690708345;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=U3OWZLRqQetLfHFTZ6u2aD/brChhWjcBWjpONtMlo+U=;
+        b=rcQTeJvpZZp1qbWeLdHWxHQjGqPDEeIjSG9m7lPJi5p7GcbsJ6OuT25dXD7yLXYVyW
+         FEvxLNXGcjNzs9wGg966eGYT1Np6XujBE0T+19mM7A+vFAEwWj3KdgBqSYS9CCNywz6P
+         T5k3sFl6Ddw5GxAfl4CRmUk7qj+49N9S++xy0wlpo/8pOL4Ijsh1cQ1ITMU/sICXGL4U
+         K4IsyxAoHYsBGZrve00QqaUed2SJQr5XxRzflER825KlReNcJCmwYA/4wOGQX7s0h6af
+         e2vFWnLAymgLJTidp/L/e4JYxRMfFBEupxdaW1v8qF0y7FBpK2fUTyG3UeVcPt8aUohJ
+         wX9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688116345; x=1690708345;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=U3OWZLRqQetLfHFTZ6u2aD/brChhWjcBWjpONtMlo+U=;
+        b=gGU7WWz2f4q2cDzc7nDFazZhE1YGvJHymfgRe95nvpMZ1uOOI3eiSawWqpuynmnhJo
+         pbmLy8jH5Fp2HeZDHLbkJaUUy47epci8fizFuVBAy+0Fux9DIVYdcpsP9WW+nbVaeB0W
+         b+bGC4/rrt6J+qI3TVULMh+CHybwchkAVha52l1K4Yc/ffWQORyS3Zscz7VZQzFmYEIt
+         r0VCZ+m9rYW+v16PbvwGnRy7m5cdrb6byJkwnGc5xic3s0naw093QxoD/0fg/Y+LQRls
+         31GuaEsVpNCIE1WDeAi6bUX+I4p+2MVSsNG1xKO+iO7Ymt9ink9JjReJPXF/EllF8cFp
+         feYA==
+X-Gm-Message-State: ABy/qLYDGFeT6wk754J192v+kC35l628oDnwgNeBG7SJB1fEmPXIWTaB
+        eVDJ6xCkdoyrgp85nuMMheY=
+X-Google-Smtp-Source: APBJJlHZn5r9p482U+9xyW1VLH4SJyeU5BHnQV5UimmvwVEWE/N/0MEDiXwtMEUXOjhsSn+fzyTolg==
+X-Received: by 2002:a05:6214:3015:b0:635:db66:ae00 with SMTP id ke21-20020a056214301500b00635db66ae00mr2242418qvb.45.1688116345351;
+        Fri, 30 Jun 2023 02:12:25 -0700 (PDT)
+Received: from chcpu17.cse.ust.hk (fc3kcs10.cse.ust.hk. [143.89.191.124])
+        by smtp.googlemail.com with ESMTPSA id df11-20020a056214080b00b006210e0365f7sm7700775qvb.69.2023.06.30.02.12.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Jun 2023 02:12:24 -0700 (PDT)
+From:   Yiyuan Guo <yguoaz@gmail.com>
+To:     code@tyhicks.com
+Cc:     viro@zeniv.linux.org.uk, brauner@kernel.org,
+        ecryptfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+        yguoaz@gmail.com
+Subject: [PATCH] ecryptfs: keystore: Fix a buffer overrun in write_tag_66_packet()
+Date:   Fri, 30 Jun 2023 17:11:55 +0800
+Message-Id: <20230630091155.373667-1-yguoaz@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1421; i=brauner@kernel.org; h=from:subject:message-id; bh=HdGmSeFl/tSI7e/B0hTSZaffBkpDR39gQdEGFv0fcNQ=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaTMm/q5w0P88u6dt4yW36v8rt9/Q/rcsnOdsmYpbg7N/TyC G1ynd5SyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEykvZeR4aOQ1qeDzv99p/35FxF17o jlK+GUZD3OtZ3dRw4rSonNVWD4H7Xs4+V5Ja3fPnxcVWPek30q3vX4ZqmX8pMP2Lh1sK2LZAEA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-On Wed, 26 Apr 2023 19:22:20 +0200, Fabio M. De Francesco wrote:
-> kmap() and kmap_atomic() have been deprecated in favor of
-> kmap_local_page().
-> 
-> Therefore, replace kmap() and kmap_atomic() with kmap_local_page().
-> 
-> Tested in a QEMU/KVM x86_32 VM, 6GB RAM, booting a kernel with
-> HIGHMEM64GB enabled.
-> 
-> [...]
+The encrypted key of a TAG 66 Packet includes 1 byte cipher code and 2
+byte checksum, but the allocation size `data_len` ignores the extra 3
+bytes. Fix the allocation size to avoid buffer overrun.
 
-Picking this up. Please tell me if this should be routed somewhere else.
-vfs.misc will be rebased once v6.5-rc1 is released.
-
+Signed-off-by: Yiyuan Guo <yguoaz@gmail.com>
 ---
+ fs/ecryptfs/keystore.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Applied to the vfs.misc branch of the vfs/vfs.git tree.
-Patches in the vfs.misc branch should appear in linux-next soon.
+diff --git a/fs/ecryptfs/keystore.c b/fs/ecryptfs/keystore.c
+index 2452d6fd7062..5cab0b800a03 100644
+--- a/fs/ecryptfs/keystore.c
++++ b/fs/ecryptfs/keystore.c
+@@ -302,7 +302,7 @@ write_tag_66_packet(char *signature, u8 cipher_code,
+ 	 *         | File Encryption Key Size | 1 or 2 bytes |
+ 	 *         | File Encryption Key      | arbitrary    |
+ 	 */
+-	data_len = (5 + ECRYPTFS_SIG_SIZE_HEX + crypt_stat->key_size);
++	data_len = (5 + ECRYPTFS_SIG_SIZE_HEX + crypt_stat->key_size + 3);
+ 	*packet = kmalloc(data_len, GFP_KERNEL);
+ 	message = *packet;
+ 	if (!message) {
+-- 
+2.25.1
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.misc
-
-[1/3] fs/ecryptfs: Replace kmap() with kmap_local_page()
-      https://git.kernel.org/vfs/vfs/c/7a367455b6a5
-[2/3] fs/ecryptfs: Use kmap_local_page() in ecryptfs_write()
-      https://git.kernel.org/vfs/vfs/c/55f13011af9d
-[3/3] fs/ecryptfs: Use kmap_local_page() in copy_up_encrypted_with_header()
-      https://git.kernel.org/vfs/vfs/c/de9f5a15080f
