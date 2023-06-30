@@ -2,55 +2,40 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 01675741300
-	for <lists+ecryptfs@lfdr.de>; Wed, 28 Jun 2023 15:50:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D7EE7432C0
+	for <lists+ecryptfs@lfdr.de>; Fri, 30 Jun 2023 04:31:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229998AbjF1Nug (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Wed, 28 Jun 2023 09:50:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50188 "EHLO
+        id S229577AbjF3CbL (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Thu, 29 Jun 2023 22:31:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229845AbjF1Nuf (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Wed, 28 Jun 2023 09:50:35 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FD7C10D5;
-        Wed, 28 Jun 2023 06:50:34 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-3fba8e2aa52so17890895e9.1;
-        Wed, 28 Jun 2023 06:50:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687960233; x=1690552233;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=X9AT/plmLRAFXDyCQCDh4MBEPDmmZs0M8tMAQ+3zWko=;
-        b=iq4Xo6B6DkKxinr4q6XTxbpXE/9W1zEbwB16gDr6fQKE2xm08tjSXSft+sUlCgtXBs
-         ldcSDhwHq7Pmq+aY+apM8NKYsA6x0hpypJN2uQfZXd9QzK3+Q+QGybsy36+Gzh1jLI9C
-         A5NGA3I2SmGz+ta8iQehTr7YCEvN8+4xlhw+jCP7Pl55Ss6c5rzR+z40LFCSDdjOR8Re
-         BvGcTdyzjSOGq9Tk2RaQiZxhgYUfQb3fVm4bXmbmB3H3/dRJweaB1P2MapQMkeYtNfuc
-         zmGcp3hZeejk26ST1j4vicqDrqnYtOpfl1xCwx68W9AHH0WxrVydCfsgd954eY3leTtT
-         jSIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687960233; x=1690552233;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=X9AT/plmLRAFXDyCQCDh4MBEPDmmZs0M8tMAQ+3zWko=;
-        b=bFGfyxiLmWQ7CsQJom/P3Pwu2ZtHa9s25nhd+zZYFs1A61tLlZ1J5j2acLAQXFZc0O
-         MSVUZbJ6p4TFMfnwXQa+/vU3QEfqcSCLtfLhPQ6v7W4iuozwuYaKjpDmGlj/pnMRe7ww
-         LSz0q1aCJsRPjKSS8GgNbC0H3s4Ro76OwXlY00EtV3B644QlEapsLf2f2+Fz+dtitx0y
-         6FifrQQvKR1Pt4vbhfTfLwFp4uDXXhWn0yFoZZ9dN0FlHutx+KkFBmm5jvmEaMY2f7Hn
-         CPL7/j70ZXBTs46UbOjF9mPp5vh5sotS4867UyEdVnwBuo/uvvqg+SxDQN988okoR62n
-         uVWA==
-X-Gm-Message-State: AC+VfDxCWIwJg/WgJPT/oN1EcDKcDHxakk22SYUmBuEA9LvmchOfsTIY
-        6KcMiwYOzYCnOJAZ7c3gSJQ=
-X-Google-Smtp-Source: ACHHUZ4YFQRRYc4yP6nx4uJrRjsQgeq1yAEouQrVvmbwu5WL/c22dHbzVAvYxuN4HlrmSpqhJqVMfA==
-X-Received: by 2002:a1c:f70d:0:b0:3f7:3685:1e10 with SMTP id v13-20020a1cf70d000000b003f736851e10mr27256747wmh.40.1687960232602;
-        Wed, 28 Jun 2023 06:50:32 -0700 (PDT)
-Received: from suse.localnet (host-95-238-98-134.retail.telecomitalia.it. [95.238.98.134])
-        by smtp.gmail.com with ESMTPSA id k16-20020a05600c0b5000b003fba6709c68sm4692562wmr.47.2023.06.28.06.50.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jun 2023 06:50:31 -0700 (PDT)
-From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To:     Tyler Hicks <code@tyhicks.com>,
+        with ESMTP id S229576AbjF3CbK (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Thu, 29 Jun 2023 22:31:10 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 325D21BE9;
+        Thu, 29 Jun 2023 19:31:10 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C2F6A6167E;
+        Fri, 30 Jun 2023 02:31:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4888C433C8;
+        Fri, 30 Jun 2023 02:31:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1688092269;
+        bh=J6nxjWywyEiSc/t5QFa8u5nsfvS0YlDiw8/BL0IXBxo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lNBjSCGWJDyJ8VTTSG6JJ9p05nFKXRvImX8g45EoM2SCrEoaYICiF3Wl3kwEpT50q
+         tq2x+SLtMY4y3jK24n0lSWYuLMXt8b8zUbUm30ihQkoaa3WWLUa3Dsu0M453iWt2ic
+         xLb/E20+JWD783RLwh4ZCsYEHE7l2z1F80jv7GJ3PmYiAFS7+ej5XskPijm4wU+V7h
+         pDM1ZHUG+jjThxaoUJ9tAvFAzkqryjk/KxT3YI28x4lj6I/8nDG8cZVv7p580MXPLi
+         Xb/817/cvBf6wpKU5YX5I2xjLRNiaT9sicyTCjEg4MlvbSuUE87hkXgST3XQMa8+Lu
+         CcZtNLW7UDLWQ==
+Date:   Thu, 29 Jun 2023 19:31:07 -0700
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc:     Tyler Hicks <code@tyhicks.com>,
         Christian Brauner <brauner@kernel.org>,
         Dave Chinner <dchinner@redhat.com>,
         "Matthew Wilcox (Oracle)" <willy@infradead.org>,
@@ -59,61 +44,46 @@ To:     Tyler Hicks <code@tyhicks.com>,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2 0/3] fs/ecryptfs: Replace kmap{,_atomic}() with
  kmap_local_page()
-Date:   Wed, 28 Jun 2023 15:50:30 +0200
-Message-ID: <23780760.ouqheUzb2q@suse>
-In-Reply-To: <20230426172223.8896-1-fmdefrancesco@gmail.com>
+Message-ID: <20230630023107.GA1088@sol.localdomain>
 References: <20230426172223.8896-1-fmdefrancesco@gmail.com>
+ <23780760.ouqheUzb2q@suse>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <23780760.ouqheUzb2q@suse>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-On mercoled=EC 26 aprile 2023 19:22:20 CEST Fabio M. De Francesco wrote:
-> kmap() and kmap_atomic() have been deprecated in favor of
-> kmap_local_page().
->=20
-> Therefore, replace kmap() and kmap_atomic() with kmap_local_page().
+On Wed, Jun 28, 2023 at 03:50:30PM +0200, Fabio M. De Francesco wrote:
+> On mercoledì 26 aprile 2023 19:22:20 CEST Fabio M. De Francesco wrote:
+> > kmap() and kmap_atomic() have been deprecated in favor of
+> > kmap_local_page().
+> > 
+> > Therefore, replace kmap() and kmap_atomic() with kmap_local_page().
+> 
+> After two months from submission, I haven't received any comments on this 
+> short series yet, except for a "Reviewed by" tag from Ira on patch 1/3 only.
+> 
+> I would appreciate any comments/reviews/acks and would especially like to know 
+> if anything is preventing these patches from being applied.
+> 
 
-After two months from submission, I haven't received any comments on this=20
-short series yet, except for a "Reviewed by" tag from Ira on patch 1/3 only.
+eCryptfs is in "Odd Fixes" status.  See the thread
+https://lore.kernel.org/ecryptfs/ZB4nYykRg6UwZ0cj@sequoia/T/#u
 
-I would appreciate any comments/reviews/acks and would especially like to k=
-now=20
-if anything is preventing these patches from being applied.
+I would suggest that if Tyler is not responding, that Christian or Al take these
+patches through the VFS tree instead.
 
-Thank you all in advance,
+FWIW, I took a quick look at these three patches, and all look correct.  I'm not
+sure I want to give a formal R-b, as I don't want people to start bothering me
+about eCryptfs stuff because they saw my name on it :-)
 
-=46abio
-
-> Tested in a QEMU/KVM x86_32 VM, 6GB RAM, booting a kernel with
-> HIGHMEM64GB enabled.
->=20
-> v1->v2: Patches 1/3 and 2/3 were not grouped in a series. Patch 3/3 is
-> new. Therefore, currently one series groups all conversions needed if
-> fs/ecryptfs. The subject of 2/3 changed to differentiate between it and
-> 3/3. Furthermore, the commit messages of 1/3 and 2/3 have been largely
-> reworked.
->=20
-> Fabio M. De Francesco (3):
->   fs/ecryptfs: Replace kmap() with kmap_local_page()
->   fs/ecryptfs: Use kmap_local_page() in ecryptfs_write()
->   fs/ecryptfs: Use kmap_local_page() in copy_up_encrypted_with_header()
->=20
->  fs/ecryptfs/crypto.c     |  8 ++++----
->  fs/ecryptfs/mmap.c       |  4 ++--
->  fs/ecryptfs/read_write.c | 12 ++++++------
->  3 files changed, 12 insertions(+), 12 deletions(-)
->=20
-> --
-> 2.40.0
-
-
-
+- Eric
