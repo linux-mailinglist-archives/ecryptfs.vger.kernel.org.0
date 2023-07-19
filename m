@@ -2,67 +2,168 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D9C547575CE
-	for <lists+ecryptfs@lfdr.de>; Tue, 18 Jul 2023 09:56:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AC71758AEA
+	for <lists+ecryptfs@lfdr.de>; Wed, 19 Jul 2023 03:35:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230199AbjGRH4f (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Tue, 18 Jul 2023 03:56:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58988 "EHLO
+        id S229995AbjGSBfq (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Tue, 18 Jul 2023 21:35:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230152AbjGRH4e (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Tue, 18 Jul 2023 03:56:34 -0400
-Received: from mail.venturelinkbiz.com (mail.venturelinkbiz.com [51.195.119.142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2614E199
-        for <ecryptfs@vger.kernel.org>; Tue, 18 Jul 2023 00:56:30 -0700 (PDT)
-Received: by mail.venturelinkbiz.com (Postfix, from userid 1002)
-        id C67E344EC2; Tue, 18 Jul 2023 07:56:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=venturelinkbiz.com;
-        s=mail; t=1689666985;
-        bh=Mjfq+hZZ0+rPTC06HjjASvlnsTMgj1yAndWxi/OAu2M=;
-        h=Date:From:To:Subject:From;
-        b=lJW8z4095MilFEuButUqEXe22HAGlQnWZhqrTaQqzFH5eGkdBurKZS878IzrdPSym
-         pk1zBmhxjQN9GVU4TftD27zq4bqwXmXBslxXyRJEQtGeqJ37R0AQ8GXngK1nTGAsa0
-         p7SY77fQ+bdQtWFP29qeljVFSQgYDuN1FAFHPZ/1LSKmmQ41V8PcUpiB+pqGA5pmDW
-         jcJzpqubCRjhLDHLqZEUmYSdN/9s2dmA+PXm87lmJ7fzdGM9S6HqUHEqhpS30BQHk1
-         9KupCY+3Ggs0/PrY6cmhNQ6d4HbedY4wL6Gdj9mKaAAg8c21clMNZzn/yxBlTj1u3+
-         c4AmhCIcTWKfw==
-Received: by venturelinkbiz.com for <ecryptfs@vger.kernel.org>; Tue, 18 Jul 2023 07:56:04 GMT
-Message-ID: <20230718064500-0.1.19.36r2.0.51krgsrhlp@venturelinkbiz.com>
-Date:   Tue, 18 Jul 2023 07:56:04 GMT
-From:   "Michal Rmoutil" <michal.rmoutil@venturelinkbiz.com>
-To:     <ecryptfs@vger.kernel.org>
-Subject: =?UTF-8?Q?Syst=C3=A9m_sledov=C3=A1n=C3=AD_a_optimalizace_v=C3=BDroby?=
-X-Mailer: mail.venturelinkbiz.com
+        with ESMTP id S229851AbjGSBfp (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Tue, 18 Jul 2023 21:35:45 -0400
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A8EA1BC9
+        for <ecryptfs@vger.kernel.org>; Tue, 18 Jul 2023 18:35:42 -0700 (PDT)
+Received: by mail-ot1-x32f.google.com with SMTP id 46e09a7af769-6b9c90527a0so2932593a34.1
+        for <ecryptfs@vger.kernel.org>; Tue, 18 Jul 2023 18:35:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fromorbit-com.20221208.gappssmtp.com; s=20221208; t=1689730541; x=1692322541;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=xZssYNKocP7SJAjxckC3wBJ507CzulE9IvrMWjf3P+k=;
+        b=5Slf0Wf1DkEOl9A1TiQUYv8SMKm8hpMZkE2pdlrBFVPzzvpLYuiVjUXLVmHCw57mm3
+         QfMAXPNPanSdHmq5ZWXmuM6TgukKEbveLzpwksx2dw9ZklwdjhA52vimEHT2eirBfa+2
+         IT2vnquxNaJm7BjHGdah8DmKJSIjdo0Yp6c26+N05rt7PzrzOKrn94s8yKsSInPTUfNp
+         YfGoevKBsYDtPuhIbewKvY1jLvJ5fb914inI0h60wc0+K8b0g/S/UYKcw11+BXpzkI08
+         6FecWUvMm8TYFIR2erayRFzaDHDt6sysMcKT2DfDdd2VqMiXCbsW5RRwMl7laE7GyBrL
+         HnfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689730541; x=1692322541;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xZssYNKocP7SJAjxckC3wBJ507CzulE9IvrMWjf3P+k=;
+        b=WBNx/VqOmHs44XA675xVF9KBm29GSACzTDnQfWvM4T6uGLFBOLFsbHoMhZL242WAxs
+         UZ0RG6lY5xfxEsrqZZBFQN05hx7F/pgYc3PtgopdR2G73qfM3/IAQFspNKdpTLEWmeED
+         2eEpYHFUWa+ic9XxaqSj99WMTaljgQgypIJi/+Aae1qdXxoYoNVM/OZngY8Frn/kHbyF
+         18qbGd/4i9mJQmwOjHhxY9H2uGu7coJ4hsbVmwR0VKR4iWsOKKw+TqEUgYXobWfYcVDD
+         PjVMELUoRn5ebDt91UrlEw5nUz27En/gnqYfXsVLUsx4k9besUdMTsie0uqSwK+5vi6u
+         142A==
+X-Gm-Message-State: ABy/qLbdv3K1IetxJLw/TCjbmRbHaLhYdRGhh+YFPunw0GCswSUVIvSD
+        7lM9laLj4C9/ppkDxqyOd2M3Iw==
+X-Google-Smtp-Source: APBJJlHb4gEwJfD+TL2icCrXL1rPSO1/If2sqk52+FC1gSV2ztjdma15fYoDbEqUpP5c7bsoFPcHEw==
+X-Received: by 2002:a05:6870:96a6:b0:1b3:8d35:c85f with SMTP id o38-20020a05687096a600b001b38d35c85fmr1011777oaq.1.1689730541592;
+        Tue, 18 Jul 2023 18:35:41 -0700 (PDT)
+Received: from dread.disaster.area (pa49-186-119-116.pa.vic.optusnet.com.au. [49.186.119.116])
+        by smtp.gmail.com with ESMTPSA id 201-20020a6301d2000000b005633311c70dsm2343100pgb.32.2023.07.18.18.35.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Jul 2023 18:35:40 -0700 (PDT)
+Received: from dave by dread.disaster.area with local (Exim 4.96)
+        (envelope-from <david@fromorbit.com>)
+        id 1qLw6L-007mcz-1V;
+        Wed, 19 Jul 2023 11:35:37 +1000
+Date:   Wed, 19 Jul 2023 11:35:37 +1000
+From:   Dave Chinner <david@fromorbit.com>
+To:     Jeff Layton <jlayton@kernel.org>
+Cc:     Eric Van Hensbergen <ericvh@kernel.org>,
+        Latchesar Ionkov <lucho@ionkov.net>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        Christian Schoenebeck <linux_oss@crudebyte.com>,
+        David Howells <dhowells@redhat.com>,
+        Marc Dionne <marc.dionne@auristor.com>,
+        Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
+        David Sterba <dsterba@suse.com>, Xiubo Li <xiubli@redhat.com>,
+        Ilya Dryomov <idryomov@gmail.com>,
+        Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu,
+        Tyler Hicks <code@tyhicks.com>, Gao Xiang <xiang@kernel.org>,
+        Chao Yu <chao@kernel.org>, Yue Hu <huyue2@coolpad.com>,
+        Jeffle Xu <jefflexu@linux.alibaba.com>,
+        Namjae Jeon <linkinjeon@kernel.org>,
+        Sungjong Seo <sj1557.seo@samsung.com>,
+        Jan Kara <jack@suse.com>, Theodore Ts'o <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Bob Peterson <rpeterso@redhat.com>,
+        Andreas Gruenbacher <agruenba@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tejun Heo <tj@kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <brauner@kernel.org>,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Anna Schumaker <anna@kernel.org>,
+        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+        Mark Fasheh <mark@fasheh.com>,
+        Joel Becker <jlbec@evilplan.org>,
+        Joseph Qi <joseph.qi@linux.alibaba.com>,
+        Mike Marshall <hubcap@omnibond.com>,
+        Martin Brandenburg <martin@omnibond.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Steve French <sfrench@samba.org>,
+        Paulo Alcantara <pc@manguebit.com>,
+        Ronnie Sahlberg <lsahlber@redhat.com>,
+        Shyam Prasad N <sprasad@microsoft.com>,
+        Tom Talpey <tom@talpey.com>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Richard Weinberger <richard@nod.at>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Hugh Dickins <hughd@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Darrick J. Wong" <djwong@kernel.org>, v9fs@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-afs@lists.infradead.org,
+        linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
+        codalist@coda.cs.cmu.edu, ecryptfs@vger.kernel.org,
+        linux-erofs@lists.ozlabs.org, linux-fsdevel@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        cluster-devel@redhat.com, linux-nfs@vger.kernel.org,
+        ntfs3@lists.linux.dev, ocfs2-devel@lists.linux.dev,
+        devel@lists.orangefs.org, linux-cifs@vger.kernel.org,
+        samba-technical@lists.samba.org, linux-mtd@lists.infradead.org,
+        linux-mm@kvack.org, linux-xfs@vger.kernel.org
+Subject: Re: [PATCH v5 6/8] xfs: switch to multigrain timestamps
+Message-ID: <ZLc96V2Yo72sthsi@dread.disaster.area>
+References: <20230713-mgctime-v5-0-9eb795d2ae37@kernel.org>
+ <20230713-mgctime-v5-6-9eb795d2ae37@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED,URIBL_CSS_A,URIBL_DBL_SPAM
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ***
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230713-mgctime-v5-6-9eb795d2ae37@kernel.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Dobr=C3=A9 r=C3=A1no
+On Thu, Jul 13, 2023 at 07:00:55PM -0400, Jeff Layton wrote:
+> Enable multigrain timestamps, which should ensure that there is an
+> apparent change to the timestamp whenever it has been written after
+> being actively observed via getattr.
+> 
+> Also, anytime the mtime changes, the ctime must also change, and those
+> are now the only two options for xfs_trans_ichgtime. Have that function
+> unconditionally bump the ctime, and warn if XFS_ICHGTIME_CHG is ever not
+> set.
+> 
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> ---
+>  fs/xfs/libxfs/xfs_trans_inode.c | 6 +++---
+>  fs/xfs/xfs_iops.c               | 4 ++--
+>  fs/xfs/xfs_super.c              | 2 +-
+>  3 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/fs/xfs/libxfs/xfs_trans_inode.c b/fs/xfs/libxfs/xfs_trans_inode.c
+> index 0c9df8df6d4a..86f5ffce2d89 100644
+> --- a/fs/xfs/libxfs/xfs_trans_inode.c
+> +++ b/fs/xfs/libxfs/xfs_trans_inode.c
+> @@ -62,12 +62,12 @@ xfs_trans_ichgtime(
+>  	ASSERT(tp);
+>  	ASSERT(xfs_isilocked(ip, XFS_ILOCK_EXCL));
+>  
+> -	tv = current_time(inode);
+> +	/* If the mtime changes, then ctime must also change */
+> +	WARN_ON_ONCE(!(flags & XFS_ICHGTIME_CHG));
 
-Zn=C3=A1te syst=C3=A9m, kter=C3=BD nejen hl=C3=ADd=C3=A1, ale i optimaliz=
-uje v=C3=BDrobu a p=C5=99in=C3=A1=C5=A1=C3=AD st=C3=A1l=C3=BD p=C5=99=C3=AD=
-jem?
+Make that an ASSERT(flags & XFS_ICHGTIME_CHG), please. There's no
+need to verify this at runtime on production kernels.
 
-D=C3=ADky nejnov=C4=9Bj=C5=A1=C3=ADm technologi=C3=ADm a anal=C3=BDze dat=
- na=C5=A1e =C5=99e=C5=A1en=C3=AD identifikuje oblasti optimalizace, zv=C3=
-=BD=C5=A1en=C3=AD efektivity a sn=C3=AD=C5=BEen=C3=AD n=C3=A1klad=C5=AF. =
-Na=C5=A1i klienti zaznamenali n=C3=A1r=C5=AFst p=C5=99=C3=ADjm=C5=AF v pr=
-=C5=AFm=C4=9Bru o 20 % a dnes si to m=C5=AF=C5=BEete vyzkou=C5=A1et na 60=
- dn=C3=AD zdarma.
-
-Pokud chcete dal=C5=A1=C3=AD podrobnosti, odpov=C4=9Bzte pros=C3=ADm na k=
-ontaktn=C3=AD =C4=8D=C3=ADslo.
-
-
-Pozdravy
-Michal Rmoutil
+-Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
