@@ -2,60 +2,47 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AC71758AEA
-	for <lists+ecryptfs@lfdr.de>; Wed, 19 Jul 2023 03:35:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52DCE761C63
+	for <lists+ecryptfs@lfdr.de>; Tue, 25 Jul 2023 16:58:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229995AbjGSBfq (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Tue, 18 Jul 2023 21:35:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38214 "EHLO
+        id S231522AbjGYO6y (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Tue, 25 Jul 2023 10:58:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229851AbjGSBfp (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Tue, 18 Jul 2023 21:35:45 -0400
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A8EA1BC9
-        for <ecryptfs@vger.kernel.org>; Tue, 18 Jul 2023 18:35:42 -0700 (PDT)
-Received: by mail-ot1-x32f.google.com with SMTP id 46e09a7af769-6b9c90527a0so2932593a34.1
-        for <ecryptfs@vger.kernel.org>; Tue, 18 Jul 2023 18:35:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20221208.gappssmtp.com; s=20221208; t=1689730541; x=1692322541;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xZssYNKocP7SJAjxckC3wBJ507CzulE9IvrMWjf3P+k=;
-        b=5Slf0Wf1DkEOl9A1TiQUYv8SMKm8hpMZkE2pdlrBFVPzzvpLYuiVjUXLVmHCw57mm3
-         QfMAXPNPanSdHmq5ZWXmuM6TgukKEbveLzpwksx2dw9ZklwdjhA52vimEHT2eirBfa+2
-         IT2vnquxNaJm7BjHGdah8DmKJSIjdo0Yp6c26+N05rt7PzrzOKrn94s8yKsSInPTUfNp
-         YfGoevKBsYDtPuhIbewKvY1jLvJ5fb914inI0h60wc0+K8b0g/S/UYKcw11+BXpzkI08
-         6FecWUvMm8TYFIR2erayRFzaDHDt6sysMcKT2DfDdd2VqMiXCbsW5RRwMl7laE7GyBrL
-         HnfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689730541; x=1692322541;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xZssYNKocP7SJAjxckC3wBJ507CzulE9IvrMWjf3P+k=;
-        b=WBNx/VqOmHs44XA675xVF9KBm29GSACzTDnQfWvM4T6uGLFBOLFsbHoMhZL242WAxs
-         UZ0RG6lY5xfxEsrqZZBFQN05hx7F/pgYc3PtgopdR2G73qfM3/IAQFspNKdpTLEWmeED
-         2eEpYHFUWa+ic9XxaqSj99WMTaljgQgypIJi/+Aae1qdXxoYoNVM/OZngY8Frn/kHbyF
-         18qbGd/4i9mJQmwOjHhxY9H2uGu7coJ4hsbVmwR0VKR4iWsOKKw+TqEUgYXobWfYcVDD
-         PjVMELUoRn5ebDt91UrlEw5nUz27En/gnqYfXsVLUsx4k9besUdMTsie0uqSwK+5vi6u
-         142A==
-X-Gm-Message-State: ABy/qLbdv3K1IetxJLw/TCjbmRbHaLhYdRGhh+YFPunw0GCswSUVIvSD
-        7lM9laLj4C9/ppkDxqyOd2M3Iw==
-X-Google-Smtp-Source: APBJJlHb4gEwJfD+TL2icCrXL1rPSO1/If2sqk52+FC1gSV2ztjdma15fYoDbEqUpP5c7bsoFPcHEw==
-X-Received: by 2002:a05:6870:96a6:b0:1b3:8d35:c85f with SMTP id o38-20020a05687096a600b001b38d35c85fmr1011777oaq.1.1689730541592;
-        Tue, 18 Jul 2023 18:35:41 -0700 (PDT)
-Received: from dread.disaster.area (pa49-186-119-116.pa.vic.optusnet.com.au. [49.186.119.116])
-        by smtp.gmail.com with ESMTPSA id 201-20020a6301d2000000b005633311c70dsm2343100pgb.32.2023.07.18.18.35.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jul 2023 18:35:40 -0700 (PDT)
-Received: from dave by dread.disaster.area with local (Exim 4.96)
-        (envelope-from <david@fromorbit.com>)
-        id 1qLw6L-007mcz-1V;
-        Wed, 19 Jul 2023 11:35:37 +1000
-Date:   Wed, 19 Jul 2023 11:35:37 +1000
-From:   Dave Chinner <david@fromorbit.com>
-To:     Jeff Layton <jlayton@kernel.org>
-Cc:     Eric Van Hensbergen <ericvh@kernel.org>,
+        with ESMTP id S231470AbjGYO6x (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Tue, 25 Jul 2023 10:58:53 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24B6119A0;
+        Tue, 25 Jul 2023 07:58:52 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7D5686178D;
+        Tue, 25 Jul 2023 14:58:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C1AFC433C7;
+        Tue, 25 Jul 2023 14:58:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690297130;
+        bh=kJmXJEYOHolov3dHsrtrgrStBu4dP1/spGmtmesqCM4=;
+        h=From:Subject:Date:To:Cc:From;
+        b=tew70jtU4OJWY1VbyooHq/A2VejA7/kDYVzXCKKk0H55cxVTHNA5fhMx/XsjUHQdE
+         k5N+TCbrt7BP6IVsZV/kGZrQ02GB42Vzuf0A/KFgIUnPd4ROGpWY2ZHkqKjdfticNu
+         OMaM7K65I6mQEbZGCqcmN0tUAgZUl/rzmSoYBUrwJChy9IKciiWQK4nWbSqxwsObTI
+         WPQKI9eXf8A84+Mo2pDjNDrS2sLAG7LjBgXOQD6AC8ZVS0weRNDBcGZHDJasTY4XM+
+         XZNGcH/BVwcKp56pkarr6oFqhSjNamDWitCJbkz8MEmn3MzaR1dixLan1haVIWlNtj
+         Ymp6wr5QNgrPg==
+From:   Jeff Layton <jlayton@kernel.org>
+Subject: [PATCH v6 0/7] fs: implement multigrain timestamps
+Date:   Tue, 25 Jul 2023 10:58:13 -0400
+Message-Id: <20230725-mgctime-v6-0-a794c2b7abca@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAbjv2QC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyzHQUlJIzE
+ vPSU3UzU4B8JSMDI2MDc0Nj3dz05JLM3FTdNKNEy7RkYyMTS0MLJaDqgqLUtMwKsEnRsbW1AIV
+ mFAhZAAAA
+To:     Eric Van Hensbergen <ericvh@kernel.org>,
         Latchesar Ionkov <lucho@ionkov.net>,
         Dominique Martinet <asmadeus@codewreck.org>,
         Christian Schoenebeck <linux_oss@crudebyte.com>,
@@ -102,7 +89,9 @@ Cc:     Eric Van Hensbergen <ericvh@kernel.org>,
         Hans de Goede <hdegoede@redhat.com>,
         Hugh Dickins <hughd@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        "Darrick J. Wong" <djwong@kernel.org>, v9fs@lists.linux.dev,
+        "Darrick J. Wong" <djwong@kernel.org>
+Cc:     Dave Chinner <david@fromorbit.com>,
+        Anthony Iliopoulos <ailiop@suse.com>, v9fs@lists.linux.dev,
         linux-kernel@vger.kernel.org, linux-afs@lists.infradead.org,
         linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
         codalist@coda.cs.cmu.edu, ecryptfs@vger.kernel.org,
@@ -112,58 +101,145 @@ Cc:     Eric Van Hensbergen <ericvh@kernel.org>,
         ntfs3@lists.linux.dev, ocfs2-devel@lists.linux.dev,
         devel@lists.orangefs.org, linux-cifs@vger.kernel.org,
         samba-technical@lists.samba.org, linux-mtd@lists.infradead.org,
-        linux-mm@kvack.org, linux-xfs@vger.kernel.org
-Subject: Re: [PATCH v5 6/8] xfs: switch to multigrain timestamps
-Message-ID: <ZLc96V2Yo72sthsi@dread.disaster.area>
-References: <20230713-mgctime-v5-0-9eb795d2ae37@kernel.org>
- <20230713-mgctime-v5-6-9eb795d2ae37@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230713-mgctime-v5-6-9eb795d2ae37@kernel.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        linux-mm@kvack.org, linux-xfs@vger.kernel.org,
+        Jeff Layton <jlayton@kernel.org>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4902; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=kJmXJEYOHolov3dHsrtrgrStBu4dP1/spGmtmesqCM4=;
+ b=owEBbQKS/ZANAwAIAQAOaEEZVoIVAcsmYgBkv+Mj+zS9rris6Kf5SxMrXR2Y/k9AOCJ9z8KPq
+ j3S+WlmJceJAjMEAAEIAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCZL/jIwAKCRAADmhBGVaC
+ FZ/jD/0evq59eIdKfJ48vhkQ834Ov7dXXLAsoPLIBwuMPbqc7pSVOjxB5ATFSwfM9htZKolZ+oY
+ lIU2tVkrgEvzBSvtptGWRr2sarmS792/ET3Q94ZYyI3yGrHeRSXFOCIw1j7WwH2CAixPP7tV3iI
+ CEyu3vkzTFYYrJrAjpZayoN4FMelRFKm9TkDeBNDMR2dHxzPYji2KfnLM8E0QyicvhzMp748ezo
+ gSFE9vYIQeyfCsc0tsb3+xvNeyfrgwWW0Xt+iWheDXhWb2JezV0qwPzhrTI2o0lUu3y5Ak6moUv
+ mxg4LjTEyDiFJS1gFG359AOMdd1Fqe+/hBI/KRZw1FJgHJNrojM6CcefRT/9ld8QucjdHCaei+j
+ wdbwbxqSPCnXE7EyPm6OfdKrz1QY8quS0w28VGDMEoqvWsdi5KDYgaliGZ4xMdeR24lwCGeO1sO
+ CcTk+9XkDMSViFJpiCvlZ1wqjbcy+7bpDotGULl660l29vxwtUOL4OzsFLorGw8J6AVtpr1WcSZ
+ qiHQFHKm0p8TmStpgYdlGpNtZsiMWV5W5ebzMwtMfdk+ItSXAkX5AccmgWA8SF2Lu6i9FkiaOJK
+ 8np/ZINHFrUnnqcT0RhtcBRNRofFbPWW2FPTzqKgpU9tTsrmpbASbI+M+rPlDhulz5q2G6Ka/vp
+ WLXgwe/aGNDuUZQ==
+X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
+ fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-On Thu, Jul 13, 2023 at 07:00:55PM -0400, Jeff Layton wrote:
-> Enable multigrain timestamps, which should ensure that there is an
-> apparent change to the timestamp whenever it has been written after
-> being actively observed via getattr.
-> 
-> Also, anytime the mtime changes, the ctime must also change, and those
-> are now the only two options for xfs_trans_ichgtime. Have that function
-> unconditionally bump the ctime, and warn if XFS_ICHGTIME_CHG is ever not
-> set.
-> 
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> ---
->  fs/xfs/libxfs/xfs_trans_inode.c | 6 +++---
->  fs/xfs/xfs_iops.c               | 4 ++--
->  fs/xfs/xfs_super.c              | 2 +-
->  3 files changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/fs/xfs/libxfs/xfs_trans_inode.c b/fs/xfs/libxfs/xfs_trans_inode.c
-> index 0c9df8df6d4a..86f5ffce2d89 100644
-> --- a/fs/xfs/libxfs/xfs_trans_inode.c
-> +++ b/fs/xfs/libxfs/xfs_trans_inode.c
-> @@ -62,12 +62,12 @@ xfs_trans_ichgtime(
->  	ASSERT(tp);
->  	ASSERT(xfs_isilocked(ip, XFS_ILOCK_EXCL));
->  
-> -	tv = current_time(inode);
-> +	/* If the mtime changes, then ctime must also change */
-> +	WARN_ON_ONCE(!(flags & XFS_ICHGTIME_CHG));
+The VFS always uses coarse-grained timestamps when updating the
+ctime and mtime after a change. This has the benefit of allowing
+filesystems to optimize away a lot metadata updates, down to around 1
+per jiffy, even when a file is under heavy writes.
 
-Make that an ASSERT(flags & XFS_ICHGTIME_CHG), please. There's no
-need to verify this at runtime on production kernels.
+Unfortunately, this coarseness has always been an issue when we're
+exporting via NFSv3, which relies on timestamps to validate caches. A
+lot of changes can happen in a jiffy, so timestamps aren't sufficient to
+help the client decide to invalidate the cache.
 
--Dave.
+Even with NFSv4, a lot of exported filesystems don't properly support a
+change attribute and are subject to the same problems with timestamp
+granularity. Other applications have similar issues with timestamps (e.g
+backup applications).
+
+If we were to always use fine-grained timestamps, that would improve the
+situation, but that becomes rather expensive, as the underlying
+filesystem would have to log a lot more metadata updates.
+
+What we need is a way to only use fine-grained timestamps when they are
+being actively queried. The idea is to use an unused bit in the ctime's
+tv_nsec field to mark when the mtime or ctime has been queried via
+getattr. Once that has been marked, the next m/ctime update will use a
+fine-grained timestamp.
+
+This patch series is based on top of Christian's vfs.all branch, which
+has the recent conversion to the new ctime accessors. It should apply
+cleanly on top of linux-next.
+
+The first two patches should probably go in via the vfs tree. Should the
+fs-specific patches go in that way as well, or should they go via
+maintainer trees? Either should be fine.
+
+The first two patches should probably go in via Christian's vfs tree.
+The rest could go via maintainer trees or the vfs tree.
+
+For now, I'd like to get these into linux-next. Christian, would you be
+willing to pick these up for now? Alternately, I can feed them there via
+the iversion branch that Stephen is already pulling in from my tree.
+
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+base-commit: cf22d118b89a09a0160586412160d89098f7c4c7
+---
+Changes in v6:
+- drop the patch that removed XFS_ICHGTIME_CHG
+- change WARN_ON_ONCE to ASSERT in xfs conversion patch
+
+---
+Jeff Layton (7):
+      fs: pass the request_mask to generic_fillattr
+      fs: add infrastructure for multigrain timestamps
+      tmpfs: bump the mtime/ctime/iversion when page becomes writeable
+      tmpfs: add support for multigrain timestamps
+      xfs: switch to multigrain timestamps
+      ext4: switch to multigrain timestamps
+      btrfs: convert to multigrain timestamps
+
+ fs/9p/vfs_inode.c               |  4 +-
+ fs/9p/vfs_inode_dotl.c          |  4 +-
+ fs/afs/inode.c                  |  2 +-
+ fs/btrfs/file.c                 | 24 ++--------
+ fs/btrfs/inode.c                |  2 +-
+ fs/btrfs/super.c                |  5 ++-
+ fs/ceph/inode.c                 |  2 +-
+ fs/coda/inode.c                 |  3 +-
+ fs/ecryptfs/inode.c             |  5 ++-
+ fs/erofs/inode.c                |  2 +-
+ fs/exfat/file.c                 |  2 +-
+ fs/ext2/inode.c                 |  2 +-
+ fs/ext4/inode.c                 |  2 +-
+ fs/ext4/super.c                 |  2 +-
+ fs/f2fs/file.c                  |  2 +-
+ fs/fat/file.c                   |  2 +-
+ fs/fuse/dir.c                   |  2 +-
+ fs/gfs2/inode.c                 |  2 +-
+ fs/hfsplus/inode.c              |  2 +-
+ fs/inode.c                      | 98 +++++++++++++++++++++++++++++------------
+ fs/kernfs/inode.c               |  2 +-
+ fs/libfs.c                      |  4 +-
+ fs/minix/inode.c                |  2 +-
+ fs/nfs/inode.c                  |  2 +-
+ fs/nfs/namespace.c              |  3 +-
+ fs/ntfs3/file.c                 |  2 +-
+ fs/ocfs2/file.c                 |  2 +-
+ fs/orangefs/inode.c             |  2 +-
+ fs/proc/base.c                  |  4 +-
+ fs/proc/fd.c                    |  2 +-
+ fs/proc/generic.c               |  2 +-
+ fs/proc/proc_net.c              |  2 +-
+ fs/proc/proc_sysctl.c           |  2 +-
+ fs/proc/root.c                  |  3 +-
+ fs/smb/client/inode.c           |  2 +-
+ fs/smb/server/smb2pdu.c         | 22 ++++-----
+ fs/smb/server/vfs.c             |  3 +-
+ fs/stat.c                       | 59 ++++++++++++++++++++-----
+ fs/sysv/itree.c                 |  3 +-
+ fs/ubifs/dir.c                  |  2 +-
+ fs/udf/symlink.c                |  2 +-
+ fs/vboxsf/utils.c               |  2 +-
+ fs/xfs/libxfs/xfs_trans_inode.c |  6 +--
+ fs/xfs/xfs_iops.c               |  4 +-
+ fs/xfs/xfs_super.c              |  2 +-
+ include/linux/fs.h              | 47 ++++++++++++++++++--
+ mm/shmem.c                      | 16 ++++++-
+ 47 files changed, 248 insertions(+), 125 deletions(-)
+---
+base-commit: 810b5fff7917119ea82ff96e312e2d4350d6b681
+change-id: 20230713-mgctime-f2a9fc324918
+
+Best regards,
 -- 
-Dave Chinner
-david@fromorbit.com
+Jeff Layton <jlayton@kernel.org>
+
