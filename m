@@ -2,46 +2,56 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E8BB761CC6
-	for <lists+ecryptfs@lfdr.de>; Tue, 25 Jul 2023 17:01:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2D6E76283D
+	for <lists+ecryptfs@lfdr.de>; Wed, 26 Jul 2023 03:39:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231851AbjGYPBA (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Tue, 25 Jul 2023 11:01:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60968 "EHLO
+        id S229962AbjGZBjn (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Tue, 25 Jul 2023 21:39:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232248AbjGYPAG (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Tue, 25 Jul 2023 11:00:06 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9AF3199D;
-        Tue, 25 Jul 2023 07:59:37 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 77B1961797;
-        Tue, 25 Jul 2023 14:59:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2936C433AD;
-        Tue, 25 Jul 2023 14:59:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690297176;
-        bh=t187d4hlj7Hd2B853hoiIPlXJE4vBx7O1lkOZGTYDW8=;
-        h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-        b=SSmBXICMwwOT3suM7Wh9+/efKJhkY/qtCAceKg5JcawInGhDeAcad93pkmikV0o+6
-         4WemX3e9jmjVTbdAQRpQdyZIhz1g9e0iDBRjM7wITplVnNb0dKwcSeSRf8RXFJDlWS
-         05qhAWRZOBxveiT38itiEKwwzi2cwotnAfVwMeMGzQCXfg4aP/7QA/7BOeFl3k+q2W
-         k4L1Wuc6aR3dIYbSuqKgvU4mO6BXIuKAuk+5ULb3C0pXfvdRzoF0OIGIEUDaE/vzJU
-         9DjaVzezFk7HWbRa31mtwovPb4u6potKHgCKfEVNxB3PuDjxy8+/zOplOia8cZNwpQ
-         rRGJw4To0RgnQ==
-From:   Jeff Layton <jlayton@kernel.org>
-Date:   Tue, 25 Jul 2023 10:58:20 -0400
-Subject: [PATCH v6 7/7] btrfs: convert to multigrain timestamps
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230725-mgctime-v6-7-a794c2b7abca@kernel.org>
-References: <20230725-mgctime-v6-0-a794c2b7abca@kernel.org>
-In-Reply-To: <20230725-mgctime-v6-0-a794c2b7abca@kernel.org>
-To:     Eric Van Hensbergen <ericvh@kernel.org>,
+        with ESMTP id S230166AbjGZBjm (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Tue, 25 Jul 2023 21:39:42 -0400
+Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com [IPv6:2607:f8b0:4864:20::1135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4237B26B9
+        for <ecryptfs@vger.kernel.org>; Tue, 25 Jul 2023 18:39:39 -0700 (PDT)
+Received: by mail-yw1-x1135.google.com with SMTP id 00721157ae682-583f65806f8so34627667b3.0
+        for <ecryptfs@vger.kernel.org>; Tue, 25 Jul 2023 18:39:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1690335578; x=1690940378;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=g4+spZWgq0eS9irqfihzysgfAABYfYXXmt6SNBBeIWA=;
+        b=MZxYT2MdZ0Omg+tGFjNofeHkNy3Qahh2PBaeRGC1CPgAvaobe+CbfQzviGlH2bRGld
+         yZXqVlc4rdM7Hn/0uDpIIp7PtuXFyXV1rOEzEcPsa6KfHQ8WsO8NrD1ggf9GGi+atd7F
+         nKDBxVEOzhZviRxzmHMsde7z3UqWCZoSc0lNm1akA/R8EHPW9npAKef3Z/pjfCjWQWBN
+         xmycegOze/hxSYYenv2HpylIbUfqF9JiHr0gy59wVHZoy8dXEq78uEH7BvhlWGHxnNVM
+         Pm/pG6h4Z3mK+EEHLb2xoyIraXRTQQ+dd3MgzFr8XAVX1x101W0eH3RmqvYAcZ2a0tMf
+         tMBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690335578; x=1690940378;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=g4+spZWgq0eS9irqfihzysgfAABYfYXXmt6SNBBeIWA=;
+        b=L2GG31YROMPvUo1qydE3cfDhPjdF0c60Bk/qzIAsmKenGtciGg8DkP+Xi0NC1UO3wJ
+         999AFS/wDbZ6U67efVVsYGHaCMMr7DejaD5xHNhQryEqNT/w9cQVNidi7LazRrl90/nv
+         b937tBZ4gGcLGYKq5XywunfDkoybuMwTFYPp1EXY4lieRfEPXS9d+Jm89c6ZVBi+zrlX
+         4wo6WRtYReKRIzohUtt4XCCQN3ubDiVpbtj/Jp4wMwbNTuVW6bBLfW4uQ91FuiB9W6h8
+         zvI8lY3aJ9ZRzmy7ysf/pJQWiV8XUBnvyH5WEi4tms4roymfpxQow0Tazs+yeLLflkMC
+         s7Tw==
+X-Gm-Message-State: ABy/qLZiL/bz5D596v0il5USgIi1kE9A0S2lFt/hds2Ch64/i9ROqvhu
+        vn5umrI789Z6nFjdUKNZMykiEw==
+X-Google-Smtp-Source: APBJJlHxqCs0/k9opPHZr1oFjC/IjLn2NWFjtEyuaFY5bDdVyDOg3sTAz2vkUnxY9z5liUX1UEynKA==
+X-Received: by 2002:a81:46c3:0:b0:56d:2189:d87a with SMTP id t186-20020a8146c3000000b0056d2189d87amr821699ywa.15.1690335578030;
+        Tue, 25 Jul 2023 18:39:38 -0700 (PDT)
+Received: from ripple.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
+        by smtp.gmail.com with ESMTPSA id s10-20020a5b044a000000b00c654cc439fesm3165326ybp.52.2023.07.25.18.39.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Jul 2023 18:39:37 -0700 (PDT)
+Date:   Tue, 25 Jul 2023 18:39:25 -0700 (PDT)
+From:   Hugh Dickins <hughd@google.com>
+X-X-Sender: hugh@ripple.attlocal.net
+To:     Jeff Layton <jlayton@kernel.org>
+cc:     Eric Van Hensbergen <ericvh@kernel.org>,
         Latchesar Ionkov <lucho@ionkov.net>,
         Dominique Martinet <asmadeus@codewreck.org>,
         Christian Schoenebeck <linux_oss@crudebyte.com>,
@@ -88,8 +98,8 @@ To:     Eric Van Hensbergen <ericvh@kernel.org>,
         Hans de Goede <hdegoede@redhat.com>,
         Hugh Dickins <hughd@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        "Darrick J. Wong" <djwong@kernel.org>
-Cc:     Dave Chinner <david@fromorbit.com>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Dave Chinner <david@fromorbit.com>,
         Anthony Iliopoulos <ailiop@suse.com>, v9fs@lists.linux.dev,
         linux-kernel@vger.kernel.org, linux-afs@lists.infradead.org,
         linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
@@ -100,115 +110,93 @@ Cc:     Dave Chinner <david@fromorbit.com>,
         ntfs3@lists.linux.dev, ocfs2-devel@lists.linux.dev,
         devel@lists.orangefs.org, linux-cifs@vger.kernel.org,
         samba-technical@lists.samba.org, linux-mtd@lists.infradead.org,
-        linux-mm@kvack.org, linux-xfs@vger.kernel.org,
-        Jeff Layton <jlayton@kernel.org>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2706; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=t187d4hlj7Hd2B853hoiIPlXJE4vBx7O1lkOZGTYDW8=;
- b=owEBbQKS/ZANAwAIAQAOaEEZVoIVAcsmYgBkv+MkzroP27sCWuNSIgl+Cd1orLkVgLYnAGcGo
- qEGnD3ITTiJAjMEAAEIAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCZL/jJAAKCRAADmhBGVaC
- FezWEACH2UPwfc8Rd5LxW2eGVPkB5meVxJPlOLQBj6pWDkW95diD7uXPQto9lmLQF4qdUED+5gy
- WLeo0BKULpIsDQGcmeJ0JkL/JiN2PbntEUg4RArSmU+rbZrR++dnF7ONr6ND9nWmLJNpuajyStV
- pcZilQXeumx55tirF1mt2vbGkXsKu/qHNXXLZ4CnD9fI2bIWLHaqsutS3k6iENOAKoEtdCWwoM9
- FVpdj3qFKKuML2HPLPiNiqSR4PQMpFrJZuJtwugTZ4dV2zGIpz2l4Fo+eJzLD8g3FKg1A3Mk34F
- Uziz080sql3EtQDp+oM7E0vxs8NLvt2bJsGtEl+GEq10Z1KQiGEE118baYC/FF3Y1JhZ8N3o/6n
- NTmLgKCSGgEaX90TUrhvCtvVULKCcbHbm/RkOiIu7CC5iVHPV6RW/oHBDJVwKYW+2MlAb+VY5re
- f+nknpCe54xwkAkjA93/0IhnnhD1PqlAiOzimKBVA2WsnYyUS0Q10BesJm3HaFKmBvca1rkAIvY
- 5RVnuhgAlq6eH4QItdabELeq+RMtIFijqWrAAvDc0GPhlIwBn3i4uHiLu5D086UgM+5Nt7DjCZf
- 3QmNVnOo1Lw9zpdhHxNYnhUO9mT6oJzmtiR5/Z3Ca5TZ+LV2ivQE3dGm4TXhbyY0GAZ/FvepgyX
- df3wfm4D0Ck2M5Q==
-X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
- fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        linux-mm@kvack.org, linux-xfs@vger.kernel.org
+Subject: Re: [PATCH v6 3/7] tmpfs: bump the mtime/ctime/iversion when page
+ becomes writeable
+In-Reply-To: <20230725-mgctime-v6-3-a794c2b7abca@kernel.org>
+Message-ID: <42c5bbe-a7a4-3546-e898-3f33bd71b062@google.com>
+References: <20230725-mgctime-v6-0-a794c2b7abca@kernel.org> <20230725-mgctime-v6-3-a794c2b7abca@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Enable multigrain timestamps, which should ensure that there is an
-apparent change to the timestamp whenever it has been written after
-being actively observed via getattr.
+On Tue, 25 Jul 2023, Jeff Layton wrote:
 
-Beyond enabling the FS_MGTIME flag, this patch eliminates
-update_time_for_write, which goes to great pains to avoid in-memory
-stores. Just have it overwrite the timestamps unconditionally.
+> Most filesystems that use the pagecache will update the mtime, ctime,
+> and change attribute when a page becomes writeable. Add a page_mkwrite
+> operation for tmpfs and just use it to bump the mtime, ctime and change
+> attribute.
+> 
+> This fixes xfstest generic/080 on tmpfs.
 
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
----
- fs/btrfs/file.c  | 24 ++++--------------------
- fs/btrfs/super.c |  5 +++--
- 2 files changed, 7 insertions(+), 22 deletions(-)
+Huh.  I didn't notice when this one crept into the multigrain series.
 
-diff --git a/fs/btrfs/file.c b/fs/btrfs/file.c
-index d7a9ece7a40b..b9e75c9f95ac 100644
---- a/fs/btrfs/file.c
-+++ b/fs/btrfs/file.c
-@@ -1106,25 +1106,6 @@ void btrfs_check_nocow_unlock(struct btrfs_inode *inode)
- 	btrfs_drew_write_unlock(&inode->root->snapshot_lock);
- }
- 
--static void update_time_for_write(struct inode *inode)
--{
--	struct timespec64 now, ctime;
--
--	if (IS_NOCMTIME(inode))
--		return;
--
--	now = current_time(inode);
--	if (!timespec64_equal(&inode->i_mtime, &now))
--		inode->i_mtime = now;
--
--	ctime = inode_get_ctime(inode);
--	if (!timespec64_equal(&ctime, &now))
--		inode_set_ctime_to_ts(inode, now);
--
--	if (IS_I_VERSION(inode))
--		inode_inc_iversion(inode);
--}
--
- static int btrfs_write_check(struct kiocb *iocb, struct iov_iter *from,
- 			     size_t count)
- {
-@@ -1156,7 +1137,10 @@ static int btrfs_write_check(struct kiocb *iocb, struct iov_iter *from,
- 	 * need to start yet another transaction to update the inode as we will
- 	 * update the inode when we finish writing whatever data we write.
- 	 */
--	update_time_for_write(inode);
-+	if (!IS_NOCMTIME(inode)) {
-+		inode->i_mtime = inode_set_ctime_current(inode);
-+		inode_inc_iversion(inode);
-+	}
- 
- 	start_pos = round_down(pos, fs_info->sectorsize);
- 	oldsize = i_size_read(inode);
-diff --git a/fs/btrfs/super.c b/fs/btrfs/super.c
-index f1dd172d8d5b..8eda51b095c9 100644
---- a/fs/btrfs/super.c
-+++ b/fs/btrfs/super.c
-@@ -2144,7 +2144,7 @@ static struct file_system_type btrfs_fs_type = {
- 	.name		= "btrfs",
- 	.mount		= btrfs_mount,
- 	.kill_sb	= btrfs_kill_super,
--	.fs_flags	= FS_REQUIRES_DEV | FS_BINARY_MOUNTDATA,
-+	.fs_flags	= FS_REQUIRES_DEV | FS_BINARY_MOUNTDATA | FS_MGTIME,
- };
- 
- static struct file_system_type btrfs_root_fs_type = {
-@@ -2152,7 +2152,8 @@ static struct file_system_type btrfs_root_fs_type = {
- 	.name		= "btrfs",
- 	.mount		= btrfs_mount_root,
- 	.kill_sb	= btrfs_kill_super,
--	.fs_flags	= FS_REQUIRES_DEV | FS_BINARY_MOUNTDATA | FS_ALLOW_IDMAP,
-+	.fs_flags	= FS_REQUIRES_DEV | FS_BINARY_MOUNTDATA |
-+			  FS_ALLOW_IDMAP | FS_MGTIME,
- };
- 
- MODULE_ALIAS_FS("btrfs");
+I'm inclined to NAK this patch: at the very least, it does not belong
+in the series, but should be discussed separately.
 
--- 
-2.41.0
+Yes, tmpfs does not and never has used page_mkwrite, and gains some
+performance advantage from that.  Nobody has ever asked for this
+change before, or not that I recall.
 
+Please drop it from the series: and if you feel strongly, or know
+strong reasons why tmpfs suddenly needs to use page_mkwrite now,
+please argue them separately.  To pass generic/080 is not enough.
+
+Thanks,
+Hugh
+
+> 
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> ---
+>  mm/shmem.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/mm/shmem.c b/mm/shmem.c
+> index b154af49d2df..654d9a585820 100644
+> --- a/mm/shmem.c
+> +++ b/mm/shmem.c
+> @@ -2169,6 +2169,16 @@ static vm_fault_t shmem_fault(struct vm_fault *vmf)
+>  	return ret;
+>  }
+>  
+> +static vm_fault_t shmem_page_mkwrite(struct vm_fault *vmf)
+> +{
+> +	struct vm_area_struct *vma = vmf->vma;
+> +	struct inode *inode = file_inode(vma->vm_file);
+> +
+> +	file_update_time(vma->vm_file);
+> +	inode_inc_iversion(inode);
+> +	return 0;
+> +}
+> +
+>  unsigned long shmem_get_unmapped_area(struct file *file,
+>  				      unsigned long uaddr, unsigned long len,
+>  				      unsigned long pgoff, unsigned long flags)
+> @@ -4210,6 +4220,7 @@ static const struct super_operations shmem_ops = {
+>  
+>  static const struct vm_operations_struct shmem_vm_ops = {
+>  	.fault		= shmem_fault,
+> +	.page_mkwrite	= shmem_page_mkwrite,
+>  	.map_pages	= filemap_map_pages,
+>  #ifdef CONFIG_NUMA
+>  	.set_policy     = shmem_set_policy,
+> @@ -4219,6 +4230,7 @@ static const struct vm_operations_struct shmem_vm_ops = {
+>  
+>  static const struct vm_operations_struct shmem_anon_vm_ops = {
+>  	.fault		= shmem_fault,
+> +	.page_mkwrite	= shmem_page_mkwrite,
+>  	.map_pages	= filemap_map_pages,
+>  #ifdef CONFIG_NUMA
+>  	.set_policy     = shmem_set_policy,
+> 
+> -- 
+> 2.41.0
