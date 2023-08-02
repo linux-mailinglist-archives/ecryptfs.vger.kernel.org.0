@@ -2,71 +2,65 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 425397694BE
-	for <lists+ecryptfs@lfdr.de>; Mon, 31 Jul 2023 13:26:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FACE76C76E
+	for <lists+ecryptfs@lfdr.de>; Wed,  2 Aug 2023 09:51:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229588AbjGaL0H (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Mon, 31 Jul 2023 07:26:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38158 "EHLO
+        id S233065AbjHBHvQ (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Wed, 2 Aug 2023 03:51:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229475AbjGaL0G (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Mon, 31 Jul 2023 07:26:06 -0400
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96839BF
-        for <ecryptfs@vger.kernel.org>; Mon, 31 Jul 2023 04:26:05 -0700 (PDT)
-Received: from dggpeml500025.china.huawei.com (unknown [172.30.72.55])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4RDwpg2xhlzLnwH;
-        Mon, 31 Jul 2023 19:23:23 +0800 (CST)
-Received: from ubuntu1804.huawei.com (10.67.174.202) by
- dggpeml500025.china.huawei.com (7.185.36.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Mon, 31 Jul 2023 19:26:03 +0800
-From:   Zhu Wang <wangzhu9@huawei.com>
-To:     <code@tyhicks.com>, <brauner@kernel.org>,
-        <fmdefrancesco@gmail.com>, <dchinner@redhat.com>,
-        <ecryptfs@vger.kernel.org>
-CC:     <wangzhu9@huawei.com>
-Subject: [PATCH -next] fs/ecryptfs: remove kernel-doc warnings
-Date:   Mon, 31 Jul 2023 19:25:33 +0800
-Message-ID: <20230731112533.214216-1-wangzhu9@huawei.com>
-X-Mailer: git-send-email 2.17.1
+        with ESMTP id S231277AbjHBHur (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Wed, 2 Aug 2023 03:50:47 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C7B65590
+        for <ecryptfs@vger.kernel.org>; Wed,  2 Aug 2023 00:48:17 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 23C6561857
+        for <ecryptfs@vger.kernel.org>; Wed,  2 Aug 2023 07:48:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 306FAC433C9;
+        Wed,  2 Aug 2023 07:48:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690962496;
+        bh=Q9OJytY9AO4nDarKNN8XUtcIRmwvmy2+Oa/Vd5qmuns=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=TIZND29GuDM4qiV2m5mQ7jRaDct4udyz+fGcrLaphHRyaGjVJw07TGgoMbsguYBr3
+         WogupXvO3hfYEAvWwLfmWevN0dL3YSqzhQcuU7r8nG+5/K7R7Rjjpz74hfguqbswcd
+         e8UgpLMJwMIiU5Jr8gZX679pHtSthDzeJhk/kex1fCeWq+WfV/u0Vvcb7+2e2Qbw9+
+         M5lQ06RSUt5+CqvPMYWQxNTOpQBh6abqVXF4O7Ns14PKrz/V9hfgepMngz1MO0EbCD
+         pBINDWLZx+RSGfFYMw6g47lO07KhSsYYx6eRcHSkbLL8XbVvoaAY9obvapdS8FKlyU
+         Zkml6EDh43z8w==
+Date:   Wed, 2 Aug 2023 09:48:12 +0200
+From:   Christian Brauner <brauner@kernel.org>
+To:     Zhu Wang <wangzhu9@huawei.com>
+Cc:     code@tyhicks.com, fmdefrancesco@gmail.com, dchinner@redhat.com,
+        ecryptfs@vger.kernel.org
+Subject: Re: [PATCH -next] fs/ecryptfs: remove kernel-doc warnings
+Message-ID: <20230802-marmorieren-prolog-bb616bb6264d@brauner>
+References: <20230731112533.214216-1-wangzhu9@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.67.174.202]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpeml500025.china.huawei.com (7.185.36.35)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230731112533.214216-1-wangzhu9@huawei.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Remove kernel-doc warnings:
+On Mon, Jul 31, 2023 at 07:25:33PM +0800, Zhu Wang wrote:
+> Remove kernel-doc warnings:
+> 
+> fs/ecryptfs/mmap.c:270: warning: Excess function parameter 'flags'
+> description in 'ecryptfs_write_begin'
+> 
+> Signed-off-by: Zhu Wang <wangzhu9@huawei.com>
+> ---
 
-fs/ecryptfs/mmap.c:270: warning: Excess function parameter 'flags'
-description in 'ecryptfs_write_begin'
-
-Signed-off-by: Zhu Wang <wangzhu9@huawei.com>
----
- fs/ecryptfs/mmap.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/fs/ecryptfs/mmap.c b/fs/ecryptfs/mmap.c
-index cb1e998ce54d..e2483acc4366 100644
---- a/fs/ecryptfs/mmap.c
-+++ b/fs/ecryptfs/mmap.c
-@@ -255,7 +255,6 @@ static int fill_zeros_to_end_of_page(struct page *page, unsigned int to)
-  * @mapping: The eCryptfs object
-  * @pos: The file offset at which to start writing
-  * @len: Length of the write
-- * @flags: Various flags
-  * @pagep: Pointer to return the page
-  * @fsdata: Pointer to return fs data (unused)
-  *
--- 
-2.17.1
-
+I grabbed this. No automated message bc ecryptfs isn't on lore.
