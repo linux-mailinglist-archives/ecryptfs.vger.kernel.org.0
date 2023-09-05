@@ -2,140 +2,114 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA854791C73
-	for <lists+ecryptfs@lfdr.de>; Mon,  4 Sep 2023 20:11:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D9D1792993
+	for <lists+ecryptfs@lfdr.de>; Tue,  5 Sep 2023 18:52:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353453AbjIDSLV (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Mon, 4 Sep 2023 14:11:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41176 "EHLO
+        id S1346160AbjIEQ1O (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Tue, 5 Sep 2023 12:27:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353426AbjIDSLQ (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Mon, 4 Sep 2023 14:11:16 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86573197;
-        Mon,  4 Sep 2023 11:11:12 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 9A8C7CE0E24;
-        Mon,  4 Sep 2023 18:11:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C9A2DC433C8;
-        Mon,  4 Sep 2023 18:11:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693851068;
-        bh=KWuluqFF5yFV+lOCkFnoct0phRXw96Jca/CuZaTU2kY=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=K3gkbkhJRwgpsacHeBsq0A7kucjUSGo8OzMP1ouPw/XPyf9sD5QK/Sf142+usc7ZE
-         C827H7oMTO9xQURopm4EWqGoFioLBjSEY4gmbRDnvHI4L+ywXrxJRVy5ldQmRaAtfj
-         1pffFi8IArgTV4dPuYUPdlhMXVuT7Hb/6kEuD4lj+4NJdrul8tjUb9OXjEUjpGn+jT
-         2ndFdt5oPLx5wHtLQ20DiaB9Xl09djxp9OA/4zW9QgSOHR3JDKxABg9kMIgFr5Ox62
-         wqlEdaiOf1aM8ubxkjKV3yvjnRyA83mc2npN6NfYoiPdtaZLbxGvWm4TgDkfWkglX8
-         L2qkw/qB1Voxg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id A2BE4C04E26;
-        Mon,  4 Sep 2023 18:11:08 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S1353808AbjIEITM (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Tue, 5 Sep 2023 04:19:12 -0400
+Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F854CEC
+        for <ecryptfs@vger.kernel.org>; Tue,  5 Sep 2023 01:19:05 -0700 (PDT)
+Received: by mail-qv1-xf2f.google.com with SMTP id 6a1803df08f44-64f42fcd809so13494266d6.1
+        for <ecryptfs@vger.kernel.org>; Tue, 05 Sep 2023 01:19:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693901944; x=1694506744; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=CvUmRYKO5rN5JiKdYLn9/Xxm/soJiVGtQm650JnL3Yc=;
+        b=IDuf0baB1t1F8QSCLjWC8pmRvzAKQ/R4M4t5u3FLsOX2SqRgQXz/Z3MpAk8Vd5Kb6m
+         OBaz+r/ujIbUuNkrji3TkmDn2dTAwQpGpPSmDRQp7o69pvQ/Nlbne7CwWkb0CdLrrzzk
+         IN5sVqz4WX/cEw2uA94JE67yTGlOm8wzR3yOF0SXEPyJnQGBjepPHYJlqPiS3zq3DGfU
+         I2yXoCdrDFdm20VoyBK97sKFjeM/5AIhQp1In2otrpCJ9z7tTsw9ci7s0XR+LUbYUzXt
+         uod929b61k889o1RxRCphXZmWycOoUHC60HIKvs/decRlJjUBc58LQQ4Se5bQ0loDS6t
+         OnEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693901944; x=1694506744;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CvUmRYKO5rN5JiKdYLn9/Xxm/soJiVGtQm650JnL3Yc=;
+        b=GuAyLIx/GgaE9PJPq9Wqs+TL4GhEbHz05ixfpSGH1+kxxQ0zzy1jB3QfCagn5EtUq8
+         dpMmQY18EJsJLc+GaAmYR6OyIhMiSupsqPrZaHP7i8tv8QpAhxer6IrgpRHuhO3e+qmR
+         qMybM36bW3t5to9j/STxLZBinevX3fVkr9a6XRdnmgPbGYa0jQTqK8DuVUuwbetjuU1V
+         B5ghSMD9//VqLrYL5cAh1crxt+mjws4Dn70IQvsk4w9xHZLpbCj8Mna8IkqWctyXD4BK
+         aGrw6/uUbl0czgbpeoSAlkopJgF7dqNB+C0RHt1PKe/N38KAZro3sBuwlbPzxlldVqsm
+         1J7A==
+X-Gm-Message-State: AOJu0YxE6slq3Z4ODN8pnjNihDdGk9g/pp2T0Dws1/+oozdToZhQVdoh
+        M2OX9ytE5tSn7ab6sIiFBsdOSaGja5a3BZAIiDs=
+X-Google-Smtp-Source: AGHT+IERAX8PQb3+O/VRt2IpdT+B8+AIRhc7TR9qfBXEywqtD/tUeMqNmseulSPs3fS452xIhVN8tbhQYqX1LXl34po=
+X-Received: by 2002:a0c:aa1b:0:b0:653:5736:c0b4 with SMTP id
+ d27-20020a0caa1b000000b006535736c0b4mr10412089qvb.54.1693901943569; Tue, 05
+ Sep 2023 01:19:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [f2fs-dev] [PATCH v7 00/13] fs: implement multigrain timestamps
-From:   patchwork-bot+f2fs@kernel.org
-Message-Id: <169385106866.19669.14483196627780303129.git-patchwork-notify@kernel.org>
-Date:   Mon, 04 Sep 2023 18:11:08 +0000
-References: <20230807-mgctime-v7-0-d1dec143a704@kernel.org>
-In-Reply-To: <20230807-mgctime-v7-0-d1dec143a704@kernel.org>
-To:     Jeff Layton <jlayton@kernel.org>
-Cc:     viro@zeniv.linux.org.uk, brauner@kernel.org, ericvh@kernel.org,
-        lucho@ionkov.net, asmadeus@codewreck.org, linux_oss@crudebyte.com,
-        dhowells@redhat.com, marc.dionne@auristor.com, clm@fb.com,
-        josef@toxicpanda.com, dsterba@suse.com, xiubli@redhat.com,
-        idryomov@gmail.com, jaharkes@cs.cmu.edu, coda@cs.cmu.edu,
-        code@tyhicks.com, xiang@kernel.org, chao@kernel.org,
-        huyue2@coolpad.com, jefflexu@linux.alibaba.com,
-        linkinjeon@kernel.org, sj1557.seo@samsung.com, jack@suse.com,
-        tytso@mit.edu, adilger.kernel@dilger.ca, jaegeuk@kernel.org,
-        hirofumi@mail.parknet.co.jp, miklos@szeredi.hu,
-        rpeterso@redhat.com, agruenba@redhat.com,
-        gregkh@linuxfoundation.org, tj@kernel.org,
-        trond.myklebust@hammerspace.com, anna@kernel.org,
-        almaz.alexandrovich@paragon-software.com, mark@fasheh.com,
-        jlbec@evilplan.org, joseph.qi@linux.alibaba.com,
-        hubcap@omnibond.com, martin@omnibond.com, mcgrof@kernel.org,
-        keescook@chromium.org, yzaikin@google.com, sfrench@samba.org,
-        pc@manguebit.com, ronniesahlberg@gmail.com, sprasad@microsoft.com,
-        tom@talpey.com, senozhatsky@chromium.org, richard@nod.at,
-        hdegoede@redhat.com, hughd@google.com, akpm@linux-foundation.org,
-        amir73il@gmail.com, djwong@kernel.org, bcodding@redhat.com,
-        jack@suse.cz, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-mtd@lists.infradead.org, linux-afs@lists.infradead.org,
-        linux-cifs@vger.kernel.org, codalist@coda.cs.cmu.edu,
-        cluster-devel@redhat.com, linux-ext4@vger.kernel.org,
-        devel@lists.orangefs.org, ecryptfs@vger.kernel.org,
-        ocfs2-devel@lists.linux.dev, ceph-devel@vger.kernel.org,
-        linux-nfs@vger.kernel.org, v9fs@lists.linux.dev,
-        samba-technical@lists.samba.org, linux-unionfs@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, ntfs3@lists.linux.dev,
-        linux-erofs@lists.ozlabs.org, linux-btrfs@vger.kernel.org
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Received: by 2002:a0c:de0e:0:b0:634:8588:8dcb with HTTP; Tue, 5 Sep 2023
+ 01:19:02 -0700 (PDT)
+Reply-To: wuwumoneytransfer5000@hotmail.com
+From:   "(IMF) SCAM VICTIMS" <smmab4668@gmail.com>
+Date:   Tue, 5 Sep 2023 01:19:02 -0700
+Message-ID: <CAPvhgiGb_xchv+cBfjtNXZbs3T38s2BJRqmONSNBDUeOvUkr=Q@mail.gmail.com>
+Subject: Betrugsopfer
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=4.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Hello:
-
-This series was applied to jaegeuk/f2fs.git (dev)
-by Christian Brauner <brauner@kernel.org>:
-
-On Mon, 07 Aug 2023 15:38:31 -0400 you wrote:
-> The VFS always uses coarse-grained timestamps when updating the
-> ctime and mtime after a change. This has the benefit of allowing
-> filesystems to optimize away a lot metadata updates, down to around 1
-> per jiffy, even when a file is under heavy writes.
-> 
-> Unfortunately, this coarseness has always been an issue when we're
-> exporting via NFSv3, which relies on timestamps to validate caches. A
-> lot of changes can happen in a jiffy, so timestamps aren't sufficient to
-> help the client decide to invalidate the cache.
-> 
-> [...]
-
-Here is the summary with links:
-  - [f2fs-dev,v7,01/13] fs: remove silly warning from current_time
-    https://git.kernel.org/jaegeuk/f2fs/c/b3030e4f2344
-  - [f2fs-dev,v7,02/13] fs: pass the request_mask to generic_fillattr
-    https://git.kernel.org/jaegeuk/f2fs/c/0d72b92883c6
-  - [f2fs-dev,v7,03/13] fs: drop the timespec64 arg from generic_update_time
-    https://git.kernel.org/jaegeuk/f2fs/c/541d4c798a59
-  - [f2fs-dev,v7,04/13] btrfs: have it use inode_update_timestamps
-    https://git.kernel.org/jaegeuk/f2fs/c/bb7cc0a62e47
-  - [f2fs-dev,v7,05/13] fat: make fat_update_time get its own timestamp
-    (no matching commit)
-  - [f2fs-dev,v7,06/13] ubifs: have ubifs_update_time use inode_update_timestamps
-    (no matching commit)
-  - [f2fs-dev,v7,07/13] xfs: have xfs_vn_update_time gets its own timestamp
-    (no matching commit)
-  - [f2fs-dev,v7,08/13] fs: drop the timespec64 argument from update_time
-    (no matching commit)
-  - [f2fs-dev,v7,09/13] fs: add infrastructure for multigrain timestamps
-    https://git.kernel.org/jaegeuk/f2fs/c/ffb6cf19e063
-  - [f2fs-dev,v7,10/13] tmpfs: add support for multigrain timestamps
-    https://git.kernel.org/jaegeuk/f2fs/c/d48c33972916
-  - [f2fs-dev,v7,11/13] xfs: switch to multigrain timestamps
-    (no matching commit)
-  - [f2fs-dev,v7,12/13] ext4: switch to multigrain timestamps
-    https://git.kernel.org/jaegeuk/f2fs/c/0269b585868e
-  - [f2fs-dev,v7,13/13] btrfs: convert to multigrain timestamps
-    https://git.kernel.org/jaegeuk/f2fs/c/50e9ceef1d4f
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Sehr geehrter E-Mail-Besitzer,
 
 
+
+Der Internationale W=C3=A4hrungsfonds (IWF) entsch=C3=A4digt alle Betrugsop=
+fer
+und Ihre E-Mail-Adresse wurde auf der Liste der Betrugsopfer gefunden.
+
+Dieses Western Union-B=C3=BCro wurde vom IWF beauftragt Ihnen Ihre
+Verg=C3=BCtung per Western Union Money Transfer zu =C3=BCberweisen.
+
+Wir haben uns jedoch entschieden Ihre eigene Zahlung =C3=BCber Geldtransfer
+der Westunion in H=C3=B6he von =E2=82=AC5,000, pro Tag vorzunehmen bis die
+Gesamtsumme von =E2=82=AC1,500.000.00, vollst=C3=A4ndig an Sie =C3=BCberwie=
+sen wurde.
+
+Wir k=C3=B6nnen die Zahlung m=C3=B6glicherweise nicht nur mit Ihrer
+E-Mail-Adresse senden daher ben=C3=B6tigen wir Ihre Informationen dar=C3=BC=
+ber
+wohin wir das Geld an Sie senden wie z. B.:
+
+
+Name des Adressaten ________________
+
+Adresse________________
+
+Land__________________
+
+Telefonnummer________________
+
+Angeh=C3=A4ngte Kopie Ihres Ausweises______________
+
+Das Alter ________________________
+
+
+Wir beginnen mit der =C3=9Cbertragung sobald wir Ihre Informationen
+erhalten haben: Kontakt E-Mail: ( wuwumoneytransfer5000@hotmail.com)
+
+
+Getreu,
+
+
+Herr Anthony Duru,
+
+Direktor von Geldtransfer der Westunion
