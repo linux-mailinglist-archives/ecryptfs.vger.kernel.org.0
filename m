@@ -2,34 +2,35 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 970367A6148
-	for <lists+ecryptfs@lfdr.de>; Tue, 19 Sep 2023 13:33:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FB2B7A68F4
+	for <lists+ecryptfs@lfdr.de>; Tue, 19 Sep 2023 18:31:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231349AbjISLdl (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Tue, 19 Sep 2023 07:33:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35148 "EHLO
+        id S232252AbjISQbk (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Tue, 19 Sep 2023 12:31:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230404AbjISLdk (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Tue, 19 Sep 2023 07:33:40 -0400
+        with ESMTP id S232041AbjISQbd (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Tue, 19 Sep 2023 12:31:33 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5DCCF2;
-        Tue, 19 Sep 2023 04:33:33 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D159EC433C8;
-        Tue, 19 Sep 2023 11:33:26 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6EAB1A7;
+        Tue, 19 Sep 2023 09:31:17 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07A27C433CD;
+        Tue, 19 Sep 2023 16:31:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695123213;
-        bh=3M0d3dD3pzePraPqdY5Lb/FSgSUINN1vw73+jr5dq7Q=;
+        s=k20201202; t=1695141076;
+        bh=2YOWI6/JAFOB4t8+Jl1G0UAU2WJNOEKR+ozWrF+wCHw=;
         h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=tQh6lksLqcIOBj/Ff0JXOKys/7/S9IytLOiF0JDIywzjJVGnvZkHN89m5sE62mpoB
-         B3YDCwOOxX1gnLmVWc3ePStHNAbvbDg9jgbpVAv5wDbDdw2Vl89GZwZ9qNlNxra4Fg
-         kiXuONNyEoPOCmaTk9QAiioZqeXDdQ8Od2dvXiPB2jbqabD8+vET4rWht6VUqialFl
-         kMESlGGKraI/mfEF5XUwwnyQC7enBkaOr88DrXpjQxZ8vzJOm87lLPeOk13Z2jZZWP
-         +DF8dMCw1HMweouCpDWHzR5OF6xSCTUQlXvt6hjtZ1K1zZoSy0NQYp4mHOMzF7pFix
-         96Omsq9cDaYdg==
-Message-ID: <1f29102c09c60661758c5376018eac43f774c462.camel@kernel.org>
+        b=NSgO9mQ/kogScKOyruXs27QKGb28KeH5iN8518jdQIxYZ9Zq8W5Yeb8HJpLNbIZ40
+         EQDdGtIWCMRwCZr+hkVhSKagEDB2fBTdAzDnNexBTyvRGH8+mWpGC7k4O3oOthSODy
+         kLPJh5RYmd+l51ixbejRXP63ZyU1UyglaFGETEGRw2BGftvafb/kUzhWZeRY/B1ibo
+         Wti21rW2JgdQmcow8/EHQlT7uWQR0pPH/ecD4lkrfORAvjqUH6xcDxBDFUTwISNY24
+         GBmtqEOt9wCW1B2y4/2rn4A5SVB2ofaAjm8Z64p+ka1gu4ZTZ9u3KdunqSf9K8+AlP
+         OJGP0iADrktsQ==
+Message-ID: <08b5c6fd3b08b87fa564bb562d89381dd4e05b6a.camel@kernel.org>
 Subject: Re: [PATCH v7 12/13] ext4: switch to multigrain timestamps
 From:   Jeff Layton <jlayton@kernel.org>
-To:     Jan Kara <jack@suse.cz>, Xi Ruoyao <xry111@linuxfromscratch.org>
+To:     Bruno Haible <bruno@clisp.org>, Jan Kara <jack@suse.cz>,
+        Xi Ruoyao <xry111@linuxfromscratch.org>, bug-gnulib@gnu.org
 Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Christian Brauner <brauner@kernel.org>,
         Eric Van Hensbergen <ericvh@kernel.org>,
@@ -52,7 +53,7 @@ Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Jaegeuk Kim <jaegeuk@kernel.org>,
         OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
         Miklos Szeredi <miklos@szeredi.hu>,
-        Bob Peterson <rpeterso@redhat.com>,
+        Bo b Peterson <rpeterso@redhat.com>,
         Andreas Gruenbacher <agruenba@redhat.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Tejun Heo <tj@kernel.org>,
@@ -77,7 +78,7 @@ Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Hans de Goede <hdegoede@redhat.com>,
         Hugh Dickins <hughd@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Amir Goldstein <amir73il@gmail.com>,
+        Amir Goldstein <l@gmail.com>,
         "Darrick J. Wong" <djwong@kernel.org>,
         Benjamin Coddington <bcodding@redhat.com>,
         linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -90,89 +91,88 @@ Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org,
         linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
         linux-mtd@lists.infradead.org, linux-mm@kvack.org,
-        linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org,
-        bug-gnulib@gnu.org
-Date:   Tue, 19 Sep 2023 07:33:25 -0400
-In-Reply-To: <20230919110457.7fnmzo4nqsi43yqq@quack3>
+        linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org
+Date:   Tue, 19 Sep 2023 12:31:08 -0400
+In-Reply-To: <4511209.uG2h0Jr0uP@nimes>
 References: <20230807-mgctime-v7-0-d1dec143a704@kernel.org>
-         <20230807-mgctime-v7-12-d1dec143a704@kernel.org>
-         <bf0524debb976627693e12ad23690094e4514303.camel@linuxfromscratch.org>
          <20230919110457.7fnmzo4nqsi43yqq@quack3>
+         <1f29102c09c60661758c5376018eac43f774c462.camel@kernel.org>
+         <4511209.uG2h0Jr0uP@nimes>
 Content-Type: text/plain; charset="ISO-8859-15"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-On Tue, 2023-09-19 at 13:04 +0200, Jan Kara wrote:
-> On Tue 19-09-23 15:05:24, Xi Ruoyao wrote:
-> > On Mon, 2023-08-07 at 15:38 -0400, Jeff Layton wrote:
-> > > Enable multigrain timestamps, which should ensure that there is an
-> > > apparent change to the timestamp whenever it has been written after
-> > > being actively observed via getattr.
+On Tue, 2023-09-19 at 16:52 +0200, Bruno Haible wrote:
+> Jeff Layton wrote:
+> > I'm not sure what we can do for this test. The nap() function is making
+> > an assumption that the timestamp granularity will be constant, and that
+> > isn't necessarily the case now.
+>=20
+> This is only of secondary importance, because the scenario by Jan Kara
+> shows a much more fundamental breakage:
+>=20
+> > > The ultimate problem is that a sequence like:
 > > >=20
-> > > For ext4, we only need to enable the FS_MGTIME flag.
+> > > write(f1)
+> > > stat(f2)
+> > > write(f2)
+> > > stat(f2)
+> > > write(f1)
+> > > stat(f1)
+> > >=20
+> > > can result in f1 timestamp to be (slightly) lower than the final f2
+> > > timestamp because the second write to f1 didn't bother updating the
+> > > timestamp. That can indeed be a bit confusing to programs if they com=
+pare
+> > > timestamps between two files. Jeff?
+> > >=20
 > >=20
-> > Hi Jeff,
-> >=20
-> > This patch causes a gnulib test failure:
-> >=20
-> > $ ~/sources/lfs/grep-3.11/gnulib-tests/test-stat-time
-> > test-stat-time.c:141: assertion 'statinfo[0].st_mtime < statinfo[2].st_=
-mtime || (statinfo[0].st_mtime =3D=3D statinfo[2].st_mtime && (get_stat_mti=
-me_ns (&statinfo[0]) < get_stat_mtime_ns (&statinfo[2])))' failed
-> > Aborted (core dumped)
-> >=20
-> > The source code of the test:
-> > https://git.savannah.gnu.org/cgit/gnulib.git/tree/tests/test-stat-time.=
-c
-> >=20
-> > Is this an expected change?
+> > Basically yes.
 >=20
-> Kind of yes. The test first tries to estimate filesystem timestamp
-> granularity in nap() function - due to this patch, the detected granulari=
-ty
-> will likely be 1 ns so effectively all the test calls will happen
-> immediately one after another. But we don't bother setting the timestamps
-> with more than 1 jiffy (usually 4 ms) precision unless we think someone i=
-s
-> watching. So as a result timestamps of all stamp1 and stamp2 files are
-> going to be equal which makes the test fail.
+> f1 was last written to *after* f2 was last written to. If the timestamp o=
+f f1
+> is then lower than the timestamp of f2, timestamps are fundamentally brok=
+en.
+>=20
+> Many things in user-space depend on timestamps, such as build system
+> centered around 'make', but also 'find ... -newer ...'.
 >=20
 
-That was my take too. The multigrain ctime changes are probably causing
-nap() to settle on too small a time delta.
 
-> The ultimate problem is that a sequence like:
->=20
-> write(f1)
-> stat(f2)
-> write(f2)
-> stat(f2)
-> write(f1)
-> stat(f1)
->
-> can result in f1 timestamp to be (slightly) lower than the final f2
-> timestamp because the second write to f1 didn't bother updating the
-> timestamp. That can indeed be a bit confusing to programs if they compare
-> timestamps between two files. Jeff?
->=20
+What does breakage with make look like in this situation? The "fuzz"
+here is going to be on the order of a jiffy. The typical case for make
+timestamp comparisons is comparing source files vs. a build target. If
+those are being written nearly simultaneously, then that could be an
+issue, but is that a typical behavior? It seems like it would be hard to
+rely on that anyway, esp. given filesystems like NFS that can do lazy
+writeback.
 
-Basically yes. When there is no stat() call issued on the file in
-between writes, the kernel will use coarse-grained timestamps when
-updating it (since no one is watching).
+One of the operating principles with this series is that timestamps can
+be of varying granularity between different files. Note that Linux
+already violates this assumption when you're working across filesystems
+of different types.
 
+As to potential fixes if this is a real problem:
 
-I'm not sure what we can do for this test. The nap() function is making
-an assumption that the timestamp granularity will be constant, and that
-isn't necessarily the case now.
+I don't really want to put this behind a mount or mkfs option (a'la
+relatime, etc.), but that is one possibility.
 
+I wonder if it would be feasible to just advance the coarse-grained
+current_time whenever we end up updating a ctime with a fine-grained
+timestamp? It might produce some inode write amplification. Files that
+were written within the same jiffy could see more inode transactions
+logged, but that still might not be _too_ awful.
+
+I'll keep thinking about it for now.
 --=20
 Jeff Layton <jlayton@kernel.org>
