@@ -2,164 +2,159 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B2FE79A071
-	for <lists+ecryptfs@lfdr.de>; Mon, 11 Sep 2023 00:01:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE7F07A5A9E
+	for <lists+ecryptfs@lfdr.de>; Tue, 19 Sep 2023 09:14:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231444AbjIJWBe (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Sun, 10 Sep 2023 18:01:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46128 "EHLO
+        id S231658AbjISHO2 (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Tue, 19 Sep 2023 03:14:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231205AbjIJWBd (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Sun, 10 Sep 2023 18:01:33 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C35F138
-        for <ecryptfs@vger.kernel.org>; Sun, 10 Sep 2023 15:01:28 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-68a440a8a20so3655665b3a.3
-        for <ecryptfs@vger.kernel.org>; Sun, 10 Sep 2023 15:01:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1694383288; x=1694988088; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EyybjuBSw2AsBAibBPVqGccWs6P0JtTeGBB0Kwx90Dw=;
-        b=b1Q+Djrc6DRgK0lSMIXf6OVmm1S98Rb1dJdV/4AjeMobXYoqxa/k4Xb7XAYcmCuvbB
-         T8pFPhiJHk/Ig8CcU4is+jZGfReesXQjqK7ULjc+VZz110Uqhy1NjrWTu4Ej2kgb1UEn
-         ZHgnS7dDfuM0nrDuRkgBy+D/YOBtPecXxWCyUh6h/0/NlsJyyOwKHQwSKYYxfVY7xjkS
-         7I+QxdaDiDVRMV8qekGuV48jZlbOlbc6skR8a29kp5hS8zsrhWfeCv9XIJ/gwMURSkPX
-         Ncgzq9d3+KaDgvRq3XsvmeqBjcqt9Lc7ewxeY00IZtUnccPI4WIduUYqP2aDlo+H2VFl
-         7yRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694383288; x=1694988088;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EyybjuBSw2AsBAibBPVqGccWs6P0JtTeGBB0Kwx90Dw=;
-        b=RjaIHzQEkcEPOm7G5ug1Ahd3pJIe04u202APeuxKSSew5n/p/NioWi/cN6TDPsmIHB
-         WkPgr7tCyLUDf6G1WWZr9ssfinRrYEFk6u68B+Y5dVRIHAfNYWFOkORhSeG+wMZL6j7P
-         C84YaRjE0woUgDja7VqOO53SKYssiWm66nF8S9emBP/roL4vbDzh5fq6OcgZBD4t35O6
-         MW7VWcoePd7cgTwWqUnqrvQNlXp/OcJGJwLoqLdGb+I/JBR6AhFQNKc4RUgVnUswz/tY
-         BC4J7Py3JdkIBOKjEAsmqs7R5bOkpEQQg2R65ueoVeLDydEiNZGD+zexGo1HB1jjxFym
-         vgiA==
-X-Gm-Message-State: AOJu0YwfK19hNZVWujLLXS2ajsvaY8eSmn0m6afLvBXlhX5IeogHmed+
-        m9gw4YIF0Sp/CzwN/ek6LVAWOA==
-X-Google-Smtp-Source: AGHT+IHSYFPf3w2qdTZr9bikkzuSsvPYQjYYZyW+Zfc616rQWXs3Eeo2BzwinmhhOfJVOtnHj1lBTA==
-X-Received: by 2002:a05:6a00:1a0c:b0:68c:57c7:1eb0 with SMTP id g12-20020a056a001a0c00b0068c57c71eb0mr9371853pfv.11.1694383287795;
-        Sun, 10 Sep 2023 15:01:27 -0700 (PDT)
-Received: from dread.disaster.area (pa49-195-66-88.pa.nsw.optusnet.com.au. [49.195.66.88])
-        by smtp.gmail.com with ESMTPSA id u10-20020a62ed0a000000b0068a3dd6c1dasm4403641pfh.142.2023.09.10.15.01.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Sep 2023 15:01:27 -0700 (PDT)
-Received: from dave by dread.disaster.area with local (Exim 4.96)
-        (envelope-from <david@fromorbit.com>)
-        id 1qfSUe-00DWBA-0u;
-        Mon, 11 Sep 2023 08:01:24 +1000
-Date:   Mon, 11 Sep 2023 08:01:24 +1000
-From:   Dave Chinner <david@fromorbit.com>
-To:     Pavel Begunkov <asml.silence@gmail.com>
-Cc:     Hao Xu <hao.xu@linux.dev>, Matthew Wilcox <willy@infradead.org>,
-        io-uring@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-        Dominique Martinet <asmadeus@codewreck.org>,
-        Christian Brauner <brauner@kernel.org>,
+        with ESMTP id S231560AbjISHO0 (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Tue, 19 Sep 2023 03:14:26 -0400
+X-Greylist: delayed 501 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 19 Sep 2023 00:14:19 PDT
+Received: from rivendell.linuxfromscratch.org (rivendell.linuxfromscratch.org [208.118.68.85])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CF4CB119;
+        Tue, 19 Sep 2023 00:14:19 -0700 (PDT)
+Received: from [192.168.3.211] (unknown [36.44.140.33])
+        by rivendell.linuxfromscratch.org (Postfix) with ESMTPSA id 26A431C1DD6;
+        Tue, 19 Sep 2023 07:05:30 +0000 (GMT)
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 1.0.0 at rivendell.linuxfromscratch.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfromscratch.org;
+        s=cert4; t=1695107155;
+        bh=9wNEeAzCOPg0mCdyHRKNEVbZmXBmTaugcI3ERiby3k0=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References;
+        b=aqoK/Ilc8LvyUE+Xk4kK0TbIhFHarWsn2uBwrCvOIBF6xZoiA1f4tJ9dbKWFKRiu6
+         paL+GBbo9SPpEBIbiWrsPB0XfpKTd2+G50VtbF86FGHEVOMJSrRDmkMaTUMORk6h/3
+         qLapgrTCCQmetnyxXQd0oMfEVgIT+/HKvVoU4IKX272amD2+FjwGF7/9QSILQuggfV
+         BI6kNxpQvUY/+hAogUxC35kr9T5IahyPaFtyYIDE5cZir6pdZggqKuZtpzkHOubZ1J
+         isHMMtWcQM3xaSsKJn5GsqEfCinyGk71Ww3uWLHV11gy8ssXk8BO2mWnXKo2ok/N19
+         WGA2g3mo4aO4w==
+Message-ID: <bf0524debb976627693e12ad23690094e4514303.camel@linuxfromscratch.org>
+Subject: Re: [PATCH v7 12/13] ext4: switch to multigrain timestamps
+From:   Xi Ruoyao <xry111@linuxfromscratch.org>
+To:     Jeff Layton <jlayton@kernel.org>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
-        Stefan Roesch <shr@fb.com>, Clay Harris <bugs@claycon.org>,
-        "Darrick J . Wong" <djwong@kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-cachefs@redhat.com,
-        ecryptfs@vger.kernel.org, linux-nfs@vger.kernel.org,
-        linux-unionfs@vger.kernel.org, bpf@vger.kernel.org,
-        netdev@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, codalist@coda.cs.cmu.edu,
+        Christian Brauner <brauner@kernel.org>,
+        Eric Van Hensbergen <ericvh@kernel.org>,
+        Latchesar Ionkov <lucho@ionkov.net>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        Christian Schoenebeck <linux_oss@crudebyte.com>,
+        David Howells <dhowells@redhat.com>,
+        Marc Dionne <marc.dionne@auristor.com>,
+        Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
+        David Sterba <dsterba@suse.com>, Xiubo Li <xiubli@redhat.com>,
+        Ilya Dryomov <idryomov@gmail.com>,
+        Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu,
+        Tyler Hicks <code@tyhicks.com>, Gao Xiang <xiang@kernel.org>,
+        Chao Yu <chao@kernel.org>, Yue Hu <huyue2@coolpad.com>,
+        Jeffle Xu <jefflexu@linux.alibaba.com>,
+        Namjae Jeon <linkinjeon@kernel.org>,
+        Sungjong Seo <sj1557.seo@samsung.com>,
+        Jan Kara <jack@suse.com>, Theodore Ts'o <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Bob Peterson <rpeterso@redhat.com>,
+        Andreas Gruenbacher <agruenba@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tejun Heo <tj@kernel.org>,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Anna Schumaker <anna@kernel.org>,
+        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+        Mark Fasheh <mark@fasheh.com>,
+        Joel Becker <jlbec@evilplan.org>,
+        Joseph Qi <joseph.qi@linux.alibaba.com>,
+        Mike Marshall <hubcap@omnibond.com>,
+        Martin Brandenburg <martin@omnibond.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Steve French <sfrench@samba.org>,
+        Paulo Alcantara <pc@manguebit.com>,
+        Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+        Shyam Prasad N <sprasad@microsoft.com>,
+        Tom Talpey <tom@talpey.com>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Richard Weinberger <richard@nod.at>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Hugh Dickins <hughd@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Amir Goldstein <amir73il@gmail.com>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Benjamin Coddington <bcodding@redhat.com>
+Cc:     linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        v9fs@lists.linux.dev, linux-afs@lists.infradead.org,
+        linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
+        codalist@coda.cs.cmu.edu, ecryptfs@vger.kernel.org,
+        linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
         linux-f2fs-devel@lists.sourceforge.net, cluster-devel@redhat.com,
-        linux-mm@kvack.org, linux-nilfs@vger.kernel.org,
-        devel@lists.orangefs.org, linux-cifs@vger.kernel.org,
-        samba-technical@lists.samba.org, linux-mtd@lists.infradead.org,
-        Wanpeng Li <wanpengli@tencent.com>
-Subject: Re: [PATCH 07/11] vfs: add nowait parameter for file_accessed()
-Message-ID: <ZP48tAg2iS0UzKQf@dread.disaster.area>
-References: <20230827132835.1373581-1-hao.xu@linux.dev>
- <20230827132835.1373581-8-hao.xu@linux.dev>
- <ZOvA5DJDZN0FRymp@casper.infradead.org>
- <c728bf3f-d9db-4865-8473-058b26c11c06@linux.dev>
- <ZO3cI+DkotHQo3md@casper.infradead.org>
- <642de4e6-801d-fcad-a7ce-bfc6dec3b6e5@linux.dev>
- <ZPUJHAKzxvXiEDYA@dread.disaster.area>
- <6489b8cb-7d54-1e29-f192-a3449ed87fa1@gmail.com>
+        linux-nfs@vger.kernel.org, ntfs3@lists.linux.dev,
+        ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org,
+        linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
+        linux-mtd@lists.infradead.org, linux-mm@kvack.org,
+        linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org,
+        Jan Kara <jack@suse.cz>, bug-gnulib@gnu.org
+Date:   Tue, 19 Sep 2023 15:05:24 +0800
+In-Reply-To: <20230807-mgctime-v7-12-d1dec143a704@kernel.org>
+References: <20230807-mgctime-v7-0-d1dec143a704@kernel.org>
+         <20230807-mgctime-v7-12-d1dec143a704@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6489b8cb-7d54-1e29-f192-a3449ed87fa1@gmail.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-On Fri, Sep 08, 2023 at 01:29:55AM +0100, Pavel Begunkov wrote:
-> On 9/3/23 23:30, Dave Chinner wrote:
-> > On Wed, Aug 30, 2023 at 02:11:31PM +0800, Hao Xu wrote:
-> > > On 8/29/23 19:53, Matthew Wilcox wrote:
-> > > > On Tue, Aug 29, 2023 at 03:46:13PM +0800, Hao Xu wrote:
-> > > > > On 8/28/23 05:32, Matthew Wilcox wrote:
-> > > > > > On Sun, Aug 27, 2023 at 09:28:31PM +0800, Hao Xu wrote:
-> > > > > > > From: Hao Xu <howeyxu@tencent.com>
-> > > > > > > 
-> > > > > > > Add a boolean parameter for file_accessed() to support nowait semantics.
-> > > > > > > Currently it is true only with io_uring as its initial caller.
-> > > > > > 
-> > > > > > So why do we need to do this as part of this series?  Apparently it
-> > > > > > hasn't caused any problems for filemap_read().
-> > > > > > 
-> > > > > 
-> > > > > We need this parameter to indicate if nowait semantics should be enforced in
-> > > > > touch_atime(), There are locks and maybe IOs in it.
-> > > > 
-> > > > That's not my point.  We currently call file_accessed() and
-> > > > touch_atime() for nowait reads and nowait writes.  You haven't done
-> > > > anything to fix those.
-> > > > 
-> > > > I suspect you can trim this patchset down significantly by avoiding
-> > > > fixing the file_accessed() problem.  And then come back with a later
-> > > > patchset that fixes it for all nowait i/o.  Or do a separate prep series
-> > > 
-> > > I'm ok to do that.
-> > > 
-> > > > first that fixes it for the existing nowait users, and then a second
-> > > > series to do all the directory stuff.
-> > > > 
-> > > > I'd do the first thing.  Just ignore the problem.  Directory atime
-> > > > updates cause I/O so rarely that you can afford to ignore it.  Almost
-> > > > everyone uses relatime or nodiratime.
-> > > 
-> > > Hi Matthew,
-> > > The previous discussion shows this does cause issues in real
-> > > producations: https://lore.kernel.org/io-uring/2785f009-2ebb-028d-8250-d5f3a30510f0@gmail.com/#:~:text=fwiw%2C%20we%27ve%20just%20recently%20had%20similar%20problems%20with%20io_uring%20read/write
-> > > 
-> > 
-> > Then separate it out into it's own patch set so we can have a
-> > discussion on the merits of requiring using noatime, relatime or
-> > lazytime for really latency sensitive IO applications. Changing code
-> > is not always the right solution...
-> 
-> Separation sounds reasonable, but it can hardly be said that only
-> latency sensitive apps would care about >1s nowait/async submission
-> delays. Presumably, btrfs can improve on that, but it still looks
-> like it's perfectly legit for filesystems do heavy stuff in
-> timestamping like waiting for IO. Right?
+On Mon, 2023-08-07 at 15:38 -0400, Jeff Layton wrote:
+> Enable multigrain timestamps, which should ensure that there is an
+> apparent change to the timestamp whenever it has been written after
+> being actively observed via getattr.
+>=20
+> For ext4, we only need to enable the FS_MGTIME flag.
 
-Yes, it is, no-one is denying that. And some filesystems are worse
-than others, but none of that means it has to be fixed so getdents
-can be converted to NOWAIT semantics.
+Hi Jeff,
 
-ie. this patchset is about the getdents NOWAIT machinery, and
-fiddling around with timestamps has much, much wider scope than just
-NOWAIT getdents machinery. We'll have this discussion about NOWAIT
-timestamp updates when a RFC is proposed to address the wider
-problem of how timestamp updates should behave in NOWAIT context.
+This patch causes a gnulib test failure:
 
--Dave.
--- 
-Dave Chinner
-david@fromorbit.com
+$ ~/sources/lfs/grep-3.11/gnulib-tests/test-stat-time
+test-stat-time.c:141: assertion 'statinfo[0].st_mtime < statinfo[2].st_mtim=
+e || (statinfo[0].st_mtime =3D=3D statinfo[2].st_mtime && (get_stat_mtime_n=
+s (&statinfo[0]) < get_stat_mtime_ns (&statinfo[2])))' failed
+Aborted (core dumped)
+
+The source code of the test:
+https://git.savannah.gnu.org/cgit/gnulib.git/tree/tests/test-stat-time.c
+
+Is this an expected change?
+
+> Acked-by: Theodore Ts'o <tytso@mit.edu>
+> Reviewed-by: Jan Kara <jack@suse.cz>
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> ---
+> =C2=A0fs/ext4/super.c | 2 +-
+> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/fs/ext4/super.c b/fs/ext4/super.c
+> index b54c70e1a74e..cb1ff47af156 100644
+> --- a/fs/ext4/super.c
+> +++ b/fs/ext4/super.c
+> @@ -7279,7 +7279,7 @@ static struct file_system_type ext4_fs_type =3D {
+> =C2=A0	.init_fs_context	=3D ext4_init_fs_context,
+> =C2=A0	.parameters		=3D ext4_param_specs,
+> =C2=A0	.kill_sb		=3D kill_block_super,
+> -	.fs_flags		=3D FS_REQUIRES_DEV | FS_ALLOW_IDMAP,
+> +	.fs_flags		=3D FS_REQUIRES_DEV | FS_ALLOW_IDMAP |
+> FS_MGTIME,
+> =C2=A0};
+> =C2=A0MODULE_ALIAS_FS("ext4");
+> =C2=A0
+>=20
+
