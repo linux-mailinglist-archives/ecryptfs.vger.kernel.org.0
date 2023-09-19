@@ -2,34 +2,54 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FB2B7A68F4
-	for <lists+ecryptfs@lfdr.de>; Tue, 19 Sep 2023 18:31:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 544EE7A6C2F
+	for <lists+ecryptfs@lfdr.de>; Tue, 19 Sep 2023 22:18:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232252AbjISQbk (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Tue, 19 Sep 2023 12:31:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54450 "EHLO
+        id S233127AbjISUSL (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Tue, 19 Sep 2023 16:18:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232041AbjISQbd (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Tue, 19 Sep 2023 12:31:33 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6EAB1A7;
-        Tue, 19 Sep 2023 09:31:17 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07A27C433CD;
-        Tue, 19 Sep 2023 16:31:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695141076;
-        bh=2YOWI6/JAFOB4t8+Jl1G0UAU2WJNOEKR+ozWrF+wCHw=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=NSgO9mQ/kogScKOyruXs27QKGb28KeH5iN8518jdQIxYZ9Zq8W5Yeb8HJpLNbIZ40
-         EQDdGtIWCMRwCZr+hkVhSKagEDB2fBTdAzDnNexBTyvRGH8+mWpGC7k4O3oOthSODy
-         kLPJh5RYmd+l51ixbejRXP63ZyU1UyglaFGETEGRw2BGftvafb/kUzhWZeRY/B1ibo
-         Wti21rW2JgdQmcow8/EHQlT7uWQR0pPH/ecD4lkrfORAvjqUH6xcDxBDFUTwISNY24
-         GBmtqEOt9wCW1B2y4/2rn4A5SVB2ofaAjm8Z64p+ka1gu4ZTZ9u3KdunqSf9K8+AlP
-         OJGP0iADrktsQ==
-Message-ID: <08b5c6fd3b08b87fa564bb562d89381dd4e05b6a.camel@kernel.org>
-Subject: Re: [PATCH v7 12/13] ext4: switch to multigrain timestamps
-From:   Jeff Layton <jlayton@kernel.org>
-To:     Bruno Haible <bruno@clisp.org>, Jan Kara <jack@suse.cz>,
+        with ESMTP id S229853AbjISUSJ (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Tue, 19 Sep 2023 16:18:09 -0400
+X-Greylist: delayed 433 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 19 Sep 2023 13:18:04 PDT
+Received: from mail.cs.ucla.edu (mail.cs.ucla.edu [131.179.128.66])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A3BC93;
+        Tue, 19 Sep 2023 13:18:04 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.cs.ucla.edu (Postfix) with ESMTP id 750A03C00D18B;
+        Tue, 19 Sep 2023 13:10:50 -0700 (PDT)
+Received: from mail.cs.ucla.edu ([127.0.0.1])
+        by localhost (mail.cs.ucla.edu [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id AMNmxh8IWcZs; Tue, 19 Sep 2023 13:10:50 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.cs.ucla.edu (Postfix) with ESMTP id EB6833C00D18D;
+        Tue, 19 Sep 2023 13:10:49 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.cs.ucla.edu EB6833C00D18D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cs.ucla.edu;
+        s=9D0B346E-2AEB-11ED-9476-E14B719DCE6C; t=1695154250;
+        bh=rkg9tbxTq6pJj5csNug/eDfUxuv8dlZEs8ZxbrqQ+Bs=;
+        h=Message-ID:Date:MIME-Version:To:From;
+        b=e7FwFS1NK+ibkS0cG53EL8AQUGclUFwkekbt01t0RrGTfteamSqMsn/mn3buwjYqP
+         Ss5aVs4mQTQ9vMjU5SbCpefiDChbloDYu1HfklTquHXpMe72pT4M6hvyzCQRVAncyf
+         WVOHo5BHpqQpInzk0XI1vkjThUjzXxG9DeoOO1hJGEZWIEF2xR1lMhg3hNLw6eelH3
+         vfkIEJZDbK4SvwqlaNARiGG/pYA5z0FuwJeduSFWqHIxx4VzcDeiRS6F9+AWa/lvRd
+         UJDA/fA+mrJldEyknr58vHs/9vvVt/ptANUNnDyTfqTMtd8U29s7w3jEOKzFb4QdS+
+         p/bV3Yp4QSW6g==
+X-Virus-Scanned: amavisd-new at mail.cs.ucla.edu
+Received: from mail.cs.ucla.edu ([127.0.0.1])
+        by localhost (mail.cs.ucla.edu [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id G7UgTQUjBKrV; Tue, 19 Sep 2023 13:10:49 -0700 (PDT)
+Received: from [192.168.254.12] (unknown [47.147.225.57])
+        by mail.cs.ucla.edu (Postfix) with ESMTPSA id C37643C00D18B;
+        Tue, 19 Sep 2023 13:10:48 -0700 (PDT)
+Message-ID: <c8315110-4684-9b83-d6c5-751647037623@cs.ucla.edu>
+Date:   Tue, 19 Sep 2023 13:10:47 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Content-Language: en-US
+To:     Jeff Layton <jlayton@kernel.org>, Bruno Haible <bruno@clisp.org>,
+        Jan Kara <jack@suse.cz>,
         Xi Ruoyao <xry111@linuxfromscratch.org>, bug-gnulib@gnu.org
 Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Christian Brauner <brauner@kernel.org>,
@@ -92,87 +112,75 @@ Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
         linux-mtd@lists.infradead.org, linux-mm@kvack.org,
         linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org
-Date:   Tue, 19 Sep 2023 12:31:08 -0400
-In-Reply-To: <4511209.uG2h0Jr0uP@nimes>
 References: <20230807-mgctime-v7-0-d1dec143a704@kernel.org>
-         <20230919110457.7fnmzo4nqsi43yqq@quack3>
-         <1f29102c09c60661758c5376018eac43f774c462.camel@kernel.org>
-         <4511209.uG2h0Jr0uP@nimes>
-Content-Type: text/plain; charset="ISO-8859-15"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
-MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+ <20230919110457.7fnmzo4nqsi43yqq@quack3>
+ <1f29102c09c60661758c5376018eac43f774c462.camel@kernel.org>
+ <4511209.uG2h0Jr0uP@nimes>
+ <08b5c6fd3b08b87fa564bb562d89381dd4e05b6a.camel@kernel.org>
+From:   Paul Eggert <eggert@cs.ucla.edu>
+Organization: UCLA Computer Science Department
+Subject: Re: [PATCH v7 12/13] ext4: switch to multigrain timestamps
+In-Reply-To: <08b5c6fd3b08b87fa564bb562d89381dd4e05b6a.camel@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-On Tue, 2023-09-19 at 16:52 +0200, Bruno Haible wrote:
-> Jeff Layton wrote:
-> > I'm not sure what we can do for this test. The nap() function is making
-> > an assumption that the timestamp granularity will be constant, and that
-> > isn't necessarily the case now.
->=20
-> This is only of secondary importance, because the scenario by Jan Kara
-> shows a much more fundamental breakage:
->=20
-> > > The ultimate problem is that a sequence like:
-> > >=20
-> > > write(f1)
-> > > stat(f2)
-> > > write(f2)
-> > > stat(f2)
-> > > write(f1)
-> > > stat(f1)
-> > >=20
-> > > can result in f1 timestamp to be (slightly) lower than the final f2
-> > > timestamp because the second write to f1 didn't bother updating the
-> > > timestamp. That can indeed be a bit confusing to programs if they com=
-pare
-> > > timestamps between two files. Jeff?
-> > >=20
-> >=20
-> > Basically yes.
->=20
-> f1 was last written to *after* f2 was last written to. If the timestamp o=
-f f1
-> is then lower than the timestamp of f2, timestamps are fundamentally brok=
-en.
->=20
-> Many things in user-space depend on timestamps, such as build system
-> centered around 'make', but also 'find ... -newer ...'.
->=20
+On 2023-09-19 09:31, Jeff Layton wrote:
+> The typical case for make
+> timestamp comparisons is comparing source files vs. a build target. If
+> those are being written nearly simultaneously, then that could be an
+> issue, but is that a typical behavior?
+
+I vaguely remember running into problems with 'make' a while ago 
+(perhaps with a BSDish system) when filesystem timestamps were 
+arbitrarily truncated in some cases but not others. These files would 
+look older than they really were, so 'make' would think they were 
+up-to-date when they weren't, and 'make' would omit actions that it 
+should have done, thus screwing up the build.
+
+File timestamps can be close together with 'make -j' on fast hosts. 
+Sometimes a shell script (or 'make' itself) will run 'make', then modify 
+a file F, then immediately run 'make' again; the latter 'make' won't 
+work if F's timestamp is mistakenly older than targets that depend on it.
+
+Although 'make'-like apps are the biggest canaries in this coal mine, 
+the issue also affects 'find -newer' (as Bruno mentioned), 'rsync -u', 
+'mv -u', 'tar -u', Emacs file-newer-than-file-p, and surely many other 
+places. For example, any app that creates a timestamp file, then backs 
+up all files newer than that file, would be at risk.
 
 
-What does breakage with make look like in this situation? The "fuzz"
-here is going to be on the order of a jiffy. The typical case for make
-timestamp comparisons is comparing source files vs. a build target. If
-those are being written nearly simultaneously, then that could be an
-issue, but is that a typical behavior? It seems like it would be hard to
-rely on that anyway, esp. given filesystems like NFS that can do lazy
-writeback.
+> I wonder if it would be feasible to just advance the coarse-grained
+> current_time whenever we end up updating a ctime with a fine-grained
+> timestamp?
 
-One of the operating principles with this series is that timestamps can
-be of varying granularity between different files. Note that Linux
-already violates this assumption when you're working across filesystems
-of different types.
+Wouldn't this need to be done globally, that is, not just on a per-file 
+or per-filesystem basis? If so, I don't see how we'd avoid locking 
+performance issues.
 
-As to potential fixes if this is a real problem:
 
-I don't really want to put this behind a mount or mkfs option (a'la
-relatime, etc.), but that is one possibility.
+PS. Although I'm no expert in the Linux inode code I hope you don't mind 
+my asking a question about this part of inode_set_ctime_current:
 
-I wonder if it would be feasible to just advance the coarse-grained
-current_time whenever we end up updating a ctime with a fine-grained
-timestamp? It might produce some inode write amplification. Files that
-were written within the same jiffy could see more inode transactions
-logged, but that still might not be _too_ awful.
+	/*
+	 * If we've recently updated with a fine-grained timestamp,
+	 * then the coarse-grained one may still be earlier than the
+	 * existing ctime. Just keep the existing value if so.
+	 */
+	ctime.tv_sec = inode->__i_ctime.tv_sec;
+	if (timespec64_compare(&ctime, &now) > 0)
+		return ctime;
 
-I'll keep thinking about it for now.
---=20
-Jeff Layton <jlayton@kernel.org>
+Suppose root used clock_settime to set the clock backwards. Won't this 
+code incorrectly refuse to update the file's timestamp afterwards? That 
+is, shouldn't the last line be "goto fine_grained;" rather than "return 
+ctime;", with the comment changed from "keep the existing value" to "use 
+a fine-grained value"?
