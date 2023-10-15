@@ -2,116 +2,129 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D64A7B3E25
-	for <lists+ecryptfs@lfdr.de>; Sat, 30 Sep 2023 07:01:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E67127C9C7F
+	for <lists+ecryptfs@lfdr.de>; Mon, 16 Oct 2023 00:48:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234047AbjI3FBv (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Sat, 30 Sep 2023 01:01:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45134 "EHLO
+        id S229518AbjJOWsy (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Sun, 15 Oct 2023 18:48:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234046AbjI3FBn (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Sat, 30 Sep 2023 01:01:43 -0400
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9802310E5;
-        Fri, 29 Sep 2023 22:01:22 -0700 (PDT)
-Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1c1ff5b741cso134162965ad.2;
-        Fri, 29 Sep 2023 22:01:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696050081; x=1696654881; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Cc7EZI0QTgBVujG8JfkUP0DGPINpthmbr1tCtQXff5c=;
-        b=ag/RLoUDLaiw5u/Lqe1u/h247avxIsqNkzwSKhP1E6bmFzaiYP9QNEIrgAwzxCsrzE
-         NlZP1rwmrvPhd9GAPKCeaJvJMKErBy9IAWfOHpsj60o0U2rtO+aN3JVZIKoJdr+Xch53
-         ds9iYTO5q+ab2vwqoHDIbI2XkPWgUosu58q8w7AP8JA5PZqpz7C07O2nQwkcNTufEcEi
-         nfRLYIX2BCqsAzOM2IvrHWzsXRfxAgQ9e3q96rZaAdkuKDYbvfuWk3jK6/wnr5nuY4J7
-         iNE/ab0mJ30/9jVIL/zkfIse5BjobJ0lM5e0abpAiSLskZYbZUYmu845vPRenxcHkT5f
-         OFFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696050081; x=1696654881;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Cc7EZI0QTgBVujG8JfkUP0DGPINpthmbr1tCtQXff5c=;
-        b=ipu6kMqemGxiiuEPv5JI4BjcGACxdGy+iL0q++UzJoGzcrCcTue8NF5nBGdsmqGuwj
-         cDWnWIgjLxfmmXPkcB0ETfawKnFnbyWHvcT/C3c39cyhvWFc2tmPDaB/06WoZqJgq4oM
-         LYQ0Jg+2UpaxDRqKIXYdS8FvefMJnCsQ9HeHPuNoQFtB+7104d7zwUnq491Rv7aH+g4/
-         mu9dqv0fFK6Wwn6phosTFWWyCk9Z6dG2/iIT+nq/lk8IhJZmb23aXrWGw6qasm1Dvezb
-         baTZ24W7E4lnIoinLdC5HCUocKiIcB2PrbRlV4BQLsQCkKhH82TfKu11jJ6JTKQ5G2PC
-         F8kA==
-X-Gm-Message-State: AOJu0YwXe4Pc+I3lX6B/cs9PqanogiUfT0drsApSLnEMIbWSfSNOZebk
-        b4k1zzpvI2f7iAT5sDixk2+6SiuE/mRK6w==
-X-Google-Smtp-Source: AGHT+IH3BKoWw/bIi/uoK/YSuI/cQIkI1vHksczWhfPejPGJq1Fi36aq+SAS76YP6K6KBymEbiRJow==
-X-Received: by 2002:a17:903:1247:b0:1c4:3cd5:4298 with SMTP id u7-20020a170903124700b001c43cd54298mr7127633plh.18.1696050081179;
-        Fri, 29 Sep 2023 22:01:21 -0700 (PDT)
-Received: from wedsonaf-dev.home.lan ([189.124.190.154])
-        by smtp.googlemail.com with ESMTPSA id y10-20020a17090322ca00b001c322a41188sm392136plg.117.2023.09.29.22.01.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Sep 2023 22:01:20 -0700 (PDT)
-From:   Wedson Almeida Filho <wedsonaf@gmail.com>
-To:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>,
-        linux-fsdevel@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Wedson Almeida Filho <walmeida@microsoft.com>,
-        Tyler Hicks <code@tyhicks.com>, ecryptfs@vger.kernel.org
-Subject: [PATCH 07/29] ecryptfs: move ecryptfs_xattr_handlers to .rodata
-Date:   Sat, 30 Sep 2023 02:00:11 -0300
-Message-Id: <20230930050033.41174-8-wedsonaf@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230930050033.41174-1-wedsonaf@gmail.com>
-References: <20230930050033.41174-1-wedsonaf@gmail.com>
+        with ESMTP id S229500AbjJOWsx (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Sun, 15 Oct 2023 18:48:53 -0400
+X-Greylist: delayed 397 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 15 Oct 2023 15:48:48 PDT
+Received: from gigared.com.ar (saga.gigared.com.ar [190.57.228.68])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94D10C5
+        for <ecryptfs@vger.kernel.org>; Sun, 15 Oct 2023 15:48:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=gigared.com.ar; s=dkim; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:Subject:Message-ID:Reply-To:From:Date:Sender:To:Cc:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=+AKy/BBrYAlSJQT3+oOpU9EK6U1mY8v1ufpp66llMzU=; b=vi0Ly5YIhh5eWvN6tVOb1ZmosB
+        0enbraNH35R7I3WtAjhwU2gryp+Vln1eUuvjWl39VUhMP8Lzw9MNWktIqOqj+GxZkA/dhDtpegcrQ
+        Fvuaw9bYX6/q9zVU0OeJas5x7NHWr2y60umFJJB9OZR3rxkJsKhghN+yA2gb1Oh5T8QY=;
+Authentication-Results: localhost;
+        iprev=pass (smtp.gigared.com.ar) smtp.remote-ip=190.7.31.233;
+        spf=pass smtp.mailfrom=gigared.com.ar;
+        dmarc=pass header.from=gigared.com.ar
+Received: from maskedhost [127.0.0.1] by example.com stage1 with esmtps 
+        (Exim MailCleaner) 
+        id 1qs9mt-00077f-2k  
+        from <eojeda@gigared.com.ar>;
+        Sun, 15 Oct 2023 19:40:43 -0300
+Received: from mail.gigared.com.ar (localhost [127.0.0.1])
+        by mail.gigared.com.ar (Postfix) with ESMTPS id 0190F5379F3D2;
+        Sun, 15 Oct 2023 19:35:00 -0300 (-03)
+Received: from mail.gigared.com.ar (localhost [127.0.0.1])
+        by mail.gigared.com.ar (Postfix) with ESMTPS id 1B2CB5E7C1FA5;
+        Sun, 15 Oct 2023 19:34:59 -0300 (-03)
+Received: from mail.gigared.com.ar (mail.gigared.com.ar [192.168.252.233])
+        by mail.gigared.com.ar (Postfix) with ESMTP id 19FDD593DC76E;
+        Sun, 15 Oct 2023 19:34:52 -0300 (-03)
+X-MailCleaner-SPF: pass
+Date:   Sun, 15 Oct 2023 19:34:52 -0300 (ART)
+From:   Infos <eojeda@gigared.com.ar>
+Reply-To: Infos <quartbvba@gmail.com>
+Message-ID: <552805821.12210774.1697409292063.JavaMail.zimbra@gigared.com.ar>
+Subject: Infos Oktober 2023
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [156.0.251.40]
+X-Mailer: Zimbra 8.8.15_GA_4562 (zclient/8.8.15_GA_4562)
+Thread-Index: jsV4qWp53bIWrzhhF3rYcrS4aLi3Ww==
+Thread-Topic: Infos Oktober 2023
+X-MailCleaner-TrustedIPs: Ok
+X-MailCleaner-TLS-Client-Certificate: none
+X-Spam-Status: Yes, score=6.3 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
+        HK_RANDOM_REPLYTO,MISSING_HEADERS,RCVD_IN_DNSWL_BLOCKED,
+        REPLYTO_WITHOUT_TO_CC,SPF_HELO_PASS,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Report: *  0.0 RCVD_IN_DNSWL_BLOCKED RBL: ADMINISTRATOR NOTICE: The query to
+        *      DNSWL was blocked.  See
+        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
+        *      for more information.
+        *      [190.57.228.68 listed in list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  1.0 HK_RANDOM_REPLYTO Reply-To username looks random
+        * -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  1.0 MISSING_HEADERS Missing To: header
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  1.6 REPLYTO_WITHOUT_TO_CC No description available.
+        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-From: Wedson Almeida Filho <walmeida@microsoft.com>
+Hallo Herr/Frau,
 
-This makes it harder for accidental or malicious changes to
-ecryptfs_xattr_handlers at runtime.
 
-Cc: Tyler Hicks <code@tyhicks.com>
-Cc: ecryptfs@vger.kernel.org
-Signed-off-by: Wedson Almeida Filho <walmeida@microsoft.com>
----
- fs/ecryptfs/ecryptfs_kernel.h | 2 +-
- fs/ecryptfs/inode.c           | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Wir haben nicht die Absicht, Ihre Zeit zu verschwenden.
 
-diff --git a/fs/ecryptfs/ecryptfs_kernel.h b/fs/ecryptfs/ecryptfs_kernel.h
-index f2ed0c0266cb..c586c5db18b5 100644
---- a/fs/ecryptfs/ecryptfs_kernel.h
-+++ b/fs/ecryptfs/ecryptfs_kernel.h
-@@ -702,6 +702,6 @@ int ecryptfs_set_f_namelen(long *namelen, long lower_namelen,
- int ecryptfs_derive_iv(char *iv, struct ecryptfs_crypt_stat *crypt_stat,
- 		       loff_t offset);
- 
--extern const struct xattr_handler *ecryptfs_xattr_handlers[];
-+extern const struct xattr_handler * const ecryptfs_xattr_handlers[];
- 
- #endif /* #ifndef ECRYPTFS_KERNEL_H */
-diff --git a/fs/ecryptfs/inode.c b/fs/ecryptfs/inode.c
-index 83274915ba6d..18fcec208d9d 100644
---- a/fs/ecryptfs/inode.c
-+++ b/fs/ecryptfs/inode.c
-@@ -1209,7 +1209,7 @@ static const struct xattr_handler ecryptfs_xattr_handler = {
- 	.set = ecryptfs_xattr_set,
- };
- 
--const struct xattr_handler *ecryptfs_xattr_handlers[] = {
-+const struct xattr_handler * const ecryptfs_xattr_handlers[] = {
- 	&ecryptfs_xattr_handler,
- 	NULL
- };
--- 
-2.34.1
 
+Wir vergeben Kredite an Privatpersonen und Unternehmen. Der Zinssatz betr=
+=C3=A4gt 2 % j=C3=A4hrlich. Wir haben die Kapazit=C3=A4t, Projekte in diese=
+n Bereichen zu finanzieren; Immobilienentwicklung, Bauwesen, Bergbau, =C3=
+=96l und Gas, Fluggesellschaft und verschiedene Handelsaktivit=C3=A4ten. Be=
+i Interesse geben Sie bitte Folgendes an:
+
+
+1- Vollst=C3=A4ndiger Name:
+2- Erforderlicher Kreditbetrag:
+3- Amortisationsdauer (1 =E2=80=93 30 Jahre):
+4- Telefonnummer:
+5- WhatsApp-Nummer:
+
+
+Sobald ich die oben genannten Informationen erhalten habe, sende ich Ihnen =
+die Kreditbedingungen zu.
+
+
+Ihr R=C3=BCckerstattungsplan beginnt nach 6 Monaten (6-monatige Kulanzfrist=
+).
+
+
+Die Finanzierung dauert etwa 7 Bankarbeitstage ab dem Tag, an dem Sie Ihren=
+ Kreditantrag einreichen.
+
+
+Antworten Sie uns f=C3=BCr weitere Informationen.
+
+
+Mit freundlichen Gr=C3=BC=C3=9Fen
+
+Uwe Wanner
