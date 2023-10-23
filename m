@@ -2,129 +2,108 @@ Return-Path: <ecryptfs-owner@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E67127C9C7F
-	for <lists+ecryptfs@lfdr.de>; Mon, 16 Oct 2023 00:48:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E28C47D2948
+	for <lists+ecryptfs@lfdr.de>; Mon, 23 Oct 2023 06:19:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229518AbjJOWsy (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
-        Sun, 15 Oct 2023 18:48:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35030 "EHLO
+        id S229468AbjJWETc (ORCPT <rfc822;lists+ecryptfs@lfdr.de>);
+        Mon, 23 Oct 2023 00:19:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229500AbjJOWsx (ORCPT
-        <rfc822;ecryptfs@vger.kernel.org>); Sun, 15 Oct 2023 18:48:53 -0400
-X-Greylist: delayed 397 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 15 Oct 2023 15:48:48 PDT
-Received: from gigared.com.ar (saga.gigared.com.ar [190.57.228.68])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94D10C5
-        for <ecryptfs@vger.kernel.org>; Sun, 15 Oct 2023 15:48:48 -0700 (PDT)
+        with ESMTP id S229451AbjJWETb (ORCPT
+        <rfc822;ecryptfs@vger.kernel.org>); Mon, 23 Oct 2023 00:19:31 -0400
+X-Greylist: delayed 92 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 22 Oct 2023 21:19:27 PDT
+Received: from omta037.useast.a.cloudfilter.net (omta037.useast.a.cloudfilter.net [44.202.169.36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA537F5;
+        Sun, 22 Oct 2023 21:19:27 -0700 (PDT)
+Received: from eig-obgw-5001a.ext.cloudfilter.net ([10.0.29.139])
+        by cmsmtp with ESMTPS
+        id uleKqckAjWcCIumO3qb9Bo; Mon, 23 Oct 2023 04:17:55 +0000
+Received: from 162-240-83-27.unifiedlayer.com ([137.59.148.200])
+        by cmsmtp with ESMTPS
+        id umO1qoa5ZTbebumO2q7k56; Mon, 23 Oct 2023 04:17:54 +0000
+X-Authority-Analysis: v=2.4 cv=E8LeGIRl c=1 sm=1 tr=0 ts=6535f3f2
+ a=MgGYFET5X96nYrQ76toljg==:117 a=32wkWZdPouleh9wPFPhphQ==:17
+ a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
+ a=kj9zAlcOel0A:10 a=bhdUkHdE2iEA:10 a=lUDAUsI-kUQA:10
+ a=9m64_h_j2zU8ieQoq-sA:9 a=CjuIK1q_8ugA:10
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=gigared.com.ar; s=dkim; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Subject:Message-ID:Reply-To:From:Date:Sender:To:Cc:Content-ID:
+        d=35686686.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+        Message-ID:Reply-To:Subject:To:From:Date:MIME-Version:Sender:Cc:Content-ID:
         Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
         :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
         List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=+AKy/BBrYAlSJQT3+oOpU9EK6U1mY8v1ufpp66llMzU=; b=vi0Ly5YIhh5eWvN6tVOb1ZmosB
-        0enbraNH35R7I3WtAjhwU2gryp+Vln1eUuvjWl39VUhMP8Lzw9MNWktIqOqj+GxZkA/dhDtpegcrQ
-        Fvuaw9bYX6/q9zVU0OeJas5x7NHWr2y60umFJJB9OZR3rxkJsKhghN+yA2gb1Oh5T8QY=;
-Authentication-Results: localhost;
-        iprev=pass (smtp.gigared.com.ar) smtp.remote-ip=190.7.31.233;
-        spf=pass smtp.mailfrom=gigared.com.ar;
-        dmarc=pass header.from=gigared.com.ar
-Received: from maskedhost [127.0.0.1] by example.com stage1 with esmtps 
-        (Exim MailCleaner) 
-        id 1qs9mt-00077f-2k  
-        from <eojeda@gigared.com.ar>;
-        Sun, 15 Oct 2023 19:40:43 -0300
-Received: from mail.gigared.com.ar (localhost [127.0.0.1])
-        by mail.gigared.com.ar (Postfix) with ESMTPS id 0190F5379F3D2;
-        Sun, 15 Oct 2023 19:35:00 -0300 (-03)
-Received: from mail.gigared.com.ar (localhost [127.0.0.1])
-        by mail.gigared.com.ar (Postfix) with ESMTPS id 1B2CB5E7C1FA5;
-        Sun, 15 Oct 2023 19:34:59 -0300 (-03)
-Received: from mail.gigared.com.ar (mail.gigared.com.ar [192.168.252.233])
-        by mail.gigared.com.ar (Postfix) with ESMTP id 19FDD593DC76E;
-        Sun, 15 Oct 2023 19:34:52 -0300 (-03)
-X-MailCleaner-SPF: pass
-Date:   Sun, 15 Oct 2023 19:34:52 -0300 (ART)
-From:   Infos <eojeda@gigared.com.ar>
-Reply-To: Infos <quartbvba@gmail.com>
-Message-ID: <552805821.12210774.1697409292063.JavaMail.zimbra@gigared.com.ar>
-Subject: Infos Oktober 2023
+        bh=Dm1nus89JLbD/65ItGQLhdR/UwQLhddPM+BxEJ7yOwM=; b=PUqKfgRig+pZKS3FGcmiR/SFev
+        Ir0wJh9Rn+3ERSG9EZWXUIwwkBhBvTv/K+zr7llwyUij7W7GrXeQNFseXy5ZGRehyQkV7Im/sBSnW
+        ZW1RFjZ+/Tmt25XwSXgiWJpXzn9YLh/NQXbe9Ptdr0cTtL6CdnKPOMgXgIuWtHCFsYSL83sNrr9fg
+        oCWirZBXSfna5czQWjJaNs3dSoQM4R9wDeQBrA9dVkXIm3Muig4FWV/lPBkQoPYlEStLLChltObtL
+        Sy2QtFxmR6xsbqZf2Wj8Nh1tmj6WCiUL+cPR6p4WRPDflwUWmUYHaLFemYk5AuO1grn5sP4MYGfeG
+        noqvYFUA==;
+Received: from md-hk-12.webhostbox.net ([137.59.148.200]:32260)
+        by md-hk-12.webhostbox.net with esmtpa (Exim 4.96.2)
+        (envelope-from <jc@35686686.com>)
+        id 1qukGq-002oZ1-1e;
+        Mon, 23 Oct 2023 07:32:20 +0530
+Received: from [181.214.94.88]
+ by 35686686.com
+ with HTTP (HTTP/1.1 POST); Mon, 23 Oct 2023 07:32:11 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [156.0.251.40]
-X-Mailer: Zimbra 8.8.15_GA_4562 (zclient/8.8.15_GA_4562)
-Thread-Index: jsV4qWp53bIWrzhhF3rYcrS4aLi3Ww==
-Thread-Topic: Infos Oktober 2023
-X-MailCleaner-TrustedIPs: Ok
-X-MailCleaner-TLS-Client-Certificate: none
-X-Spam-Status: Yes, score=6.3 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
-        HK_RANDOM_REPLYTO,MISSING_HEADERS,RCVD_IN_DNSWL_BLOCKED,
-        REPLYTO_WITHOUT_TO_CC,SPF_HELO_PASS,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: *  0.0 RCVD_IN_DNSWL_BLOCKED RBL: ADMINISTRATOR NOTICE: The query to
-        *      DNSWL was blocked.  See
-        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
-        *      for more information.
-        *      [190.57.228.68 listed in list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  1.0 HK_RANDOM_REPLYTO Reply-To username looks random
-        * -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  1.0 MISSING_HEADERS Missing To: header
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  1.6 REPLYTO_WITHOUT_TO_CC No description available.
-        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
-X-Spam-Level: ******
+Date:   Mon, 23 Oct 2023 10:02:11 +0800
+From:   jc@35686686.com
+To:     undisclosed-recipients:;
+Subject: LOAN SCHEME
+Reply-To: info@kafurinvestment.com
+Mail-Reply-To: info@kafurinvestment.com
+User-Agent: Roundcube Webmail/1.6.0
+Message-ID: <444dc5ecb83daa7b98458b69e615a708@35686686.com>
+X-Sender: jc@35686686.com
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - md-hk-12.webhostbox.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - 35686686.com
+X-BWhitelist: no
+X-Source-IP: 137.59.148.200
+X-Source-L: No
+X-Exim-ID: 1qukGq-002oZ1-1e
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: md-hk-12.webhostbox.net [137.59.148.200]:32260
+X-Source-Auth: jc@35686686.com
+X-Email-Count: 0
+X-Org:  HG=dishared_whb_net_legacy;ORG=directi;
+X-Source-Cap: ZmJkZXN4amc7Ymx1ZWhvc3Q7bWQtaGstMTIud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfODYBkE0Ew/e76bFA5sYZIlzm61ztzqO4VdblE3rGKcPU99NL3B9NrOQxHnqENTmSMi32Ar5x+auiKKu2DYgyWGs5pp5akxInMwWM9CJGva8KRwo8tYv
+ o2ss0WwK1mkntpNfBoSmANvtgNrRJXXIZUVGK4F1vu5PzrEktoX4dc59/WjrO34w7adxgTHBB0F5s/BAkdDgri4Pmy9aw0xliQoV6ve6xeb46FxSPrCx1vLE
+ hMX3TWwvfNGU5+6UVt4T9X10pCiCWv66gK6Np7bi3fX7jteayBzVpUSuhDpKt8KBVzU7BNaBN6Pqr/HXniZE6y9m57//5cG9cR0xzfSAIzsKKsEUnUsqo4t8
+ GedMoFmfj10f0GdwrDTxAjMqXY0Wi+32g7pazSCByimXAxKZjf/z0OVINkQwWD5D39E8CDBqkHKstJ5oTPracMH1631k0Ht5eTksnj53uyTWhpEd/9lzO3a+
+ C5s3FpXY7cGcvGUw
+X-Spam-Status: No, score=1.5 required=5.0 tests=BAYES_50,DKIM_INVALID,
+        DKIM_SIGNED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,SUBJ_ALL_CAPS
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <ecryptfs.vger.kernel.org>
 X-Mailing-List: ecryptfs@vger.kernel.org
 
-Hallo Herr/Frau,
+Greetings:
 
+I am Mr. Faheem Badawi, working as a project facilitator for (Kafur 
+Project Management Services) also, with numerous investors worldwide. As 
+a means of widening our global portfolio we would like to know if you 
+have any project(s) requiring funding. We also offer business, personal 
+and home loans to finance new projects as well as expansion capital.
 
-Wir haben nicht die Absicht, Ihre Zeit zu verschwenden.
+For more updates on the mode of operation send a reply.
 
+Waiting for your prompt response.
 
-Wir vergeben Kredite an Privatpersonen und Unternehmen. Der Zinssatz betr=
-=C3=A4gt 2 % j=C3=A4hrlich. Wir haben die Kapazit=C3=A4t, Projekte in diese=
-n Bereichen zu finanzieren; Immobilienentwicklung, Bauwesen, Bergbau, =C3=
-=96l und Gas, Fluggesellschaft und verschiedene Handelsaktivit=C3=A4ten. Be=
-i Interesse geben Sie bitte Folgendes an:
-
-
-1- Vollst=C3=A4ndiger Name:
-2- Erforderlicher Kreditbetrag:
-3- Amortisationsdauer (1 =E2=80=93 30 Jahre):
-4- Telefonnummer:
-5- WhatsApp-Nummer:
-
-
-Sobald ich die oben genannten Informationen erhalten habe, sende ich Ihnen =
-die Kreditbedingungen zu.
-
-
-Ihr R=C3=BCckerstattungsplan beginnt nach 6 Monaten (6-monatige Kulanzfrist=
-).
-
-
-Die Finanzierung dauert etwa 7 Bankarbeitstage ab dem Tag, an dem Sie Ihren=
- Kreditantrag einreichen.
-
-
-Antworten Sie uns f=C3=BCr weitere Informationen.
-
-
-Mit freundlichen Gr=C3=BC=C3=9Fen
-
-Uwe Wanner
+Kind regards,
+Faheem Badawi.
+(Financial Advisory - KPMS)
