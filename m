@@ -1,112 +1,90 @@
-Return-Path: <ecryptfs+bounces-3-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-4-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38FF37DBAE5
-	for <lists+ecryptfs@lfdr.de>; Mon, 30 Oct 2023 14:35:17 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBFA97DBB66
+	for <lists+ecryptfs@lfdr.de>; Mon, 30 Oct 2023 15:08:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C9038B20D3D
-	for <lists+ecryptfs@lfdr.de>; Mon, 30 Oct 2023 13:35:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A174FB20CE4
+	for <lists+ecryptfs@lfdr.de>; Mon, 30 Oct 2023 14:08:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 444EA171A6;
-	Mon, 30 Oct 2023 13:35:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D401E1772C;
+	Mon, 30 Oct 2023 14:08:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="G7g6nIpo"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XzR15MZS"
 X-Original-To: ecryptfs@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF32315E81
-	for <ecryptfs@vger.kernel.org>; Mon, 30 Oct 2023 13:35:08 +0000 (UTC)
-Received: from smtp.smtpout.orange.fr (smtp-22.smtpout.orange.fr [80.12.242.22])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 792F0A2
-	for <ecryptfs@vger.kernel.org>; Mon, 30 Oct 2023 06:35:07 -0700 (PDT)
-Received: from pop-os.home ([86.243.2.178])
-	by smtp.orange.fr with ESMTPA
-	id xSIoq4DJYLilFxSIpqpweO; Mon, 30 Oct 2023 14:27:35 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1698672455;
-	bh=/DkN5aD3T5Ca9TtQI/yHLRzDeLFOsujUxsYE2YCrNlU=;
-	h=From:To:Cc:Subject:Date;
-	b=G7g6nIpo2eAt6Fz7quD13L6Gm0WeEBDbpvi0RJGBjXKcpZ/DjQCWzwqv1Gl94Ny3h
-	 2idDLo5gCuCq53k/KKKiHBbbfY7iDz8q27xlbLOO14yiW+GsHza75cm1yx5yOw1Ao6
-	 ibW7+WoTLu+LEh2x+VLRI4CbFOe4vC573ziiA9w3TVvjK/DDSEO2RNHU+2tSMdwiP6
-	 C9VIbwhQ4ild3H21VcKgM35kPS1bHYQfHJ9tydWYUTMJrpxSUvV3W/Moak3qPuXLHN
-	 FTkIQ6QrqnE1P5INGirV7puw3fhCYpZtInVGoB9xzjZVEMEEHuDC6ibJXK2v4pPf+n
-	 t/m2nhemHB+Pw==
-X-ME-Helo: pop-os.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Mon, 30 Oct 2023 14:27:35 +0100
-X-ME-IP: 86.243.2.178
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Tyler Hicks <code@tyhicks.com>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	ecryptfs@vger.kernel.org
-Subject: [PATCH] ecryptfs: Simplify ecryptfs_crypto_api_algify_cipher_name()
-Date: Mon, 30 Oct 2023 14:27:32 +0100
-Message-Id: <2c4bd387e8036854d3338400038fdde8dce3806a.1698672391.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7401015E8C
+	for <ecryptfs@vger.kernel.org>; Mon, 30 Oct 2023 14:08:01 +0000 (UTC)
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4FF2C0
+	for <ecryptfs@vger.kernel.org>; Mon, 30 Oct 2023 07:07:59 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-40839652b97so32954815e9.3
+        for <ecryptfs@vger.kernel.org>; Mon, 30 Oct 2023 07:07:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1698674878; x=1699279678; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+x6+LsrjZdB8dHUELRSubYTsHMKRqi5GBjTWofSCMDk=;
+        b=XzR15MZSaJ5rcYRcqgEh7c8vUnMlL5v9R+zWTwbI4usZ3aPhMF5rinw2t9iEsxbYEy
+         H5gp4XB4XlAF/bySz4rt+PGc1f9nyW3YWafsXXMnE/bOlaJUML8A/VkrmnMLZRS7GJ3k
+         QAHXipYM3oM7fyBAzg8G9PLSi2//LurYS2cgeE8y21NB+MrZWFOi9KJcUk2uz7GvyuvZ
+         9DhRI/ZZbSo9WlgwrqMO3uyewsXb+6ijOq3wlwgL9zZFDAO5RLCee/dqzKe0IV2X0e+o
+         X6QWMr3R1z9/hSMtDLx0pBB29Is//qmbc7/DrsFFH8bxOV15bcdUt3Miq1oRUyfipYIP
+         nqqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698674878; x=1699279678;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+x6+LsrjZdB8dHUELRSubYTsHMKRqi5GBjTWofSCMDk=;
+        b=Ge8pHyL4em5P56KnAvNxx6i2ZIsR/VNm57Ccev2Y+RuYGgcKpebGCFSEFDpnWq66uv
+         GQ2h/yD8b1H0vKKqrLioPVsQePk57HTxaJDGKsIc1IXVqK8bGVF6AoUpiMy47eN6lP+w
+         +97hZRsB7UoN26ce2DvunzZvTWi1dOq1c5xmBHiPqGgXMGsag9DSGkb7Hqj+g0P7flHL
+         NNQlrEZ832KmGn6+s3pML0J9CjVNB9Zy6D3koFYovKN94Fb4TWICjrKA8w3jNz27NdZt
+         EaEjEdarvC3CoLxpN32CLZrahnYsmUlYcV4oYFU1iZNhgw4TLqVKp8GmdxKifO8piKWc
+         G7zQ==
+X-Gm-Message-State: AOJu0Yxe2DFwLcT/WNlFKYZ/uWLxKFT2HG1t0j7jsOI1+O3mTnfbJBSp
+	8PsAZdFV+VLcea/6onCrjiodvQ==
+X-Google-Smtp-Source: AGHT+IHa3PONe2ZHFjs1Ut/yXYmZH5eEEBpHXQF4IG+q5Drd25RgyRrQwRp16iOxIIUmK+4amlW37A==
+X-Received: by 2002:a05:600c:35cd:b0:406:872d:7725 with SMTP id r13-20020a05600c35cd00b00406872d7725mr8744073wmq.1.1698674878017;
+        Mon, 30 Oct 2023 07:07:58 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id g10-20020a5d46ca000000b0031980783d78sm8241952wrs.54.2023.10.30.07.07.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Oct 2023 07:07:57 -0700 (PDT)
+Date: Mon, 30 Oct 2023 17:07:54 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Tyler Hicks <code@tyhicks.com>, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org, ecryptfs@vger.kernel.org
+Subject: Re: [PATCH] ecryptfs: Simplify
+ ecryptfs_crypto_api_algify_cipher_name()
+Message-ID: <72f7eca6-3566-46fd-9ff9-386b4077d55d@kadam.mountain>
+References: <2c4bd387e8036854d3338400038fdde8dce3806a.1698672391.git.christophe.jaillet@wanadoo.fr>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2c4bd387e8036854d3338400038fdde8dce3806a.1698672391.git.christophe.jaillet@wanadoo.fr>
 
-Use kasprintf() instead of hand writing it.
-It is much less verbose.
+On Mon, Oct 30, 2023 at 02:27:32PM +0100, Christophe JAILLET wrote:
+> Use kasprintf() instead of hand writing it.
+> It is much less verbose.
+> 
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- fs/ecryptfs/crypto.c | 21 ++++++---------------
- 1 file changed, 6 insertions(+), 15 deletions(-)
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-diff --git a/fs/ecryptfs/crypto.c b/fs/ecryptfs/crypto.c
-index 044863c0d824..00d795658cf5 100644
---- a/fs/ecryptfs/crypto.c
-+++ b/fs/ecryptfs/crypto.c
-@@ -23,6 +23,7 @@
- #include <linux/slab.h>
- #include <asm/unaligned.h>
- #include <linux/kernel.h>
-+#include <linux/sprintf.h>
- #include <linux/xattr.h>
- #include "ecryptfs_kernel.h"
- 
-@@ -78,22 +79,12 @@ static int ecryptfs_crypto_api_algify_cipher_name(char **algified_name,
- 						  char *cipher_name,
- 						  char *chaining_modifier)
- {
--	int cipher_name_len = strlen(cipher_name);
--	int chaining_modifier_len = strlen(chaining_modifier);
--	int algified_name_len;
--	int rc;
-+	*algified_name = kasprintf(GFP_KERNEL, "%s(%s)",
-+				   chaining_modifier, cipher_name);
-+	if (!(*algified_name))
-+		return -ENOMEM;
- 
--	algified_name_len = (chaining_modifier_len + cipher_name_len + 3);
--	(*algified_name) = kmalloc(algified_name_len, GFP_KERNEL);
--	if (!(*algified_name)) {
--		rc = -ENOMEM;
--		goto out;
--	}
--	snprintf((*algified_name), algified_name_len, "%s(%s)",
--		 chaining_modifier, cipher_name);
--	rc = 0;
--out:
--	return rc;
-+	return 0;
- }
- 
- /**
--- 
-2.34.1
+regards,
+dan carpenter
 
 
