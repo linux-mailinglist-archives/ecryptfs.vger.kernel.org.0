@@ -1,68 +1,109 @@
-Return-Path: <ecryptfs+bounces-7-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-8-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C03B804C9A
-	for <lists+ecryptfs@lfdr.de>; Tue,  5 Dec 2023 09:37:04 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8724682E6A1
+	for <lists+ecryptfs@lfdr.de>; Tue, 16 Jan 2024 02:21:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7BDF81C20E22
-	for <lists+ecryptfs@lfdr.de>; Tue,  5 Dec 2023 08:37:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 87D651C22179
+	for <lists+ecryptfs@lfdr.de>; Tue, 16 Jan 2024 01:21:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBD7518B1E;
-	Tue,  5 Dec 2023 08:36:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 309B31BDC2;
+	Tue, 16 Jan 2024 01:05:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=venturelinkbiz.com header.i=@venturelinkbiz.com header.b="A9QCaO3q"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NxmxaLHe"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from mail.venturelinkbiz.com (mail.venturelinkbiz.com [51.195.119.142])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DEF1D6D
-	for <ecryptfs@vger.kernel.org>; Tue,  5 Dec 2023 00:36:44 -0800 (PST)
-Received: by mail.venturelinkbiz.com (Postfix, from userid 1002)
-	id 8D38046617; Tue,  5 Dec 2023 08:36:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=venturelinkbiz.com;
-	s=mail; t=1701765402;
-	bh=Mjfq+hZZ0+rPTC06HjjASvlnsTMgj1yAndWxi/OAu2M=;
-	h=Date:From:To:Subject:From;
-	b=A9QCaO3qFO5kLPrfQ/nufvaOwarxQ1oD7ziKyJKLuLdvNSeTkL9DOL344B/lo6u2o
-	 HA01Qwc4fa5LEHUsjg1w5JG91XYJ9r2cxfocZ/TZJLwjWmRGJ0Dvw2y9VrH968EOnK
-	 QxTD4HHng6B0Zr9oC8xvBSDzkCe2DMbCgFJPsL+2uS3/whyiJUKb5M0xhFyzfTXBGi
-	 xtDqSGL0Xhk1pQQ/ADzDisNnAg4P4HE/EcBFoPApHfeMM7ia2QWnEA+aWQiDCSJgv+
-	 AXqe6L+qPjn/pSgcZnYfVMzQl04ehWvKKWgxndmEXa6K15x6TqfMlZ8qgLgGJ24YS+
-	 XBVDw+wtIj0Ag==
-Received: by mail.venturelinkbiz.com for <ecryptfs@vger.kernel.org>; Tue,  5 Dec 2023 08:36:29 GMT
-Message-ID: <20231205074500-0.1.3z.bpl1.0.ulx24yapd9@venturelinkbiz.com>
-Date: Tue,  5 Dec 2023 08:36:29 GMT
-From: "Michal Rmoutil" <michal.rmoutil@venturelinkbiz.com>
-To: <ecryptfs@vger.kernel.org>
-Subject: =?UTF-8?Q?Bezplatn=C3=A1_60denn=C3=AD_zku=C5=A1ebn=C3=AD_verze:_Vylep=C5=A1ete_sv=C3=A9_v=C3=BDrobn=C3=AD_procesy?=
-X-Mailer: mail.venturelinkbiz.com
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 134441BF56;
+	Tue, 16 Jan 2024 01:05:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F4F5C433C7;
+	Tue, 16 Jan 2024 01:05:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705367107;
+	bh=VOq8UOOgu6Dr7AdyviAmIt2hK5XJWeQqOmk5u3vsAPo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=NxmxaLHeYyqhtJt2jE2ao2zMqRxt7D05o/XLFKPoSSe92ONYSKpx46ZgrD/jNA3yb
+	 kBKgWgSvSB/Gcja7PzpHh3YEHCO5nEJwUOWQL/igrx7BeOkjdmHFkmf9wBE/XML4gR
+	 HQomkict+d1bbVq7exenREChYFIdeq52/URgotJ/1m9vpofPmFGVxrPRFBrca2wW9J
+	 xesMjk9RPdKmaaWauc9yrJ7j67xlWyi5PO6o+d53KC70c/P9+QBBFVaF03CYPiGaie
+	 hJ+JfQsQtQURk6vOHeCCFxAh+kVpTOc9m2M7O65dUZ7jbq/9YwmbTaA4kmUyZX2gSj
+	 IZx7GxP/1P7eg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Gabriel Krisman Bertazi <krisman@suse.de>,
+	Eric Biggers <ebiggers@google.com>,
+	Sasha Levin <sashal@kernel.org>,
+	code@tyhicks.com,
+	brauner@kernel.org,
+	dchinner@redhat.com,
+	jack@suse.cz,
+	jlayton@kernel.org,
+	xiubli@redhat.com,
+	viro@zeniv.linux.org.uk,
+	stefanb@linux.ibm.com,
+	walmeida@microsoft.com,
+	ecryptfs@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.7 17/21] ecryptfs: Reject casefold directory inodes
+Date: Mon, 15 Jan 2024 20:03:54 -0500
+Message-ID: <20240116010422.217925-17-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240116010422.217925-1-sashal@kernel.org>
+References: <20240116010422.217925-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.7
+Content-Transfer-Encoding: 8bit
 
-Dobr=C3=A9 r=C3=A1no
+From: Gabriel Krisman Bertazi <krisman@suse.de>
 
-Zn=C3=A1te syst=C3=A9m, kter=C3=BD nejen hl=C3=ADd=C3=A1, ale i optimaliz=
-uje v=C3=BDrobu a p=C5=99in=C3=A1=C5=A1=C3=AD st=C3=A1l=C3=BD p=C5=99=C3=AD=
-jem?
+[ Upstream commit cd72c7ef5fed44272272a105b1da22810c91be69 ]
 
-D=C3=ADky nejnov=C4=9Bj=C5=A1=C3=ADm technologi=C3=ADm a anal=C3=BDze dat=
- na=C5=A1e =C5=99e=C5=A1en=C3=AD identifikuje oblasti optimalizace, zv=C3=
-=BD=C5=A1en=C3=AD efektivity a sn=C3=AD=C5=BEen=C3=AD n=C3=A1klad=C5=AF. =
-Na=C5=A1i klienti zaznamenali n=C3=A1r=C5=AFst p=C5=99=C3=ADjm=C5=AF v pr=
-=C5=AFm=C4=9Bru o 20 % a dnes si to m=C5=AF=C5=BEete vyzkou=C5=A1et na 60=
- dn=C3=AD zdarma.
+Even though it seems to be able to resolve some names of
+case-insensitive directories, the lack of d_hash and d_compare means we
+end up with a broken state in the d_cache.  Considering it was never a
+goal to support these two together, and we are preparing to use
+d_revalidate in case-insensitive filesystems, which would make the
+combination even more broken, reject any attempt to get a casefolded
+inode from ecryptfs.
 
-Pokud chcete dal=C5=A1=C3=AD podrobnosti, odpov=C4=9Bzte pros=C3=ADm na k=
-ontaktn=C3=AD =C4=8D=C3=ADslo.
+Signed-off-by: Gabriel Krisman Bertazi <krisman@suse.de>
+Reviewed-by: Eric Biggers <ebiggers@google.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ fs/ecryptfs/inode.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
+diff --git a/fs/ecryptfs/inode.c b/fs/ecryptfs/inode.c
+index b0e8774c435a..d7193687b9b4 100644
+--- a/fs/ecryptfs/inode.c
++++ b/fs/ecryptfs/inode.c
+@@ -78,6 +78,14 @@ static struct inode *__ecryptfs_get_inode(struct inode *lower_inode,
+ 
+ 	if (lower_inode->i_sb != ecryptfs_superblock_to_lower(sb))
+ 		return ERR_PTR(-EXDEV);
++
++	/* Reject dealing with casefold directories. */
++	if (IS_CASEFOLDED(lower_inode)) {
++		pr_err_ratelimited("%s: Can't handle casefolded directory.\n",
++				   __func__);
++		return ERR_PTR(-EREMOTE);
++	}
++
+ 	if (!igrab(lower_inode))
+ 		return ERR_PTR(-ESTALE);
+ 	inode = iget5_locked(sb, (unsigned long)lower_inode,
+-- 
+2.43.0
 
-Pozdravy
-Michal Rmoutil
 
