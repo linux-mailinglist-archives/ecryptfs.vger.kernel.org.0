@@ -1,37 +1,37 @@
-Return-Path: <ecryptfs+bounces-9-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-10-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D44AC82E6DC
-	for <lists+ecryptfs@lfdr.de>; Tue, 16 Jan 2024 02:29:00 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AF6382E70A
+	for <lists+ecryptfs@lfdr.de>; Tue, 16 Jan 2024 02:34:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 60AC81F236D2
-	for <lists+ecryptfs@lfdr.de>; Tue, 16 Jan 2024 01:29:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F12DAB2131E
+	for <lists+ecryptfs@lfdr.de>; Tue, 16 Jan 2024 01:34:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 728A6208D2;
-	Tue, 16 Jan 2024 01:06:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E03CD24B51;
+	Tue, 16 Jan 2024 01:07:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mkhrNxl1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I71KF8eC"
 X-Original-To: ecryptfs@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53198208BC;
-	Tue, 16 Jan 2024 01:06:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA5E9C433F1;
-	Tue, 16 Jan 2024 01:06:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C10C424B34;
+	Tue, 16 Jan 2024 01:07:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4812C433F1;
+	Tue, 16 Jan 2024 01:07:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705367171;
-	bh=RqhjB69RblzpblVNXf0+MpdYnaiOYIRtCEhaG505RBo=;
+	s=k20201202; t=1705367225;
+	bh=/WAHI9k0/jbUSpT8uafSK1Q7FDl154jdzd0/RW07pfM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mkhrNxl1xemrVzwWXhnXVZNHBoKpawCFBjtQxhG/XOqNzHlVAArTiLGFI4Ajl6a7S
-	 EFsh6v6MgKwQ093EyIt9ciNJEfEAPUyczj2O8UyJ777LOlSSoub4y0ZaL8baqgbWCB
-	 ZUkKvHmS5gFsEmWjQlbL4YfglvjZhe5qA/vG9d7nA8O0BLeVK0RmEzeocGxuewxaYw
-	 eKheSFXIv+Z7mNC2bFYezx2KvioGNwBn/m0+9WUirwv5P893F2jue7mUupukU8w3f2
-	 KphRR1h1tQ7VVM1nRwsjGTIvpAGeOWfNmD1nyr07gdKAATzK9OjeZqarMVrsJhchpD
-	 22I2KMWY4h9sg==
+	b=I71KF8eC8YX1yRb1SxtEw/ubaA84bOwmhiGzTaTb2QaCMGmTlx7h84clX0pXmzemN
+	 UFfY5LCtnXg+7Oe41xBQkLSaMLzUfEJBzooHzgGF0RJhfK7Y30YksC4D2gnuuHn464
+	 n1ZhZklw/TpL70mPQNf+n3XdXQib4PlIgmD4H8FZwxyUryNUO4ffN/pRfzxv7ffrl+
+	 631/BE+etY+Ov5AYYKCZpyxLnPKRFRyqFMzb+zEOlFcGCeFQVwtFQjK5eMnwr+17aZ
+	 5O5tGIhyYKVcMX9xKlZoy8G7JeAmNAoBix/bmDaPnKl15MqBsDitnWpSojlOW+fGRw
+	 0K4SrP3L7K23g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -43,16 +43,16 @@ Cc: Gabriel Krisman Bertazi <krisman@suse.de>,
 	dchinner@redhat.com,
 	jack@suse.cz,
 	jlayton@kernel.org,
-	xiubli@redhat.com,
+	walmeida@microsoft.com,
 	stefanb@linux.ibm.com,
 	viro@zeniv.linux.org.uk,
 	ecryptfs@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 15/19] ecryptfs: Reject casefold directory inodes
-Date: Mon, 15 Jan 2024 20:05:10 -0500
-Message-ID: <20240116010532.218428-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 10/14] ecryptfs: Reject casefold directory inodes
+Date: Mon, 15 Jan 2024 20:06:12 -0500
+Message-ID: <20240116010642.218876-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240116010532.218428-1-sashal@kernel.org>
-References: <20240116010532.218428-1-sashal@kernel.org>
+In-Reply-To: <20240116010642.218876-1-sashal@kernel.org>
+References: <20240116010642.218876-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
@@ -61,7 +61,7 @@ List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.12
+X-stable-base: Linux 6.1.73
 Content-Transfer-Encoding: 8bit
 
 From: Gabriel Krisman Bertazi <krisman@suse.de>
@@ -84,10 +84,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 8 insertions(+)
 
 diff --git a/fs/ecryptfs/inode.c b/fs/ecryptfs/inode.c
-index 5ab4b87888a7..795e9fe2f721 100644
+index c214fe0981bd..55340ac61456 100644
 --- a/fs/ecryptfs/inode.c
 +++ b/fs/ecryptfs/inode.c
-@@ -78,6 +78,14 @@ static struct inode *__ecryptfs_get_inode(struct inode *lower_inode,
+@@ -76,6 +76,14 @@ static struct inode *__ecryptfs_get_inode(struct inode *lower_inode,
  
  	if (lower_inode->i_sb != ecryptfs_superblock_to_lower(sb))
  		return ERR_PTR(-EXDEV);
