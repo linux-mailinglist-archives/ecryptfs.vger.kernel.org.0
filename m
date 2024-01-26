@@ -1,108 +1,85 @@
-Return-Path: <ecryptfs+bounces-13-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-14-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 814E782E76B
-	for <lists+ecryptfs@lfdr.de>; Tue, 16 Jan 2024 02:46:38 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 731EB83D5D7
+	for <lists+ecryptfs@lfdr.de>; Fri, 26 Jan 2024 10:17:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 087B8B225FE
-	for <lists+ecryptfs@lfdr.de>; Tue, 16 Jan 2024 01:46:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2D36928247D
+	for <lists+ecryptfs@lfdr.de>; Fri, 26 Jan 2024 09:17:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B300E3EA85;
-	Tue, 16 Jan 2024 01:08:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3249567C4E;
+	Fri, 26 Jan 2024 08:31:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I/oaI49M"
+	dkim=pass (2048-bit key) header.d=severnouse.com header.i=@severnouse.com header.b="h6VhvKJF"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.severnouse.com (mail.severnouse.com [141.95.160.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9611F3EA7A;
-	Tue, 16 Jan 2024 01:08:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84379C43390;
-	Tue, 16 Jan 2024 01:08:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705367312;
-	bh=TJqRddFjDl5iBcUmWcW6ywZ7vqFu0BSvQf50wqCCMU8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=I/oaI49MDLlA4sVTwBWilL5yY6bOTNRGqMet12DE1jx8Pd5qZQsZsN5/KkoLH6Ihh
-	 dQE1oc0+kriJXVjp+HcbLSTu3VDnZxQHRsCN/TafR/z4Fh+P0EksQPqkd6RD3k2Zmf
-	 W8V4UX2E+fyJ23l9LC7AZ+bll4Aoks1EeUUSlNLfGW/MzszhcmI92gmqCFSZG9QlQD
-	 g8jJ0sBTwKxLukT1BnbkIqx356YJtE1OjR71PPTKCz9EwT+7jGSZ9pDD7paRMFapL9
-	 4Zbmc4C+3HQvdYEzAaYzILszUrl6n362HCGEed5nQ/RCUX4BE1qWnQAr2fkQpGSQaW
-	 VY1xFUoxb4OcA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Gabriel Krisman Bertazi <krisman@suse.de>,
-	Eric Biggers <ebiggers@google.com>,
-	Sasha Levin <sashal@kernel.org>,
-	code@tyhicks.com,
-	brauner@kernel.org,
-	dchinner@redhat.com,
-	jack@suse.cz,
-	jlayton@kernel.org,
-	amir73il@gmail.com,
-	stefanb@linux.ibm.com,
-	walmeida@microsoft.com,
-	ecryptfs@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 5/9] ecryptfs: Reject casefold directory inodes
-Date: Mon, 15 Jan 2024 20:08:11 -0500
-Message-ID: <20240116010819.219701-5-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240116010819.219701-1-sashal@kernel.org>
-References: <20240116010819.219701-1-sashal@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF443111AD
+	for <ecryptfs@vger.kernel.org>; Fri, 26 Jan 2024 08:31:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.95.160.218
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706257883; cv=none; b=I3fD3kj+/vXylUQcr3vKxn+l0hqg1QS2i3wpA7KeVpcvIbTfM0RwgZ5x3vQQMSBuJTlMdJ/0Ph3T5x6H5CFdtPD65Lu6JskWJYzr9D4Rd2P3nadQ+gSc4ipSQO3xe7RPllPJGvKavUm2PcRKZSV+D5NxP0xVoR+PdXITlSF65ZM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706257883; c=relaxed/simple;
+	bh=waaYxUsyRtmB2zEBuWcqRuRHSoYd8sJFCtgHO/3AHKE=;
+	h=Message-ID:Date:From:To:Subject:MIME-Version:Content-Type; b=OgviYuLzMPWtxZEQwaiBunjsUna302uRtcAwXrhfIkgbUQohNgGcRY/09n7/YSQUROjo5UCfw6hN0bQBSJu3/lStMgeNy+9bFIxuofXyeeVwGyD027yy4kxHimQeECSXujceBO/B8pCF439kdujc7kqy/4M4PJL2jzyu7zPutCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=severnouse.com; spf=pass smtp.mailfrom=severnouse.com; dkim=pass (2048-bit key) header.d=severnouse.com header.i=@severnouse.com header.b=h6VhvKJF; arc=none smtp.client-ip=141.95.160.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=severnouse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=severnouse.com
+Received: by mail.severnouse.com (Postfix, from userid 1002)
+	id F05CBA2FC6; Fri, 26 Jan 2024 08:31:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=severnouse.com;
+	s=mail; t=1706257869;
+	bh=waaYxUsyRtmB2zEBuWcqRuRHSoYd8sJFCtgHO/3AHKE=;
+	h=Date:From:To:Subject:From;
+	b=h6VhvKJF0iEbFKuH1uxZb+hmi3Im48ge0Pa9nvsMdSVFB2UsZp+M/CXFPklbqrOwu
+	 bxzt+rxWr3IHZ+fapxuGXo/xvS6qlJhnt2tc5JVyZ037fSfS96cfB/bAm3c6WIQkxr
+	 L5W4zZ1KUD+Jxs/qONDM0hV/w5FY8Hs8kJazzyHSAi98MRyV0dhf1K7SlXBa5xe0od
+	 F1wk4JO9yoP8+olfS08Mt+8E0BWiXotUO9s9pxqGazGR31IPz6UBBAgtpTEkctFWun
+	 Lp/VCh1BvuEXTXcnyXW6Uf7R5fznxWNmlYZMC1UcfOK7xrCCMdYJ2wcKOpixx2OVlF
+	 idshgeXdSI0sw==
+Received: by mail.severnouse.com for <ecryptfs@vger.kernel.org>; Fri, 26 Jan 2024 08:31:04 GMT
+Message-ID: <20240126074500-0.1.bo.p4cw.0.4vf3646n7x@severnouse.com>
+Date: Fri, 26 Jan 2024 08:31:04 GMT
+From: "Ray Galt" <ray.galt@severnouse.com>
+To: <ecryptfs@vger.kernel.org>
+Subject: Meeting with the Development Team
+X-Mailer: mail.severnouse.com
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.4.267
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Gabriel Krisman Bertazi <krisman@suse.de>
+Hello,
 
-[ Upstream commit cd72c7ef5fed44272272a105b1da22810c91be69 ]
+I would like to reach out to the decision-maker in the IT environment wit=
+hin your company.
 
-Even though it seems to be able to resolve some names of
-case-insensitive directories, the lack of d_hash and d_compare means we
-end up with a broken state in the d_cache.  Considering it was never a
-goal to support these two together, and we are preparing to use
-d_revalidate in case-insensitive filesystems, which would make the
-combination even more broken, reject any attempt to get a casefolded
-inode from ecryptfs.
+We are a well-established digital agency in the European market. Our solu=
+tions eliminate the need to build and maintain in-house IT and programmin=
+g departments, hire interface designers, or employ user experience specia=
+lists.
 
-Signed-off-by: Gabriel Krisman Bertazi <krisman@suse.de>
-Reviewed-by: Eric Biggers <ebiggers@google.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- fs/ecryptfs/inode.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+We take responsibility for IT functions while simultaneously reducing the=
+ costs of maintenance. We provide support that ensures access to high-qua=
+lity specialists and continuous maintenance of efficient hardware and sof=
+tware infrastructure.
 
-diff --git a/fs/ecryptfs/inode.c b/fs/ecryptfs/inode.c
-index e23752d9a79f..c867a0d62f36 100644
---- a/fs/ecryptfs/inode.c
-+++ b/fs/ecryptfs/inode.c
-@@ -76,6 +76,14 @@ static struct inode *__ecryptfs_get_inode(struct inode *lower_inode,
- 
- 	if (lower_inode->i_sb != ecryptfs_superblock_to_lower(sb))
- 		return ERR_PTR(-EXDEV);
-+
-+	/* Reject dealing with casefold directories. */
-+	if (IS_CASEFOLDED(lower_inode)) {
-+		pr_err_ratelimited("%s: Can't handle casefolded directory.\n",
-+				   __func__);
-+		return ERR_PTR(-EREMOTE);
-+	}
-+
- 	if (!igrab(lower_inode))
- 		return ERR_PTR(-ESTALE);
- 	inode = iget5_locked(sb, (unsigned long)lower_inode,
--- 
-2.43.0
+Companies that thrive are those that leverage market opportunities faster=
+ than their competitors. Guided by this principle, we support gaining a c=
+ompetitive advantage by providing comprehensive IT support.
 
+May I present what we can do for you?
+
+
+Best regards
+Ray Galt
 
