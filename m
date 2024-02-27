@@ -1,20 +1,20 @@
-Return-Path: <ecryptfs+bounces-17-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-16-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 895AB868934
-	for <lists+ecryptfs@lfdr.de>; Tue, 27 Feb 2024 07:52:32 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17E27868932
+	for <lists+ecryptfs@lfdr.de>; Tue, 27 Feb 2024 07:52:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BABFB1C21715
-	for <lists+ecryptfs@lfdr.de>; Tue, 27 Feb 2024 06:52:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AB9C31F26A78
+	for <lists+ecryptfs@lfdr.de>; Tue, 27 Feb 2024 06:52:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0401535B8;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A66575339B;
 	Tue, 27 Feb 2024 06:52:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
 	dkim=pass (2048-bit key) header.d=sonic.net header.i=@sonic.net header.b="aIzL09UB"
-X-Original-To: ecryptfs+unsubscribe@vger.kernel.org
+X-Original-To: ecryptfs+subscribe@vger.kernel.org
 Received: from c.mail.sonic.net (c.mail.sonic.net [64.142.111.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
