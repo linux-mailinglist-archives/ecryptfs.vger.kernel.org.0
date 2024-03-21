@@ -1,155 +1,212 @@
-Return-Path: <ecryptfs+bounces-66-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-67-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E2E888186C
-	for <lists+ecryptfs@lfdr.de>; Wed, 20 Mar 2024 21:12:44 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 389DC881A7B
+	for <lists+ecryptfs@lfdr.de>; Thu, 21 Mar 2024 01:39:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 11B49280F3C
-	for <lists+ecryptfs@lfdr.de>; Wed, 20 Mar 2024 20:12:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5754B1C20D98
+	for <lists+ecryptfs@lfdr.de>; Thu, 21 Mar 2024 00:39:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C799385945;
-	Wed, 20 Mar 2024 20:12:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E5DF801;
+	Thu, 21 Mar 2024 00:38:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ugwBxS45"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0GtVs/JL"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8180185940;
-	Wed, 20 Mar 2024 20:12:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58AC7E2
+	for <ecryptfs@vger.kernel.org>; Thu, 21 Mar 2024 00:38:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710965554; cv=none; b=UpQTW8DjNG5HBb1zh6Qd5XUUw/lmxGUWCH7LwWo6pzdZ9OCpJqfawQcYDonJW1NCxfFgkq3JeliBKOzAUROLGZb86dU5pZp4KFXKsGXB0QJQgdmpSbKXFnM//eJyVuodS6ok5ORbAzggodRkrp4puS9rrvF1L+/1dpjgacWG+Co=
+	t=1710981537; cv=none; b=s/1Pe1FRY7uCraS8CpqTnJDfqtWn9cxVhGsHU2zCqkKFPIP1PA/O/Wy/32qfAsxyyJvw1kt8S0SWY9J0hh/EVL3QXNpPXLDJ8Z0Mq+eXvHoXd0s+FrRficZN7WmAQYo2gcgO8bilLehzLhl7MPcgGNKFX9TYzNKh1wPwoQahAzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710965554; c=relaxed/simple;
-	bh=picUtc9j30ONjruWmUIIt1zS4ebWfPWBN1xsnqXmIvA=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=kPhLVlWV5WoRmcFTx6ksTmF30BhZNrxsbFVk95M6HuxpoA2I6dh2DXrChH8cipIsh6uYN/8woCVUKeRS7TIgVUiQtsyHIJ5Gf1gU24GtD/oiwsLYCkPPOlqAiyrm3bgUn6kIG3558KkGQNwdv+7WGAI6NzDOTtcQIy8ByK68o24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ugwBxS45; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26399C433C7;
-	Wed, 20 Mar 2024 20:12:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710965554;
-	bh=picUtc9j30ONjruWmUIIt1zS4ebWfPWBN1xsnqXmIvA=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=ugwBxS45FwHEXuDQ6LhILv39BzzuJrH9e3Oq6ZmvS54hO/mWuT84LeFJ1Pb6GPJ0T
-	 2Zb8F1pNZmg0qeccpMgJWPdaSuj+7YozZpXrjfqmpyAdxGzlkTdd9D2T+5KcKaYEBU
-	 xzuvaOghYy/kxdKUrsFN7ewlPmK/vi6UR1dbue7f8W+Ay4rlcUgqgK/Rhv01yP3SXB
-	 qPqBeK99Z/DGomwAjkubf8EscVVAjtzVahDYR0VXbsasumvLhf9xn01kNdPxP9lwo5
-	 z2q2av9JKA9VWEb0GzBcDBn4UC2OsRQ6ZHjvxFl0e6bV+gyEUc5YoVQKzVGf2lIMUa
-	 WOTaB2feA5pbg==
-Message-ID: <ca81387b31025198808df6c55f411b00d74cb047.camel@kernel.org>
-Subject: Re: [PATCH RFC 08/24] vfs: make vfs_mknod break delegations on
- parent directory
-From: Jeff Layton <jlayton@kernel.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Chuck
- Lever <chuck.lever@oracle.com>, Alexander Aring <alex.aring@gmail.com>,
- Trond Myklebust <trond.myklebust@hammerspace.com>, Anna Schumaker
- <anna@kernel.org>, Steve French <sfrench@samba.org>, Paulo Alcantara
- <pc@manguebit.com>, Ronnie Sahlberg <ronniesahlberg@gmail.com>, Shyam
- Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, David Howells <dhowells@redhat.com>, Tyler Hicks
- <code@tyhicks.com>,  Neil Brown <neilb@suse.de>, Olga Kornievskaia
- <kolga@netapp.com>, Dai Ngo <Dai.Ngo@oracle.com>, Miklos Szeredi
- <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, Namjae Jeon
- <linkinjeon@kernel.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org,  linux-nfs@vger.kernel.org,
- linux-cifs@vger.kernel.org,  samba-technical@lists.samba.org,
- netfs@lists.linux.dev, ecryptfs@vger.kernel.org, 
- linux-unionfs@vger.kernel.org, netdev@vger.kernel.org
-Date: Wed, 20 Mar 2024 16:12:29 -0400
-In-Reply-To: <20240320-jaguar-bildband-699e7ef5dc64@brauner>
-References: <20240315-dir-deleg-v1-0-a1d6209a3654@kernel.org>
-	 <20240315-dir-deleg-v1-8-a1d6209a3654@kernel.org>
-	 <20240320-jaguar-bildband-699e7ef5dc64@brauner>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=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
-	kZWuOsJdJQdmwlWC5L5ln9xgfr/4mOY38B0U=
-Content-Type: text/plain; charset="ISO-8859-15"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+	s=arc-20240116; t=1710981537; c=relaxed/simple;
+	bh=XWwaocKABQ9jnViAkbtIF/KvUYPFqVLENRHRK/iFWVw=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=pUP0IlAn1wPiC/IuS7Xckp8wzOyOpWI4BaQn+bF5XLUgpAQ4NH8TOiyZdsS7eZynccyVCJqf7QJKkLpie1xa7fW7QKCqr1YyGmRtoEKdLwuOYIZjOUzFnTJ4wJvs8uRVes9pOHyVsxo3YtqqRk2lDgC8Nm9pcIx6jcXWQxg+cNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--justinstitt.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0GtVs/JL; arc=none smtp.client-ip=209.85.219.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--justinstitt.bounces.google.com
+Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-dc6b269686aso672141276.1
+        for <ecryptfs@vger.kernel.org>; Wed, 20 Mar 2024 17:38:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1710981535; x=1711586335; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=xiemHHBtoyDT5DKRZLV0lQm6JsJHIMbODJolPo371hM=;
+        b=0GtVs/JLnLnnGCIDQ2qGKDedgaMNKmIQH7DjYxwn9Id400GFYwtuK6MZOwUORA115W
+         NNkdpHF4H22iB0Ok0g/Lxk6IC1f+C8Dfjv8NRYiLS0ZNBRAz9rH7XNKtPhz7/lDNXay4
+         fV16qY/90Zze9qPCZnq2ciWtyoLC8wHUv/DpVM7YGqq6Oahj5t3In26GN9+H280uCO1I
+         f9zgtM1TaVhA54TUqNv8Dv6CoMPOncDUKymwBB1bJcwGrE+mAwuuxPQvkRblk6FrXJFb
+         jSfIe5u7UFc1qqGMsfVi0CesYaz1Zokprb//zr95dEkWNitTCFNwEs1jKy8CQePh6ZkL
+         LIqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710981535; x=1711586335;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xiemHHBtoyDT5DKRZLV0lQm6JsJHIMbODJolPo371hM=;
+        b=bwiKkyZvnPqXOrW1/d4EIekAif5ZLbXwk7AOZ6Se2iUwd97C+3+VByAKFDDzhqQ34b
+         +RoVcuUnOvE2vpi4B1f8dCxcqH30jx1N0F8fywB4MP2ybwqHHe0UVaumybSprNfKuaYd
+         hkOwW1IEgPTLQXsxCPTFObrfFOGsxK84IclB1xpYSW4+YLmdvLkQ3oMBqdLU9nFFP44z
+         BwpYoCcrRw63VomoUS5XBtkn4YncjuYM6Kll+6JS3Rs8TV+XivU1nFCkVPHxKXj/Ukcq
+         Kcb0UqCBQTr7tkhPW7m+qzRyfzytFjetdIbAsm3gVXFYIeI1PJ9RNCQZGQQ+oMAlrOG2
+         ysdw==
+X-Gm-Message-State: AOJu0YxF1GD1vVUl9Yxw9UysWnNyp+YCEQ32b6dI7nmjWY/1shGprRyd
+	JgrnXLc7mCmRopp8uhpzBIgY6vuZhVrJtLWzUyIjBV8pOH/8CYzEr+IO3M5xbGmkKaPN5e7K24G
+	UuJe8dtFpGkQOtYiMNCD7oQ==
+X-Google-Smtp-Source: AGHT+IEyZS/GnFbBPsZmSMZkiLLZnAAkx4UzmIWqrQdpodEes9mL4Gqf1zabfr+eMBwIO+azPp4WMHvsfJ63gPdLdQ==
+X-Received: from jstitt-linux1.c.googlers.com ([fda3:e722:ac3:cc00:2b:ff92:c0a8:23b5])
+ (user=justinstitt job=sendgmr) by 2002:a05:6902:160c:b0:dd9:20fb:20a1 with
+ SMTP id bw12-20020a056902160c00b00dd920fb20a1mr563186ybb.10.1710981535047;
+ Wed, 20 Mar 2024 17:38:55 -0700 (PDT)
+Date: Thu, 21 Mar 2024 00:38:54 +0000
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAJ2B+2UC/x2Muw6DMAwAfwV5rqU8YCi/gjqkxqFekshGVRHi3
+ xsx3d1yJxirsME8nKD8FZNaevjHAPRJZWOUtTcEF0YXg0fbtVA7MBsy6dH2LjcrEqbp+Y6UXYp E0BdNOcvv3i+v6/oDnEyEKm4AAAA=
+X-Developer-Key: i=justinstitt@google.com; a=ed25519; pk=tC3hNkJQTpNX/gLKxTNQKDmiQl6QjBNCGKJINqAdJsE=
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1710981534; l=4760;
+ i=justinstitt@google.com; s=20230717; h=from:subject:message-id;
+ bh=XWwaocKABQ9jnViAkbtIF/KvUYPFqVLENRHRK/iFWVw=; b=ZcTTtdciSPEfO0FzGxDVut7rB4NJpxOIDpSNKacGuqw0E9oZmdCWm78ES7wtKmtQt5C/hBbkh
+ Fj1g6RGbhumCW9AxyrArhailPRTKc7ssmywSffs/q8IMdUh7wG3Yxvk
+X-Mailer: b4 0.12.3
+Message-ID: <20240321-strncpy-fs-ecryptfs-crypto-c-v1-1-d78b74c214ac@google.com>
+Subject: [PATCH] fs: ecryptfs: replace deprecated strncpy with strscpy
+From: Justin Stitt <justinstitt@google.com>
+To: Tyler Hicks <code@tyhicks.com>
+Cc: ecryptfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-hardening@vger.kernel.org, Justin Stitt <justinstitt@google.com>
+Content-Type: text/plain; charset="utf-8"
 
-On Wed, 2024-03-20 at 14:42 +0100, Christian Brauner wrote:
-> > =A0int vfs_mknod(struct mnt_idmap *, struct inode *, struct dentry *,
-> > -              umode_t, dev_t);
-> > +              umode_t, dev_t, struct inode **);
->=20
-> So we will have at least the following helpers with an additional
-> delegated inode argument.
->=20
-> vfs_unlink()
-> vfs_link()
-> notify_change()
-> vfs_create()
-> vfs_mknod()
-> vfs_mkdir()
-> vfs_rmdir()
->=20
-> From looking at callers all these helpers will be called with non-NULL
-> delegated inode argument in vfs only. Unless it is generally conceivable
-> that other callers will want to pass a non-NULL inode argument over time
-> it might make more sense to add vfs_<operation>_delegated() or
-> __vfs_<operation>() and make vfs_mknod() and friends exported wrappers
-> around it.
->=20
-> I mean it's a matter of preference ultimately but this seems cleaner to
-> me. So at least for the new ones we should consider it. Would also make
-> the patch smaller.
->=20
+strncpy() is deprecated for use on NUL-terminated destination strings
+[1] and as such we should prefer more robust and less ambiguous string
+interfaces. A good alternative is strscpy() as it guarantees
+NUL-termination on the destination buffer.
 
-Good suggestion. I just respun along those lines and it's a lot cleaner.
-I'm still testing it but here is the new diffstat. It's a little larger
-actually, but it keeps the changes more confined to namei.c:
+In crypto.c:
+We expect cipher_name to be NUL-terminated based on its use with
+the C-string format specifier %s and with other string apis like
+strlen():
+|	printk(KERN_ERR "Error attempting to initialize key TFM "
+|		"cipher with name = [%s]; rc = [%d]\n",
+|		tmp_tfm->cipher_name, rc);
+and
+|	int cipher_name_len = strlen(cipher_name);
 
-jlayton@tleilax:~/git/linux$ git diff master --stat
- fs/locks.c                |  12 +++-
- fs/namei.c                | 227 ++++++++++++++++++++++++++++++++++++++++++=
-++++--------------------
- fs/nfs/delegation.c       |   5 ++
- fs/nfs/dir.c              |  20 ++++++
- fs/nfs/internal.h         |   2 +-
- fs/nfs/nfs4file.c         |   2 +
- fs/nfs/nfs4proc.c         |  62 +++++++++++++++++-
- fs/nfs/nfs4trace.h        | 104 ++++++++++++++++++++++++++++++
- fs/nfs/nfs4xdr.c          | 136 +++++++++++++++++++++++++++++++++++++++
- fs/nfs/nfstrace.h         |   8 ++-
- fs/nfsd/filecache.c       |  37 +++++++++--
- fs/nfsd/filecache.h       |   2 +
- fs/nfsd/nfs4proc.c        |  48 ++++++++++++++
- fs/nfsd/nfs4state.c       | 113 ++++++++++++++++++++++++++++++++-
- fs/nfsd/nfs4xdr.c         |  91 ++++++++++++++++++++++++++-
- fs/nfsd/state.h           |   5 ++
- fs/nfsd/vfs.c             |   5 +-
- fs/nfsd/vfs.h             |   2 +-
- fs/nfsd/xdr4.h            |  19 ++++++
- fs/smb/client/cifsfs.c    |   3 +
- include/linux/filelock.h  |  14 +++++
- include/linux/nfs4.h      |   7 +++
- include/linux/nfs_fs.h    |   1 +
- include/linux/nfs_fs_sb.h |   1 +
- include/linux/nfs_xdr.h   |   2 +
- 25 files changed, 838 insertions(+), 90 deletions(-)
+In main.c:
+We can remove the manual NUL-byte assignments as well as the pointers to
+destinations (which I assume only existed to trim down on line length?)
+in favor of directly using the destination buffer which allows the
+compiler to get size information -- enabling the usage of the new
+2-argument strscpy().
 
---=20
-Jeff Layton <jlayton@kernel.org>
+Note that this patch relies on the _new_ 2-argument versions of
+strscpy() and strscpy_pad() introduced in Commit e6584c3964f2f ("string:
+Allow 2-argument strscpy()").
+
+Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings [1]
+Link: https://manpages.debian.org/testing/linux-manual-4.8/strscpy.9.en.html [2]
+Link: https://github.com/KSPP/linux/issues/90
+Cc: linux-hardening@vger.kernel.org
+Signed-off-by: Justin Stitt <justinstitt@google.com>
+---
+Note: build-tested only.
+
+Found with: $ rg "strncpy\("
+---
+ fs/ecryptfs/crypto.c |  4 +---
+ fs/ecryptfs/main.c   | 26 ++++++--------------------
+ 2 files changed, 7 insertions(+), 23 deletions(-)
+
+diff --git a/fs/ecryptfs/crypto.c b/fs/ecryptfs/crypto.c
+index 2fe0f3af1a08..d39a1a69fecc 100644
+--- a/fs/ecryptfs/crypto.c
++++ b/fs/ecryptfs/crypto.c
+@@ -1606,9 +1606,7 @@ ecryptfs_add_new_key_tfm(struct ecryptfs_key_tfm **key_tfm, char *cipher_name,
+ 		goto out;
+ 	}
+ 	mutex_init(&tmp_tfm->key_tfm_mutex);
+-	strncpy(tmp_tfm->cipher_name, cipher_name,
+-		ECRYPTFS_MAX_CIPHER_NAME_SIZE);
+-	tmp_tfm->cipher_name[ECRYPTFS_MAX_CIPHER_NAME_SIZE] = '\0';
++	strscpy(tmp_tfm->cipher_name, cipher_name);
+ 	tmp_tfm->key_size = key_size;
+ 	rc = ecryptfs_process_key_cipher(&tmp_tfm->key_tfm,
+ 					 tmp_tfm->cipher_name,
+diff --git a/fs/ecryptfs/main.c b/fs/ecryptfs/main.c
+index 2dc927ba067f..577c56302314 100644
+--- a/fs/ecryptfs/main.c
++++ b/fs/ecryptfs/main.c
+@@ -256,11 +256,8 @@ static int ecryptfs_parse_options(struct ecryptfs_sb_info *sbi, char *options,
+ 	substring_t args[MAX_OPT_ARGS];
+ 	int token;
+ 	char *sig_src;
+-	char *cipher_name_dst;
+ 	char *cipher_name_src;
+-	char *fn_cipher_name_dst;
+ 	char *fn_cipher_name_src;
+-	char *fnek_dst;
+ 	char *fnek_src;
+ 	char *cipher_key_bytes_src;
+ 	char *fn_cipher_key_bytes_src;
+@@ -293,12 +290,8 @@ static int ecryptfs_parse_options(struct ecryptfs_sb_info *sbi, char *options,
+ 		case ecryptfs_opt_cipher:
+ 		case ecryptfs_opt_ecryptfs_cipher:
+ 			cipher_name_src = args[0].from;
+-			cipher_name_dst =
+-				mount_crypt_stat->
+-				global_default_cipher_name;
+-			strncpy(cipher_name_dst, cipher_name_src,
+-				ECRYPTFS_MAX_CIPHER_NAME_SIZE);
+-			cipher_name_dst[ECRYPTFS_MAX_CIPHER_NAME_SIZE] = '\0';
++			strscpy(mount_crypt_stat->global_default_cipher_name,
++				cipher_name_src);
+ 			cipher_name_set = 1;
+ 			break;
+ 		case ecryptfs_opt_ecryptfs_key_bytes:
+@@ -326,11 +319,8 @@ static int ecryptfs_parse_options(struct ecryptfs_sb_info *sbi, char *options,
+ 			break;
+ 		case ecryptfs_opt_fnek_sig:
+ 			fnek_src = args[0].from;
+-			fnek_dst =
+-				mount_crypt_stat->global_default_fnek_sig;
+-			strncpy(fnek_dst, fnek_src, ECRYPTFS_SIG_SIZE_HEX);
+-			mount_crypt_stat->global_default_fnek_sig[
+-				ECRYPTFS_SIG_SIZE_HEX] = '\0';
++			strscpy(mount_crypt_stat->global_default_fnek_sig,
++				fnek_src);
+ 			rc = ecryptfs_add_global_auth_tok(
+ 				mount_crypt_stat,
+ 				mount_crypt_stat->global_default_fnek_sig,
+@@ -348,12 +338,8 @@ static int ecryptfs_parse_options(struct ecryptfs_sb_info *sbi, char *options,
+ 			break;
+ 		case ecryptfs_opt_fn_cipher:
+ 			fn_cipher_name_src = args[0].from;
+-			fn_cipher_name_dst =
+-				mount_crypt_stat->global_default_fn_cipher_name;
+-			strncpy(fn_cipher_name_dst, fn_cipher_name_src,
+-				ECRYPTFS_MAX_CIPHER_NAME_SIZE);
+-			mount_crypt_stat->global_default_fn_cipher_name[
+-				ECRYPTFS_MAX_CIPHER_NAME_SIZE] = '\0';
++			strscpy(mount_crypt_stat->global_default_fn_cipher_name,
++				fn_cipher_name_src);
+ 			fn_cipher_name_set = 1;
+ 			break;
+ 		case ecryptfs_opt_fn_cipher_key_bytes:
+
+---
+base-commit: a4145ce1e7bc247fd6f2846e8699473448717b37
+change-id: 20240321-strncpy-fs-ecryptfs-crypto-c-a59b3cf0a3cc
+
+Best regards,
+--
+Justin Stitt <justinstitt@google.com>
+
 
