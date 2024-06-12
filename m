@@ -1,61 +1,66 @@
-Return-Path: <ecryptfs+bounces-83-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-84-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B457F90150C
-	for <lists+ecryptfs@lfdr.de>; Sun,  9 Jun 2024 10:30:23 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC220905DBF
+	for <lists+ecryptfs@lfdr.de>; Wed, 12 Jun 2024 23:33:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 58E43281DE5
-	for <lists+ecryptfs@lfdr.de>; Sun,  9 Jun 2024 08:30:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7AED22844A4
+	for <lists+ecryptfs@lfdr.de>; Wed, 12 Jun 2024 21:33:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FA8145BEF;
-	Sun,  9 Jun 2024 08:28:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD998126F0A;
+	Wed, 12 Jun 2024 21:33:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="blhbqvv0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J4gew7GX"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 403C63C08A;
-	Sun,  9 Jun 2024 08:28:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF5721360;
+	Wed, 12 Jun 2024 21:33:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717921688; cv=none; b=s75HsizOVppMaJiOSTUcUWdiwfJpLCAC6GDPaO68d5mzw6FyRts5uEFo61RAPhOoymZRzVtNgcsvHpUFTVDTvFHksprkIWnlSX/CeH0peOCiCbftNfGxcXx17lNvE0S+kDSWjRSKCHB6JcsYzOjP1H7wdeAN2rMMkHwTyTvGBAU=
+	t=1718227987; cv=none; b=qPOGh3cBQ5vGzCpkT5nkfedRvukKoVpJ9t8sCqNS69O5sXGF22H3Fa67hgS4WwN+qBoh2bEVRGrp8r0z3N+MJhy78ija599nALW5sO5WTuFPVDT42wDGew6NKvoXr+kKfrcGzx+dDsSzZt55U0nJni5wW+ND7rkBpYtF0RlYi/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717921688; c=relaxed/simple;
-	bh=5wI1NTKdDad7dOStebKBSk9uWDGpHBDxRnxOxJWOoVo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=M7qyrUC+yRWgcvBsZrhQxPwua/1eY6hhcTlpMQHCOsFcOMGYAJ5zDiGaaNXAo7DirrpRNy9OnR93NaITbPHPuqVQoVBcsFrQskI93Wpxv+fQvSjQe9j7dY7EJir2BD681zmw+lYNwp98ct6yVfv9RIfgZ6C71/wYPbUxAUrPSPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=blhbqvv0; arc=none smtp.client-ip=192.134.164.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=xAStzLZkQB6YwSsZPfAII2SYwdVea64Ufn5+/gSYkrE=;
-  b=blhbqvv0Wb9SIDXwLzTi0L0Z9DajeIrlkeJbk5bnT7Gfqs4bFlCpK5XG
-   gG5EHbmBIY65EQMWVx5yi27suOz6HhOuM+rSLZm7xMOBpg/jRj91zXwzo
-   L3RG1ioMbgf9bBJ6WWuX1uxfa7lBLbNMLWWOWt/7ZfXJMSx2IpI0bWRRr
-   w=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.08,225,1712613600"; 
-   d="scan'208";a="169696901"
-Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2024 10:27:49 +0200
-From: Julia Lawall <Julia.Lawall@inria.fr>
-To: Tyler Hicks <code@tyhicks.com>
-Cc: kernel-janitors@vger.kernel.org,
-	ecryptfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Vlastimil Babka <vbabka@suse.cz>
-Subject: [PATCH 06/14] eCryptfs: replace call_rcu by kfree_rcu for simple kmem_cache_free callback
-Date: Sun,  9 Jun 2024 10:27:18 +0200
-Message-Id: <20240609082726.32742-7-Julia.Lawall@inria.fr>
-X-Mailer: git-send-email 2.20.1
+	s=arc-20240116; t=1718227987; c=relaxed/simple;
+	bh=D7/e9lxK/rDnF5q2wBJbSwFKBep+OjF1zHYFBRsOwHY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RBcrGrXaA1dgG3BtMGN9vY/WlFnWbMDlomUU7/dsIYW6Ey8fEEi8UqYvptj9MMTSecWNpT128fkxR4z5q9FOgsfc5HlZp4C7/jAlS+dIaIHT9bqlOMG3XIuiZ2BsCyT1JkxPzKD5NlwuM2zQFW0g0VlKoPK+fCzihNbHYTOs6eg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J4gew7GX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B31DEC116B1;
+	Wed, 12 Jun 2024 21:33:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718227987;
+	bh=D7/e9lxK/rDnF5q2wBJbSwFKBep+OjF1zHYFBRsOwHY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=J4gew7GXSUxZyxXl6G49+4erFfWm/fvqP8jJMq7QuXBUHyR17gKVbI8IJ3y71epYo
+	 81Eq4piaIn37sHAKw45pOJJnpiTeuc2KSFxdSD1+2LioYDUAwYQQ8KGiGECKgXZ1Bt
+	 BQIkYrv1Z3RNFkSAHVf81GTPLI5u7plWmLvmv2tSr8XWK2kuYVByujH0Xm2sSG3rLe
+	 dcH3Q/OlBdRCiuZINoD5hS74CGC35ok/tQmpHn36JG4CCNQB6ctPj6kIhn5MA8jO7+
+	 XDUBrtlraXPQiItIjFfHu36XD/1shI91JiWJHwx90qz33buNQ2dew6BWeH46IO/yU8
+	 gdQU9P2cQi32g==
+Date: Wed, 12 Jun 2024 14:33:05 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Julia Lawall <Julia.Lawall@inria.fr>
+Cc: linux-block@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ bridge@lists.linux.dev, linux-trace-kernel@vger.kernel.org, Mathieu
+ Desnoyers <mathieu.desnoyers@efficios.com>, kvm@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, "Naveen N. Rao"
+ <naveen.n.rao@linux.ibm.com>, Christophe Leroy
+ <christophe.leroy@csgroup.eu>, Nicholas Piggin <npiggin@gmail.com>,
+ netdev@vger.kernel.org, wireguard@lists.zx2c4.com,
+ linux-kernel@vger.kernel.org, ecryptfs@vger.kernel.org, Neil Brown
+ <neilb@suse.de>, Olga Kornievskaia <kolga@netapp.com>, Dai Ngo
+ <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+ linux-nfs@vger.kernel.org, linux-can@vger.kernel.org, Lai Jiangshan
+ <jiangshanlai@gmail.com>, netfilter-devel@vger.kernel.org,
+ coreteam@netfilter.org, "Paul E . McKenney" <paulmck@kernel.org>, Vlastimil
+ Babka <vbabka@suse.cz>
+Subject: Re: [PATCH 00/14] replace call_rcu by kfree_rcu for simple
+ kmem_cache_free callback
+Message-ID: <20240612143305.451abf58@kernel.org>
 In-Reply-To: <20240609082726.32742-1-Julia.Lawall@inria.fr>
 References: <20240609082726.32742-1-Julia.Lawall@inria.fr>
 Precedence: bulk
@@ -64,124 +69,20 @@ List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Since SLOB was removed, it is not necessary to use call_rcu
-when the callback only performs kmem_cache_free. Use
-kfree_rcu() directly.
+On Sun,  9 Jun 2024 10:27:12 +0200 Julia Lawall wrote:
+> Since SLOB was removed, it is not necessary to use call_rcu
+> when the callback only performs kmem_cache_free. Use
+> kfree_rcu() directly.
+> 
+> The changes were done using the following Coccinelle semantic patch.
+> This semantic patch is designed to ignore cases where the callback
+> function is used in another way.
 
-The changes were done using the following Coccinelle semantic patch.
-This semantic patch is designed to ignore cases where the callback
-function is used in another way.
-
-// <smpl>
-@r@
-expression e;
-local idexpression e2;
-identifier cb,f;
-position p;
-@@
-
-(
-call_rcu(...,e2)
-|
-call_rcu(&e->f,cb@p)
-)
-
-@r1@
-type T;
-identifier x,r.cb;
-@@
-
- cb(...) {
-(
-   kmem_cache_free(...);
-|
-   T x = ...;
-   kmem_cache_free(...,x);
-|
-   T x;
-   x = ...;
-   kmem_cache_free(...,x);
-)
- }
-
-@s depends on r1@
-position p != r.p;
-identifier r.cb;
-@@
-
- cb@p
-
-@script:ocaml@
-cb << r.cb;
-p << s.p;
-@@
-
-Printf.eprintf "Other use of %s at %s:%d\n"
-   cb (List.hd p).file (List.hd p).line
-
-@depends on r1 && !s@
-expression e;
-identifier r.cb,f;
-position r.p;
-@@
-
-- call_rcu(&e->f,cb@p)
-+ kfree_rcu(e,f)
-
-@r1a depends on !s@
-type T;
-identifier x,r.cb;
-@@
-
-- cb(...) {
-(
--  kmem_cache_free(...);
-|
--  T x = ...;
--  kmem_cache_free(...,x);
-|
--  T x;
--  x = ...;
--  kmem_cache_free(...,x);
-)
-- }
-// </smpl>
-
-Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
-Reviewed-by: Paul E. McKenney <paulmck@kernel.org>
-Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
-
----
- fs/ecryptfs/dentry.c |    8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
-
-diff --git a/fs/ecryptfs/dentry.c b/fs/ecryptfs/dentry.c
-index acaa0825e9bb..49d626ff33a9 100644
---- a/fs/ecryptfs/dentry.c
-+++ b/fs/ecryptfs/dentry.c
-@@ -51,12 +51,6 @@ static int ecryptfs_d_revalidate(struct dentry *dentry, unsigned int flags)
- 
- struct kmem_cache *ecryptfs_dentry_info_cache;
- 
--static void ecryptfs_dentry_free_rcu(struct rcu_head *head)
--{
--	kmem_cache_free(ecryptfs_dentry_info_cache,
--		container_of(head, struct ecryptfs_dentry_info, rcu));
--}
--
- /**
-  * ecryptfs_d_release
-  * @dentry: The ecryptfs dentry
-@@ -68,7 +62,7 @@ static void ecryptfs_d_release(struct dentry *dentry)
- 	struct ecryptfs_dentry_info *p = dentry->d_fsdata;
- 	if (p) {
- 		path_put(&p->lower_path);
--		call_rcu(&p->rcu, ecryptfs_dentry_free_rcu);
-+		kfree_rcu(p, rcu);
- 	}
- }
- 
-
+How does the discussion on:
+  [PATCH] Revert "batman-adv: prefer kfree_rcu() over call_rcu() with free-only callbacks"
+  https://lore.kernel.org/all/20240612133357.2596-1-linus.luessing@c0d3.blue/
+reflect on this series? IIUC we should hold off..
 
