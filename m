@@ -1,52 +1,76 @@
-Return-Path: <ecryptfs+bounces-136-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-137-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E13D90F46A
-	for <lists+ecryptfs@lfdr.de>; Wed, 19 Jun 2024 18:46:42 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F9FB91209E
+	for <lists+ecryptfs@lfdr.de>; Fri, 21 Jun 2024 11:32:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E32E31F233C3
-	for <lists+ecryptfs@lfdr.de>; Wed, 19 Jun 2024 16:46:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 42E3C1C21243
+	for <lists+ecryptfs@lfdr.de>; Fri, 21 Jun 2024 09:32:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCC49154444;
-	Wed, 19 Jun 2024 16:46:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A691178C8D;
+	Fri, 21 Jun 2024 09:32:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U6v5z/sd"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DHWS9DXt"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 929CB2262B;
-	Wed, 19 Jun 2024 16:46:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D351E482C8;
+	Fri, 21 Jun 2024 09:32:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718815596; cv=none; b=a1/Cb2UNdUvQC4Pmw0B4YWM9yyv2/OFUUJJKpOoTBjFWJ57gMu9K9OGJiVbkOmSPaaJUFlpMJ9i64A9D4YYjDgBewIiDdJHCJMCkrn9vvmb+/lpG3oC6c5wPM2JHUUE45PAZ6C0gl9L4p/p2xYrl/bHJzD8dVes0STdQxzr5RFk=
+	t=1718962338; cv=none; b=Uo8u30sQpnpgMhBssBYcui9caZahVcbWV8Qa3QoG7FiNo/xA8bJMvhrUn7yMHcr8w8HsiEgh+0qhocj+1E89TblcumCB+LZPoVeOfXdRpsO8hiivd1FP6YCxotsGhkAWeyynY1wfqh2MTDr+k4Q/eYAby2eBIIfUVe1jtSSNiok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718815596; c=relaxed/simple;
-	bh=EYkeKSbtNt6ckvuCFzfSCizaZJeveGlRlQZbS2iiRBM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f3XEZcnslU7UfPPApSN7e6PKOnz60D7GtxSNPqeHcmMw9e4M9XycHHGL+FbgKx1kwoe0FEYuAsHE+VIjEwK7wgK7ayQe0GikRDTCeErD7H82n1lD254DRgsj0pIaKTvb886yrYxuQdoHM9nme1R1VDmySejtYurB7T3gqoK37wE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U6v5z/sd; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E5A8C2BBFC;
-	Wed, 19 Jun 2024 16:46:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718815596;
-	bh=EYkeKSbtNt6ckvuCFzfSCizaZJeveGlRlQZbS2iiRBM=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=U6v5z/sdVrRwT3ywPATsj7XmP7jMC/9Ue7euI2CV/THH1rdybzupp61Q3EwrfCb0Z
-	 oRYlNRBfdTqybOoKx/k80D0IFIG9kqzvnBfEhD0JRlH5VjuYxCM23EMd3xBXpXT4V1
-	 1uKiOxgwzsrXXxoSU+L5hezYeMeNJITqk3/QT2yQTixMKTvXNKFLINUqCcR1a6Eofa
-	 +OA6Ypzrq6AdcZ9WeH29C2vx0ekyMr+caeurBrnmo/hQuNhH7uVp+yJZMA3eeltGHh
-	 vqikZFgBg0Khso/7VAufzpVxv9ZrPvAsnpHAA9QtIEbrLcOlZKN9roRJ/XJu5hty2l
-	 uLXG9ZdVaWb9A==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id EC3CDCE09D8; Wed, 19 Jun 2024 09:46:35 -0700 (PDT)
-Date: Wed, 19 Jun 2024 09:46:35 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
+	s=arc-20240116; t=1718962338; c=relaxed/simple;
+	bh=tX3lbP0oIbLXstNsFkYy7tmCmp7K2WDT7BZj38Vc58w=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V4HRfTm5EPxZyncVOyHzG2RwedWRBCeaNjk6VmLIkv2oE7EhMpw4YdqW6832zFwUAojLsEQmc/4saS8Ff8TqP57ecEjrauBP2PI/F8E1rknC9yWrOFPMsgX2FYfkI4KBd3wO+LTQMt5qjn2GpCaCaRMyjo0j9kSlpxiV4pplnI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DHWS9DXt; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-57cc30eaf0aso951999a12.2;
+        Fri, 21 Jun 2024 02:32:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718962335; x=1719567135; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LXjbiUeKX1jEQnL+FwWLcen6cX7ksdYWye9qn3fwv6g=;
+        b=DHWS9DXt13LiribTgN2bFTRDmxtyLV6IugelHM34OjdJd2ZlVkJZrZVzo188uPm+6F
+         nJOebWgnUBywhTTS8Ax6m2BWlthz09YQm9I0ybOkWVpdiVl3ikslR7uqk/AeA7Dp0OHu
+         GxTcDEN2qtTwAZVEfitZKxqWR7Tzxvx9tY3FD3C1QoiS6kdr95Zf9Rp7NAY2dm0ebP8H
+         YamJigxkBQ+XWKofXRFmw2rEVpME2dPoRkqRz+RBxAPum+ADALYaM1UpF6KsyF2gV6gu
+         MMeMLSJ5M2eJThJU+tEyQHXT2unV7hp283rA7EcUVO1cKyfxJAx8eDaoXl2H9VZD7CS6
+         TGoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718962335; x=1719567135;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LXjbiUeKX1jEQnL+FwWLcen6cX7ksdYWye9qn3fwv6g=;
+        b=SEmlM5N11fHyWBqnA+j0sKITFQCOUyI1d740MV2oCGmlquzQ9K2F2/kkeNiouWsMhy
+         Hy4Dkke0nRk1mbNcj3FP5GG3r8n1wViYmjOlFT3+HQdhx8kjn8f144N8Wv3Gl5fWsYLr
+         pj4TbJST39aj3gpJ6L7ISKE+NPk7RKRu4VGB1RFtUhI7i7ZcEmj9crMwAPW6R/lGwo93
+         K67POJZPwSGheQe4pQSmtoeDNZCUNPBDH1DJ/R9aLywW+ezqJAqbpHZ82ZdddTEjlyd4
+         HUQe3sgh7A01I8ilUKUytwBxEChrbeCijlrmMfYBoSz81svheAucI2nfgbmQod6LEpW0
+         szKA==
+X-Forwarded-Encrypted: i=1; AJvYcCWsHXq3IZ+DU1wQFIte1T+StCLSQKiubG5fdrMQbufCImFUw/+WmzKXpS+G94YxTHYZMYPLxa3UiWLNflmF6mQDzPzx7Fci7TkqIRCdv98/6daniRcZreiYVkVqgvm2ImhIftkgAMDDrGbKgDynA/cDcXn0PpM7vHeolSW3CzJ3yMRm98KGJLDPicOBeDsukR2VclJoyAgnKW1f2lJsT1QWJpn4wIXQZGLS+nrtVzo9RTMujH4bdXtUbMQeeWFaGXiSD5A/oS5PoJLaMfGl9O9R3rkeuEtEkmU0U7J9K/YVrrJQLOOI3ePWefYkMzPo5I8gqPpzxjZIkhPYPWf2HE2FtP3+4sxgAbdBtStPDJU9AdL6i8lQNv4QwOEqj8ntCPbeCJOsorwyRrzo1SGdoAYPRGjljsARK+Kvp4JkKOQVub+hbZdQOpa+xgPQFw==
+X-Gm-Message-State: AOJu0YwnrLyS2yw9Wh8270dYG9hHynYiiWubYziAsEyVia3LuPplYFp4
+	jTiLXRI/L+6xR22gTZE7xa6KqUdqkMrxgW3gVjoK5hXcqvLWuyElAILmhpnIGJ0=
+X-Google-Smtp-Source: AGHT+IEG3QIZH1aO0GWd9T0Xk/3yUg93srj60sGG+BwmRF3tpMGbSRtFwCmQB/INPoCeCqb37IZhUg==
+X-Received: by 2002:a50:d60b:0:b0:57a:79c2:e9d6 with SMTP id 4fb4d7f45d1cf-57d07ea9ccbmr5867695a12.33.1718962334727;
+        Fri, 21 Jun 2024 02:32:14 -0700 (PDT)
+Received: from pc636 (176-227-201-31.ftth.glasoperator.nl. [31.201.227.176])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6fcf56e9f3sm62345066b.215.2024.06.21.02.32.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Jun 2024 02:32:14 -0700 (PDT)
+From: Uladzislau Rezki <urezki@gmail.com>
+X-Google-Original-From: Uladzislau Rezki <urezki@pc636>
+Date: Fri, 21 Jun 2024 11:32:12 +0200
 To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Uladzislau Rezki <urezki@gmail.com>,
+Cc: paulmck@kernel.org, Uladzislau Rezki <urezki@gmail.com>,
 	"Jason A. Donenfeld" <Jason@zx2c4.com>,
 	Jakub Kicinski <kuba@kernel.org>,
 	Julia Lawall <Julia.Lawall@inria.fr>, linux-block@vger.kernel.org,
@@ -66,8 +90,7 @@ Cc: Uladzislau Rezki <urezki@gmail.com>,
 	kasan-dev <kasan-dev@googlegroups.com>
 Subject: Re: [PATCH 00/14] replace call_rcu by kfree_rcu for simple
  kmem_cache_free callback
-Message-ID: <04567347-c138-48fb-a5ab-44cc6a318549@paulmck-laptop>
-Reply-To: paulmck@kernel.org
+Message-ID: <ZnVInAV8BXhgAjP_@pc636>
 References: <e926e3c6-05ce-4ba6-9e2e-e5f3b37bcc23@suse.cz>
  <3b6fe525-626c-41fb-8625-3925ca820d8e@paulmck-laptop>
  <6711935d-20b5-41c1-8864-db3fc7d7823d@suse.cz>
@@ -145,9 +168,7 @@ On Wed, Jun 19, 2024 at 11:28:13AM +0200, Vlastimil Babka wrote:
 > Yeah I've been resisting such changes to the layout and this wouldn't be
 > worth it, apart from changing the name itself but not in a dangerous way
 > like with "/" :)
-
-;-) ;-) ;-)
-
+> 
 > >> Sysfs and debugfs might be more problematic as I suppose directory names
 > >> would clash. I'll have to check... might be even happening now when we do
 > >> detect leaked objects and just leave the cache around... thanks for the
@@ -167,15 +188,11 @@ On Wed, Jun 19, 2024 at 11:28:13AM +0200, Vlastimil Babka wrote:
 > these directories indeed stay around, as well as the slabinfo entry, and can
 > prevent new ones from being created (slabinfo lines with same name are not
 > prevented).
-
-New one on me!
-
+> 
 > But it wouldn't be great to introduce this possibility to happen for the
 > temporarily delayed removal due to kfree_rcu() and a module re-insert, since
 > that's a legitimate case and not buggy state due to leaks.
-
-Agreed.
-
+> 
 > The debugfs directory we could remove immediately before handing over to the
 > scheduled workfn, but if it turns out there was a leak and the workfn leaves
 > the cache around, debugfs dir will be gone and we can't check the
@@ -196,33 +213,15 @@ Agreed.
 > name for multiple caches.
 > 
 > Other ideas?
-
-Move the going-away files/directories to some new directoriesy?  But you
-would still need a counter or whatever.  I honestly cannot say what
-would be best from the viewpoint of existing software scanning those
-files and directories.
-
-							Thanx, Paul
-
-> Thanks,
-> Vlastimil
 > 
-> > 
-> > 							Thanx, Paul
-> > 
-> >> >> > > Since you do it asynchronous can we just repeat
-> >> >> > > and wait until it a cache is furry freed?
-> >> >> > 
-> >> >> > The problem is we want to detect the cases when it's not fully freed
-> >> >> > because there was an actual read. So at some point we'd need to stop the
-> >> >> > repeats because we know there can no longer be any kfree_rcu()'s in
-> >> >> > flight since the kmem_cache_destroy() was called.
-> >> >> > 
-> >> >> Agree. As noted above, we can go with 21 seconds(as an example) interval
-> >> >> and just perform destroy(without repeating).
-> >> >> 
-> >> >> --
-> >> >> Uladzislau Rezki
-> >> 
-> 
+One question. Maybe it is already late but it is better to ask rather than not.
+
+What do you think if we have a small discussion about it on the LPC 2024 as a
+topic? It might be it is already late or a schedule is set by now. Or we fix
+it by a conference time.
+
+Just a thought.
+
+--
+Uladzislau Rezki
 
