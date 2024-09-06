@@ -1,88 +1,83 @@
-Return-Path: <ecryptfs+bounces-145-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-146-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80F3D94A472
-	for <lists+ecryptfs@lfdr.de>; Wed,  7 Aug 2024 11:36:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E87796EA25
+	for <lists+ecryptfs@lfdr.de>; Fri,  6 Sep 2024 08:26:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 26CB21F217A4
-	for <lists+ecryptfs@lfdr.de>; Wed,  7 Aug 2024 09:36:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9F932B231AF
+	for <lists+ecryptfs@lfdr.de>; Fri,  6 Sep 2024 06:26:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 206281D0DFD;
-	Wed,  7 Aug 2024 09:36:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="btbhCRAZ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F62713DB9F;
+	Fri,  6 Sep 2024 06:26:25 +0000 (UTC)
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C22B81D0DE3;
-	Wed,  7 Aug 2024 09:36:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBDF213D8B5
+	for <ecryptfs@vger.kernel.org>; Fri,  6 Sep 2024 06:26:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.255
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723023365; cv=none; b=OnauMIN6cxWEriQXdrgaPjuJ4CA13ikOKMufNwvrolnr9AkwtuxYvx37a0de6neVl6UMXtNK5qM/Ag8thftAeWXWJf48znP33BQb77rF0YsYw6OwInS1bPSUBCRLQGPtFSa3S95NxBhoEztkJeVCJ4V2joVrzEXWI0jDfo4nqbE=
+	t=1725603985; cv=none; b=Z8zrIwkfK4lY3KyKBaBb8+jyka2unIMViOqPzCcILRsvk1n/3ehvZNBW0EHHgwtBK1+KidIgYW10yWz++N3GCa1mz3GLOXGiJidruwc+/eZ/qvOzFZZDo9B37PLhtQ8W1Y2JYfsLPRwxPF/u3nGHe8T4pmF949pDddeGkwj1x5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723023365; c=relaxed/simple;
-	bh=SIN474AVw4y1MoDQyBN2l9zLDxAG8yJpM+IZg/xSlBk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=byqVjajC/B0duFc7woJ0JC+/TPyJSLxIUSKlJdzaCQg4IUbYz1Xov2KdZjrO9ro5zpMm2fgg8q/R1e2o4h7HgEZI7vT+hqlSlEnzvRMphS32VJamtg2ymfuxLI0cqxRcll/cOTy8SerPIfT3aX3/cetNO0PSOqdKXGKxDpWziqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=btbhCRAZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E42EDC4AF0B;
-	Wed,  7 Aug 2024 09:35:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723023364;
-	bh=SIN474AVw4y1MoDQyBN2l9zLDxAG8yJpM+IZg/xSlBk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=btbhCRAZArjLvUl8j5Ej+vHzQoO1vTjwqrNsQBIT0/x406nNG6tlbPi9O+sN17d4Y
-	 QICBpuxQ5Bjmn0gXNfW6CQYVZcH8G9ejnTHAA9QFo2zZkYlDWAI6Ot2tDmga9anM+b
-	 WGgtBA/ZIv47FtykXIpoPT2AFtuvlcGoPU21CF4LWL98hI/ZRbIPlQfOtpM6SjubXy
-	 OlCR91eQljQjrJdxLmEtfQYDLsvKApDB3/uWNI88bc+X4QiyQeaPCNomUP+ive0rEL
-	 gGm3BEKgE3wm60LcEtCDTOpcEofl8MTOn6i7t19oigLeiBJBu3URtJDBmLKsiEuJyf
-	 nO0JARebaxVPA==
-Date: Wed, 7 Aug 2024 11:35:56 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: kernel test robot <oliver.sang@intel.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, oe-lkp@lists.linux.dev, lkp@intel.com, 
-	Linux Memory Management List <linux-mm@kvack.org>, linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org, 
-	intel-gfx@lists.freedesktop.org, linux-bcachefs@vger.kernel.org, ceph-devel@vger.kernel.org, 
-	ecryptfs@vger.kernel.org, linux-ext4@vger.kernel.org, 
-	linux-f2fs-devel@lists.sourceforge.net, linux-um@lists.infradead.org, linux-mtd@lists.infradead.org, 
-	jfs-discussion@lists.sourceforge.net, linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org, 
-	ntfs3@lists.linux.dev, ocfs2-devel@lists.linux.dev, 
-	linux-karma-devel@lists.sourceforge.net, devel@lists.orangefs.org, reiserfs-devel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [linux-next:master] [fs]  cdc4ad36a8:
- kernel_BUG_at_include/linux/page-flags.h
-Message-ID: <20240807-fazit-bergbahn-25781f6167b7@brauner>
-References: <202408062249.2194d51b-lkp@intel.com>
- <ZrLuBz1eBdgFzIyC@casper.infradead.org>
+	s=arc-20240116; t=1725603985; c=relaxed/simple;
+	bh=DmSW8t+ItVy0n/cFYl0Yqcps3JRGNmmibFP6ecQnPz0=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=AFLaAemAwdSs5jHmQ8vMFR8bBZLyBXA7JtWS+P58qaqAUCslwG2rMMt7epiyLYiybvEyF+Slav93HTlBzlTD6ngylmPmAE4WOfyLZIr76OxUkMwjMZ+WBrznQj51Qhi9cJacvz5fyeDNDyTyGWelf5ZRbnu4vuvqkcHcX48pdAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.255
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.162.254])
+	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4X0R6l2Gm8z1P9FJ;
+	Fri,  6 Sep 2024 14:25:19 +0800 (CST)
+Received: from kwepemf500003.china.huawei.com (unknown [7.202.181.241])
+	by mail.maildlp.com (Postfix) with ESMTPS id 1A4F718010B;
+	Fri,  6 Sep 2024 14:26:19 +0800 (CST)
+Received: from huawei.com (10.175.112.208) by kwepemf500003.china.huawei.com
+ (7.202.181.241) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 6 Sep
+ 2024 14:26:18 +0800
+From: Zhang Zekun <zhangzekun11@huawei.com>
+To: <code@tyhicks.com>, <brauner@kernel.org>, <walmeida@microsoft.com>,
+	<ecryptfs@vger.kernel.org>
+CC: <chenjun102@huawei.com>, <zhangzekun11@huawei.com>
+Subject: [PATCH] ecryptfs:  Remove unused declartion ecryptfs_fill_zeros()
+Date: Fri, 6 Sep 2024 14:12:41 +0800
+Message-ID: <20240906061241.20010-1-zhangzekun11@huawei.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZrLuBz1eBdgFzIyC@casper.infradead.org>
+Content-Type: text/plain
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ kwepemf500003.china.huawei.com (7.202.181.241)
 
-On Wed, Aug 07, 2024 at 04:46:15AM GMT, Matthew Wilcox wrote:
-> On Tue, Aug 06, 2024 at 10:26:17PM +0800, kernel test robot wrote:
-> > kernel test robot noticed "kernel_BUG_at_include/linux/page-flags.h" on:
-> > 
-> > commit: cdc4ad36a871b7ac43fcc6b2891058d332ce60ce ("fs: Convert aops->write_begin to take a folio")
-> > https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git master
-> > 
-> > [test failed on linux-next/master 1e391b34f6aa043c7afa40a2103163a0ef06d179]
-> > 
-> > in testcase: boot
-> 
-> This patch should fix it.
-> 
-> Christian, can you squash the fix in?
+The definition of ecryptfs_fill_zeros() has been removed since
+commit b6c1d8fcbade ("eCryptfs: remove unused functions and kmem_cache")
+So, Remove the empty declartion in header files.
 
-Yep, done!
+Signed-off-by: Zhang Zekun <zhangzekun11@huawei.com>
+---
+ fs/ecryptfs/ecryptfs_kernel.h | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/fs/ecryptfs/ecryptfs_kernel.h b/fs/ecryptfs/ecryptfs_kernel.h
+index c586c5db18b5..b3bca2ebec24 100644
+--- a/fs/ecryptfs/ecryptfs_kernel.h
++++ b/fs/ecryptfs/ecryptfs_kernel.h
+@@ -551,7 +551,6 @@ int ecryptfs_decode_and_decrypt_filename(char **decrypted_name,
+ 					 size_t *decrypted_name_size,
+ 					 struct super_block *sb,
+ 					 const char *name, size_t name_size);
+-int ecryptfs_fill_zeros(struct file *file, loff_t new_length);
+ int ecryptfs_encrypt_and_encode_filename(
+ 	char **encoded_name,
+ 	size_t *encoded_name_size,
+-- 
+2.17.1
+
 
