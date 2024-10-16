@@ -1,137 +1,133 @@
-Return-Path: <ecryptfs+bounces-164-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-165-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C9119A0808
-	for <lists+ecryptfs@lfdr.de>; Wed, 16 Oct 2024 13:07:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3B6A9A0ED2
+	for <lists+ecryptfs@lfdr.de>; Wed, 16 Oct 2024 17:46:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AE3CFB25014
-	for <lists+ecryptfs@lfdr.de>; Wed, 16 Oct 2024 11:07:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 79C4C1F22A7A
+	for <lists+ecryptfs@lfdr.de>; Wed, 16 Oct 2024 15:46:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB4281CACDB;
-	Wed, 16 Oct 2024 11:06:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAC9F206066;
+	Wed, 16 Oct 2024 15:46:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WmsyOlcf"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TLiIwfXY"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2047207208;
-	Wed, 16 Oct 2024 11:06:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162B63FBA5
+	for <ecryptfs@vger.kernel.org>; Wed, 16 Oct 2024 15:46:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729076816; cv=none; b=Y2MNy7H4dLkVla0He1rWrGy+zWlUaiielMipnoPGQmUC1touIz1DNPglZQtdSDOYsfnbFBhBpXgJNGPjdBBTdK5DHHoPzbWR2AnwF/1vD6/OV92AlaObm41ePJsvyotz5+SMyytQpw+jQa9NBTFlcn4khOfg8A6z+e+sUSTFJBw=
+	t=1729093571; cv=none; b=Dd5QCtiSVkMkvxF+sSYVp8fg0j5WDFUyFLX6MLbsSRY3ROJHOfWPct2qjcKQ8x8Gzvm21JUxBxF2Xzvz7qsL2S2J9yNKAJv18X2qd/uJ/l/Ch8pD207lSD5KudGhmdxOJHkYT3GU3IEQDnW6n2ytogRIjdR/sJUwd1/nPDzp19w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729076816; c=relaxed/simple;
-	bh=QCZ0riA4KXlYTzoJ/11/Bb/+xk6ORhOod0g4QC/ZDhA=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=czFiQX1iquXseCiqb1UacASpIeZyY8ITc8kD8aTIqU9HLB0ySyjLlKJOkTPz1pieR4xJurOvkkfh0w4oMrpwS3WFG6QYL7ruDv9kaiZ5jEQ7rm1i3yeWTYtIjf8BqjKzIyq08FJId4rNbQ1e/WQglwriU5aSpKT2LaQjCvTZKJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WmsyOlcf; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-539e59dadebso5361701e87.0;
-        Wed, 16 Oct 2024 04:06:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729076813; x=1729681613; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vYyqrJz2TEk2igPzsfZXes1hSgjCxocHugD9O2531Pc=;
-        b=WmsyOlcfEdv0/NTJZu3h3PFXK8E6WQSiVsA6YpFWRiMW6UeWsOeCcohAGaTpV/3f3h
-         vAVwEbA5qa5H/oaulIePTAhkIQdpA0kpjAZgbMCOsHM/KRM8rFJfC9UdjVCcj86IoMaX
-         eFzeYfWlzsdOz7VeJEXckGm4wx+/BWCu3xxVm71tPfYbKlabCnhBKZpg87qEa2UT5+0f
-         noexxOlZdfqGf1GqiuEA72VkbqmkSVieFczadUGWzlLD3vnyw4tQUH6Y/kAXi7OMqOaq
-         I1HqMakbHVUKHrGr0DbBXk0ivMuXGw6uoMFikVA7hHzR/6+zPYsOvNvtHOXyzsNEnnZ8
-         GOkg==
+	s=arc-20240116; t=1729093571; c=relaxed/simple;
+	bh=XyqEDOo98M3gVMois/KJaRipc1xqyzX8zJ93OKFsZN4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=l4ymGW1FPrgWHcwsVHX/nEP+Vs44fvj48ME1wONtzphw7gAszXmwfXOpomXG/toiOzmBtm3i4sURL6bxOC15Aynck2tuWI3cw5vmJUeZX0Au7GFn0OxFpn2yUzdviRqxUN53sYiuv3kuGkddHlK40jGRxU2zEPeWEBYBHzvuROw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TLiIwfXY; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1729093568;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vg4XzeAsY3lfRfO2lhwoYiV8xLnO43kCtIl8u9fF6wI=;
+	b=TLiIwfXYx15tbMfEcFUH+HfdoUmRwD9CYSOaK8ls9vB5HmuImWgq6Jl1W4Z3rE8shpxsZA
+	MZHu0E+VKMoD+XEwxNd9l6uTHDZTz4L3igq9dY6SdrlsHXJ7i6ywSXAds5GmR6oG/smTYE
+	an7N5FxkdXS/jtNcnOb7fPqE38Au9/M=
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-281-2k6RflpiPTCF5vl4EvSryw-1; Wed, 16 Oct 2024 11:46:07 -0400
+X-MC-Unique: 2k6RflpiPTCF5vl4EvSryw-1
+Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-3a3c72d4ac4so48385ab.3
+        for <ecryptfs@vger.kernel.org>; Wed, 16 Oct 2024 08:46:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729076813; x=1729681613;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vYyqrJz2TEk2igPzsfZXes1hSgjCxocHugD9O2531Pc=;
-        b=ZMUJTBhkfv+WvHJS78rIckT867jvEnI9N5oLPMRFZ55B0GmU3RkKqyeXtRH847hKZF
-         26ZIp7fgb0oazyqp4tbbNC7ztcsk/nDZT+HQMXO9vr/yg3T9t3yW7K/H7AWDFmhl9bL8
-         wnqgWIfHKvJOlEBC5XTtgVqLorkxgt6NTG83q5Usjomrar0NR0YbETJPV0V7JHI40zXq
-         dHqipmfmlDYdFA1WJd4UI9RLaSk0d07YGJ3XLljC6UeaPNa3NORizBBqhl7nlbuTJJqv
-         NPjMK7RZ+1P3L6ygGk8uz6ry1ASJyNAQ+kcyUix94rBv+ZblLdhz64S4CLWhdtByLGOS
-         m1EA==
-X-Forwarded-Encrypted: i=1; AJvYcCVNnnhPxar1fcXpsVWDuHS+/F5H83yWev6E2HOLfpDNhEvrdRZBzlDCVUoL60AjMp1lPphCo/YnmoUog5gM+t8S@vger.kernel.org, AJvYcCWqYs2GMJcRxQUqx6kcN0yML0Z90aSD9VXHAtAs2FpfgJzEWM6i/PwfiU1l4SvTCdE+4g+ho5uM4BjthxPv@vger.kernel.org, AJvYcCXUvkpva8zISGof0/zr+eLKnTdxLbkgk8hbf4JQd99zVXxLiQTRQ4kLnyOwf64w4IdoI+myuwGrbQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyXrPSkYA0P7NAzp3mVGSP2s0Bq/fcchWV66wHhXr0j77nI26xA
-	0GG44Ec/efomMceLbxQnsv0SaCTDa568r7F3Yzu92XSTt/awC8AFfcKXUw==
-X-Google-Smtp-Source: AGHT+IFzsH7xHJlaGwKRRrNEdurssvvGtU48fA0LNdlbvPDyKgpsdVl06DnG+xIbJhMyfP53PkJ0Rw==
-X-Received: by 2002:a05:6512:3b13:b0:539:ea54:8d28 with SMTP id 2adb3069b0e04-53a03f0476dmr2780355e87.11.1729076812735;
-        Wed, 16 Oct 2024 04:06:52 -0700 (PDT)
-Received: from pc636 (host-95-203-1-67.mobileonline.telia.com. [95.203.1.67])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-539ffff40c7sm417960e87.146.2024.10.16.04.06.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Oct 2024 04:06:52 -0700 (PDT)
-From: Uladzislau Rezki <urezki@gmail.com>
-X-Google-Original-From: Uladzislau Rezki <urezki@pc636>
-Date: Wed, 16 Oct 2024 13:06:50 +0200
-To: Julia Lawall <Julia.Lawall@inria.fr>, Tyler Hicks <code@tyhicks.com>
-Cc: Tyler Hicks <code@tyhicks.com>, kernel-janitors@vger.kernel.org,
-	vbabka@suse.cz, paulmck@kernel.org, ecryptfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 07/17] eCryptfs: replace call_rcu by kfree_rcu for simple
- kmem_cache_free callback
-Message-ID: <Zw-eSn0_Tmg4aiqV@pc636>
-References: <20241013201704.49576-1-Julia.Lawall@inria.fr>
- <20241013201704.49576-8-Julia.Lawall@inria.fr>
+        d=1e100.net; s=20230601; t=1729093566; x=1729698366;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vg4XzeAsY3lfRfO2lhwoYiV8xLnO43kCtIl8u9fF6wI=;
+        b=TIF2Fj/13uYd+brqotaL1YesDa4vH4Qy7sKIzbLm2cGf5bW4VBs3v2nQACxY7FK75u
+         JrwGVTJYrZq9RzwczuKoTLSllulffnp4fAmF0W+uJIe8sYV+vXJwpF4rL8tCXV8+w0z1
+         pRTa5Ew5goYX4fOS+xv4KsMcZhcB7ZOZsu44nLDHLOFbMC1VIHsWDyOkvNG6afkoBEM+
+         7PXRXSY9qINRjRt3UkgE1Nz5lzoTdgOfAf/YzQXZEE8uOVD7UQ1PYpC4gvC+l8aa2+2W
+         p8/osq6hfiZKUFbvC2si/HcZ0eTuGZVOMP1Z7zM6oGAut/DNagLVTMFTS8ycbkzxTWPF
+         E9yw==
+X-Gm-Message-State: AOJu0YzLXrN4rei443F/xkNUh/NGkHMnboWQH4Lt51fEK8B/A4gYryPm
+	SuBVi41sV7kGE5PwKGywRNNoSZvUPhh87HKdtfIJ2O1N8AfEhyPY+3XMTlDPpUNlMmz412bnA/p
+	dwx2/5hp6h01lQ7itDFxqfsID+zq+mtbghMQ557YtcVTNdnu0CodPaUYeOZbuHnPHEb5D0n8k/5
+	e3TLjP0yZKBbd6wjaDR5zc+r7ZbuoOFc/bfcNWXiTJ6g==
+X-Received: by 2002:a05:6e02:1566:b0:3a3:b07b:6b1 with SMTP id e9e14a558f8ab-3a3b5ff217dmr159039745ab.26.1729093566013;
+        Wed, 16 Oct 2024 08:46:06 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHFZzShR1y4d86dIGbjrYPlBVIy859oZO0Lm7XLunMcCPEMd21JgLJd7h0KVF+U93FQdrHW2Q==
+X-Received: by 2002:a05:6e02:1566:b0:3a3:b07b:6b1 with SMTP id e9e14a558f8ab-3a3b5ff217dmr159039495ab.26.1729093565602;
+        Wed, 16 Oct 2024 08:46:05 -0700 (PDT)
+Received: from [10.0.0.71] (67-4-202-127.mpls.qwest.net. [67.4.202.127])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3a3d70aeea2sm8680875ab.32.2024.10.16.08.46.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Oct 2024 08:46:04 -0700 (PDT)
+Message-ID: <6e4704d7-7196-4dcf-92f0-2d0e346fc69f@redhat.com>
+Date: Wed, 16 Oct 2024 10:46:03 -0500
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241013201704.49576-8-Julia.Lawall@inria.fr>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] ecryptfs: convert to the new mount API
+To: ecryptfs@vger.kernel.org
+Cc: code@tyhicks.com, brauner@kernel.org
+References: <20241007153448.6357-1-sandeen@redhat.com>
+Content-Language: en-US
+From: Eric Sandeen <sandeen@redhat.com>
+In-Reply-To: <20241007153448.6357-1-sandeen@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, Oct 13, 2024 at 10:16:54PM +0200, Julia Lawall wrote:
-> Since SLOB was removed and since
-> commit 6c6c47b063b5 ("mm, slab: call kvfree_rcu_barrier() from kmem_cache_destroy()"),
-> it is not necessary to use call_rcu when the callback only performs
-> kmem_cache_free. Use kfree_rcu() directly.
+On 10/7/24 10:27 AM, Eric Sandeen wrote:
+> This is lightly tested with the kernel tests present in ecryptfs-utils,
+> but it could certainly use a bit more testing and review, particularly
+> with invalid mount option sets.
 > 
-> The changes were made using Coccinelle.
+> This one is a little unique compared to other filesystems in that I
+> allocate both an fs context and the *sbi in .init_fs_context; the *sbi
+> is long-lived, and the context is only present during the initial mount.
 > 
-> Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
+> Allocating sbi with the filesystem context means we can set options
+> into it directly, rather than needing to do it after parsing. And it's
+> particularly simple to do it this way given that there is no remount.
 > 
-> ---
->  fs/ecryptfs/dentry.c |    8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
+> I could squash these two patches into one if you prefer, but
+> I thought maybe breaking out the first change made review a little
+> easier.
 > 
-> diff --git a/fs/ecryptfs/dentry.c b/fs/ecryptfs/dentry.c
-> index acaa0825e9bb..49d626ff33a9 100644
-> --- a/fs/ecryptfs/dentry.c
-> +++ b/fs/ecryptfs/dentry.c
-> @@ -51,12 +51,6 @@ static int ecryptfs_d_revalidate(struct dentry *dentry, unsigned int flags)
->  
->  struct kmem_cache *ecryptfs_dentry_info_cache;
->  
-> -static void ecryptfs_dentry_free_rcu(struct rcu_head *head)
-> -{
-> -	kmem_cache_free(ecryptfs_dentry_info_cache,
-> -		container_of(head, struct ecryptfs_dentry_info, rcu));
-> -}
-> -
->  /**
->   * ecryptfs_d_release
->   * @dentry: The ecryptfs dentry
-> @@ -68,7 +62,7 @@ static void ecryptfs_d_release(struct dentry *dentry)
->  	struct ecryptfs_dentry_info *p = dentry->d_fsdata;
->  	if (p) {
->  		path_put(&p->lower_path);
-> -		call_rcu(&p->rcu, ecryptfs_dentry_free_rcu);
-> +		kfree_rcu(p, rcu);
->  	}
->  }
->  
+> Thanks,
+> -Eric
 > 
-> 
-Reviewed-by: Uladzislau Rezki (Sony) <urezki@gmail.com>
 
---
-Uladzislau Rezki
+Ping on this, I guess.
+
+In theory ecryptfs is slated to be deprecated and removed, per
+https://lore.kernel.org/ecryptfs/ZCuSLNnFQEdOHW0c@sequoia/ but I'm not
+sure that patch ever got sent.
+
+I think this conversion is simple enough, and given that ecrypytfs is still
+in the tree, it'll stand in the way of removing the old infrastructure
+whenever the last filesystem finally gets converted, but to be fair we have
+a little ways to go there.
+
+If it's really going to be removed soon (ala reiserfs) then I suppose these
+patches can be ignored.
+
+Thanks,
+-Eric
+
 
