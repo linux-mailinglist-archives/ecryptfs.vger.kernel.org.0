@@ -1,115 +1,213 @@
-Return-Path: <ecryptfs+bounces-174-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-177-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3A439A2658
-	for <lists+ecryptfs@lfdr.de>; Thu, 17 Oct 2024 17:17:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C8929A3375
+	for <lists+ecryptfs@lfdr.de>; Fri, 18 Oct 2024 05:44:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 768B0B26B1A
-	for <lists+ecryptfs@lfdr.de>; Thu, 17 Oct 2024 15:17:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 50F6428552C
+	for <lists+ecryptfs@lfdr.de>; Fri, 18 Oct 2024 03:44:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35DB21DEFD5;
-	Thu, 17 Oct 2024 15:17:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A9D913AA3F;
+	Fri, 18 Oct 2024 03:44:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JS3Va2Rw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nZVy7N1R"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E47761DE880;
-	Thu, 17 Oct 2024 15:17:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 823355464B;
+	Fri, 18 Oct 2024 03:44:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729178238; cv=none; b=ImGJAPtlO1MnEuEA9NbIiAIzyWe5jUXAkXqYQF6iS/r5ukDQSNcdOZYNJ6alfG4cttgO4t+gwLZKs1Rdk94ml8OP0IiQzpJwT8e2vIBXXzDH58IwtpoLkMRvY4BcoyKBj3DyorFIYXDGxVYPqNPqZ1Gu/owuOrCdyQldNY6+rDo=
+	t=1729223047; cv=none; b=ok/QmHBp6LT5YUrip0eCFCUM+o7hcjOs/zAhvBRDYVID+OIaridhk/BDYAHB1nvllvz1Ef+WUN7JYbGuuVePZjiu6LA+40RiP3+lgcZnD28+JG0qbr7d7P3iwnC6Mo1V7sMmZi+O4VjabziOxLtP5ob81jXS03XJgdLo+OXeRm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729178238; c=relaxed/simple;
-	bh=j1w3D0/GYQm8w5sx0WH65fsXPT8LlvpjQRplmRHK0/g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UZbGeROVMf8qzH2ih7OQCbEg1wtnryJ49QgYyUkzWq/GdtSx+jtnI3rZcug+U2lT8+wXdJq/ypMgc5Ril30EM5IwYa2NOffdLzvbSBgDg9GecR+I1UUMOUMdrNbXXIOWOMzbYeCTrYaZf7uCQA5FixmlR060S9ySbKY71H87kwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=JS3Va2Rw; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=yMR4u+v8EKlznoGnXM+GjQA9dD0RqUEprsHyhwzZiEg=; b=JS3Va2RwXHTHGrysz6953yuyoA
-	NzbSHxEBLf377zKb5TMltoOZfRnXsg6T4cyb51wOAwZkmI+2NoMuFm7oY861XFXRbVfduBkHhTFEq
-	l0ic4A6KSLy/rzbZOu+Uc2uAp0s+Dw/+Qq8WrzigdDJOonEY4LJTYy1JbN824s4WuGImXZMbhXO6s
-	nGRcklZEZtpcGvrIn85AJ1UWV0Od9Iemz90rIRzhVh+e0yX55Ccwlpxf1X1+BVPDUPs+FR1ul20ru
-	Zn+Ylpl07W23WMDB4ocfNIE/8q83jfpoFvmZxF94F6jVdLJXJO3VWqJjlCxzXZnCarVxBYzh5UvYZ
-	qtOsVJNA==;
-Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1t1SFU-0000000BNoL-1if6;
-	Thu, 17 Oct 2024 15:17:12 +0000
-From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-To: Tyler Hicks <code@tyhicks.com>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	ecryptfs@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>,
+	s=arc-20240116; t=1729223047; c=relaxed/simple;
+	bh=VwKhGAtKSwLcZjVsc1hqQ8giRVlrZ4y8yEFAgPj3UvQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=staYsqrO88Q51ASYZZ+r+x2XrC2L57Ufuk33WMb31+sAylKs8JVCPdq9QcbmR7GqiPXae2Ccy8skHn18hlDiXWH/0yXxz+1dAtRBqG0HVg5lOzjsaJIjWKnBxNbFHboxhHVnKWVr+j5mC5FLXGNmCmR61uoQ6Ew4UTlvmWZ1Mvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nZVy7N1R; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729223046; x=1760759046;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VwKhGAtKSwLcZjVsc1hqQ8giRVlrZ4y8yEFAgPj3UvQ=;
+  b=nZVy7N1RNAXfGq5i5vZD0Jq7zyitle4MtTbprRJzi8yxudnfZ/MxfDGE
+   sT+2JvYV9+FU0/MAadrUlYs/M260f+x5JkjGy7Ol6UiaCPrZuyiv+WrAc
+   VUjT9EzXYsAjhrZYcYfwWv18WzkK3P7e6PJSe+JYq8yJYuyzfIZMVzrkA
+   pu+ycxkO6FdSR3lv8BG7bSFlfqMq2T9WecRHszF7UEsdNuTx2xGd6wMQ6
+   KTgYWmX6LM/BazC/xBqT4qLHJlzJ7MUmuuXR/TiklYhNL3cTfn1Nbx0C8
+   /oNEXlp6X9eOag10tWNyiYs7Uu/7OC3Wp7Z8ws2Hn0PT/pnlJxndIcJve
+   g==;
+X-CSE-ConnectionGUID: NTWPhbGcRKazYIaTiM7qyA==
+X-CSE-MsgGUID: iPzMGJIsSzeKRVWoq1hEDg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11228"; a="32539997"
+X-IronPort-AV: E=Sophos;i="6.11,212,1725346800"; 
+   d="scan'208";a="32539997"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 20:44:05 -0700
+X-CSE-ConnectionGUID: VKu74AkRSDqbnAETSeEpfQ==
+X-CSE-MsgGUID: QwrFji2wRGm057dQVFqjlg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="83574643"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 17 Oct 2024 20:44:03 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t1duC-000NEN-2c;
+	Fri, 18 Oct 2024 03:44:00 +0000
+Date: Fri, 18 Oct 2024 11:43:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Tyler Hicks <code@tyhicks.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	ecryptfs@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 10/10] ecryptfs: Pass the folio index to crypt_extent()
-Date: Thu, 17 Oct 2024 16:17:05 +0100
-Message-ID: <20241017151709.2713048-11-willy@infradead.org>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20241017151709.2713048-1-willy@infradead.org>
-References: <20241017151709.2713048-1-willy@infradead.org>
+Subject: Re: [PATCH 03/10] ecryptfs: Convert
+ ecryptfs_copy_up_encrypted_with_header() to take a folio
+Message-ID: <202410181111.XVnnYVNa-lkp@intel.com>
+References: <20241017151709.2713048-4-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241017151709.2713048-4-willy@infradead.org>
 
-We need to pass pages, not folios, to crypt_extent() as we may be
-working with a plain page rather than a folio.  But we need to know the
-index in the file, so pass it in from the caller.
+Hi Matthew,
 
-Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
----
- fs/ecryptfs/crypto.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+kernel test robot noticed the following build warnings:
 
-diff --git a/fs/ecryptfs/crypto.c b/fs/ecryptfs/crypto.c
-index 3db50a779dc7..c708b9012e21 100644
---- a/fs/ecryptfs/crypto.c
-+++ b/fs/ecryptfs/crypto.c
-@@ -350,9 +350,9 @@ static loff_t lower_offset_for_page(struct ecryptfs_crypt_stat *crypt_stat,
- static int crypt_extent(struct ecryptfs_crypt_stat *crypt_stat,
- 			struct page *dst_page,
- 			struct page *src_page,
-+			pgoff_t page_index,
- 			unsigned long extent_offset, int op)
- {
--	pgoff_t page_index = op == ENCRYPT ? src_page->index : dst_page->index;
- 	loff_t extent_base;
- 	char extent_iv[ECRYPTFS_MAX_IV_BYTES];
- 	struct scatterlist src_sg, dst_sg;
-@@ -432,7 +432,8 @@ int ecryptfs_encrypt_page(struct folio *folio)
- 	     extent_offset < (PAGE_SIZE / crypt_stat->extent_size);
- 	     extent_offset++) {
- 		rc = crypt_extent(crypt_stat, enc_extent_page,
--				folio_page(folio, 0), extent_offset, ENCRYPT);
-+				folio_page(folio, 0), folio->index,
-+				extent_offset, ENCRYPT);
- 		if (rc) {
- 			printk(KERN_ERR "%s: Error encrypting extent; "
- 			       "rc = [%d]\n", __func__, rc);
-@@ -505,8 +506,8 @@ int ecryptfs_decrypt_page(struct folio *folio)
- 	     extent_offset < (PAGE_SIZE / crypt_stat->extent_size);
- 	     extent_offset++) {
- 		struct page *page = folio_page(folio, 0);
--		rc = crypt_extent(crypt_stat, page, page,
--				  extent_offset, DECRYPT);
-+		rc = crypt_extent(crypt_stat, page, page, folio->index,
-+				extent_offset, DECRYPT);
- 		if (rc) {
- 			printk(KERN_ERR "%s: Error decrypting extent; "
- 			       "rc = [%d]\n", __func__, rc);
+[auto build test WARNING on v6.12-rc3]
+[also build test WARNING on linus/master next-20241017]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Wilcox-Oracle/ecryptfs-Convert-ecryptfs_writepage-to-ecryptfs_writepages/20241017-232033
+base:   v6.12-rc3
+patch link:    https://lore.kernel.org/r/20241017151709.2713048-4-willy%40infradead.org
+patch subject: [PATCH 03/10] ecryptfs: Convert ecryptfs_copy_up_encrypted_with_header() to take a folio
+config: x86_64-buildonly-randconfig-002-20241018 (https://download.01.org/0day-ci/archive/20241018/202410181111.XVnnYVNa-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241018/202410181111.XVnnYVNa-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410181111.XVnnYVNa-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> fs/ecryptfs/mmap.c:109: warning: Function parameter or struct member 'folio' not described in 'ecryptfs_copy_up_encrypted_with_header'
+>> fs/ecryptfs/mmap.c:109: warning: Excess function parameter 'page' description in 'ecryptfs_copy_up_encrypted_with_header'
+
+
+vim +109 fs/ecryptfs/mmap.c
+
+f4e60e6b303bc4 Tyler Hicks             2010-02-11   79  
+688a9f7cd824e7 Lee Jones               2021-03-30   80  /*
+e77a56ddceeec8 Michael Halcrow         2007-02-12   81   *   Header Extent:
+e77a56ddceeec8 Michael Halcrow         2007-02-12   82   *     Octets 0-7:        Unencrypted file size (big-endian)
+e77a56ddceeec8 Michael Halcrow         2007-02-12   83   *     Octets 8-15:       eCryptfs special marker
+e77a56ddceeec8 Michael Halcrow         2007-02-12   84   *     Octets 16-19:      Flags
+e77a56ddceeec8 Michael Halcrow         2007-02-12   85   *      Octet 16:         File format version number (between 0 and 255)
+e77a56ddceeec8 Michael Halcrow         2007-02-12   86   *      Octets 17-18:     Reserved
+e77a56ddceeec8 Michael Halcrow         2007-02-12   87   *      Octet 19:         Bit 1 (lsb): Reserved
+e77a56ddceeec8 Michael Halcrow         2007-02-12   88   *                        Bit 2: Encrypted?
+e77a56ddceeec8 Michael Halcrow         2007-02-12   89   *                        Bits 3-8: Reserved
+e77a56ddceeec8 Michael Halcrow         2007-02-12   90   *     Octets 20-23:      Header extent size (big-endian)
+e77a56ddceeec8 Michael Halcrow         2007-02-12   91   *     Octets 24-25:      Number of header extents at front of file
+e77a56ddceeec8 Michael Halcrow         2007-02-12   92   *                        (big-endian)
+e77a56ddceeec8 Michael Halcrow         2007-02-12   93   *     Octet  26:         Begin RFC 2440 authentication token packet set
+e77a56ddceeec8 Michael Halcrow         2007-02-12   94   */
+237fead619984c Michael Halcrow         2006-10-04   95  
+237fead619984c Michael Halcrow         2006-10-04   96  /**
+bf12be1cc851cf Michael Halcrow         2007-10-16   97   * ecryptfs_copy_up_encrypted_with_header
+bf12be1cc851cf Michael Halcrow         2007-10-16   98   * @page: Sort of a ``virtual'' representation of the encrypted lower
+bf12be1cc851cf Michael Halcrow         2007-10-16   99   *        file. The actual lower file does not have the metadata in
+bf12be1cc851cf Michael Halcrow         2007-10-16  100   *        the header. This is locked.
+bf12be1cc851cf Michael Halcrow         2007-10-16  101   * @crypt_stat: The eCryptfs inode's cryptographic context
+237fead619984c Michael Halcrow         2006-10-04  102   *
+bf12be1cc851cf Michael Halcrow         2007-10-16  103   * The ``view'' is the version of the file that userspace winds up
+bf12be1cc851cf Michael Halcrow         2007-10-16  104   * seeing, with the header information inserted.
+237fead619984c Michael Halcrow         2006-10-04  105   */
+bf12be1cc851cf Michael Halcrow         2007-10-16  106  static int
+f02b13c08673c2 Matthew Wilcox (Oracle  2024-10-17  107) ecryptfs_copy_up_encrypted_with_header(struct folio *folio,
+bf12be1cc851cf Michael Halcrow         2007-10-16  108  				       struct ecryptfs_crypt_stat *crypt_stat)
+237fead619984c Michael Halcrow         2006-10-04 @109  {
+bf12be1cc851cf Michael Halcrow         2007-10-16  110  	loff_t extent_num_in_page = 0;
+09cbfeaf1a5a67 Kirill A. Shutemov      2016-04-01  111  	loff_t num_extents_per_page = (PAGE_SIZE
+bf12be1cc851cf Michael Halcrow         2007-10-16  112  				       / crypt_stat->extent_size);
+237fead619984c Michael Halcrow         2006-10-04  113  	int rc = 0;
+237fead619984c Michael Halcrow         2006-10-04  114  
+bf12be1cc851cf Michael Halcrow         2007-10-16  115  	while (extent_num_in_page < num_extents_per_page) {
+f02b13c08673c2 Matthew Wilcox (Oracle  2024-10-17  116) 		loff_t view_extent_num = ((loff_t)folio->index
+d6a13c17164fcc Michael Halcrow         2007-10-16  117  					   * num_extents_per_page)
+f02b13c08673c2 Matthew Wilcox (Oracle  2024-10-17  118) 					  + extent_num_in_page;
+cc11beffdf80ca Michael Halcrow         2008-02-06  119  		size_t num_header_extents_at_front =
+fa3ef1cb4e6e99 Tyler Hicks             2010-02-11  120  			(crypt_stat->metadata_size / crypt_stat->extent_size);
+e77a56ddceeec8 Michael Halcrow         2007-02-12  121  
+cc11beffdf80ca Michael Halcrow         2008-02-06  122  		if (view_extent_num < num_header_extents_at_front) {
+bf12be1cc851cf Michael Halcrow         2007-10-16  123  			/* This is a header extent */
+e77a56ddceeec8 Michael Halcrow         2007-02-12  124  			char *page_virt;
+e77a56ddceeec8 Michael Halcrow         2007-02-12  125  
+f02b13c08673c2 Matthew Wilcox (Oracle  2024-10-17  126) 			page_virt = kmap_local_folio(folio, 0);
+09cbfeaf1a5a67 Kirill A. Shutemov      2016-04-01  127  			memset(page_virt, 0, PAGE_SIZE);
+bf12be1cc851cf Michael Halcrow         2007-10-16  128  			/* TODO: Support more than one header extent */
+bf12be1cc851cf Michael Halcrow         2007-10-16  129  			if (view_extent_num == 0) {
+157f1071354db1 Tyler Hicks             2010-02-11  130  				size_t written;
+157f1071354db1 Tyler Hicks             2010-02-11  131  
+e77a56ddceeec8 Michael Halcrow         2007-02-12  132  				rc = ecryptfs_read_xattr_region(
+f02b13c08673c2 Matthew Wilcox (Oracle  2024-10-17  133) 					page_virt, folio->mapping->host);
+f4e60e6b303bc4 Tyler Hicks             2010-02-11  134  				strip_xattr_flag(page_virt + 16, crypt_stat);
+157f1071354db1 Tyler Hicks             2010-02-11  135  				ecryptfs_write_header_metadata(page_virt + 20,
+157f1071354db1 Tyler Hicks             2010-02-11  136  							       crypt_stat,
+157f1071354db1 Tyler Hicks             2010-02-11  137  							       &written);
+e77a56ddceeec8 Michael Halcrow         2007-02-12  138  			}
+e2393b8f3987c5 Fabio M. De Francesco   2023-04-26  139  			kunmap_local(page_virt);
+f02b13c08673c2 Matthew Wilcox (Oracle  2024-10-17  140) 			flush_dcache_folio(folio);
+e77a56ddceeec8 Michael Halcrow         2007-02-12  141  			if (rc) {
+bf12be1cc851cf Michael Halcrow         2007-10-16  142  				printk(KERN_ERR "%s: Error reading xattr "
+18d1dbf1d401e8 Harvey Harrison         2008-04-29  143  				       "region; rc = [%d]\n", __func__, rc);
+e77a56ddceeec8 Michael Halcrow         2007-02-12  144  				goto out;
+e77a56ddceeec8 Michael Halcrow         2007-02-12  145  			}
+e77a56ddceeec8 Michael Halcrow         2007-02-12  146  		} else {
+bf12be1cc851cf Michael Halcrow         2007-10-16  147  			/* This is an encrypted data extent */
+bf12be1cc851cf Michael Halcrow         2007-10-16  148  			loff_t lower_offset =
+cc11beffdf80ca Michael Halcrow         2008-02-06  149  				((view_extent_num * crypt_stat->extent_size)
+fa3ef1cb4e6e99 Tyler Hicks             2010-02-11  150  				 - crypt_stat->metadata_size);
+bf12be1cc851cf Michael Halcrow         2007-10-16  151  
+bf12be1cc851cf Michael Halcrow         2007-10-16  152  			rc = ecryptfs_read_lower_page_segment(
+f02b13c08673c2 Matthew Wilcox (Oracle  2024-10-17  153) 				&folio->page, (lower_offset >> PAGE_SHIFT),
+09cbfeaf1a5a67 Kirill A. Shutemov      2016-04-01  154  				(lower_offset & ~PAGE_MASK),
+f02b13c08673c2 Matthew Wilcox (Oracle  2024-10-17  155) 				crypt_stat->extent_size, folio->mapping->host);
+e77a56ddceeec8 Michael Halcrow         2007-02-12  156  			if (rc) {
+bf12be1cc851cf Michael Halcrow         2007-10-16  157  				printk(KERN_ERR "%s: Error attempting to read "
+bf12be1cc851cf Michael Halcrow         2007-10-16  158  				       "extent at offset [%lld] in the lower "
+18d1dbf1d401e8 Harvey Harrison         2008-04-29  159  				       "file; rc = [%d]\n", __func__,
+bf12be1cc851cf Michael Halcrow         2007-10-16  160  				       lower_offset, rc);
+e77a56ddceeec8 Michael Halcrow         2007-02-12  161  				goto out;
+e77a56ddceeec8 Michael Halcrow         2007-02-12  162  			}
+e77a56ddceeec8 Michael Halcrow         2007-02-12  163  		}
+bf12be1cc851cf Michael Halcrow         2007-10-16  164  		extent_num_in_page++;
+bf12be1cc851cf Michael Halcrow         2007-10-16  165  	}
+bf12be1cc851cf Michael Halcrow         2007-10-16  166  out:
+bf12be1cc851cf Michael Halcrow         2007-10-16  167  	return rc;
+bf12be1cc851cf Michael Halcrow         2007-10-16  168  }
+bf12be1cc851cf Michael Halcrow         2007-10-16  169  
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
