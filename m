@@ -1,194 +1,85 @@
-Return-Path: <ecryptfs+bounces-183-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-184-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 449239A384F
-	for <lists+ecryptfs@lfdr.de>; Fri, 18 Oct 2024 10:16:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65EBC9A4912
+	for <lists+ecryptfs@lfdr.de>; Fri, 18 Oct 2024 23:42:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F40F3288CFC
-	for <lists+ecryptfs@lfdr.de>; Fri, 18 Oct 2024 08:16:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F089B1F26ED5
+	for <lists+ecryptfs@lfdr.de>; Fri, 18 Oct 2024 21:42:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 053B835894;
-	Fri, 18 Oct 2024 08:15:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D80118FC65;
+	Fri, 18 Oct 2024 21:42:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pankajraghav.com header.i=@pankajraghav.com header.b="0hC39kpO"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="C+iDkVGi"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10ED5188719;
-	Fri, 18 Oct 2024 08:15:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D6418C332
+	for <ecryptfs@vger.kernel.org>; Fri, 18 Oct 2024 21:42:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729239340; cv=none; b=cO1GhJVGF28jJH8fI4JiB+yMNKQgTrNLcoZOTIG+FzcJf/Nn+q5SAhz25Ln0otRRicAh08Q+3UekZz6uWh1bkPhXLyuyYbnfqjdFc2fYbFXVInvbRjUOFpCWUh6T0I60im2wjD2RXesEL2dJzHPsFI3pVINshwc6T0Jj0YYRPcc=
+	t=1729287737; cv=none; b=XBFQXOE9aG9mBLNVwkku8OgM0Gx4bplvtuBVv4mbyP3/LWl1KftHhohR8d0IvilYOzXDp8FogBs1h95Gxca26aBY2hOui6+MQQU9IztizxNe81VIEKoWOL301KoQUtbi6grqrznUz9LPBbS2+EoofjyuaP907xhCuv+Nxj/KGSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729239340; c=relaxed/simple;
-	bh=tF4XC4Vtg31heQ7HwhhO4oeaDoSrowJ/+m6SZnxNljw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZGfu0OrND2XoW/xlj/B9s49P03pSL0ZbkWDqRcsM32wA+z2vatRJWmePIpg6aY3w4kcCc3g/qkCu+MePxvsiitHTps6Djk3VGIqfpndmlYfJTi2iBWVNL2myXCp0heHYRGyOCKqsdbn+0jEcPkbN401n+AUxNQtl8aiB66RiEJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pankajraghav.com; spf=pass smtp.mailfrom=pankajraghav.com; dkim=pass (2048-bit key) header.d=pankajraghav.com header.i=@pankajraghav.com header.b=0hC39kpO; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pankajraghav.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pankajraghav.com
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4XVHPV1Ld1z9tC4;
-	Fri, 18 Oct 2024 10:07:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pankajraghav.com;
-	s=MBO0001; t=1729238862;
+	s=arc-20240116; t=1729287737; c=relaxed/simple;
+	bh=4eLz8Jgbz5a48CeyB/rTm/lRqPKjyXMUHycaiAPcLeM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dlnVG4VaUllIhJ1zJ/PHQl+4Ywr2gRtHmEzwUFyxt7wcewWZFZ49Bu0cV03EUPQ6WRF2l114UaExfrrMp6KssC99iZ3pP2Ay4aNnIeUG8kMur0Gbo6qx9++o8gn6ohM7svdxqpYahRKlyB4KxY+JiGf2D0SLE2JprrVjylcsG7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=C+iDkVGi; arc=none smtp.client-ip=91.218.175.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1729287731;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=swUvX0MKrlHyxLPYu4fA9G6XlsWEUzrS6p8kehZqQlM=;
-	b=0hC39kpOU0eHqXQDsGTqJs2Qc4425s5a/pLcxS6B/usxkVbkBKImtHYVvj4QNUSfBzxU49
-	F/Zwt36nVeYZjgusOiSyxYsg0d3d7CR02T9VH24Yc1PzKwmI3HENyGDZ3ZBOwLida7NZ3r
-	5goBtva9C4t0bVBWkyHmPNnPfsHzNhPmmuNrWQ2OX+fQ8vHADFTgPkCcH2YNeGWGTcxHNS
-	qUvs/Q//bN3P0J/VK7Ald7z6xay9/3LyHpblIrPp6YIe556gKn8/WlGVJI9oVKs1DQfdrD
-	FvLMiZmzd1EI5mAJxCSYbVlpJvGMAfniGB/lkbIXIB7kL8JmRCPfH6DMlxguOw==
-Date: Fri, 18 Oct 2024 13:37:30 +0530
-From: "Pankaj Raghav (Samsung)" <kernel@pankajraghav.com>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Tyler Hicks <code@tyhicks.com>, ecryptfs@vger.kernel.org, 
-	Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 05/10] ecryptfs: Convert ecryptfs_write() to use a folio
-Message-ID: <5gihme3d5baq4xqjwpiuazihxheraxnlufefqoesxvtofl6ho2@2p7pikrgauvo>
-References: <20241017151709.2713048-1-willy@infradead.org>
- <20241017151709.2713048-6-willy@infradead.org>
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=7EScYlRb8xeUL4sQWu5BTVxE5ql4FkcuPVnEW/yEe/8=;
+	b=C+iDkVGitSB9uDsFryudjQ3x4k/PK6pQqou0h50mtwYGHMEHN3lRHIumQwwnxzeOYKesVf
+	QfL/xrhCdww031zJJJhyAan7g4DS9xPg3N4Vo+qmGFzt0fanuHVaHSjMfh2zXmHAHMG5mB
+	0JerjWVGtJpSzY3QFmixstZxfxFY4KI=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Tyler Hicks <code@tyhicks.com>,
+	Brian Kubisiak <brian@kubisiak.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Thorsten Blum <thorsten.blum@linux.dev>
+Cc: ecryptfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [RESEND PATCH] ecryptfs: Fix packet format comment in parse_tag_67_packet()
+Date: Fri, 18 Oct 2024 23:41:42 +0200
+Message-ID: <20241018214144.163036-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241017151709.2713048-6-willy@infradead.org>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, Oct 17, 2024 at 04:17:00PM +0100, Matthew Wilcox (Oracle) wrote:
-> Remove ecryptfs_get_locked_page() and call read_mapping_folio()
-> directly.  Use the folio throught this function.
-> 
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+s/TAG 65/TAG 67/
 
-Looks good.
-Reviewed-by: Pankaj Raghav <p.raghav@samsung.com>
-> ---
->  fs/ecryptfs/ecryptfs_kernel.h |  1 -
->  fs/ecryptfs/mmap.c            | 16 ----------------
->  fs/ecryptfs/read_write.c      | 25 +++++++++++++------------
->  3 files changed, 13 insertions(+), 29 deletions(-)
-> 
-> diff --git a/fs/ecryptfs/ecryptfs_kernel.h b/fs/ecryptfs/ecryptfs_kernel.h
-> index 43f1b5ff987d..f04aa24f6bcd 100644
-> --- a/fs/ecryptfs/ecryptfs_kernel.h
-> +++ b/fs/ecryptfs/ecryptfs_kernel.h
-> @@ -662,7 +662,6 @@ int ecryptfs_read_lower_page_segment(struct folio *folio_for_ecryptfs,
->  				     pgoff_t page_index,
->  				     size_t offset_in_page, size_t size,
->  				     struct inode *ecryptfs_inode);
-> -struct page *ecryptfs_get_locked_page(struct inode *inode, loff_t index);
->  int ecryptfs_parse_packet_length(unsigned char *data, size_t *size,
->  				 size_t *length_size);
->  int ecryptfs_write_packet_length(char *dest, size_t size,
-> diff --git a/fs/ecryptfs/mmap.c b/fs/ecryptfs/mmap.c
-> index b7ef0bf563bd..ad535bf9d2f9 100644
-> --- a/fs/ecryptfs/mmap.c
-> +++ b/fs/ecryptfs/mmap.c
-> @@ -22,22 +22,6 @@
->  #include <linux/unaligned.h>
->  #include "ecryptfs_kernel.h"
->  
-> -/*
-> - * ecryptfs_get_locked_page
-> - *
-> - * Get one page from cache or lower f/s, return error otherwise.
-> - *
-> - * Returns locked and up-to-date page (if ok), with increased
-> - * refcnt.
-> - */
-> -struct page *ecryptfs_get_locked_page(struct inode *inode, loff_t index)
-> -{
-> -	struct page *page = read_mapping_page(inode->i_mapping, index, NULL);
-> -	if (!IS_ERR(page))
-> -		lock_page(page);
-> -	return page;
-> -}
-> -
->  /*
->   * This is where we encrypt the data and pass the encrypted data to
->   * the lower filesystem.  In OpenPGP-compatible mode, we operate on
-> diff --git a/fs/ecryptfs/read_write.c b/fs/ecryptfs/read_write.c
-> index 251e9f6c6972..cddfdfced879 100644
-> --- a/fs/ecryptfs/read_write.c
-> +++ b/fs/ecryptfs/read_write.c
-> @@ -93,7 +93,6 @@ int ecryptfs_write_lower_page_segment(struct inode *ecryptfs_inode,
->  int ecryptfs_write(struct inode *ecryptfs_inode, char *data, loff_t offset,
->  		   size_t size)
->  {
-> -	struct page *ecryptfs_page;
->  	struct ecryptfs_crypt_stat *crypt_stat;
->  	char *ecryptfs_page_virt;
->  	loff_t ecryptfs_file_size = i_size_read(ecryptfs_inode);
-> @@ -111,6 +110,7 @@ int ecryptfs_write(struct inode *ecryptfs_inode, char *data, loff_t offset,
->  	else
->  		pos = offset;
->  	while (pos < (offset + size)) {
-> +		struct folio *ecryptfs_folio;
->  		pgoff_t ecryptfs_page_idx = (pos >> PAGE_SHIFT);
->  		size_t start_offset_in_page = (pos & ~PAGE_MASK);
->  		size_t num_bytes = (PAGE_SIZE - start_offset_in_page);
-> @@ -130,17 +130,18 @@ int ecryptfs_write(struct inode *ecryptfs_inode, char *data, loff_t offset,
->  			if (num_bytes > total_remaining_zeros)
->  				num_bytes = total_remaining_zeros;
->  		}
-> -		ecryptfs_page = ecryptfs_get_locked_page(ecryptfs_inode,
-> -							 ecryptfs_page_idx);
-> -		if (IS_ERR(ecryptfs_page)) {
-> -			rc = PTR_ERR(ecryptfs_page);
-> +		ecryptfs_folio = read_mapping_folio(ecryptfs_inode->i_mapping,
-> +				ecryptfs_page_idx, NULL);
-> +		if (IS_ERR(ecryptfs_folio)) {
-> +			rc = PTR_ERR(ecryptfs_folio);
->  			printk(KERN_ERR "%s: Error getting page at "
->  			       "index [%ld] from eCryptfs inode "
->  			       "mapping; rc = [%d]\n", __func__,
->  			       ecryptfs_page_idx, rc);
->  			goto out;
->  		}
-> -		ecryptfs_page_virt = kmap_local_page(ecryptfs_page);
-> +		folio_lock(ecryptfs_folio);
-> +		ecryptfs_page_virt = kmap_local_folio(ecryptfs_folio, 0);
->  
->  		/*
->  		 * pos: where we're now writing, offset: where the request was
-> @@ -164,17 +165,17 @@ int ecryptfs_write(struct inode *ecryptfs_inode, char *data, loff_t offset,
->  			data_offset += num_bytes;
->  		}
->  		kunmap_local(ecryptfs_page_virt);
-> -		flush_dcache_page(ecryptfs_page);
-> -		SetPageUptodate(ecryptfs_page);
-> -		unlock_page(ecryptfs_page);
-> +		flush_dcache_folio(ecryptfs_folio);
-> +		folio_mark_uptodate(ecryptfs_folio);
-> +		folio_unlock(ecryptfs_folio);
->  		if (crypt_stat->flags & ECRYPTFS_ENCRYPTED)
-> -			rc = ecryptfs_encrypt_page(ecryptfs_page);
-> +			rc = ecryptfs_encrypt_page(&ecryptfs_folio->page);
->  		else
->  			rc = ecryptfs_write_lower_page_segment(ecryptfs_inode,
-> -						ecryptfs_page,
-> +						&ecryptfs_folio->page,
->  						start_offset_in_page,
->  						data_offset);
-> -		put_page(ecryptfs_page);
-> +		folio_put(ecryptfs_folio);
->  		if (rc) {
->  			printk(KERN_ERR "%s: Error encrypting "
->  			       "page; rc = [%d]\n", __func__, rc);
-> -- 
-> 2.43.0
-> 
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+---
+ fs/ecryptfs/keystore.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/ecryptfs/keystore.c b/fs/ecryptfs/keystore.c
+index 7f9f68c00ef6..7266fc1a5fc4 100644
+--- a/fs/ecryptfs/keystore.c
++++ b/fs/ecryptfs/keystore.c
+@@ -355,7 +355,7 @@ parse_tag_67_packet(struct ecryptfs_key_record *key_rec,
+ 	int rc;
+ 
+ 	/*
+-	 *              ***** TAG 65 Packet Format *****
++	 *              ***** TAG 67 Packet Format *****
+ 	 *    | Content Type                       | 1 byte       |
+ 	 *    | Status Indicator                   | 1 byte       |
+ 	 *    | Encrypted File Encryption Key Size | 1 or 2 bytes |
+-- 
+2.47.0
+
 
