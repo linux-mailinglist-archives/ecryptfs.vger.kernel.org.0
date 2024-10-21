@@ -1,97 +1,96 @@
-Return-Path: <ecryptfs+bounces-188-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-189-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36A509A5AC2
-	for <lists+ecryptfs@lfdr.de>; Mon, 21 Oct 2024 08:47:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 878399A5BD6
+	for <lists+ecryptfs@lfdr.de>; Mon, 21 Oct 2024 08:58:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E313228204D
-	for <lists+ecryptfs@lfdr.de>; Mon, 21 Oct 2024 06:47:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3F06D2828BC
+	for <lists+ecryptfs@lfdr.de>; Mon, 21 Oct 2024 06:58:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AC1A1D0148;
-	Mon, 21 Oct 2024 06:46:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9196D1D04BB;
+	Mon, 21 Oct 2024 06:58:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b="JXHEEjuM";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Wdon8jUS"
+	dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b="T0wBeubb";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="G57Nv/sm"
 X-Original-To: ecryptfs@vger.kernel.org
 Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 225F51D1F4D
-	for <ecryptfs@vger.kernel.org>; Mon, 21 Oct 2024 06:46:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A1321D0B98;
+	Mon, 21 Oct 2024 06:58:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729493197; cv=none; b=eSSaebUqFYTQdr0/VK2l9tQIU4SqMCKgZPuQCLkIfyiT9sXOeDGoB6szUWl7rSQRGjkiiKpLIVMwANSa66Mhu8FUkNIIC1VaooDohjQ7OXrG4Qb3ndRwnjwi03n+EHe6Mb/Ii/gZuDUOjWYGvXCmyWJGQmcHTMJJEGZqk2AAw0o=
+	t=1729493912; cv=none; b=bpMkDTVE+69O451RsT67F6yF+NgWEe5/Zikz/q4NhNe0ZD6gRFvGJ6hMExkzM1R0Zb3RyORHRq++5xThtoec+Mzv/gMC4AWrOlyMCxhJTu2Ry1ulDSJHiWbDr80BjGbQqkr3UrnhMyaqC5lRQk7nWgeZruMRlR6PAfSGN97bnMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729493197; c=relaxed/simple;
-	bh=cPJIbQ3w2wFDCg0q10WGPUhHZ96KoW3KljRhD3ugU2A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LX5f2hOhDhJClFeZ4v3hdmqXFXnvWArahmQhBrJ7CdCAYvFch7E4CCnZUnOKt7MZs5UWNzfj1Uyk+KnYnvfxw6UkkpT+9xo9FgVpV4mqiQnq6DAfP7PqD+EW/3xzJGA5jDy/c6LYHKnGL9kDjR+3jWlwhh7zgIR4ZFvPpwoq0FE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com; spf=pass smtp.mailfrom=tyhicks.com; dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b=JXHEEjuM; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Wdon8jUS; arc=none smtp.client-ip=103.168.172.150
+	s=arc-20240116; t=1729493912; c=relaxed/simple;
+	bh=8oRf9XVhKWLtRu83eI29NTiAnn5/E0C75gqv2oerKaE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SpmgYdbJBffCnTJkWxyVTc6riQ3U5qtWG8LvZuAteL0niHjEjhKuK1wl+UiAiTRR04TJGYrcpz9DeFji39e0htjN9yFWKpJmR3tzzqWbTEmcLGjHaJRIcUWQRj62f7JaiM+xyXHx7SEOVpuK+CissVbLyfNIj20HHiUGn3i179Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com; spf=pass smtp.mailfrom=tyhicks.com; dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b=T0wBeubb; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=G57Nv/sm; arc=none smtp.client-ip=103.168.172.150
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tyhicks.com
-Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
-	by mailfout.phl.internal (Postfix) with ESMTP id 349691380225;
-	Mon, 21 Oct 2024 02:46:34 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Mon, 21 Oct 2024 02:46:34 -0400
+Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
+	by mailfout.phl.internal (Postfix) with ESMTP id A81501380247;
+	Mon, 21 Oct 2024 02:58:29 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-07.internal (MEProxy); Mon, 21 Oct 2024 02:58:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tyhicks.com; h=
 	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1729493194; x=1729579594; bh=rUdWcEOdfA
-	mAjIyYhHjMDT82oi7lReFXs9XXY1sm8Y8=; b=JXHEEjuMFGFkgi0sniObEali0W
-	hxTdaNIzXXFA8Rp8kI8wOsUBXntFdVNWsr7p9ry5ER4YcdVSQgDRmFup2MUJVdxB
-	Rg5+usdQncJOlHpZQboAkoVeM/6oT53aMZ79yIBGmSt+axruHGA4ojpRZE7lGv1k
-	tapSgfr/wWhONel6BkXdFmZi8Ee30ESEHMLSVUhGHqwHj7l5dGq2a6ieDE+rW4Ev
-	RFCNtA7LCy0sGPW7hsILAiCzZZmyzPmv4wLZdoNCbj9bnLj9DZRnDwufK5WqMN2e
-	JDv78yQvNMAU2wXavRAZal0uqxYPHH9tvtdsq+qkFQ/hcZgc2g8NBz6e8yKA==
+	:message-id:mime-version:reply-to:subject:subject:to:to; s=fm2;
+	 t=1729493909; x=1729580309; bh=8oRf9XVhKWLtRu83eI29NTiAnn5/E0C7
+	5gqv2oerKaE=; b=T0wBeubbKvEodxIveByGQKZqqLxcf2amuU3iAn+o/KCtvR6B
+	PJtcr4p1YMQu2opJ3KWm5KcTKlu/ayTjAF0ZV6Zrky3shnmLBME0rXYhpAqzho8c
+	Y9nHYXCreD9r3UJ9vcFOPhI7cf4wfqJo+LEDpbDx5BM3q+K0PNflM6ajKLZ2G43F
+	eIi1h5Ns3XuDvZMBAPRqOvFjDoUJLXUcNcpGTYM0HF8os9sK4wmDWF1iRhUuDGk6
+	61SAar8Jzc+YiZsKrcUzBcr7OnzyvcGTWZf30QWnXjk6diJpCgd6bRD3plXUb7TX
+	9uQSVsb1tJHm9nYltZsPQKs+QtgZo8+4S8ixQQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1729493194; x=1729579594; bh=rUdWcEOdfAmAjIyYhHjMDT82oi7l
-	ReFXs9XXY1sm8Y8=; b=Wdon8jUSx+EZndHUqa0Ls9N7iu4ztQZSv8hGx/ULolHe
-	W0AQ8EDuP50+sTy+fix55QkAJ9tOE2RBWNKxwEsVBflJFkDrocV3h6IUIvmz8pWz
-	Jqi+hgHRAMbXlJqYbHCp2SdVIaYsq0LVOy1g4GCKyFjmgQdjPrWkjHELSNjdZeyh
-	XvaHJ8EheNitWhsdavFIIUB7R4odgYTtD+UXFdjJH5T1JcaHEWt+7h9qCpEP/4hO
-	kUBK0bSozqYjfHSrR8RrIz5Qi9pwPV6lJFJ2j2cu64o2JSfYKIGeXpmESA/ImQ0X
-	Kp5LVoVufpgQORVI5q6oLeh54cTZbycTFkvKii1l6g==
-X-ME-Sender: <xms:yfgVZxP6x8n_cCYgnr0wPhZjU__WDQTmVSpJiDnNbsFzfK-4JwFjww>
-    <xme:yfgVZz-oTODVt-WdQ1VkoB5OjEJEu_cOhzKnO9m42KhZGoJDv74_Vysf1HYG2YRFd
-    rAYIvQqGKsOvALd1oM>
-X-ME-Received: <xmr:yfgVZwSVQBMttENfVDnFn0hx_vbgz7yi_2jWITRwT_vyHsgAoEPLew>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdehkedguddugecutefuodetggdotefrod
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1729493909; x=1729580309; bh=8oRf9XVhKWLtRu83eI29NTiAnn5/E0C75gq
+	v2oerKaE=; b=G57Nv/sm6xMD47PMjmj8olPcLmTJBKQnONmBzIe3/xvyEr/XE0h
+	mpMsnRkTYcO7U9wN8++B7DTiocZrG5sDV2GibGsVWs2s6xNhWttyBcI/yV3o6sOR
+	LQ90LxlGlaN8ZnngCldd9LvcmhqGwYvz19oW/IIb/AX/wzHe7id//huhQEq+lKd/
+	HFGDxNApoq2gYr90GUA+wRDZZJnuntoVb0dCehQWriYe9aOa4OA/3XK6YGuQ35lK
+	vr6aCu4sRcrK51ICm/avFM/Ax+WKb3EWTquzrf4US1H+dd+CYWKNKCufH8djZ7xd
+	uRO157GarDc3mhDfoSjxgFE1PKHzt4OssFQ==
+X-ME-Sender: <xms:lfsVZyBtHqWuZ3wIqd9boUd96Y-Tq-tCD7gxCex3wakd4cFkasIMLQ>
+    <xme:lfsVZ8hSdUWX3LWh9xZkt6I2wkAb0rQN26HkyabDpMYSfdMmiDr3FCASXeCyJC8tC
+    fmrj8VYuvF7SasEmKk>
+X-ME-Received: <xmr:lfsVZ1lHFLN8Y7ZMRo7nlCVj8ohNMOKUljAfqVnVe8xEdaDt8s6Xdw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdehkedgudduiecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
     uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddv
-    necuhfhrohhmpefvhihlvghrucfjihgtkhhsuceotghouggvsehthihhihgtkhhsrdgtoh
-    hmqeenucggtffrrghtthgvrhhnpedvhedvtddthfefhfdtgfelheefgefgudejueevkedu
-    veekvdegjedttdefgfelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
-    grihhlfhhrohhmpegtohguvgesthihhhhitghkshdrtghomhdpnhgspghrtghpthhtohep
-    hedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepiihhrghnghiivghkuhhnudduse
-    hhuhgrfigvihdrtghomhdprhgtphhtthhopegsrhgruhhnvghrsehkvghrnhgvlhdrohhr
-    ghdprhgtphhtthhopeifrghlmhgvihgurgesmhhitghrohhsohhfthdrtghomhdprhgtph
-    htthhopegvtghrhihpthhfshesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthho
-    pegthhgvnhhjuhhnuddtvdeshhhurgifvghirdgtohhm
-X-ME-Proxy: <xmx:yfgVZ9t29FSRGmzfG7R__37r-pOCaFRMUh59H2vWKGSj5aB0TTtdtA>
-    <xmx:yfgVZ5chB4cJBDW05DDUpO0X28IUvxKPkUBNyNdO24y6vh41Z9JYpg>
-    <xmx:yfgVZ52TUVBXDWqUYAkZnEh3dEazHPDV4-UNqrCXfnhf4j5OpXr7GA>
-    <xmx:yfgVZ195tCppsi-zALOBfpWpFrABZXWvzCyTMS8kYmeWkIj_lJMIpg>
-    <xmx:yvgVZyEh3MR5OESNzjxlmxcPZm8GDxz3q-6IbSEo5lL-sEFMC4cV7OGC>
+    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfggtggusehttdertddttddvnecu
+    hfhrohhmpefvhihlvghrucfjihgtkhhsuceotghouggvsehthihhihgtkhhsrdgtohhmqe
+    enucggtffrrghtthgvrhhnpeffvdekffffffekteehgfdthfevteetudfftdeigffghfei
+    tedtgeegjeehgefhueenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsth
+    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheptghouggvsehthihhihgt
+    khhsrdgtohhmpdhnsggprhgtphhtthhopeegpdhmohguvgepshhmthhpohhuthdprhgtph
+    htthhopehsfhhrsegtrghnsgdrrghuuhhgrdhorhhgrdgruhdprhgtphhtthhopehlihhn
+    uhigqdhnvgigthesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegvtghrhi
+    hpthhfshesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegsrhgruhhnvghr
+    sehkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:lfsVZwzDq7DTDLUj1mlvcUdDdngTPP5fxdGwT8ZUqXNi_Jy-1c65Sw>
+    <xmx:lfsVZ3SYsv2K8S6E_c19SpkIJvTSCK1csraMXCd6hvnOKJ3cGV7J-g>
+    <xmx:lfsVZ7a92R1pMeobfDh6dAmznRAw07YSH_1Xg4EX1O2c9GvuevHLvQ>
+    <xmx:lfsVZwTcjIB6JKBPXnKtlwR3zn8KLvtyz_G5HAHI6oTaLPY4ePK9xA>
+    <xmx:lfsVZ1NnVKysZSRfPW3-wdNV9FyE7Q4TeoFjkw0VeBNlytwxP6EzqMSJ>
 Feedback-ID: i78e14604:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 21 Oct 2024 02:46:32 -0400 (EDT)
-Date: Mon, 21 Oct 2024 01:46:31 -0500
+ 21 Oct 2024 02:58:28 -0400 (EDT)
+Date: Mon, 21 Oct 2024 01:58:26 -0500
 From: Tyler Hicks <code@tyhicks.com>
-To: Zhang Zekun <zhangzekun11@huawei.com>
-Cc: brauner@kernel.org, walmeida@microsoft.com, ecryptfs@vger.kernel.org,
-	chenjun102@huawei.com
-Subject: Re: [PATCH] ecryptfs:  Remove unused declartion ecryptfs_fill_zeros()
-Message-ID: <ZxX4x4h1QUtIy1Au@redbud>
-References: <20240906061241.20010-1-zhangzekun11@huawei.com>
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+	ecryptfs@vger.kernel.org, brauner@kernel.org
+Subject: linux-next: Please re-add eCryptfs next branch
+Message-ID: <ZxX7khzjUaDOpfOt@redbud>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
@@ -100,38 +99,15 @@ List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240906061241.20010-1-zhangzekun11@huawei.com>
 
-On 2024-09-06 14:12:41, Zhang Zekun wrote:
-> The definition of ecryptfs_fill_zeros() has been removed since
-> commit b6c1d8fcbade ("eCryptfs: remove unused functions and kmem_cache")
-> So, Remove the empty declartion in header files.
-> 
-> Signed-off-by: Zhang Zekun <zhangzekun11@huawei.com>
+Hi Stephen - Earlier this year, you dropped the eCryptfs next branch due
+to inactivity. I'd like to request that you re-add it back now as there
+are some patches piling up to bring eCryptfs up-to-date with the new
+mount API, folios, and a few other trivial cleanups.
 
-Acked-by: Tyler Hicks <code@tyhicks.com>
+ git://git.kernel.org/pub/scm/linux/kernel/git/tyhicks/ecryptfs.git#next
 
 Thank you!
 
 Tyler
-
-> ---
->  fs/ecryptfs/ecryptfs_kernel.h | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/fs/ecryptfs/ecryptfs_kernel.h b/fs/ecryptfs/ecryptfs_kernel.h
-> index c586c5db18b5..b3bca2ebec24 100644
-> --- a/fs/ecryptfs/ecryptfs_kernel.h
-> +++ b/fs/ecryptfs/ecryptfs_kernel.h
-> @@ -551,7 +551,6 @@ int ecryptfs_decode_and_decrypt_filename(char **decrypted_name,
->  					 size_t *decrypted_name_size,
->  					 struct super_block *sb,
->  					 const char *name, size_t name_size);
-> -int ecryptfs_fill_zeros(struct file *file, loff_t new_length);
->  int ecryptfs_encrypt_and_encode_filename(
->  	char **encoded_name,
->  	size_t *encoded_name_size,
-> -- 
-> 2.17.1
-> 
 
