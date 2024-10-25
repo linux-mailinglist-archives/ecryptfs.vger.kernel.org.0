@@ -1,61 +1,61 @@
-Return-Path: <ecryptfs+bounces-192-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-193-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41D4B9B0C4F
-	for <lists+ecryptfs@lfdr.de>; Fri, 25 Oct 2024 19:57:01 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A26A09B0DBD
+	for <lists+ecryptfs@lfdr.de>; Fri, 25 Oct 2024 20:50:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DF13E1F26814
-	for <lists+ecryptfs@lfdr.de>; Fri, 25 Oct 2024 17:57:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2F39BB24F8E
+	for <lists+ecryptfs@lfdr.de>; Fri, 25 Oct 2024 18:50:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D032018C356;
-	Fri, 25 Oct 2024 17:56:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9F1920BB58;
+	Fri, 25 Oct 2024 18:50:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SStY8xNr"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="W2ACu073"
 X-Original-To: ecryptfs@vger.kernel.org
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7ABC18787C;
-	Fri, 25 Oct 2024 17:56:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29FD218B462;
+	Fri, 25 Oct 2024 18:50:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729878987; cv=none; b=WdQcq3+wE7tIF4j2uIuH43U0cjhoik4RDURvo2VzjyNVNSU+dYSgEqcrG3+8yZcp96aWeKFknyyEV1j3JGttF3+9rdikdTRVeMiIejtmtrKMQ4rh7GvOKjpS8A7uTVa2LTipD1sb/w4EG10MdPhlYqf5GlRRMmS2+pqnefQT05U=
+	t=1729882216; cv=none; b=g+CL6qCCPlB6vjIe55Gw9d05A1lTaefNg+BQ6i3MCeaCjWfKFZb2jsYZyoTGGZ74nB7G6IGURMrahnr0QsK+aOqoBZVQv3Txs1uxqCAChYavcRNu5ZkbE6LIU3tcsD3rnskuSRmGLkdCf3bQ89Pkxinc5tkeh6g1eRpSrtO3VcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729878987; c=relaxed/simple;
-	bh=6YN8cw1qEq7vJTkfKJ8Dh4UFkLWP5qFeZMEqGJuLvlQ=;
+	s=arc-20240116; t=1729882216; c=relaxed/simple;
+	bh=8ooSi9CAvgT2phJOW64BYgbdx09kev5VA70Ys0nj5oY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hlNuwRrw/0UwLYNkF0TEuLNQlhmi0yC8gpexSdos+hbQc1edI5wUfSVXmNnjQdr/yblARZLWfS98tBUTDxXpDo+r+QGp/rJdhCwlPwuLHmTkI9ojLkz5/Gv8l+vhgnNrJrp+3Qe5OhRn6rZ+F44Vdz2dutAyB3KNPVHPWdQDSyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=SStY8xNr; arc=none smtp.client-ip=90.155.50.34
+	 Content-Type:Content-Disposition:In-Reply-To; b=b+K+G3rtxMA/oOQ/ha2+pfXcpFR3ZUUVMdQng7Ty4EtFVwkKWbE2SH9UH6egB8qEp7wD5M9RofFJ7j/Q9Hwuww0nvDp1pjJ1r3CfdMBIwzyCLAe5Us75phRvL6GBzjO8fi6BVuNCqpuMulZQV/tiA7XP1vK4k0BHLW2RhIJol84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=W2ACu073; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=wTPBe/opk9UbaXvM9xpGp+OOxiX0rih6vgsbWt38byg=; b=SStY8xNrz15iiTsA9gOVb9lGBc
-	iTze/AjkYJN3SYkl6a2TayQm1wRler+ZygIeMmD55ZVc3eP5C3W+r6Swazkhs7lcGueiDVE//FXKt
-	i38FWhRKXoEtw0WiPF080uLh3DCP7FeHXbvM6dYzXOwCly5JR34BYLKsmR+io6dgC6cDW+x2oNdm+
-	nuxJsAagdlDlUzdd+AaflGnRrmTthfdBsdXfBx/szozNgIVS4noRuKy2ToxODHLKpLQLq7XBxiuCc
-	TNj6+0PmMCmlWp8gtB3x0j+Tcr3hBMWo7tEEaBG0cF/aicZ+p0TTU+qnCYbvA45vL7xM1yCKCQBfb
-	LNCwCkrw==;
+	bh=bcmNzj2gfctTPmBxLe9Bb1pTwUUujfLr4SgsgNMM2t4=; b=W2ACu073+/ZmL3tZfSLah0s6rE
+	HinIsk8Fe+nvzsq0m+cyHvADCJ8bnUThf0tr5j841dYN9A46OpFsK4JPwZp+hLpeQaxiI/+HLqiRV
+	F8bDZjdX51kX8vNzAxeLio+APUKmklzRtqXvFD/GbWQqalmmGi0s9T/5GU444yDn2/zKO8e0BTyex
+	gsvIuDbU5VZtynIH5rtkKhRGo7w+ETGPQxp/vMQ44+cGBeVfIkwtiOPMZkpzqE5710CTA2WogIKHI
+	FRZZXGdmVmc6Ng/tms6GWLL7tqaVClEghWnGcagrXqSDUMYvs1RMGqhvxXd0pIFjveVl/3yKWBz0T
+	vQkN82mA==;
 Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1t4OXu-00000005TjA-1Tdr;
-	Fri, 25 Oct 2024 17:56:22 +0000
-Date: Fri, 25 Oct 2024 18:56:22 +0100
+	id 1t4PNy-00000005WOa-0jtA;
+	Fri, 25 Oct 2024 18:50:10 +0000
+Date: Fri, 25 Oct 2024 19:50:09 +0100
 From: Matthew Wilcox <willy@infradead.org>
 To: "Pankaj Raghav (Samsung)" <kernel@pankajraghav.com>
 Cc: Tyler Hicks <code@tyhicks.com>, ecryptfs@vger.kernel.org,
 	Christian Brauner <brauner@kernel.org>,
 	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 01/10] ecryptfs: Convert ecryptfs_writepage() to
- ecryptfs_writepages()
-Message-ID: <Zxvbxu5_UYfwFbfc@casper.infradead.org>
+Subject: Re: [PATCH 02/10] ecryptfs: Use a folio throughout
+ ecryptfs_read_folio()
+Message-ID: <ZxvoYed-FPzKqjFs@casper.infradead.org>
 References: <20241017151709.2713048-1-willy@infradead.org>
- <20241017151709.2713048-2-willy@infradead.org>
- <jcivwcsmvdckd36tfhxkmui5zc4gri2adq3szw7cibkyfxrdu7@y6n6g55qma4g>
+ <20241017151709.2713048-3-willy@infradead.org>
+ <nrdqlalnw7juepbpqrefnbh4a6ltjavwgogwv5ltkd76mieflz@jvjtoenberj7>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
@@ -64,18 +64,16 @@ List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <jcivwcsmvdckd36tfhxkmui5zc4gri2adq3szw7cibkyfxrdu7@y6n6g55qma4g>
+In-Reply-To: <nrdqlalnw7juepbpqrefnbh4a6ltjavwgogwv5ltkd76mieflz@jvjtoenberj7>
 
-On Fri, Oct 18, 2024 at 11:53:41AM +0530, Pankaj Raghav (Samsung) wrote:
-> On Thu, Oct 17, 2024 at 04:16:56PM +0100, Matthew Wilcox (Oracle) wrote:
-> > By adding a ->migrate_folio implementation, theree is no need to keep
-> > the ->writepage implementation.
+On Fri, Oct 18, 2024 at 11:51:11AM +0530, Pankaj Raghav (Samsung) wrote:
+> On Thu, Oct 17, 2024 at 04:16:57PM +0100, Matthew Wilcox (Oracle) wrote:
+> >  	ecryptfs_printk(KERN_DEBUG, "Unlocking page with index = [0x%.16lx]\n",
 > 
-> Is this documented somewhere or is it common knowledge?
+> Nit: Unlocking folio with index ..
 
-It's mentioned a few times in various other removals of ->writepage.
-I don't think it's worth documenting, since the goal is to remove all
-implementations of ->writepage (anon memory will continue to call
-swap_writepage(), but it'll do it directly, not through ->writepage as
-there will not be a ->writepage() any more).
+Sure.  I wasn't terribly careful because I don't think ecryptfs will
+ever be converted to support multiple pages per folio, so they're
+essentially the same thing.  Same reason I didn't bother renaming any
+functions.
 
