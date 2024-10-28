@@ -1,61 +1,56 @@
-Return-Path: <ecryptfs+bounces-201-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-205-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 033919B0DEC
-	for <lists+ecryptfs@lfdr.de>; Fri, 25 Oct 2024 21:08:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2301A9B3334
+	for <lists+ecryptfs@lfdr.de>; Mon, 28 Oct 2024 15:20:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C0F81283C6E
-	for <lists+ecryptfs@lfdr.de>; Fri, 25 Oct 2024 19:08:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CCD121F2237D
+	for <lists+ecryptfs@lfdr.de>; Mon, 28 Oct 2024 14:20:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56FB920EA5A;
-	Fri, 25 Oct 2024 19:08:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAFAE1DD54A;
+	Mon, 28 Oct 2024 14:19:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="pGLP2lMb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YromjrQF"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36EFD1FF04A;
-	Fri, 25 Oct 2024 19:08:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A030613D539;
+	Mon, 28 Oct 2024 14:19:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729883308; cv=none; b=AIm0ECvg+HqggAkIUgsqux9q3fqZ7Rvaw1zePhHFvwhV1JYMJ49WZk0JyYWkVTNloKp4jr2yZ6kicXDq/yC0WFVtwkkDx86O4VWAuYUtyxETRPEy8BpWZHKjMEpEgnudra33sIWfCIyJvbH61LHlQnu1rUii6Q5K4ymdohdYRQY=
+	t=1730125199; cv=none; b=UdYfGDIthjybOk67JsQanqYWiaYgXt7DFUu//k25SnrswF2IpJA7efe/ry+8h2fHQ05YEQ0NtgZHRegdQ9lt9KRHes3QnUlngTGoyZF+1vpNaDajn6YNJ09Jn9FrgdrLJRTbewjAcBYKkoCSsMilSuF6RAuO4JsF0/p24yxfUsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729883308; c=relaxed/simple;
-	bh=+N/3CNeSqYIiw3WeWycoxeyoK/Wg6RrHh9USwpRdx5g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YQwzP1i0LC5ftpwHZgrBaKUcVqbr3IOqOQBepAmEisj/QIc5vceoFdWy6TTsPWRaI+FE1MmelOrD9F/DN8APT5/VjCnkOuZm2+PMN09stKDFmOpc09x2QjICXC3L9BL3/kvO2S9xKz1ZGWMifIFZyfVZ64VCVI0X/jMtT7fSNYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=pGLP2lMb; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=oG70nI1x0BD9NrNKwoyfLV7xuyzNiqaZvDa2zjd+ZR8=; b=pGLP2lMbJttjY+JHAe6DLku11/
-	hAPguFWSzcwgJaSS/rhn4X4bjtREB07Sqi25v4NUgE690f0CfhlhkqSiE9pNmrVFVzHJySanFubC5
-	bfPZy9zoRNNDRQJied5e9Tez65fpSkVxt+zmN7Wpuq8F5FvjfoicWo41vknb58O53l1XBzMmluWFM
-	iGRXpw30JjtLp/hHmwc29H2FfuWNbTR3s1N8rYaWSnCLl7U6CJqOh3o7VrW9NhkxynWnGhOgH/dB0
-	nNcOCAId0MbE7k38bX+sw1gpdMzfKB10OCSuv3qqqBhjhaujIhmXKhLbOQQYzQJwDrQiBRzYV5Egp
-	7K47pz+A==;
-Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1t4Pfc-00000005XBw-2k3p;
-	Fri, 25 Oct 2024 19:08:24 +0000
-From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-To: Tyler Hicks <code@tyhicks.com>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	s=arc-20240116; t=1730125199; c=relaxed/simple;
+	bh=tqIGXfWySVqmxwbK2vYBkyXaDOuE2luc6nOJqDyrECc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Fh+mujIKL+DF2PgT70pRW0C2sRCizWwz1CKb5tlLfvRoj2MnavHx0ucPoP9aiZ8Q2wndm5ncodo+dkIVhj5QjD0VjbaS7EmG1nGYe4c/sPD9vMW+DRl4oESbB3Ntbf0aF6CFe6A3Z3oxhOo0CPQEoAmMEM8nP/H9ni4VOTcAeT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YromjrQF; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 139F5C4CEC3;
+	Mon, 28 Oct 2024 14:19:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730125199;
+	bh=tqIGXfWySVqmxwbK2vYBkyXaDOuE2luc6nOJqDyrECc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=YromjrQFrPchwFDEmAVQjA0yJg8/CYb4ec5x4sDlJ7HyTqtgIgFOjlEdummqsmOt0
+	 wJCQE9IH3EO/5j6V35PYYaLaC91lU2VyjdKiYxHXhJmgDh2UV2g0uKqC9p+tXq0ave
+	 nmtVzamzhU9S7zpHBO/3y6XS2M+EEeEnKgVseZ0DpmIH3uGwDUYE92C7dSGE92HKmY
+	 lKrrUavBuJnD42yTJd69n2FXa55I0FeiSCh2cnP0e63zABLsiTPX3w4iDZSjnIQZsq
+	 niNtKQ1quRfVErzRLJw1t9qwQgboXOUVDZBe5BN/wVoMgL8lbGRbYUKtGzhQe87wNR
+	 1965g4vlU9oiQ==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Tyler Hicks <code@tyhicks.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
 	ecryptfs@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v2 10/10] ecryptfs: Pass the folio index to crypt_extent()
-Date: Fri, 25 Oct 2024 20:08:20 +0100
-Message-ID: <20241025190822.1319162-11-willy@infradead.org>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20241025190822.1319162-1-willy@infradead.org>
-References: <20241025190822.1319162-1-willy@infradead.org>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] eccryptfs: select CONFIG_BUFFER_HEAD
+Date: Mon, 28 Oct 2024 14:18:45 +0000
+Message-Id: <20241028141955.639633-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
@@ -64,60 +59,42 @@ List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-We need to pass pages, not folios, to crypt_extent() as we may be
-working with a plain page rather than a folio.  But we need to know the
-index in the file, so pass it in from the caller.
+From: Arnd Bergmann <arnd@arndb.de>
 
-Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+The ecryptfs file system uses functions from fs/buffer.c that
+are only available when CONFIG_BUFFER_HEAD is enabled:
+
+ld.lld-20: error: undefined symbol: block_dirty_folio
+>>>               vmlinux.o:(ecryptfs_aops)
+ld.lld-20: error: undefined symbol: block_invalidate_folio
+>>>               vmlinux.o:(ecryptfs_aops)
+
+When CONFIG_BLOCK is turned off completely, this is not needed,
+so add a conditional 'select BUFFER_HEAD'.
+
+Fixes: 7ba13abbd31e ("fs: Turn block_invalidatepage into block_invalidate_folio")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- fs/ecryptfs/crypto.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+Ideally we would not depend on buffer heads and instead remove
+the dependency here, but I could not immediately figure out how
+to do that.
+---
+ fs/ecryptfs/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/fs/ecryptfs/crypto.c b/fs/ecryptfs/crypto.c
-index bb65a3a5ee9b..69536cacdea8 100644
---- a/fs/ecryptfs/crypto.c
-+++ b/fs/ecryptfs/crypto.c
-@@ -340,6 +340,7 @@ static loff_t lower_offset_for_page(struct ecryptfs_crypt_stat *crypt_stat,
-  *              encryption operation
-  * @dst_page: The page to write the result into
-  * @src_page: The page to read from
-+ * @page_index: The offset in the file (in units of PAGE_SIZE)
-  * @extent_offset: Page extent offset for use in generating IV
-  * @op: ENCRYPT or DECRYPT to indicate the desired operation
-  *
-@@ -350,9 +351,9 @@ static loff_t lower_offset_for_page(struct ecryptfs_crypt_stat *crypt_stat,
- static int crypt_extent(struct ecryptfs_crypt_stat *crypt_stat,
- 			struct page *dst_page,
- 			struct page *src_page,
-+			pgoff_t page_index,
- 			unsigned long extent_offset, int op)
- {
--	pgoff_t page_index = op == ENCRYPT ? src_page->index : dst_page->index;
- 	loff_t extent_base;
- 	char extent_iv[ECRYPTFS_MAX_IV_BYTES];
- 	struct scatterlist src_sg, dst_sg;
-@@ -432,7 +433,8 @@ int ecryptfs_encrypt_page(struct folio *folio)
- 	     extent_offset < (PAGE_SIZE / crypt_stat->extent_size);
- 	     extent_offset++) {
- 		rc = crypt_extent(crypt_stat, enc_extent_page,
--				folio_page(folio, 0), extent_offset, ENCRYPT);
-+				folio_page(folio, 0), folio->index,
-+				extent_offset, ENCRYPT);
- 		if (rc) {
- 			printk(KERN_ERR "%s: Error encrypting extent; "
- 			       "rc = [%d]\n", __func__, rc);
-@@ -505,8 +507,8 @@ int ecryptfs_decrypt_page(struct folio *folio)
- 	     extent_offset < (PAGE_SIZE / crypt_stat->extent_size);
- 	     extent_offset++) {
- 		struct page *page = folio_page(folio, 0);
--		rc = crypt_extent(crypt_stat, page, page,
--				  extent_offset, DECRYPT);
-+		rc = crypt_extent(crypt_stat, page, page, folio->index,
-+				extent_offset, DECRYPT);
- 		if (rc) {
- 			printk(KERN_ERR "%s: Error decrypting extent; "
- 			       "rc = [%d]\n", __func__, rc);
+diff --git a/fs/ecryptfs/Kconfig b/fs/ecryptfs/Kconfig
+index 1bdeaa6d5790..b3c603c4f808 100644
+--- a/fs/ecryptfs/Kconfig
++++ b/fs/ecryptfs/Kconfig
+@@ -2,6 +2,7 @@
+ config ECRYPT_FS
+ 	tristate "eCrypt filesystem layer support"
+ 	depends on KEYS && CRYPTO && (ENCRYPTED_KEYS || ENCRYPTED_KEYS=n)
++	select BUFFER_HEAD if BLOCK
+ 	select CRYPTO_ECB
+ 	select CRYPTO_CBC
+ 	select CRYPTO_MD5
 -- 
-2.43.0
+2.39.5
 
 
