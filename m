@@ -1,123 +1,116 @@
-Return-Path: <ecryptfs+bounces-221-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-222-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2290A9BD23B
-	for <lists+ecryptfs@lfdr.de>; Tue,  5 Nov 2024 17:23:41 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A60F49BDD06
+	for <lists+ecryptfs@lfdr.de>; Wed,  6 Nov 2024 03:37:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 53FBB1C2240C
-	for <lists+ecryptfs@lfdr.de>; Tue,  5 Nov 2024 16:23:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5B7AE1F2190C
+	for <lists+ecryptfs@lfdr.de>; Wed,  6 Nov 2024 02:37:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 612F91D2232;
-	Tue,  5 Nov 2024 16:23:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85E171D0DF7;
+	Wed,  6 Nov 2024 02:26:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EfLyciYR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nfwlKML7"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 391CA15C138;
-	Tue,  5 Nov 2024 16:23:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08BF11D0BA0;
+	Wed,  6 Nov 2024 02:25:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730823816; cv=none; b=X1nuF1ws3QvabYH19IoUnd22nzEbgQVcbrqc+XNz9n/oiYRdcCi+AoOIrwCE8VlWmb1c8XfnApgKGicDg4e+Uq5DELBSrBNiyeWdfpUyTVa/Ri2Gd1AJVXDr/GV9egl2Geg0l/uQECz2SJRARziWaH2+mziLH6Ab74WEpHP5InQ=
+	t=1730859961; cv=none; b=ql/YuZ78go72SDGVTZNt24pZge+Fem1swp8cKIDpqSd3IiD/FTAs4LO36C5LSzy3Ssm4AFX4YdUEuPaMmrHbSN/eiQTDu7qpWGoHV0uoacOHqR7M1qXLxSyVtHF+QMtDEKTUCzmlhmUwH/8HqmtF8GX4KqUcbslPW5cOLkkK9ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730823816; c=relaxed/simple;
-	bh=SYabQGF+mNiDvJMTK40v1FOHtZBigPP3e+Ea7xTU2WE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dGxUomBHdeOWkV+QYLkU9YQ3PYTL8VLs86KpEEzhbvn1t2tFHLMij5Ue4RG6a7aMOXfbf/EwJSf0lqcHA1fUXmlWGzo9pm4msSp8s+CqDKDpOUTFkPLZNgZGPbdf+PZtR7l9Ak4dv1OaQeBwnoDbcV2/+21ZGmaH544g19LkJeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EfLyciYR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F962C4CED2;
-	Tue,  5 Nov 2024 16:23:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730823816;
-	bh=SYabQGF+mNiDvJMTK40v1FOHtZBigPP3e+Ea7xTU2WE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=EfLyciYRNJJKB/xDvloMJ3dhvkRpm+uQ86nqvDfO+ttL1bIXldsFv4u0c9Nv7RtET
-	 1r/Rfa+/FfICZdQyJ8tr41BYnZjoR/wIxH0EmpR8GeOQYGGSsuMqQwyrNxkpsJw9qh
-	 RuOFkmD0Y+60tDwS/Yki9tEa3s1gm6sO0wltsd2V7DtS0fpKIkFWHszQwn98aotBvT
-	 QlwLwY6c6nwN5wwgn2nWy39iikKGu1+wa188IMuGNw37DAZp5WjnaUqkkhXdkEsGGL
-	 ZqFVJQ4+YDh5FbeRhhijDwXyKdLE5BEhg7ZBiKOBwi00rFwMvuJY9DpqZJzDFRNvYo
-	 hiW8M7+q4Qg9A==
-From: Christian Brauner <brauner@kernel.org>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Christian Brauner <brauner@kernel.org>,
-	ecryptfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	Tyler Hicks <code@tyhicks.com>
-Subject: Re: [PATCH v2 00/10] Convert ecryptfs to use folios
-Date: Tue,  5 Nov 2024 17:21:20 +0100
-Message-ID: <20241105-geste-statik-9e3f7793abb8@brauner>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241025190822.1319162-1-willy@infradead.org>
-References: <20241025190822.1319162-1-willy@infradead.org>
+	s=arc-20240116; t=1730859961; c=relaxed/simple;
+	bh=Ga2D97KZpZQx6YoyIZmGok19w3T5OcLWLUO8jQGvZpk=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=jFAtCnwIFw+ynRoAW5MuZqgUQsM9xrLYxFolB+oUDvNsABL1A+VM94WShAQ3uj4W3ZbL7bMF0bFdJ3FaN2vz/xrpFDEq4VXBn8H0PqdSGY//+cLOOlY3ETNRaiCmSffxfB8lm8TGUlLTHaU9ZyLVYvWZr+60MzEYAAO0/ObQNtc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nfwlKML7; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2110a622d76so47330895ad.3;
+        Tue, 05 Nov 2024 18:25:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730859959; x=1731464759; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QId6zyuhVAFO0zUHn6SCG/UmTpu93h5H3UtKXVtla4U=;
+        b=nfwlKML78XfWDoapTQpe7dNl17/gGl3761FA48v0czV21Fzgd+NMF1yDkZEzB2dm4T
+         zMqJPvcDInS1gPawpmev3Unk/4QMwQW7nbSQn+ijQK7NS6dWtHW1Vh0nlmB6zXIUPWzK
+         ih54w+j/MBsAD/bHztKVkHZ5M2G9vBUWSGYzhV8+afHsOig1qvs3xe4iyew2ftTdQvFq
+         JyT+9GfMLyBbsH51D5+O5j9LFZBT2yaIlgGUpKYbAqGb/W49izruHu0bS5cKyTZPi2Z3
+         6P3YnuYQjQMImTGUhz9KJHy7yPodovjyYck1jYYod32U5zITp+SlfyrthWAW42jCmRer
+         21Lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730859959; x=1731464759;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QId6zyuhVAFO0zUHn6SCG/UmTpu93h5H3UtKXVtla4U=;
+        b=sFV7zLzK6RzK3l7DWiiXmo0xNTc253+U3y16o73Jfsc64nwpsCR18r0zRtgdQ57Y4A
+         b+0kuD9WGayLi4bZx5xaDUQwDhIzI+iwM1r6nBJTaCx5ec7B9sik/9md/E50hyQ+Qj1c
+         kVhTutD3XJYfi65UnsnPAjOLVhlBLUXj7r8wLTedqTN3mRUn9Ievupj8Th7WQRaPPFJA
+         VX5KuCaOag1HBs9OVwm4Xn6r2r9NRKTlNv4xPlMJVlf7IBJTRhI7VRxsyIA8S5Rp6Aqr
+         aMFRWC8A6TuFZHmfC7Khs7rRh02e4qikTi3vlG6M8BN1PE/0ekadPU+kG6ZI7/waKSsY
+         +Npg==
+X-Forwarded-Encrypted: i=1; AJvYcCUBiGI+Mi+gJxpRh8B7CIgQqewTqvtbaEItXi1L0/bZRSvG6qbKxPa8JaagaJRYmH6bmA6P4L77Gw==@vger.kernel.org, AJvYcCWGGPAq047Qsbv9fB8fIyFAggn9K3QcY2W5cAI/XMoG/hdKD0gWLq19aNN3yYPTujmCBWE658shD6TkFmvg@vger.kernel.org
+X-Gm-Message-State: AOJu0YxUC58ZkUQQtkmiuwnNQ5S0o1EjpdIsRE/ykootNUynNSzeD6UJ
+	tFBePgjMR2SuxxJdqpk8BO6RCigcuqv4rcw8oHZceEi6j4K+N7z3aZFg9ourT7Q=
+X-Google-Smtp-Source: AGHT+IEpy/fWWcNr48m3F6c9ydWhFBd5TIPprNIIhpRemXcuysthbsmRuuS58b9DvRfzLAMjcKHKrA==
+X-Received: by 2002:a17:902:da91:b0:20c:82ea:41bd with SMTP id d9443c01a7336-210c68d4349mr511610375ad.18.1730859959173;
+        Tue, 05 Nov 2024 18:25:59 -0800 (PST)
+Received: from debian.resnet.ucla.edu (s-169-232-97-87.resnet.ucla.edu. [169.232.97.87])
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-21105706891sm85661615ad.69.2024.11.05.18.25.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Nov 2024 18:25:58 -0800 (PST)
+From: Daniel Yang <danielyangkang@gmail.com>
+To: Tyler Hicks <code@tyhicks.com>,
+	"GitAuthor: Daniel Yang" <danielyangkang@gmail.com>,
+	ecryptfs@vger.kernel.org (open list:ECRYPT FILE SYSTEM),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] ecryptfs_parse_options(): Replace strcpy with strscpy
+Date: Tue,  5 Nov 2024 18:25:26 -0800
+Message-Id: <20241106022527.493421-1-danielyangkang@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2726; i=brauner@kernel.org; h=from:subject:message-id; bh=SYabQGF+mNiDvJMTK40v1FOHtZBigPP3e+Ea7xTU2WE=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaRrudUfKW48/Hf1/EYX4+q1vFkWpw6H3/u/4K3rCrWX+ 3hd0jUWd5SyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEyE/wfDP4WlqXnR6dr7Diql u15TZHFVCZ7z4tiFMrPbt2vKMte0XGZk+P1ob0n061eStdN8hL90KSnVvVJ8NJnNRu7qqb+vviZ c4gAA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
-On Fri, 25 Oct 2024 20:08:10 +0100, Matthew Wilcox (Oracle) wrote:
-> The next step in the folio project is to remove page->index.  This
-> patchset does that for ecryptfs.  As an unloved filesystem, I haven't
-> made any effort to support large folios; this is just "keep it working".
-> I have only compile tested this, but since it's a straightforward
-> conversion I'm not expecting any problems beyond my fat fingers.
-> 
-> v2:
->  - Switch from 'rc' to 'err' in ecryptfs_read_folio
->  - Use folio_end_read() in ecryptfs_read_folio
->  - Remove kernel-doc warnings that 0day warned about
->  - R-b tags from Pankaj
-> 
-> [...]
+The function strcpy is deprecated. strscpy is recommended to replace
+strcpy. Instances of strcpy in ecryptfs_parse_options() don't require
+strcpy return value so the different methods of detecting truncation
+shouldn't be an issue here.
 
-I hope to be back on a regular schedule tomorrow.
-I have been down with atypical pneumonia (who knows how I got that) and
-have not been able to do anything for a while.
-
+Signed-off-by: Daniel Yang <danielyangkang@gmail.com>
 ---
+ fs/ecryptfs/main.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Applied to the vfs.ecryptfs branch of the vfs/vfs.git tree.
-Patches in the vfs.ecryptfs branch should appear in linux-next soon.
+diff --git a/fs/ecryptfs/main.c b/fs/ecryptfs/main.c
+index 577c56302..d0b8ce70c 100644
+--- a/fs/ecryptfs/main.c
++++ b/fs/ecryptfs/main.c
+@@ -379,12 +379,12 @@ static int ecryptfs_parse_options(struct ecryptfs_sb_info *sbi, char *options,
+ 		int cipher_name_len = strlen(ECRYPTFS_DEFAULT_CIPHER);
+ 
+ 		BUG_ON(cipher_name_len > ECRYPTFS_MAX_CIPHER_NAME_SIZE);
+-		strcpy(mount_crypt_stat->global_default_cipher_name,
++		strscpy(mount_crypt_stat->global_default_cipher_name,
+ 		       ECRYPTFS_DEFAULT_CIPHER);
+ 	}
+ 	if ((mount_crypt_stat->flags & ECRYPTFS_GLOBAL_ENCRYPT_FILENAMES)
+ 	    && !fn_cipher_name_set)
+-		strcpy(mount_crypt_stat->global_default_fn_cipher_name,
++		strscpy(mount_crypt_stat->global_default_fn_cipher_name,
+ 		       mount_crypt_stat->global_default_cipher_name);
+ 	if (!cipher_key_bytes_set)
+ 		mount_crypt_stat->global_default_cipher_key_size = 0;
+-- 
+2.39.5
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.ecryptfs
-
-[01/10] ecryptfs: Convert ecryptfs_writepage() to ecryptfs_writepages()
-        https://git.kernel.org/vfs/vfs/c/807a11dab9dc
-[02/10] ecryptfs: Use a folio throughout ecryptfs_read_folio()
-        https://git.kernel.org/vfs/vfs/c/064fe6b4752c
-[03/10] ecryptfs: Convert ecryptfs_copy_up_encrypted_with_header() to take a folio
-        https://git.kernel.org/vfs/vfs/c/497eb79c3191
-[04/10] ecryptfs: Convert ecryptfs_read_lower_page_segment() to take a folio
-        https://git.kernel.org/vfs/vfs/c/890d477a0fcd
-[05/10] ecryptfs: Convert ecryptfs_write() to use a folio
-        https://git.kernel.org/vfs/vfs/c/4d3727fd065b
-[06/10] ecryptfs: Convert ecryptfs_write_lower_page_segment() to take a folio
-        https://git.kernel.org/vfs/vfs/c/de5ced2721f9
-[07/10] ecryptfs: Convert ecryptfs_encrypt_page() to take a folio
-        https://git.kernel.org/vfs/vfs/c/6b9c0e813743
-[08/10] ecryptfs: Convert ecryptfs_decrypt_page() to take a folio
-        https://git.kernel.org/vfs/vfs/c/c15b81461df9
-[09/10] ecryptfs: Convert lower_offset_for_page() to take a folio
-        https://git.kernel.org/vfs/vfs/c/bf64913dfe62
-[10/10] ecryptfs: Pass the folio index to crypt_extent()
-        https://git.kernel.org/vfs/vfs/c/9b4bb822448b
 
