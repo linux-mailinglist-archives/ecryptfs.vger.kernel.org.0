@@ -1,115 +1,259 @@
-Return-Path: <ecryptfs+bounces-232-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-233-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D29CCA0AF46
-	for <lists+ecryptfs@lfdr.de>; Mon, 13 Jan 2025 07:20:24 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FC6FA98EBB
+	for <lists+ecryptfs@lfdr.de>; Wed, 23 Apr 2025 16:58:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1596D3A86C7
-	for <lists+ecryptfs@lfdr.de>; Mon, 13 Jan 2025 06:19:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EC6F61891967
+	for <lists+ecryptfs@lfdr.de>; Wed, 23 Apr 2025 14:55:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1322231C8C;
-	Mon, 13 Jan 2025 06:19:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD621280A3C;
+	Wed, 23 Apr 2025 14:55:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VttzT19s"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YlL3R/nl"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B85D145A16
-	for <ecryptfs@vger.kernel.org>; Mon, 13 Jan 2025 06:19:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E78118DB17;
+	Wed, 23 Apr 2025 14:55:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736749158; cv=none; b=BgNCUKGBziYVzgDJgVlDdrb3CwLR0MvzNnDFaTB707B/ywJAkU5DhOjCt/H2UNKCp2Y8wCpiAPUQHaN4S6sk2BGIvGbSrmXyEalXaU2UovBi4scE0KAj4IdRYm2F5ZGsAZFe9/XgNH3hZclHCJ3eshouMYz67DnxX/UHTDGborQ=
+	t=1745420118; cv=none; b=Gg6oyCnaUZ79UsHF8SmLl17V2BafBHjCx1M4pettoIUWv8oqdmhqrQV59Cv1dzbpQnm+TDzBThj3YCGbnTs8IEqlv+BfSFscvMYjy0GOkYggYw1vG2cDfF692yqhXAFcuXh9VFEH9LEziHazad1Xgm0BhkWRC+bsIpBUilxhzbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736749158; c=relaxed/simple;
-	bh=JS+4J5lh8Fucg3Gbhf9aAPZyh0H2XmOy45D+czstqF0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gXE7QiT3MpPbMJI7oiZwEvboTr36CDpm5OkS+aNYW9VBO+t4tzCWrLE4OgJ4/SfubSZiiiwWhTCH46+KQlqK+LMq+rDeRkeAVivlBHSZVs1FklsIbPgYkEN8rK2PEtTW0hcwQnlRyJAolP3FyXRwSoYqqwJwm+JG3s5kkoC+FbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VttzT19s; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-aaf900cc7fbso704071066b.3
-        for <ecryptfs@vger.kernel.org>; Sun, 12 Jan 2025 22:19:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736749155; x=1737353955; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IsRvXHGSWUxVyT3HvHK3zRMHjp5k3n6wAVlQb9UAIoo=;
-        b=VttzT19s66sUUcMCO9MYS2mBazY2P2Ck+IqK7m/+bmpljh4he/aEoMagid9FIOR8iM
-         Uoed4Btr2vfkfCO7HNPO2sYVLmMs2SOdxNzq/m2fmcIySwfmeN/UletaUa9sVWGsd+DQ
-         nZtAmlBHOnhP/C9L5WbcUNIhuvftBGF0KHvPQRFma5Bh03HyzWyQkai2bQd9Zzox3v3K
-         V38kh0LQ66EJOSVa0m6dVV1OzHhblIJfjoa76QQMm83w8XCKVp6WS5ZpKW64ZnxW7YjX
-         kOxGDonShA/XD99/SjhOjPyPg07RSAFjGGCM42xMiI7WTy6Wvbx3o4GXz5Q6iDNZt0wc
-         MAXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736749155; x=1737353955;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IsRvXHGSWUxVyT3HvHK3zRMHjp5k3n6wAVlQb9UAIoo=;
-        b=ACncDR1bxUmzz28R3DYREjWCEfjVb3qZkTL2uHmv1dGvE1QS3nS95kULLHEh3b0amI
-         lzoCmLhIaduROcK880jNRhUOVd6e3ODlHJDosIF61QCpWEn/s+u2jB/1FmD1BZt3fEYR
-         yZiQMfQ9ido347qq9SnmfoBskkc6Es3HNkQFGqs3APeuuwmIUKsxtPMoJM9g9eYo9FUt
-         yhh1ef4OtFa5PB0tvaZuLCnMiTzagVP3vVnI9Or9JuMOb8g7P7QZWpusXPQ+i6A2xkws
-         PYcF8+NkHMRdhhfdvWBSB1la+nAxGQwd/EdpHhCiDJbdClUaP89TU+WCzY5v1GdXXFDA
-         XiBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXiMBiowVdiSE/O6ymqS6A3cIuC5vLGFWobkBCglw/sJTs8RATvCtAX0sd0szSCWsPSj36EcxRByw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0cSpLW9ZdA4+JezQLS/leY1zP5iw5LH4ZLMzFpnCk65XpAc9P
-	vbSvrsCJxsLJWdohCrezj4kz2iIbAgjwTD0MEqaueRFqfy98pT4Q71VbHx/Euvo=
-X-Gm-Gg: ASbGncu6ZBHilxkphzbcWPEpi+J6dXcJy2a9zbQPsaVDZQMdsKvCmod2aq47mh0jGdI
-	XP0JNi4I+iYZXOSy5CkLVtHrzqm7D34B07gkj6yVnyddigGBH6o9KaWR/p4jN0oELUIMRKvL/tf
-	Oi+x40lpWPy9xZOjbpMN4nl4+CQV8K9TZBNDStCZLgOfXy/5fOmHt/Xkvo2Op86qn+2Ue7eYG++
-	ezUQd1jzrUNbZnQmjGkz/3U/QBbcnf7E6hME/CrIHE2fK4p7YvdYF0SZACslA==
-X-Google-Smtp-Source: AGHT+IFqpX9e3c3D8tjbJ4iafdBuamD/RqHrGmivwZIPI4DdokOcWz0agCCvtb6wFgzixam07yQ7Rg==
-X-Received: by 2002:a17:907:c0d:b0:aaf:1183:ec2c with SMTP id a640c23a62f3a-ab2ab6bfc89mr1610144966b.5.1736749155208;
-        Sun, 12 Jan 2025 22:19:15 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab2c9060bccsm451648166b.22.2025.01.12.22.19.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jan 2025 22:19:14 -0800 (PST)
-Date: Mon, 13 Jan 2025 09:19:11 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Michael Halcrow <mhalcrow@us.ibm.com>
-Cc: Tyler Hicks <code@tyhicks.com>,
-	Andrew Morton <akpm@linux-foundation.org>, ecryptfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH] ecryptfs: use struct_size() to prevent in integer overflow
-Message-ID: <cb70e767-1498-4b5b-9d77-0270a6548ab6@stanley.mountain>
+	s=arc-20240116; t=1745420118; c=relaxed/simple;
+	bh=Seq9Tn6zd7GgXSLQkR4PQvzHVtjjrW7lTAbTOJcwPCA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Y/0ILhut/jH/O7281AHpxYEn1swFbqbBnl0nAg/N/1fpOFIS5/cr0OEvgwVg9p9O3qVLTTtHwkWOJbSoMu8Bctzn+KmampwH94ziZ3YT21mOeOWzeoDnxAt2daId88AhLVPLSww4XcB1JK64H2Qw7qL3eoScq3WOUHPy38Jq334=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YlL3R/nl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AE3EC4CEE2;
+	Wed, 23 Apr 2025 14:55:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1745420118;
+	bh=Seq9Tn6zd7GgXSLQkR4PQvzHVtjjrW7lTAbTOJcwPCA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=YlL3R/nlhGHSxt/xfdwatbNgTu6fzQaThnxvRVn7DWQtMs/QJsAveVdHcxl5ONZNf
+	 zltt3IAAbwjivvNpXq/xnOm9foA5TshdlJtXYElGdP+0I6BQ733mG0zuSoeGc4g3G1
+	 7YiAdqVBXDL8g7Okg//3oAich1GIDNNJGLDxOkN4=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Tyler Hicks <code@tyhicks.com>,
+	ecryptfs@vger.kernel.org,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Amir Goldstein <amir73il@gmail.com>,
+	linux-unionfs@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	Stefan Berger <stefanb@linux.ibm.com>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 6.12 101/223] fs: Simplify getattr interface function checking AT_GETATTR_NOSEC flag
+Date: Wed, 23 Apr 2025 16:42:53 +0200
+Message-ID: <20250423142621.227689976@linuxfoundation.org>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250423142617.120834124@linuxfoundation.org>
+References: <20250423142617.120834124@linuxfoundation.org>
+User-Agent: quilt/0.68
+X-stable: review
+X-Patchwork-Hint: ignore
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+Content-Transfer-Encoding: 8bit
 
-On 32bit systems the "(sizeof(*msg) + msg->data_len" addition can lead
-to integer wrapping.  Use struct_size() for safety.
+6.12-stable review patch.  If anyone has any objections, please let me know.
 
-Fixes: 8bf2debd5f7b ("eCryptfs: introduce device handle for userspace daemon communications")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+------------------
+
+From: Stefan Berger <stefanb@linux.ibm.com>
+
+[ Upstream commit 95f567f81e43a1bcb5fbf0559e55b7505707300d ]
+
+Commit 8a924db2d7b5 ("fs: Pass AT_GETATTR_NOSEC flag to getattr interface
+function")' introduced the AT_GETATTR_NOSEC flag to ensure that the
+call paths only call vfs_getattr_nosec if it is set instead of vfs_getattr.
+Now, simplify the getattr interface functions of filesystems where the flag
+AT_GETATTR_NOSEC is checked.
+
+There is only a single caller of inode_operations getattr function and it
+is located in fs/stat.c in vfs_getattr_nosec. The caller there is the only
+one from which the AT_GETATTR_NOSEC flag is passed from.
+
+Two filesystems are checking this flag in .getattr and the flag is always
+passed to them unconditionally from only vfs_getattr_nosec:
+
+- ecryptfs:  Simplify by always calling vfs_getattr_nosec in
+             ecryptfs_getattr. From there the flag is passed to no other
+             function and this function is not called otherwise.
+
+- overlayfs: Simplify by always calling vfs_getattr_nosec in
+             ovl_getattr. From there the flag is passed to no other
+             function and this function is not called otherwise.
+
+The query_flags in vfs_getattr_nosec will mask-out AT_GETATTR_NOSEC from
+any caller using AT_STATX_SYNC_TYPE as mask so that the flag is not
+important inside this function. Also, since no filesystem is checking the
+flag anymore, remove the flag entirely now, including the BUG_ON check that
+never triggered.
+
+The net change of the changes here combined with the original commit is
+that ecryptfs and overlayfs do not call vfs_getattr but only
+vfs_getattr_nosec.
+
+Fixes: 8a924db2d7b5 ("fs: Pass AT_GETATTR_NOSEC flag to getattr interface function")
+Reported-by: Al Viro <viro@zeniv.linux.org.uk>
+Closes: https://lore.kernel.org/linux-fsdevel/20241101011724.GN1350452@ZenIV/T/#u
+Cc: Tyler Hicks <code@tyhicks.com>
+Cc: ecryptfs@vger.kernel.org
+Cc: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Amir Goldstein <amir73il@gmail.com>
+Cc: linux-unionfs@vger.kernel.org
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org
+Reviewed-by: Christian Brauner <brauner@kernel.org>
+Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Stable-dep-of: 777d0961ff95 ("fs: move the bdex_statx call to vfs_getattr_nosec")
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- fs/ecryptfs/miscdev.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fs/ecryptfs/inode.c        | 12 ++----------
+ fs/overlayfs/inode.c       | 10 +++++-----
+ fs/overlayfs/overlayfs.h   |  8 --------
+ fs/stat.c                  |  5 +----
+ include/uapi/linux/fcntl.h |  4 ----
+ 5 files changed, 8 insertions(+), 31 deletions(-)
 
-diff --git a/fs/ecryptfs/miscdev.c b/fs/ecryptfs/miscdev.c
-index 4e62c3cef70f..88882f96e06f 100644
---- a/fs/ecryptfs/miscdev.c
-+++ b/fs/ecryptfs/miscdev.c
-@@ -325,7 +325,7 @@ static int ecryptfs_miscdev_response(struct ecryptfs_daemon *daemon, char *data,
- 	struct ecryptfs_message *msg = (struct ecryptfs_message *)data;
+diff --git a/fs/ecryptfs/inode.c b/fs/ecryptfs/inode.c
+index cbdf82f0183f3..a9819ddb1ab85 100644
+--- a/fs/ecryptfs/inode.c
++++ b/fs/ecryptfs/inode.c
+@@ -1008,14 +1008,6 @@ static int ecryptfs_getattr_link(struct mnt_idmap *idmap,
+ 	return rc;
+ }
+ 
+-static int ecryptfs_do_getattr(const struct path *path, struct kstat *stat,
+-			       u32 request_mask, unsigned int flags)
+-{
+-	if (flags & AT_GETATTR_NOSEC)
+-		return vfs_getattr_nosec(path, stat, request_mask, flags);
+-	return vfs_getattr(path, stat, request_mask, flags);
+-}
+-
+ static int ecryptfs_getattr(struct mnt_idmap *idmap,
+ 			    const struct path *path, struct kstat *stat,
+ 			    u32 request_mask, unsigned int flags)
+@@ -1024,8 +1016,8 @@ static int ecryptfs_getattr(struct mnt_idmap *idmap,
+ 	struct kstat lower_stat;
  	int rc;
  
--	if ((sizeof(*msg) + msg->data_len) != data_size) {
-+	if (struct_size(msg, data, msg->data_len) != data_size) {
- 		printk(KERN_WARNING "%s: (sizeof(*msg) + msg->data_len) = "
- 		       "[%zd]; data_size = [%zd]. Invalid packet.\n", __func__,
- 		       (sizeof(*msg) + msg->data_len), data_size);
+-	rc = ecryptfs_do_getattr(ecryptfs_dentry_to_lower_path(dentry),
+-				 &lower_stat, request_mask, flags);
++	rc = vfs_getattr_nosec(ecryptfs_dentry_to_lower_path(dentry),
++			       &lower_stat, request_mask, flags);
+ 	if (!rc) {
+ 		fsstack_copy_attr_all(d_inode(dentry),
+ 				      ecryptfs_inode_to_lower(d_inode(dentry)));
+diff --git a/fs/overlayfs/inode.c b/fs/overlayfs/inode.c
+index baa54c718bd72..97dd70d631446 100644
+--- a/fs/overlayfs/inode.c
++++ b/fs/overlayfs/inode.c
+@@ -170,7 +170,7 @@ int ovl_getattr(struct mnt_idmap *idmap, const struct path *path,
+ 
+ 	type = ovl_path_real(dentry, &realpath);
+ 	old_cred = ovl_override_creds(dentry->d_sb);
+-	err = ovl_do_getattr(&realpath, stat, request_mask, flags);
++	err = vfs_getattr_nosec(&realpath, stat, request_mask, flags);
+ 	if (err)
+ 		goto out;
+ 
+@@ -195,8 +195,8 @@ int ovl_getattr(struct mnt_idmap *idmap, const struct path *path,
+ 					(!is_dir ? STATX_NLINK : 0);
+ 
+ 			ovl_path_lower(dentry, &realpath);
+-			err = ovl_do_getattr(&realpath, &lowerstat, lowermask,
+-					     flags);
++			err = vfs_getattr_nosec(&realpath, &lowerstat, lowermask,
++						flags);
+ 			if (err)
+ 				goto out;
+ 
+@@ -248,8 +248,8 @@ int ovl_getattr(struct mnt_idmap *idmap, const struct path *path,
+ 
+ 			ovl_path_lowerdata(dentry, &realpath);
+ 			if (realpath.dentry) {
+-				err = ovl_do_getattr(&realpath, &lowerdatastat,
+-						     lowermask, flags);
++				err = vfs_getattr_nosec(&realpath, &lowerdatastat,
++							lowermask, flags);
+ 				if (err)
+ 					goto out;
+ 			} else {
+diff --git a/fs/overlayfs/overlayfs.h b/fs/overlayfs/overlayfs.h
+index 500a9634ad533..63ad4511c1208 100644
+--- a/fs/overlayfs/overlayfs.h
++++ b/fs/overlayfs/overlayfs.h
+@@ -412,14 +412,6 @@ static inline bool ovl_open_flags_need_copy_up(int flags)
+ 	return ((OPEN_FMODE(flags) & FMODE_WRITE) || (flags & O_TRUNC));
+ }
+ 
+-static inline int ovl_do_getattr(const struct path *path, struct kstat *stat,
+-				 u32 request_mask, unsigned int flags)
+-{
+-	if (flags & AT_GETATTR_NOSEC)
+-		return vfs_getattr_nosec(path, stat, request_mask, flags);
+-	return vfs_getattr(path, stat, request_mask, flags);
+-}
+-
+ /* util.c */
+ int ovl_get_write_access(struct dentry *dentry);
+ void ovl_put_write_access(struct dentry *dentry);
+diff --git a/fs/stat.c b/fs/stat.c
+index 41e598376d7e3..cbc0fcd4fba39 100644
+--- a/fs/stat.c
++++ b/fs/stat.c
+@@ -165,7 +165,7 @@ int vfs_getattr_nosec(const struct path *path, struct kstat *stat,
+ 	if (inode->i_op->getattr)
+ 		return inode->i_op->getattr(idmap, path, stat,
+ 					    request_mask,
+-					    query_flags | AT_GETATTR_NOSEC);
++					    query_flags);
+ 
+ 	generic_fillattr(idmap, request_mask, inode, stat);
+ 	return 0;
+@@ -198,9 +198,6 @@ int vfs_getattr(const struct path *path, struct kstat *stat,
+ {
+ 	int retval;
+ 
+-	if (WARN_ON_ONCE(query_flags & AT_GETATTR_NOSEC))
+-		return -EPERM;
+-
+ 	retval = security_inode_getattr(path);
+ 	if (retval)
+ 		return retval;
+diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
+index 87e2dec79fea4..a40833bf2855e 100644
+--- a/include/uapi/linux/fcntl.h
++++ b/include/uapi/linux/fcntl.h
+@@ -154,8 +154,4 @@
+ 					   usable with open_by_handle_at(2). */
+ #define AT_HANDLE_MNT_ID_UNIQUE	0x001	/* Return the u64 unique mount ID. */
+ 
+-#if defined(__KERNEL__)
+-#define AT_GETATTR_NOSEC	0x80000000
+-#endif
+-
+ #endif /* _UAPI_LINUX_FCNTL_H */
 -- 
-2.45.2
+2.39.5
+
+
 
 
