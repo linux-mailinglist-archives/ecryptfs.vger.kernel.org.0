@@ -1,89 +1,88 @@
-Return-Path: <ecryptfs+bounces-250-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-251-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 386AEAB4F36
-	for <lists+ecryptfs@lfdr.de>; Tue, 13 May 2025 11:19:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83786AB4F41
+	for <lists+ecryptfs@lfdr.de>; Tue, 13 May 2025 11:19:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4FDDA8C0B3F
-	for <lists+ecryptfs@lfdr.de>; Tue, 13 May 2025 09:18:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BAC95460D69
+	for <lists+ecryptfs@lfdr.de>; Tue, 13 May 2025 09:19:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47D5221A928;
-	Tue, 13 May 2025 09:18:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B490221C19C;
+	Tue, 13 May 2025 09:18:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Hll8SPtX"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ed0+4OzW"
 X-Original-To: ecryptfs@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE4E221A931
-	for <ecryptfs@vger.kernel.org>; Tue, 13 May 2025 09:18:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D292185BD
+	for <ecryptfs@vger.kernel.org>; Tue, 13 May 2025 09:18:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747127905; cv=none; b=VtOu2jpvNOZoBp2KolNk1ZvjvZaod+HN/bSyXm+h/SiMbmQcXrGk1Z9hiK2XksattJZYDPPn1fnirFvRv7qxnD+djmbIw6+4IwN5dToBSNRDvA0aTOzaCeTjnvGSkhpgpaFui5SdknPfIAFOZ4O4ucQVUhM5c6c9SD2htPy2uDM=
+	t=1747127907; cv=none; b=kzSkpzm3e+mUFNRye7KjsB/Wkvzpb5KRHMUh04XMkm/6sNsJrc3K/XQZiwN+KB82fprMnoaeGLt36i792LYwsPFIwyPg1OPEF3hy/AKkqm81Mhykc7VHXNKaThzFVIfphWbDRe2mR8Wj60VGLfehPWx6JvD6+vlCaLoLDNQI+us=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747127905; c=relaxed/simple;
-	bh=YQGIdXvgchaWb1V6UiKUwEOK/o3C4y9T6tou+r20L0U=;
+	s=arc-20240116; t=1747127907; c=relaxed/simple;
+	bh=wSzH0WcqWhiy63ekDcp2P+4tMQ4i2gTZHqE6rCKQ++I=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=u4alYoeMV85/aaoTk2Oj632bXDE3q6IW6h5ouhdfZXGODGLIdoQCS5MmGU9q1IW8VhP9qz2c8uHSli1HVbOfMiSV8lCqfx+PrrJv1h9AdwYzykRHoopJJlAGPP6eVCDZxxe5kdxpELUD7CBGrinpsyeTogCfOpvAZTCCUpBZaRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Hll8SPtX; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:To:Cc; b=IbE/y+w0G+W5yayO7K0i7Fb/kSHi1oKjL1/pyuxeqx3Yvty0kiH4mJHKCeWqRv5bLTspnXsMt46jzU9E3VrWFeE459lKFZdCkLZrzSqZv36OVPxoIzlPGoiVJR7mQuvztTkyMsWdJksZmnAM1c4nm2K4NT5Xx9y1SxamdXisiJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ed0+4OzW; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1747127900;
+	s=mimecast20190719; t=1747127901;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kQLwPqXkUI6z4QQX8G7LIPfd+304h8Dijb2vEngn3fA=;
-	b=Hll8SPtXtIHdpB1Y1o37ZPtIPg/s7zUPaUloeoGohwoNCNX88ZzsZinpZ3CZWxxb1al+07
-	f1wl3j5y4trT7mOjGnUqwG6CWcMXRdR/UgN2MYzLQ9fwR/czbVRUSrTD2KMvFQPCoobJlo
-	DzE6k9MbAzJTL8AIS8R9a79SCeVWWAY=
+	bh=A7i9r0bj6CyLmaFmxt3qgx2Tj6vgASlaO3PK3g/iy20=;
+	b=Ed0+4OzWfLh32523fJEz31/L5nouK9o+S1bguFQ57Sl5ZXPnRCRs0y2BwRhH1/LxjNlH9D
+	P4MAuRx2z/LbSBwW5PzVPO9tXHmLEUcxlgJfz0A6EE1j3f8/UgCZTWfThcjSZ8OKCwbvob
+	dLEFxUljxywwBAmGLwZNvrcSYp1nDts=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-515-2H1enCakMbaK6Opd2E8wHQ-1; Tue, 13 May 2025 05:18:17 -0400
-X-MC-Unique: 2H1enCakMbaK6Opd2E8wHQ-1
-X-Mimecast-MFC-AGG-ID: 2H1enCakMbaK6Opd2E8wHQ_1747127896
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-43cec217977so26749465e9.0
-        for <ecryptfs@vger.kernel.org>; Tue, 13 May 2025 02:18:17 -0700 (PDT)
+ us-mta-345-gJHwXqoLM5O47UAAMKkZ1A-1; Tue, 13 May 2025 05:18:20 -0400
+X-MC-Unique: gJHwXqoLM5O47UAAMKkZ1A-1
+X-Mimecast-MFC-AGG-ID: gJHwXqoLM5O47UAAMKkZ1A_1747127899
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-442d472cf84so24819145e9.2
+        for <ecryptfs@vger.kernel.org>; Tue, 13 May 2025 02:18:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747127896; x=1747732696;
+        d=1e100.net; s=20230601; t=1747127899; x=1747732699;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kQLwPqXkUI6z4QQX8G7LIPfd+304h8Dijb2vEngn3fA=;
-        b=Pvx8j+bEX6e5Uiq4EKSGqgc4Ze4G9wpeuZMy+yFm6LfXNJZMQdv7uoHbkQMBPKlv0L
-         vKo0BhDMme3OQddViTF5RBJb9CJZUsdfJIFXyKyUuc2nUabj5cth1Yffk6f93QAfEY8n
-         sXXBLjyZxli5E+RCZZK6bvRcxY5T/YlZpWQ6h44WhLiK7QYv1lrZRM9ElSKXxSeFaxb/
-         UQf8umu1RooF5gQxhAiAHk8MPzJXDMkEjmqmiL7Zq8UFbEdrUoTFwRApu1I26FKgCGIX
-         MkcMzWooXAgd632j4pnfv2Pf3Jb4nzmEVi1dVCGyTXhXEC5bGVGZ+c44HFIu1NIUI4kT
-         fqrQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVHlaqtNMV9ATGgPav0OUj38HcBiSRSdINOcSzl3Dk0hGgPEHcaDgH5LTxe4y1aSiYjuhxtVd4sZw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwwIgnrDv4tYYXzAzOkKXsNZzVchhKXAbsmDbak1Jcs0RFpLMCu
-	EFbLn31hDkM+3bIWGWv9ARHqiiZhxZHdgL65vrSg+bTJVS4WJb+XmKNkh0mA8EOu6UtBhY7A1Mh
-	dURbZVY5izWph1nICpA5WzRC1AVZrYIdMUxjknFHNd7cHMa+Nky4KxVA=
-X-Gm-Gg: ASbGncsVsV6dtRYWm/jSMj6aosSOb4L8loCw3iEYClkIcB+Vqlh8HyodPDcuBM2fse4
-	LYXEX4cRpe7qFrYEBIBwIj5pZ8gf2tJrVJ9FvqnzGmKYkcLRLqd3hyPv+oQm1KV2iZ30+VL9U/P
-	65AVLcBVap3ZUY/QtngUao9YXQw6xz7ndrnKMoK3HAFSukmKUCNEYbbSOmII1eCsD6dzJlICOxq
-	xoAzNg3ossDM550YcPXsDdqr36UW9/79Nhux40ua6jb2XZiPNiXfMgRXzkmfhYlvlpW2PhBmXpg
-	+Hjdp93QV2Ae3wYqa0DGgZs/VVd9R//jD+JZw2UFhkm+lRU=
-X-Received: by 2002:a05:600c:3c8c:b0:43d:224:86b5 with SMTP id 5b1f17b1804b1-442d89ca4f8mr121131535e9.4.1747127895996;
-        Tue, 13 May 2025 02:18:15 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHgkQ6lr6jSThr2Cb3q6ZMQrTYHBuqnvQFthxFwxp9l7aEmx3rs55WDKKU2lMzSuNkJYBOxWQ==
-X-Received: by 2002:a05:600c:3c8c:b0:43d:224:86b5 with SMTP id 5b1f17b1804b1-442d89ca4f8mr121130905e9.4.1747127895389;
-        Tue, 13 May 2025 02:18:15 -0700 (PDT)
+        bh=A7i9r0bj6CyLmaFmxt3qgx2Tj6vgASlaO3PK3g/iy20=;
+        b=qjOCKJMLu48TiNcThh+6B6UIUUZ0egyKzHb0PI9uPuF/2eqCNqi7HhuVF1xmm3BAIO
+         8eG6C7sr/BM/7iEN7nMu7+GnnkpTor2EFFVlYF+gRC92h0YZzYuc55f2BRIgy/FfiWPT
+         dMwpRYlQOeDyGg6lkZb0vXJ6DsQB//Pqq+BgXY0CzedyYa7jPOC58TiKp70PADXkfAzu
+         NlX1ryh/s9hmFU+KsYe28jOrIcuwjwjSq+D2N3pkkHl8WgqlfoPjGv0L8bzrEIb8N49T
+         E0W8o1M1svcSuTzfB60XyISRHr6P9R9Y6e5tCYF8NZrw3S1HrLxJffs1jKtnEC0W+eC5
+         A9gg==
+X-Forwarded-Encrypted: i=1; AJvYcCXa3whxY95ou1w1d3CKZrwAgqUeGmmQTpXatIC+0CwlEtcoQ7CGSlBJkqKTGUD87UqVWtmGDpzEpg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywzt3E6fjHGUMdYc6r158w+yiMwO+Y8INJVabx9/s8J4VdN2T2a
+	wFVS/sAd4zAzdH0nwFzRfqROiSUAwLXDSdvgrxBJCxF/xHYalAO6HL/TWZeKqDD53qqhhj8jAwt
+	V8XjfPAfjA+rpMABxATZ9ewm0cuxkgWTLnpxrjbXPj5C/ebAEzaTEbOg=
+X-Gm-Gg: ASbGnctJyxu+WDzN96i0oz25DCE07RTqGiQp4qnuqFbtGj1oEKChpFyTiiGP/NuzSs8
+	hT2IX/pl11iL7xwL/Cq2+YogdFdM6CMcuzXH9pctOGZChzpuOJC/ogt8pGEL0jzM8Sh1FHAMG+H
+	GLtpXFsz0tSseajv/9BewQawEFIx10MrBWJlbqrSlvcbh50qVLZQ76iheRGreg8AuZXsE1zbRVE
+	Z5ArejhDDfVD7ZNUQOycaNUHoMylV7yNbbY4iA/OGwh/rs2x/jK1WPx7ALRdLBKcheQug44QTu6
+	g/lC4Ir3DKt/adc36pHctoAqrrkRCD+962PME6087HVhqRI=
+X-Received: by 2002:a05:600c:b85:b0:43d:fa59:cc8f with SMTP id 5b1f17b1804b1-442d6dde9a5mr123282145e9.33.1747127898768;
+        Tue, 13 May 2025 02:18:18 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH48YApAweQLr9FqjcxLWZAARsvWVI15CFcissyg+mEXGTlUmY2j0SDRus7eO6YNuUdP6jeRg==
+X-Received: by 2002:a05:600c:b85:b0:43d:fa59:cc8f with SMTP id 5b1f17b1804b1-442d6dde9a5mr123281625e9.33.1747127898279;
+        Tue, 13 May 2025 02:18:18 -0700 (PDT)
 Received: from [127.0.0.2] (109-92-26-237.static.isp.telekom.rs. [109.92.26.237])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442ed666dc7sm12345655e9.18.2025.05.13.02.18.11
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442ed666dc7sm12345655e9.18.2025.05.13.02.18.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 May 2025 02:18:14 -0700 (PDT)
+        Tue, 13 May 2025 02:18:17 -0700 (PDT)
 From: Andrey Albershteyn <aalbersh@redhat.com>
 X-Google-Original-From: Andrey Albershteyn <aalbersh@kernel.org>
-Date: Tue, 13 May 2025 11:17:55 +0200
-Subject: [PATCH v5 2/7] lsm: introduce new hooks for setting/getting inode
- fsxattr
+Date: Tue, 13 May 2025 11:17:56 +0200
+Subject: [PATCH v5 3/7] selinux: implement inode_file_[g|s]etattr hooks
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
@@ -92,7 +91,7 @@ List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250513-xattrat-syscall-v5-2-22bb9c6c767f@kernel.org>
+Message-Id: <20250513-xattrat-syscall-v5-3-22bb9c6c767f@kernel.org>
 References: <20250513-xattrat-syscall-v5-0-22bb9c6c767f@kernel.org>
 In-Reply-To: <20250513-xattrat-syscall-v5-0-22bb9c6c767f@kernel.org>
 To: Richard Henderson <richard.henderson@linaro.org>, 
@@ -139,161 +138,57 @@ Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org, 
  Andrey Albershteyn <aalbersh@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5418; i=aalbersh@kernel.org;
- h=from:subject:message-id; bh=YQGIdXvgchaWb1V6UiKUwEOK/o3C4y9T6tou+r20L0U=;
- b=owJ4nJvAy8zAJea2/JXEGuOHHIyn1ZIYMpT5vF3LC9luzDZOZnCaUM3c/WPNxAMdNf8KZT2O5
- y9vqDzGfKGjlIVBjItBVkyRZZ201tSkIqn8IwY18jBzWJlAhjBwcQrARMKmM/zhqWy5qqrd8PO1
- /vv/OiXxZr/F9nBPzWTMWJI18d+cxMJ8RoZXGf8r1h+awrr7cHvWqX9t5UWFz++c4rvw7aXBssS
- IVQJsAGi4SHY=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1670; i=aalbersh@kernel.org;
+ h=from:subject:message-id; bh=wSzH0WcqWhiy63ekDcp2P+4tMQ4i2gTZHqE6rCKQ++I=;
+ b=owJ4nJvAy8zAJea2/JXEGuOHHIyn1ZIYMpT5vOcHL6x//4Yt+9EFwZyLxr/7Tz9ZpP5u3tO4V
+ q6ORSUh1y53lLIwiHExyIopsqyT1pqaVCSVf8SgRh5mDisTyBAGLk4BmEiwPiND+6YnluEhu/Qc
+ Cx5cnc3R+vvvJvuQL0V6fGyyUclCHH6VjAwT/JZona0OZVzwJvX/wlkFTstmX7ezC/yqzlmc01k
+ tfZMVAGD5RU0=
 X-Developer-Key: i=aalbersh@kernel.org; a=openpgp;
  fpr=AE1B2A9562721A6FC4307C1F46A7EA18AC33E108
 
-Introduce new hooks for setting and getting filesystem extended
-attributes on inode (FS_IOC_FSGETXATTR).
+These hooks are called on inode extended attribute retrieval/change.
 
 Cc: selinux@vger.kernel.org
 Cc: Paul Moore <paul@paul-moore.com>
 
 Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
 ---
- fs/file_attr.c                | 19 ++++++++++++++++---
- include/linux/lsm_hook_defs.h |  2 ++
- include/linux/security.h      | 16 ++++++++++++++++
- security/security.c           | 30 ++++++++++++++++++++++++++++++
- 4 files changed, 64 insertions(+), 3 deletions(-)
+ security/selinux/hooks.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/fs/file_attr.c b/fs/file_attr.c
-index 2910b7047721df893540ff8a7c992558390eaa3a..be62d97cc444a445deac1c8ac8331f4a3766126a 100644
---- a/fs/file_attr.c
-+++ b/fs/file_attr.c
-@@ -76,10 +76,15 @@ EXPORT_SYMBOL(fileattr_fill_flags);
- int vfs_fileattr_get(struct dentry *dentry, struct fileattr *fa)
+diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
+index e7a7dcab81db6a8735877eeb911975e06a9de688..9c6e264b090f9038d6848546760860bfe74b7341 100644
+--- a/security/selinux/hooks.c
++++ b/security/selinux/hooks.c
+@@ -3366,6 +3366,18 @@ static int selinux_inode_removexattr(struct mnt_idmap *idmap,
+ 	return -EACCES;
+ }
+ 
++static int selinux_inode_file_setattr(struct dentry *dentry,
++				      struct fileattr *fa)
++{
++	return dentry_has_perm(current_cred(), dentry, FILE__SETATTR);
++}
++
++static int selinux_inode_file_getattr(struct dentry *dentry,
++				      struct fileattr *fa)
++{
++	return dentry_has_perm(current_cred(), dentry, FILE__GETATTR);
++}
++
+ static int selinux_path_notify(const struct path *path, u64 mask,
+ 						unsigned int obj_type)
  {
- 	struct inode *inode = d_inode(dentry);
-+	int error;
- 
- 	if (!inode->i_op->fileattr_get)
- 		return -ENOIOCTLCMD;
- 
-+	error = security_inode_file_getattr(dentry, fa);
-+	if (error)
-+		return error;
-+
- 	return inode->i_op->fileattr_get(dentry, fa);
- }
- EXPORT_SYMBOL(vfs_fileattr_get);
-@@ -242,12 +247,20 @@ int vfs_fileattr_set(struct mnt_idmap *idmap, struct dentry *dentry,
- 		} else {
- 			fa->flags |= old_ma.flags & ~FS_COMMON_FL;
- 		}
-+
- 		err = fileattr_set_prepare(inode, &old_ma, fa);
--		if (!err)
--			err = inode->i_op->fileattr_set(idmap, dentry, fa);
-+		if (err)
-+			goto out;
-+		err = security_inode_file_setattr(dentry, fa);
-+		if (err)
-+			goto out;
-+		err = inode->i_op->fileattr_set(idmap, dentry, fa);
-+		if (err)
-+			goto out;
- 	}
-+
-+out:
- 	inode_unlock(inode);
--
- 	return err;
- }
- EXPORT_SYMBOL(vfs_fileattr_set);
-diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
-index bf3bbac4e02a59a67de4ace85b93b1a878131f60..9600a4350e791f47006720765c199e35d3abafd4 100644
---- a/include/linux/lsm_hook_defs.h
-+++ b/include/linux/lsm_hook_defs.h
-@@ -157,6 +157,8 @@ LSM_HOOK(int, 0, inode_removexattr, struct mnt_idmap *idmap,
- 	 struct dentry *dentry, const char *name)
- LSM_HOOK(void, LSM_RET_VOID, inode_post_removexattr, struct dentry *dentry,
- 	 const char *name)
-+LSM_HOOK(int, 0, inode_file_setattr, struct dentry *dentry, struct fileattr *fa)
-+LSM_HOOK(int, 0, inode_file_getattr, struct dentry *dentry, struct fileattr *fa)
- LSM_HOOK(int, 0, inode_set_acl, struct mnt_idmap *idmap,
- 	 struct dentry *dentry, const char *acl_name, struct posix_acl *kacl)
- LSM_HOOK(void, LSM_RET_VOID, inode_post_set_acl, struct dentry *dentry,
-diff --git a/include/linux/security.h b/include/linux/security.h
-index cc9b54d95d22cd11480c38148005ed778b7af1bd..d2da2f654345b36b20fbe68ce11468ca4a55d8b3 100644
---- a/include/linux/security.h
-+++ b/include/linux/security.h
-@@ -451,6 +451,10 @@ int security_inode_listxattr(struct dentry *dentry);
- int security_inode_removexattr(struct mnt_idmap *idmap,
- 			       struct dentry *dentry, const char *name);
- void security_inode_post_removexattr(struct dentry *dentry, const char *name);
-+int security_inode_file_setattr(struct dentry *dentry,
-+			      struct fileattr *fa);
-+int security_inode_file_getattr(struct dentry *dentry,
-+			      struct fileattr *fa);
- int security_inode_need_killpriv(struct dentry *dentry);
- int security_inode_killpriv(struct mnt_idmap *idmap, struct dentry *dentry);
- int security_inode_getsecurity(struct mnt_idmap *idmap,
-@@ -1053,6 +1057,18 @@ static inline void security_inode_post_removexattr(struct dentry *dentry,
- 						   const char *name)
- { }
- 
-+static inline int security_inode_file_setattr(struct dentry *dentry,
-+					      struct fileattr *fa)
-+{
-+	return 0;
-+}
-+
-+static inline int security_inode_file_getattr(struct dentry *dentry,
-+					      struct fileattr *fa)
-+{
-+	return 0;
-+}
-+
- static inline int security_inode_need_killpriv(struct dentry *dentry)
- {
- 	return cap_inode_need_killpriv(dentry);
-diff --git a/security/security.c b/security/security.c
-index fb57e8fddd911bbb417ed2e7db443979bf611f43..09c891e6027dc1803a3af024b2f676e263da8aec 100644
---- a/security/security.c
-+++ b/security/security.c
-@@ -2622,6 +2622,36 @@ void security_inode_post_removexattr(struct dentry *dentry, const char *name)
- 	call_void_hook(inode_post_removexattr, dentry, name);
- }
- 
-+/**
-+ * security_inode_file_setattr() - check if setting fsxattr is allowed
-+ * @dentry: file to set filesystem extended attributes on
-+ * @fa: extended attributes to set on the inode
-+ *
-+ * Called when file_setattr() syscall or FS_IOC_FSSETXATTR ioctl() is called on
-+ * inode
-+ *
-+ * Return: Returns 0 if permission is granted.
-+ */
-+int security_inode_file_setattr(struct dentry *dentry, struct fileattr *fa)
-+{
-+	return call_int_hook(inode_file_setattr, dentry, fa);
-+}
-+
-+/**
-+ * security_inode_file_getattr() - check if retrieving fsxattr is allowed
-+ * @dentry: file to retrieve filesystem extended attributes from
-+ * @fa: extended attributes to get
-+ *
-+ * Called when file_getattr() syscall or FS_IOC_FSGETXATTR ioctl() is called on
-+ * inode
-+ *
-+ * Return: Returns 0 if permission is granted.
-+ */
-+int security_inode_file_getattr(struct dentry *dentry, struct fileattr *fa)
-+{
-+	return call_int_hook(inode_file_getattr, dentry, fa);
-+}
-+
- /**
-  * security_inode_need_killpriv() - Check if security_inode_killpriv() required
-  * @dentry: associated dentry
+@@ -7272,6 +7284,8 @@ static struct security_hook_list selinux_hooks[] __ro_after_init = {
+ 	LSM_HOOK_INIT(inode_getxattr, selinux_inode_getxattr),
+ 	LSM_HOOK_INIT(inode_listxattr, selinux_inode_listxattr),
+ 	LSM_HOOK_INIT(inode_removexattr, selinux_inode_removexattr),
++	LSM_HOOK_INIT(inode_file_getattr, selinux_inode_file_getattr),
++	LSM_HOOK_INIT(inode_file_setattr, selinux_inode_file_setattr),
+ 	LSM_HOOK_INIT(inode_set_acl, selinux_inode_set_acl),
+ 	LSM_HOOK_INIT(inode_get_acl, selinux_inode_get_acl),
+ 	LSM_HOOK_INIT(inode_remove_acl, selinux_inode_remove_acl),
 
 -- 
 2.47.2
