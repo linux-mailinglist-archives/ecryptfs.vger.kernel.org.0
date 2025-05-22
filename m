@@ -1,80 +1,80 @@
-Return-Path: <ecryptfs+bounces-272-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-273-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA988AC16A5
-	for <lists+ecryptfs@lfdr.de>; Fri, 23 May 2025 00:26:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39833AC16B6
+	for <lists+ecryptfs@lfdr.de>; Fri, 23 May 2025 00:26:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 49DBD1BC82F2
-	for <lists+ecryptfs@lfdr.de>; Thu, 22 May 2025 22:26:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E17A81BC82AF
+	for <lists+ecryptfs@lfdr.de>; Thu, 22 May 2025 22:26:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 639C02741DD;
-	Thu, 22 May 2025 22:26:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5641C270ED6;
+	Thu, 22 May 2025 22:26:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="PE8bp2bC"
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="ToVMF8Pc"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32AB6270567
-	for <ecryptfs@vger.kernel.org>; Thu, 22 May 2025 22:26:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85C4B272E52
+	for <ecryptfs@vger.kernel.org>; Thu, 22 May 2025 22:26:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747952770; cv=none; b=srd0oBKei5pQWesHgb8cNsl7a4olNb26NWVWa8xz+10VBiuP+brXQ7UQcfJjT/210r/oTweb1G68PaAYUJx6EY0qbgiRmK8CN5GqYzvR20X/GhZEz8mFvO113jjrGua3jHz23S/5gXjZmYryKSlqO9qSDXxDk5ahysZ0WwsJwlc=
+	t=1747952772; cv=none; b=MMplejlQ46zgHIqRyT7z2udnmXHs9NIPKuhZCHZ8w60XyjUv+ZcGYc9MqTeZLPGxkTDKWQRR/PlCDo2DH3eDNxqhS6GhJLPCdE28ysza6s/ScCAaF1pIoIDNJvzFQoSAUn7ITg4eM3tbpRS2gaHzqW1oo2TSW/1mAzIgFn62QOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747952770; c=relaxed/simple;
-	bh=yXfmq+fsOH2ydhYAaJ/O8G8cyrnfKS0KGUVUMAH0MGk=;
+	s=arc-20240116; t=1747952772; c=relaxed/simple;
+	bh=ERIIFgKxrnPwjSVA6jXYtUfeYroUqJBM9v+L48OiIjw=;
 	h=Date:Message-ID:MIME-Version:Content-Type:From:To:Cc:Subject:
-	 References:In-Reply-To; b=GGEObtp1GL29GsQJNUiuOvG9/L/eVy51e88tZGO3ZY6Ppr341ELKYmG8I+Mhdr/mj1DBA6oXHvkHGgHqZk84SxylOkqoVdfu7tmP5rk/ymVzFk75sNYHwDMu0eDzjCC43Fpb6WAtpaagv3vzYcpmDLpY07UUpg07L/pAO1a2zVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=PE8bp2bC; arc=none smtp.client-ip=209.85.219.52
+	 References:In-Reply-To; b=P0+HMMYHOxHi01d/oyjqOdVCwJpj2HHe1RH83pH3L+fDJmv9ttCcV6KnJLWCluJ/drYoL94QkCmvrPRuhp6r5BPs9qMvhTfsnY5Yh0I/CwehFKXDTS2bNzIFXrs4VKAyW2JYmRoMrs7YNM7fDMAlRe5zatstPTe6YPojko3LXhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=ToVMF8Pc; arc=none smtp.client-ip=209.85.222.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6fa8eca392dso9928676d6.0
-        for <ecryptfs@vger.kernel.org>; Thu, 22 May 2025 15:26:07 -0700 (PDT)
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-7c542ffec37so948106485a.2
+        for <ecryptfs@vger.kernel.org>; Thu, 22 May 2025 15:26:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1747952767; x=1748557567; darn=vger.kernel.org;
+        d=paul-moore.com; s=google; t=1747952768; x=1748557568; darn=vger.kernel.org;
         h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
          :mime-version:message-id:date:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Jmptf5RMBQqSn8lkxlWoyMCjmS+Mv7H8iKTTl/Kwouo=;
-        b=PE8bp2bC2u+7hVMWFXDxIhgHhKxulbXWcGxnUpIhrgzangQno0wz8wTj2SBpQlx+RH
-         HWbPzJONY/k5V5KhKxFzRg0mqcSuevNUob7nbBRkNe4zNv5ta0ZZRbKuMkupvRu1j4H/
-         L5g61hkwn3G2TrJtCWpQppB/pCl9f/CPqdvv0wvc5m0YvonN/44WK2eHjcRrBNO9b+Bz
-         rMI5Soc4po1JoBDybn3lJlA6EaENodtYQjDPfzlCn/d0jltsqZogc7KaymbExTqk6b2E
-         5S0ojIzkilaxs5NcdiEorb9gq51ZYUhzmmerYI6Csq70Rwqskc1RTDHHPC4a/b2ToWTE
-         +pXQ==
+        bh=yW4BwrWRPMGZw+m/ri6EFRKCjP4k+SeXSk6ZWrWvJiA=;
+        b=ToVMF8PcVy37DRcyydOqAzRtU8MIfxnsQYcyTujtaPP+6rNuh10GiSxHl8BpEOL7Vl
+         xP549yj/DsBJfMi3qCROE0CjVVteyRyHylhdLw04oGcxRiQntTqkGaj0qxDt91en7Yaf
+         k+SmxoaFBB+G/5sErCk+bkQleUrTH6XQJe2p+LIipbvb4fbPmu1wnSD2q+VMoi0xxJsW
+         gaMrvrcaiHSnHiky9rJUvXODz2114Xg3/bkQmKiZIEtphocJflv5aC1cQ1XzMR2q+5M1
+         e5C3pB8Uc+2bJywG7HLAABdlrHUZ45rP3ykqZkmL5ezlodK/YayNjCLBFI5pn3kcMbPH
+         Giow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747952767; x=1748557567;
+        d=1e100.net; s=20230601; t=1747952768; x=1748557568;
         h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
          :mime-version:message-id:date:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=Jmptf5RMBQqSn8lkxlWoyMCjmS+Mv7H8iKTTl/Kwouo=;
-        b=l1p/vP0EfPNDZGhZCoqKserOV1R/xCTIGGpyECw+WvVH7x6Ox+eHfZbTDv+hSW3m13
-         F+r8PhuqH9N2LdcBAOR7BQJRCebq4/LKqec9zKL3hVSs6qHpL8r9M09L4oUO4irdTnU5
-         KJ468e1FNk2ChxDKg5STbDklnRCebbkkRWmRZqkAqilHWUK8KJdnsmwX+qLqbUgpEnxs
-         XctxvX5t29qoWcVHDxqA6nU6T2ovbCzLsyD2XG2sO3W8ntmu1Y2Yf4U9VgdUOtc9Nz88
-         NU5WEfIwVioNwQNa37wMeo7TRVwGrxoFu91Rg4g54pD4wbpWj6qCaMBUPHNJFa2s3HOk
-         up3w==
-X-Forwarded-Encrypted: i=1; AJvYcCW9mkMzCC0Ww0ZZfTf9rTanyr46DanupulnPUybSwgkkYS7X90VBa3432FMshNVOsHHYwa1QAhlXA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfBsQJdARcV0DKBP1A81ngarKrcZjNeeH0CLxB5u8Rh8wcs8pz
-	4EHPZVfok7cdBWlCQI83S5WfIFLri4xo9tXIIYw453N1LMeTy6yB/CIHAzifADP8zQ==
-X-Gm-Gg: ASbGncv1bTHY5cG+7UlH9HhabaUV8OCY00WTy8Sj2tVhoOGcNuD2SUMUJRaqYJMVoZ9
-	AM98C5Lxtt8+UohW9yhy69jibfo7vZCaNM4cQ8RY0hfSojjDIHW/plhVIiOg+U4P6pnyJM4FPNV
-	KkaTk7+58u0EQCyQlA50a5i37SVO4RYyMrxWIuBqwPEtQpRyC1Gx/uC1a3liE1XHL5WHus9BSPg
-	R96SZXWyMQUe3DNaOJa3GE5y3sOu6Ab2e5Qy/zHEiKnHVia3c8Iw3Ikswz/9klvmVCblosLsDUe
-	tr1VsqiJjU8XcQBiqi3or1saV9OWd8Z0peXmd7zOFW4+YZTE2H2W2KRnsp8O+a7Bm5xsv8hqPSF
-	9Un+lTYWX57F2SxhvZ6uR
-X-Google-Smtp-Source: AGHT+IE2zN7SH+0SaGrs2tzepSFkLMKNXBgIbbn8M9DQcRbDJBs1dDzlx85ZuSxbIPErdUE31K4qXg==
-X-Received: by 2002:a05:6214:1947:b0:6f2:b094:430e with SMTP id 6a1803df08f44-6f8b0829131mr503375636d6.25.1747952766984;
-        Thu, 22 May 2025 15:26:06 -0700 (PDT)
+        bh=yW4BwrWRPMGZw+m/ri6EFRKCjP4k+SeXSk6ZWrWvJiA=;
+        b=WlRqnLlXDibLGBJwfRTI5g63sTgQh4l6OTxPgnUVmiDn0QwFRLsPl+BEqRjbC0jrUE
+         pc4GQxiIS5Zqwv63mPkn3uV3QWodK5/mHsUVIYe6rWuFVNo/OuAdnELfrSjI7y76B5XQ
+         lMJyGnfv77i9+hXhI+WjJpHcUSjil/vF2SJLszj3G9YoDjwBVcHLyR3BaQZ8XvLYxXbp
+         W08DDz/L27g50iQa49OndYWX5GVUNy5AJog2bgY+5+wMyDuHlsiW988Z0AaWDlpVM2Zq
+         CJz+svLstpPDuIKLkrMnZKuO41EszkDZxkS6i6lXYQk96vWOhccw/3WNSjuiP4lKN0+s
+         gtow==
+X-Forwarded-Encrypted: i=1; AJvYcCUYIW2AzwWBapxB3aW4w/G27aa56Kpp9eZdQvs2szJgitYpYcE+/Wcb9dnJ6hiL9euHCikO8+hDhA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxGI6KNvqQueG1VEn9oSV1UO0h4TyW+BxmjXuTX4kXRAP7bqXjd
+	gN5wcNDLLp3KxdZIHgL1UlFZPERJdsfhGEQl7Q8RU7HEm2Antx7v4kmR/IPJEfSW6g==
+X-Gm-Gg: ASbGncuDav9ZjAdBOky/ZJadzN55VZc2QuL7iHwT6BBAvGfu9hbxfhke6Mbd4+zG5Uh
+	v1Kutj+1KhD+c4c3Gffwu5gUpWfJNSYSK0ODHPYC7Uwkow+7yda58S2odz97Uibp4l4vVm57Ml4
+	QpS3mjjARA/Ff9du16s6DvXdO+6Ipd94zipcWt0CdzCpbv4h/7DXFIZjMIPbExUTl8hDgMpJL3l
+	nlJX6EhzdoE8D9SW0wvJdJQAyHMLpA5BXGDkyCko64Ex6BBs4yelBn99Z+vLhHdvDhxAsZEVAwO
+	ApY+Sek/SsGMzp8/4CB8wtpGAISUb9A+d9uFe1Z4EUxXkz92zuui7CgSE/xWjNceDjkI36dNYna
+	xH/7ZOK5pAIaALVjKD88E
+X-Google-Smtp-Source: AGHT+IHmIlyqjG6e3vdHM+wi0UqPbDaDdVTY/IdBlClNAbyXhci/B2Ul0PB2ozu0sL7+1EWeTaPM2w==
+X-Received: by 2002:a05:620a:408e:b0:7ce:d352:668f with SMTP id af79cd13be357-7ced352670emr1334278485a.47.1747952768087;
+        Thu, 22 May 2025 15:26:08 -0700 (PDT)
 Received: from localhost (pool-71-126-255-178.bstnma.fios.verizon.net. [71.126.255.178])
-        by smtp.gmail.com with UTF8SMTPSA id 6a1803df08f44-6f8b0987259sm105076766d6.120.2025.05.22.15.26.06
+        by smtp.gmail.com with UTF8SMTPSA id af79cd13be357-7cd468b69dfsm1089029585a.79.2025.05.22.15.26.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 May 2025 15:26:06 -0700 (PDT)
-Date: Thu, 22 May 2025 18:26:05 -0400
-Message-ID: <0bb73a49ccbc93e90ea87c0dbb4097ae@paul-moore.com>
+        Thu, 22 May 2025 15:26:07 -0700 (PDT)
+Date: Thu, 22 May 2025 18:26:07 -0400
+Message-ID: <8bf36078ef8f3e884a1d3d8415834680@paul-moore.com>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
@@ -110,30 +110,21 @@ To: Andrey Albershteyn <aalbersh@redhat.com>, Richard Henderson <richard.henders
 	Tyler Hicks <code@tyhicks.com>, Miklos Szeredi <miklos@szeredi.hu>, 
 	Amir Goldstein <amir73il@gmail.com>
 Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, linux-arch@vger.kernel.org, selinux@vger.kernel.org, ecryptfs@vger.kernel.org, linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org, Andrey Albershteyn <aalbersh@kernel.org>
-Subject: Re: [PATCH v5 2/7] lsm: introduce new hooks for setting/getting inode  fsxattr
-References: <20250513-xattrat-syscall-v5-2-22bb9c6c767f@kernel.org>
-In-Reply-To: <20250513-xattrat-syscall-v5-2-22bb9c6c767f@kernel.org>
+Subject: Re: [PATCH v5 3/7] selinux: implement inode_file_[g|s]etattr hooks
+References: <20250513-xattrat-syscall-v5-3-22bb9c6c767f@kernel.org>
+In-Reply-To: <20250513-xattrat-syscall-v5-3-22bb9c6c767f@kernel.org>
 
 On May 13, 2025 Andrey Albershteyn <aalbersh@redhat.com> wrote:
 > 
-> Introduce new hooks for setting and getting filesystem extended
-> attributes on inode (FS_IOC_FSGETXATTR).
+> These hooks are called on inode extended attribute retrieval/change.
 > 
 > Cc: selinux@vger.kernel.org
 > Cc: Paul Moore <paul@paul-moore.com>
 > 
 > Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
 > ---
->  fs/file_attr.c                | 19 ++++++++++++++++---
->  include/linux/lsm_hook_defs.h |  2 ++
->  include/linux/security.h      | 16 ++++++++++++++++
->  security/security.c           | 30 ++++++++++++++++++++++++++++++
->  4 files changed, 64 insertions(+), 3 deletions(-)
-
-The only thing that gives me a slight pause is that on a set operation
-we are going to hit both the get and set LSM hooks, but since the code
-does call into the getter on a set operation this is arguably the right
-thing.
+>  security/selinux/hooks.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 
 Acked-by: Paul Moore <paul@paul-moore.com>
 
