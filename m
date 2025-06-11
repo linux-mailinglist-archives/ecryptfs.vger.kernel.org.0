@@ -1,128 +1,93 @@
-Return-Path: <ecryptfs+bounces-300-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-302-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C914EAD6390
-	for <lists+ecryptfs@lfdr.de>; Thu, 12 Jun 2025 01:08:58 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D54EAD63DF
+	for <lists+ecryptfs@lfdr.de>; Thu, 12 Jun 2025 01:33:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2D4D018858CF
-	for <lists+ecryptfs@lfdr.de>; Wed, 11 Jun 2025 23:07:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CB8DB7A2444
+	for <lists+ecryptfs@lfdr.de>; Wed, 11 Jun 2025 23:32:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBAD6259CA9;
-	Wed, 11 Jun 2025 22:59:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FA132C1794;
+	Wed, 11 Jun 2025 23:33:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="C6Cj8bkW"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from neil.brown.name (neil.brown.name [103.29.64.221])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C308B258CC0;
-	Wed, 11 Jun 2025 22:59:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.29.64.221
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E8B82063D2;
+	Wed, 11 Jun 2025 23:33:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749682743; cv=none; b=PdLUSP3BPKr4ZxzP0UJYC7l9MwprkRVJqHEwz8IjFHH7JRzs38+ZGlUzoYMroypfZdOPiZWaKeC6wiLuW54T64kzPTGf/1tRwZLOHEXompt+YjVl3sshvQjoqBrmByNvG3KDEuNPhJP5i7kNuZvEBqTmuzE1uAWLyLbhNy7m++8=
+	t=1749684797; cv=none; b=t2efY9xPZZO/ml9ciS9IrJkzqHfQGYwxz9T7+SDlr8Z76HkPB/x/4j+pd3N1Nd48cyeVsn4TVILHg90virLqMKSkHrPGIyEQzLDGEpVyk3ftNitIkn/t8yHvLo1TFes5Yv7dkzHn/tt3UQtELp3R0VmgLRg/3JQAgzW5OTPtsjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749682743; c=relaxed/simple;
-	bh=+p49bxglS6vHYuXD21Z8kmOqvXOmaEy3O23Z2TX/mtU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ELa+tHuAZPj6iw4PYm01oyBxYCerV6DdUYTDwl3IPXThMpngG2jAC9c1GvBlqGgH9iCM8WRZsRmQr1ZQQQTJrtI3xSpnVBUxw0VATmjnAiZYmyioxBSPTC+3KXzaucKLN+tUCvwrEae7UncrT+vsogFOC2AoQabL5DTEtylUy60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brown.name; spf=pass smtp.mailfrom=neil.brown.name; arc=none smtp.client-ip=103.29.64.221
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brown.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=neil.brown.name
-Received: from 196.186.233.220.static.exetel.com.au ([220.233.186.196] helo=home.neil.brown.name)
-	by neil.brown.name with esmtp (Exim 4.95)
-	(envelope-from <mr@neil.brown.name>)
-	id 1uPUPL-008OC6-AX;
-	Wed, 11 Jun 2025 22:58:59 +0000
-From: NeilBrown <neil@brown.name>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>
-Cc: David Howells <dhowells@redhat.com>,
-	Tyler Hicks <code@tyhicks.com>,
+	s=arc-20240116; t=1749684797; c=relaxed/simple;
+	bh=KxDSgEHM4ioFOccU9g1WqhOEzXrb4amIpcHF7Ym5Zz8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dVHQEIYNRGsbh+V0wYwZ6iavU3/6hAnbMcJhdYclemGRSIh8hCTkuOT5FeuMDBl0Aai/ywKWMpEBrmhMR0OSInkYg9GrG1XwY6hMkPkg+aNhqi7uXCXzJL854fkawC0o/2TIPPq+bwDwLw+HVy6eOrSv338C4BAlPwefINwvR34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=C6Cj8bkW; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=cet2GcpB4GwO674EqYvPDsp22UDjuD2QU2slqR1iU0o=; b=C6Cj8bkWnDXTpxo4VcCX8jFHrg
+	7QRxXNhbRCpUZqIqv3/9L8FH6cqDK6ispvMtKh1h30Z5GaYMmcefM9DCEky+SHsQvbCQn4PVenYta
+	q7AD2BBcnD/9mZ09Gvm4PmXRTWReVhtyVi+OfK+tMfKyVPNmvBkA/KGpwL3BalM2aKdLCy8e4gPGl
+	cSUJHsfjVIGPpx5yATOVybyigEKJy2JfJ3Za8VXjN592KO9FsIVsz/u0sWD40iygXFkdMBaYWQqol
+	+uT3t8+rVUNJp5CvDDkwcGOkP4lawwQ11jRlyo63u3BDi/nnyrrPVeqymlgePDJNJsBVNqgEJvUHc
+	tXNOpsfw==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uPUwM-00000007jzT-2QTq;
+	Wed, 11 Jun 2025 23:33:06 +0000
+Date: Thu, 12 Jun 2025 00:33:06 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: NeilBrown <neil@brown.name>
+Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	David Howells <dhowells@redhat.com>, Tyler Hicks <code@tyhicks.com>,
 	Chuck Lever <chuck.lever@oracle.com>,
 	Jeff Layton <jlayton@kernel.org>,
 	Miklos Szeredi <miklos@szeredi.hu>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Kees Cook <kees@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>, Kees Cook <kees@kernel.org>,
 	Joel Granados <joel.granados@kernel.org>,
 	Namjae Jeon <linkinjeon@kernel.org>,
 	Steve French <smfrench@gmail.com>,
 	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	netfs@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	ecryptfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	linux-unionfs@vger.kernel.org,
+	netfs@lists.linux.dev, linux-kernel@vger.kernel.org,
+	ecryptfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
 	linux-cifs@vger.kernel.org
-Subject: [PATCH 2/2] fs/proc: take rcu_read_lock() in proc_sys_compare()
-Date: Thu, 12 Jun 2025 08:57:03 +1000
-Message-ID: <20250611225848.1374929-3-neil@brown.name>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250611225848.1374929-1-neil@brown.name>
+Subject: Re: [PATCH 2/2] fs/proc: take rcu_read_lock() in proc_sys_compare()
+Message-ID: <20250611233306.GA1647736@ZenIV>
 References: <20250611225848.1374929-1-neil@brown.name>
+ <20250611225848.1374929-3-neil@brown.name>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250611225848.1374929-3-neil@brown.name>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-proc_sys_compare() is the ->d_compare function for /proc/sys.
-It uses rcu_dereference() which assumes the RCU read lock is held and
-can complain if it isn't.
+On Thu, Jun 12, 2025 at 08:57:03AM +1000, NeilBrown wrote:
 
-However there is no guarantee that this lock is held by d_same_name()
-(the caller of ->d_compare).  In particularly d_alloc_parallel() calls
-d_same_name() after rcu_read_unlock().
+> However there is no guarantee that this lock is held by d_same_name()
+> (the caller of ->d_compare).  In particularly d_alloc_parallel() calls
+> d_same_name() after rcu_read_unlock().
 
-So this patch calls rcu_read_lock() before accessing the inode (which
-seems to be the focus of RCU protection here), and drops it afterwards.
+d_alloc_parallel() calls d_same_name() with dentry being pinned;
+if it's positive, nothing's going to happen to its inode,
+rcu_read_lock() or not.  It can go from negative to positive,
+but that's it.
 
-Signed-off-by: NeilBrown <neil@brown.name>
----
- fs/proc/proc_sysctl.c | 20 ++++++++++++--------
- 1 file changed, 12 insertions(+), 8 deletions(-)
-
-diff --git a/fs/proc/proc_sysctl.c b/fs/proc/proc_sysctl.c
-index cc9d74a06ff0..a4cdc0a189ef 100644
---- a/fs/proc/proc_sysctl.c
-+++ b/fs/proc/proc_sysctl.c
-@@ -917,19 +917,23 @@ static int proc_sys_compare(const struct dentry *dentry,
- {
- 	struct ctl_table_header *head;
- 	struct inode *inode;
-+	int ret;
- 
- 	/* Although proc doesn't have negative dentries, rcu-walk means
- 	 * that inode here can be NULL */
- 	/* AV: can it, indeed? */
-+	rcu_read_lock();
- 	inode = d_inode_rcu(dentry);
--	if (!inode)
--		return 1;
--	if (name->len != len)
--		return 1;
--	if (memcmp(name->name, str, len))
--		return 1;
--	head = rcu_dereference(PROC_I(inode)->sysctl);
--	return !head || !sysctl_is_seen(head);
-+	if (!inode ||
-+	    name->len != len ||
-+	    memcmp(name->name, str, len)) {
-+		ret = 1;
-+	} else {
-+		head = rcu_dereference(PROC_I(inode)->sysctl);
-+		ret = !head || !sysctl_is_seen(head);
-+	}
-+	rcu_read_unlock();
-+	return ret;
- }
- 
- static const struct dentry_operations proc_sys_dentry_operations = {
--- 
-2.49.0
-
+Why is it needed?  We do care about possibly NULL inode (basically,
+when RCU dcache lookup runs into a dentry getting evicted right
+under it), but that's not relevant here.
 
