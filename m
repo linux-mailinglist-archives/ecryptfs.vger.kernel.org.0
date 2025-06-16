@@ -1,85 +1,111 @@
-Return-Path: <ecryptfs+bounces-314-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-315-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2DFAADB3C5
-	for <lists+ecryptfs@lfdr.de>; Mon, 16 Jun 2025 16:28:58 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62A06ADB3F3
+	for <lists+ecryptfs@lfdr.de>; Mon, 16 Jun 2025 16:34:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 40B5F1889B46
-	for <lists+ecryptfs@lfdr.de>; Mon, 16 Jun 2025 14:24:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1CA8C3A6FDA
+	for <lists+ecryptfs@lfdr.de>; Mon, 16 Jun 2025 14:31:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4D6B1F5433;
-	Mon, 16 Jun 2025 14:21:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 639AF1E9B1A;
+	Mon, 16 Jun 2025 14:31:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="dPcaAsgM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mNY68t13"
 X-Original-To: ecryptfs@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79D483208;
-	Mon, 16 Jun 2025 14:21:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27613126F0A;
+	Mon, 16 Jun 2025 14:31:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750083718; cv=none; b=uoHG1jjyyPSYvFIfzk5lM0Fb687CHWq9zwyJA02iHPKN9W6hvNsGZyeAGprDnTh24Jdcvx1sHJEH0RiUB1cqvvdSLJuxYWjGWYuYOi78X8If23PsdGufiFsfsNd/ZXN2fpaKn8jSuyzo105KN4/xJzDUXIZJepH+7dZ7vjTysFs=
+	t=1750084303; cv=none; b=Jx0cMM5XC7R9BaSTdtBjJrRmUfjlRBzKjUIm14Y3jJmjZ6JxFLe7vPEJ9+1vs/RlvHHOwaNrR/rVO4gLj68WjVCjF5azxhOiEAajn/Bh1vkBIwzboGQfKV7vRBFZ39kr6vTmsgm+k68rYZa9e+pNCJBW9FqalFIU4Vx7pJA+cm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750083718; c=relaxed/simple;
-	bh=p3eLjm8AytsTftxYwnahJKsvG3EAJFTXZMzq0TcQ3nU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lARs3fbBMDZTdj+WJ2itUVG6CpAtoY89+X5iWpNbEouzPDlSntP6jNJsYt3jLPOgLKERRpi6MMtP02mJ1731q/3bydfWXC8v5/fMEHuJ3FbeeWbHTyQeyWv03K8p1/36k+tmZXn/0J0XUE4RXfZyUIghuBtFex13BzmF+QQyU68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=dPcaAsgM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F04E8C4CEEA;
-	Mon, 16 Jun 2025 14:21:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1750083718;
-	bh=p3eLjm8AytsTftxYwnahJKsvG3EAJFTXZMzq0TcQ3nU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dPcaAsgMAPKPvBzFGTzqSGI85588Sz5g4QRghOyAySdcc9HKYgJxiu6Ev6bc/dPQp
-	 Nwe4sDmuL8JHVJN4fa7rt8IgdggwdSj8t5iCLJbrdRVdPdyat445nckuilaD7pQucy
-	 SkJyQtsOrtlJT+sEJ9glaW6W3C/apUvzjcF3Ovqs=
-Date: Mon, 16 Jun 2025 16:21:56 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Cc: code@tyhicks.com, brauner@kernel.org, sandeen@redhat.com,
-	colin.i.king@gmail.com, skhan@linuxfoundation.org,
-	ecryptfs@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] fs/ecryptfs: use scnprintf() in version show
-Message-ID: <2025061642-unaltered-antler-e6fa@gregkh>
-References: <20250616104120.370832-1-pranav.tyagi03@gmail.com>
+	s=arc-20240116; t=1750084303; c=relaxed/simple;
+	bh=WulBjw8ArzfQyf38C3shN1EE4DycRB8irg80xQNbZ2c=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZbVMVDMjVi6uaLVZzLmPNt92uXoMDl5fWazn9/pfBtjkveQQrf9+OEpxEVfjtradoXywaUxwCfwIz7qhIVv6WhWZDcx4hdBhAihNii0H7duUgoaTqhLGguc+HzUqW+XAN6NqRyBjcpqGnZKh9OUq/01VwCApGPG7octuqU6weIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mNY68t13; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D0B9C4CEEA;
+	Mon, 16 Jun 2025 14:31:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750084302;
+	bh=WulBjw8ArzfQyf38C3shN1EE4DycRB8irg80xQNbZ2c=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=mNY68t131j2sbE+wrh/9hFO/9Y6RIDXstIu70Eaxz5LP3nuynE6eJTlLPTJZw3Dz6
+	 uK1mmHGzPxr//YXp3ZzTbNsIrhSQwPvGBnCTEnUdlmUwnZj9Vw+Mum81Nk8tdn+w9N
+	 9Zfq6xRVMs4ngsURFm9Lh4lfkm1MELs6H+bJgrodMmhUry7LKrSI1yQk4E+VnPBExc
+	 OuQlCCHZsvlYcIkssLi0VvLUFTtD4+WO56nEiMN5yjmb7DiWo79KcHBXchDmJMemcM
+	 8lDIs8aDGxdc2rDGfZcPnnhlJXaGZhLjqkax7MUPIpNzbalzTB7skInSacujqByJU4
+	 YoqEjkina0ULw==
+From: Christian Brauner <brauner@kernel.org>
+To: NeilBrown <neil@brown.name>
+Cc: Christian Brauner <brauner@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Tyler Hicks <code@tyhicks.com>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Steve French <smfrench@gmail.com>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	netfs@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	ecryptfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	linux-unionfs@vger.kernel.org,
+	linux-cifs@vger.kernel.org,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH v2] VFS: change old_dir and new_dir in struct renamedata to dentrys
+Date: Mon, 16 Jun 2025 16:31:26 +0200
+Message-ID: <20250616-kopfende-seilbahn-cdd8b52e8b2a@brauner>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <174977089072.608730.4244531834577097454@noble.neil.brown.name>
+References: <174977089072.608730.4244531834577097454@noble.neil.brown.name>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250616104120.370832-1-pranav.tyagi03@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1303; i=brauner@kernel.org; h=from:subject:message-id; bh=WulBjw8ArzfQyf38C3shN1EE4DycRB8irg80xQNbZ2c=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQEaB3r/skkzG/dU7zq7OYZB2SP/H3J2bay5X+S9Hxnq x7DU+sEO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACYyJYHhv59k+Svl0KXhUxjZ iu/PF1ued/OkguBbn67p/MqT1ZX8rzD8D9t6ISvTuPp1iuevd8rSq2KDco019lqp/93E9rzx0tE jzAA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 16, 2025 at 04:11:20PM +0530, Pranav Tyagi wrote:
-> Replace all snprintf() instances with scnprintf(). snprintf() returns
-> the number of bytes that would have been written had there been enough
-> space. For sysfs attributes, snprintf() should not be used for the
-> show() method. Instead use scnprintf() which returns the number of
-> bytes actually written.
+On Fri, 13 Jun 2025 09:28:10 +1000, NeilBrown wrote:
+> all users of 'struct renamedata' have the dentry for the old and new
+> directories, and often have no use for the inode except to store it in
+> the renamedata.
 > 
-> Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
-> ---
->  fs/ecryptfs/main.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> This patch changes struct renamedata to hold the dentry, rather than
+> the inode, for the old and new directories, and changes callers to
+> match.  The names are also changed from a _dir suffix to _parent.  This
+> is consistent with other usage in namei.c and elsewhere.
 > 
-> diff --git a/fs/ecryptfs/main.c b/fs/ecryptfs/main.c
-> index 8dd1d7189c3b..2a97c2b1fc69 100644
-> --- a/fs/ecryptfs/main.c
-> +++ b/fs/ecryptfs/main.c
-> @@ -764,7 +764,7 @@ static struct kobject *ecryptfs_kobj;
->  static ssize_t version_show(struct kobject *kobj,
->  			    struct kobj_attribute *attr, char *buff)
->  {
-> -	return snprintf(buff, PAGE_SIZE, "%d\n", ECRYPTFS_VERSIONING_MASK);
-> +	return scnprintf(buff, PAGE_SIZE, "%d\n", ECRYPTFS_VERSIONING_MASK);
+> [...]
 
-sysfs_emit() or no change at all please.
+Applied to the vfs-6.17.misc branch of the vfs/vfs.git tree.
+Patches in the vfs-6.17.misc branch should appear in linux-next soon.
+
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-6.17.misc
+
+[1/1] VFS: change old_dir and new_dir in struct renamedata to dentrys
+      https://git.kernel.org/vfs/vfs/c/bc9241367aac
 
