@@ -1,123 +1,109 @@
-Return-Path: <ecryptfs+bounces-367-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-368-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BBC1AFD6C9
-	for <lists+ecryptfs@lfdr.de>; Tue,  8 Jul 2025 21:00:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53AC3B150FE
+	for <lists+ecryptfs@lfdr.de>; Tue, 29 Jul 2025 18:12:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 339E148224B
-	for <lists+ecryptfs@lfdr.de>; Tue,  8 Jul 2025 18:59:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BD42A3B0AF2
+	for <lists+ecryptfs@lfdr.de>; Tue, 29 Jul 2025 16:11:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C3A02D9EFB;
-	Tue,  8 Jul 2025 18:59:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8332920ED;
+	Tue, 29 Jul 2025 16:12:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kNIplY/R"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aahNwJTh"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 997E51E49F;
-	Tue,  8 Jul 2025 18:59:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDD32186295
+	for <ecryptfs@vger.kernel.org>; Tue, 29 Jul 2025 16:12:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752001195; cv=none; b=rnSM6pv59jNxl0mNZuVTp5/YyGqp7KexhUdhdOX/ONwXqmHAM/80zQfNPxxRyG6PhfrLQrz2uyFSHCpGncJSCo3Gz/+SnYimPk5GMy1Ur/Kch7NHFJeGnMLrBe8BO+hcnt8x7ADBk3Q+YciIo20QSPKLBvPV7ersw5tC10V61BY=
+	t=1753805522; cv=none; b=KEEREUxR479K9zEVbP4S1F4PEKp5ivVVuD75c3Zd9OJSQuZRobDZWzYzp0IgelKyh9qv0OlrFHebEtb3K8tkiGImmbNjuf89rXnpPE05ZI5JSOU8aZgZbI+qE+a/DG1awNyB4tmbrzaYWKKwcy3kr5T8aDbvHNR+iDUWLyYvvYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752001195; c=relaxed/simple;
-	bh=TeS60sUn4j0Wulj1x+TWWeWPocHoeNtloW7UhMzJ0Jg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FUIdxqaJAvODvDjXwKTIcoRT1Z8HXP7uNoMHDSbq5l1vVoyoEQgiJO8CPWINT4rIU6OrEPeioH/L5D5hCnwSPKFJa0Stc4mAq1Y3AR6uUeWNOz2tKxYe4ATDyi8oG2VtT5xJfY2BxiIvambmmyiZ2jpHzIseuHniGZfiRqgYBwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kNIplY/R; arc=none smtp.client-ip=209.85.214.178
+	s=arc-20240116; t=1753805522; c=relaxed/simple;
+	bh=p0MLDjHn3YU/x9yTCdYXHfCYEgKmGU+OoSEpuS/HimI=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=F1+ChGkzG67+uiStFmm1DU15T5ZiCZbLuDEvp5HvkUwtqohmOHuvy7HsPPtGNj357D8otq5RDO8jbWWkxJpTxZMqQwib7OMXaNEJl77Sf1LKmIaINcoNEOpqP8609JZuq+QYi7MapLTs36bHEe4BJhRiu7wnvFbuPvBpPi+S2VI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aahNwJTh; arc=none smtp.client-ip=209.85.218.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-23c703c471dso2154385ad.0;
-        Tue, 08 Jul 2025 11:59:54 -0700 (PDT)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ae3b336e936so1182123666b.3
+        for <ecryptfs@vger.kernel.org>; Tue, 29 Jul 2025 09:12:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752001194; x=1752605994; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=g+gvODUlXN4NLeum/nW6S/O9Ef8OE2ZIogcGd1tvbSg=;
-        b=kNIplY/RO+kPgQKbe4G5j43z+tBwXKE3lWtwPuvKs5zT+yZWBn+bWFL3SxGgBy8NjG
-         4FyNOyhsXes25380p7rGCjJQf5Rrl2+YCbW2ZAI4ZGyWOJFJCVY35PEEYsoiIEcteFHv
-         1/mULhiAVmGbENLbs7QeNzszggOJHK/6VTSXunHopgtslHG0+Vv9aVcnrPx8TFpc3iq5
-         Xhvwvy4xSGmdksxcHma3mVSseeECnOU/quVaHR0uln4GQ4IjN6wjtvHZiEDgocLtVhmF
-         8CL0JoJoV+vFkiZ2nxJqU92d1wFK6NE5ArqfLnJRH6BC6TMhdGLpvYo/tQ8DSuL7oruz
-         3Cjg==
+        d=gmail.com; s=20230601; t=1753805518; x=1754410318; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=JZHPeRyHoBXNdeagHo5Eac6iQVlutJz9Fmfhj6JBepI=;
+        b=aahNwJThteBsstVVg1UwskRGFgRJ+fdHQKvUsYcR0hIJBpsugRHIuUwX5SOCS8gSMi
+         Y0sNU2aldnLvmyg/GIgZ+kNLa/JmwlK1zdobgF3lT5B77som7E65nzdAgnOUPX08Q3t4
+         ic9jEL6wsHzvs6yplOMwG0yOu66jPjXOjG3YK7xi00TkHyf+IJwFMizTyCRodGk+tWX0
+         shfZx2I6iIVlnmU+g7RH8ZIF9SlIsXVI3SAD+UXyXlyEx+5kQzbLKpz9y9NkrN9fmnmx
+         hVTj4Yk46XEKbluaTRVpoY7YZNaA3kna3Biu5l/O/esBN0V1qIxGhueTiboIBVObCJ3m
+         4fjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752001194; x=1752605994;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1753805518; x=1754410318;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=g+gvODUlXN4NLeum/nW6S/O9Ef8OE2ZIogcGd1tvbSg=;
-        b=Dc+DoJ83zG4oyukrF1ZyVFpPM0YHMx7r821lc34S2vaR3Azml2wtIdmKTawTBxrSEF
-         1kIBDDO2C5V1kAtvJDUSjSHysWy0bAT9gLAxE+d8wlzsI8gF40GKWAtcKD9fqxm6dIFa
-         KFsA5I4c/MKLb8lGQX4taLW0Yq2ZUOixhvzSn2sJNlVXyx/F+b05sXIdWwfMkVTDh70M
-         SHPX00FSW6vQfsvd5Bnrh8A5DtNrw5pmud9Xt+dZpVB+CgFJVsqUqVtrHsf/VxybkKlO
-         gePyQZ9/d0Dgnpzg0C4DfV1PVw59gz1rGVZxkhLGddXu807WYDghMoThYg3qNuiyks35
-         iJ1w==
-X-Forwarded-Encrypted: i=1; AJvYcCUtfLZWN+1FB4d9Zu2dF12ibmB/K1fNVyy8uhGhcpxfXZl871VbR0Hf+S8llOBhZNlwW+GnlmS0q6OfTXOj@vger.kernel.org, AJvYcCXBMuekKm01N0ScMW9w8pnrF/JUEoTw0SEC1nuFnmiHiewVHb58LxgYgwAZYGcj++wgy/zl2fmvMQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4m8tNJTti+S7olE7HTiWzbUyXg4daTDIqCJAJeQg023qpKBlN
-	H17rcJNglnlu2f0ucojQOfFDrMSix9JiaSdB3IIcKVTvSaF4ChKafe8d
-X-Gm-Gg: ASbGncsfJsyHdZa9SJz/mT90UVr+fVsV4LRm09T/1OhMOiCOMdPgBy6bvP3yWHaFrIw
-	OoqmLygWZ9lnP2XIG0oIWfUedsTrjBqfO3yWIVeCpYjsqqng0w3/pt04m5IJVSIERrZJOMKTUfG
-	IQUnTvMsOprVTJ6QrFQBRMDNojv0wCUZruuMt5GazSnTSEiU0MHAhY6EiwtipEtCsjXxhkxuOFY
-	mvN614f/ovMr2i/TMAVToL9VyBEjp8r2+ONse9tGeHvmy4zKYlpkaBSFo2RYtZYReK/3eFr+jMc
-	rCl6ulEM+TNQgEIeQG+9ArIIKHm0+5GNHl3k1fmx73y5ilu0x/8SORiqymGRGEyru2jc
-X-Google-Smtp-Source: AGHT+IE/oa63F/9FooZ5+tGC6XFDIN1ywTCearL0G+jYx+luItA5BkR2R0tgt/UPkITS61JuA8rUtw==
-X-Received: by 2002:a17:903:1d2:b0:235:278c:7d06 with SMTP id d9443c01a7336-23dd1cdf703mr50478875ad.8.1752001193764;
-        Tue, 08 Jul 2025 11:59:53 -0700 (PDT)
-Received: from itsmeut.. ([103.215.237.13])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23c845bd366sm125892145ad.240.2025.07.08.11.59.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jul 2025 11:59:53 -0700 (PDT)
-From: Utkarsh Singh <utkarsh.singh.em@gmail.com>
-To: code@tyhicks.com
-Cc: Utkarsh Singh <utkarsh.singh.em@gmail.com>,
-	ecryptfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	brauner@kernel.org,
-	sandeen@redhat.com,
-	colin.i.king@gmail.com,
-	david.hunter.linux@gmail.com,
-	skhan@linuxfoundation.org
-Subject: [PATCH] ecryptfs: use sysfs_emit() in version_show()
-Date: Wed,  9 Jul 2025 00:28:16 +0530
-Message-Id: <20250708185815.6708-1-utkarsh.singh.em@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        bh=JZHPeRyHoBXNdeagHo5Eac6iQVlutJz9Fmfhj6JBepI=;
+        b=B1zQMiq4PrTsDJOxVoo6BAeYj7PduZVm4YZC8Hanbdw4yNK1wgNaUhs6ruXaqUI5n7
+         WeH1UMfZ3lfRj8PEGTEOJ6p2WlzbrkWLIMX8IVRbmwNSwyBLsqV9GoBpqTUDtXilFeCo
+         /SGqb9x7NqxWHi2pBL/RSDs8u9RPzr5Kdo1O/Vzxc8Qsxsn4sJjz39tXIFv5zHAweoYc
+         jBwKoh/TE7kVFuQkGNWjsLjTdXWK9JIg1q5SyCHEaRZ3jlg8cW/EiPPjHpW1YlVvGQSZ
+         Vvl68/v3ZkdBWIWLSWSRBZ8VCRIKO+rqlGKsuuIc4l+ddRtuURpcP6p7fPIVZOmuh1g/
+         kWrw==
+X-Gm-Message-State: AOJu0YzzpLXqULhKV4mAfneqXWoHfDoxv8S2TXD45U7DCWN0f95WPe2z
+	uHRBrsNmuSmVST448aitXUKVNa7GWxcumRLMMJttJm95Uwslg5DiH5ToRT4zsfjLjwdfIucW+DF
+	ojrhNEJ8lmRwNrOd5SM/CzBd8Ik/Q/a18lFY=
+X-Gm-Gg: ASbGncvSMvjlYQ2U2cDjuYU7UM1HDlIVliYU7hLEO4BnHDa+QrGSmgGsnKi1s9gdhVh
+	wmwOTBXseoydRPGsHmN17ovOW/aSD8pcR+bUNAHomMIxKYjUAn1Nkik5g+6DvBgbgC6ptztQNho
+	bey0bw7ATNd315y9t588wp/zKkFhCEWHKkVwuvLWIImi4QlmqgLNMgPPfyWaq5b749pwwK3JN3y
+	5s=
+X-Google-Smtp-Source: AGHT+IEC1NJypQpZ4L6MuJ+J/E7Rpk3wFVLJK2ebwrzl+3Kl/mPxWpCJdIs3jzu0J0RWrVJWdXXSaZWo+tfmeZrnLxc=
+X-Received: by 2002:a17:907:97c7:b0:ae0:c441:d54b with SMTP id
+ a640c23a62f3a-af8fd6a2b16mr8367566b.9.1753805518434; Tue, 29 Jul 2025
+ 09:11:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Lukas Krupa <lukas0krupa@gmail.com>
+Date: Tue, 29 Jul 2025 18:11:47 +0200
+X-Gm-Features: Ac12FXzzZDg9vXW6r_mLho-27Umyi5sGoQ-zDjYCwmT_pdATxJFBMFoQqylbLXw
+Message-ID: <CABVWzVTVTwLrsAMKUEU+mEqBOn5S-AEuYv0tWoDQKN6tAOd=Jw@mail.gmail.com>
+Subject: No idea why - but home is mounted decrypted, but files/directories
+ remain encrypted
+To: "ecryptfs@vger.kernel.org" <ecryptfs@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The sysfs_emit() helper is the preferred way to format sysfs attribute
-output buffers. It provides consistent behavior and prevents potential
-buffer overflows.
+Hi All,
 
-This patch replaces the use of snprintf() with sysfs_emit() in the
-version_show() function.
+If anybody can help me, I tried a lot and getting kind of in circles.
 
-Signed-off-by: Utkarsh Singh <utkarsh.singh.em@gmail.com>
----
- fs/ecryptfs/main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+After changing password, I somehow lost a lot (wallet), but what hurts
+is my encrypted home directory.
 
-diff --git a/fs/ecryptfs/main.c b/fs/ecryptfs/main.c
-index 8dd1d7189c3b..49b8024d6c64 100644
---- a/fs/ecryptfs/main.c
-+++ b/fs/ecryptfs/main.c
-@@ -764,7 +764,7 @@ static struct kobject *ecryptfs_kobj;
- static ssize_t version_show(struct kobject *kobj,
- 			    struct kobj_attribute *attr, char *buff)
- {
--	return snprintf(buff, PAGE_SIZE, "%d\n", ECRYPTFS_VERSIONING_MASK);
-+	return sysfs_emit(buff, "%d\n", ECRYPTFS_VERSIONING_MASK);
- }
- 
- static struct kobj_attribute version_attr = __ATTR_RO(version);
--- 
-2.34.1
+It wasn=E2=80=99t mounting, but Googling and trying things I got the follow=
+ing:
+     - Managed to recover it (into /tmp), decrypted content and
+filename - all good
+     - Mounting into /mnt/test, got decrypted filenames, but can=E2=80=99t =
+get
+into anything attributes has lots of =E2=80=9C?=E2=80=9D (e.g. d?????????? =
+  ? ?     ?
+      ?            ?  Downloads/)
+     - Somehow, I managed to get it mounted as my home, but filename
+remain encrypted
+(ECRYPTFS_FNEK_ENCRYPTED.FXY12C18aOyb1kR7pQyWVDYkii52g8f.VRjbv5ieRYxPy-L4A3=
+kpjkGFMUtfNmrT6hwhhbY1jtXaSgs-/)
 
+Can anybody help me with steps how-to recover this without loosing data?
+
+Thank you
 
