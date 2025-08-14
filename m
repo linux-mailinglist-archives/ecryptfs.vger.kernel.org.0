@@ -1,90 +1,89 @@
-Return-Path: <ecryptfs+bounces-404-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-405-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2CABB267C4
-	for <lists+ecryptfs@lfdr.de>; Thu, 14 Aug 2025 15:43:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 160C5B26819
+	for <lists+ecryptfs@lfdr.de>; Thu, 14 Aug 2025 15:53:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 81F9D2A0A9A
-	for <lists+ecryptfs@lfdr.de>; Thu, 14 Aug 2025 13:32:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 739A1560CAC
+	for <lists+ecryptfs@lfdr.de>; Thu, 14 Aug 2025 13:48:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50B063019A7;
-	Thu, 14 Aug 2025 13:30:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF3673002D8;
+	Thu, 14 Aug 2025 13:48:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AZox5fNR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SVmMjtHj"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B14E2FB987;
-	Thu, 14 Aug 2025 13:30:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAF48301498;
+	Thu, 14 Aug 2025 13:48:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755178209; cv=none; b=UI783B67meCSINBPTtIJqWcWeTFTyN19kt0ODTpUqoLQpOj+TF4IDPhJgg0wx2GM1p/UrxxgJZPVppWJiV3GOmt+RC+umAKA+Bnq51cUY7Ce23m3VaDFdkespI4k13bqcikVHwokQQ26RYJn4nuMI1cszUp/uWRLUKzLSAaSsMo=
+	t=1755179289; cv=none; b=rTb5V07GBWZngK/qCP0C9WgsTwe6o0sQmZsLzHszyi+XWUaRUt3iZrgDNx5CDbWEyYGpjizCyhYyzmh17lvpa8AgUAPiC6IxsbGiXtKa6b7hOK01QjUWE9fOs0VQc73g3sbBocreBgxU1QeergeEYDIlxQXNJl2g3wB0Rjlj+A4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755178209; c=relaxed/simple;
-	bh=mz/EB8bjGVFaTkJpTORl4PmW5zhONLp9lrpEf91GTfw=;
+	s=arc-20240116; t=1755179289; c=relaxed/simple;
+	bh=3nDch1TwnwnOFxnyGs00pASm7HAHD3urGrnQFPRpJis=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WC32oC8zIvwHBZ6vIJfjtozeAv2LVCh7nCXW5SS7VcIV/UXJ2hfYSI3hpul7KsCVGVH1h18vdZkmq04UOexiA/a4GkhBPpFvQjLOovQFRxfSYmRw6cU/gd5+a61gHXOCe0CpiAn8i4dvqGFQ/M5LZlM2PCofVpUAIhlbFxapk44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AZox5fNR; arc=none smtp.client-ip=209.85.218.45
+	 To:Cc:Content-Type; b=ISiDJqpCuCcWbMBThjKavPdFwKr82cnx7yVtYf27l4lUPZqj5bg4C7uErbDQXVNuutY9xYUK2c8GFdj95JfX0k8tEcmEm5SiM18fI2mq2z8H2nyH5rKqGTyF3+Bf+VTqVw0It7uUMRrbpe1gdApk2JeyuvLKaPjcku1MlO8+oaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SVmMjtHj; arc=none smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-afcb731caaaso130046166b.0;
-        Thu, 14 Aug 2025 06:30:06 -0700 (PDT)
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6188b5b11b2so1238311a12.0;
+        Thu, 14 Aug 2025 06:48:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755178205; x=1755783005; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1755179285; x=1755784085; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=f+sFdasJXWxfNXSbJ4iDlEiy+aB7L4ETM4G4NZ6zYjs=;
-        b=AZox5fNR5/0tZmIs8j/g+AMYwRgWJxsDnetL6YiupXF9x5h+jcqPF0VJwptsuPOlLD
-         /VsdPJLL3Mao1nfA3GfUnTVdStGJuuVKFCVGoYkj2UlGaSIF/UDegCEH0dRpbBIUrJ5Y
-         o9/l8B2rRDA7vaIfz9mvrc1HdxRulKxTxWlD3yJSZfSjplWNi+7bYmzenS3ovKk/1Xr6
-         HVcq7UkL/g6I6KvA9P/xqF+8Er+nJlwx1xnfLKLIBSPN6QjN3hMGC6cJxUnavtetGnZh
-         9aUwx5BrDX7j++6gg05+rsWtdqikbTFo0cGtLAOr3pugKazABOfDhbKA68+mHL9R4l4k
-         e8oQ==
+        bh=kknE7rDUjEpODcHDSlY2nJGg21LqzdjsCFp42JS4Ico=;
+        b=SVmMjtHjyDWUAv8RYC77foqLZ64FkzLAVO+E5YBxcj8zgauvxcJk6RQKFlux1yLNP3
+         3f8HP4YvicdbqH91iKsn5YwEc/Faeoq8bMx9a4nQVr0R1TqBvK7ixdfK8UNiQB1YXv99
+         +24TYdIYlFoamRmOz44EZEBIq3rMS3LRQ1PlqRzBUR2ekMDCG5M7X3VoCvLejlYC8xDF
+         xLlHn1ESboMXuSUZsbpJOYP7eu65BRT5rJdCXn5jCNPAOao3AaXUUFlojJcc12OxvV7H
+         Bdj8/FiIZdn17RsylTeCamTst6WBS6+HDdp6dfOIiRGoRv7plTGlO4lNY/ooVDbO94uy
+         rtNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755178205; x=1755783005;
+        d=1e100.net; s=20230601; t=1755179285; x=1755784085;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=f+sFdasJXWxfNXSbJ4iDlEiy+aB7L4ETM4G4NZ6zYjs=;
-        b=ucYduGJtgKecUUB36xLGEwfcqqVv9SE+AObZEZBCB2qAQqVrOr0tAjtrW3AmqOnkSN
-         nOvWkdVuF5eC85Hw1IRzsQmftWq3ykpeoJcOiuxSJyJ7i1hzgk1BFt+UMrRGKBbXVXIx
-         4StH7W6ce21Wx/WdTjNQcZ7iaztNI9h1oS3IiK7+qt8kZ/KSK5dS7Y8SUedfObgFwxXp
-         ZFJuhlbhwIP7QRY5FQLPhE/gdLWpJ8uK5JyAkZt2laj2Nd/+ByDG7O+0muHj+Na/Ejru
-         bFcx04M+xLOmrmBFikFVvuBn44FKahlf6h3tCiq1pSQSvqURkZ2I0nDY4pAEkFS6I65c
-         hFrg==
-X-Forwarded-Encrypted: i=1; AJvYcCUXp2ANsqI7fxYjP4wJVGbXjBi060kNOf5bmSQzFUtzKTemB5RXUMJrCB8MS1R8RIp/WbrVlZDTYXQo@vger.kernel.org, AJvYcCUqxar0cHdeGBl4QymeG2V4hU4GBYZAerpGunWb5ngYh0LnoqrxBMhvLvcz2EQqQfd2ZApSptPzboZs@vger.kernel.org, AJvYcCUs/5kQpbJ0oinGSDm8YHNIS3EJaeguMyCTLXdJxeC9vKIVDqrRZeWhvTO1avBqtDOxXJ8JTSslKZSj@vger.kernel.org, AJvYcCVxOyKBQiumJjz5Fb8hAMl19sEuqQQ8PAJP2yvmjxBKL/AOtZRtRByJ4qpwT4xKB6RXf7jo3eJoJFw=@vger.kernel.org, AJvYcCWak/ycvrvJgYxP0NHvx3tmZrs14fs+AHThT+hSoZd0UbHus7ggnDbUsqjUaQjffPNIhkVw0xnBxKJ25ODjwQ==@vger.kernel.org, AJvYcCXBmCaidTSUaUSq+9rNpqBvYR1s1uvMfvhDMGn+BmK+yqOVULwPJPpnZptztmm487oynqk2WOQaEDIu3mqIiw==@vger.kernel.org, AJvYcCXPaZoc/bcUqr7q0e8WuR/aka8RSOXjscatSuB+1rLt9su0BEAn7Y8X2yrnMlvRPDCvdqrTAyulOq6hqa5c@vger.kernel.org, AJvYcCXYC7CLSH3BA+N+hsIf+wWSf+JX5gg4Zmio0djUvILhe0h4J8x57T6QUXGJRYlz6SF1Y47xb9zTXI4ELA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YythCt3qHCVAsEhRo0PIoZIOA07lFakJKlnd7sOX96ohnj1ZZeR
-	p2fMRFAs8v8VWJUDd7FOOeEFWOmhIOZcheAKwErtuVVDUUYs8Ilu88Ew55yjHTMAf2tLF4zOHEv
-	PngJ5Gh17ksQEBsDdA7TX4CaJAcf57GE=
-X-Gm-Gg: ASbGncvBmWRnWTFLfW+mP7dn871NYXl4+ma1fPWB17e2JuydWz5kvSdVyux4w2m2uFr
-	TZUyWPs7gN9A2/TKO0cW/NF9WxzEr3CN4dlzeJp7xhxaM0R/UI3MwIPokRkpIkY2UxB3zAx3Y/k
-	BLFcbPRm2YyFsRVZ8hkJzg4gb9uHyDz8qMe27pGZOQiDkdR02nATlJ2GozyvOtywGFMUaF6sBYE
-	N/FQVY=
-X-Google-Smtp-Source: AGHT+IF84TnvlblMj92h1a2Bo7TYhB47u4luhSDqElmXWYB8ydmWjP6VQfTOERhCfol8XKnqfmbc3XrMKYns1uVE0xg=
-X-Received: by 2002:a17:907:608b:b0:af9:6e2b:f30c with SMTP id
- a640c23a62f3a-afcb986ae60mr289124166b.34.1755178204916; Thu, 14 Aug 2025
- 06:30:04 -0700 (PDT)
+        bh=kknE7rDUjEpODcHDSlY2nJGg21LqzdjsCFp42JS4Ico=;
+        b=SPVIOlOPdCjDSEM/Ppi851QV7x6H7Rrdcj9Z7+nxnfwRi5lrriGZ10ply2ppexLA9E
+         OJutZ01AUg87uKyVwSNzf9VmQAQGewuj4zGHcSylYbqtJ9RC6Gw6H9yYxnDyHpghRhSx
+         /yuAdPfLZdTThdE7iBDtXdryOHumP7zHnUMwZ1dV61uKaK4/CpCQKZys9ocjZLu2HA5p
+         WBCPLdADBFCPSbNQwpqMfk/9sunTZCSpAu5T08gMWjjtWi7M3QJMgDKxhWfmEW974aLn
+         YFlFc8jzZjEPOd4qK7KKxUcglNOBL/4bs6gkfWELJoTewbYtpAanVi5ZbaWO5kfLSguT
+         a6Mg==
+X-Forwarded-Encrypted: i=1; AJvYcCUPPd1yk+8bkQrdGZayvR3aO78+O39btGP4Hg/Vu1+zg9fvek6R30uUMbHgI0Xzm/maRVLIFTbJA44FiBCJhg==@vger.kernel.org, AJvYcCVGOth4jlR3SQK+ZjfZSmXur7Z0B7o+yLMBEt8s7LC5RBhboqwWeU8iZesqAm9zEnU3/t3VOXJc0962@vger.kernel.org, AJvYcCVjuTGjcKpOuYDJ+gJwWPVw1c5ceo70617t82C6UtPyiwjyz9FpDUMnVPtWkrdFSXeSQt2sQ63QfetI@vger.kernel.org, AJvYcCVw87kqUXv8fkx7nEoilm+uwX5s2QVqNhQwS+FOdRA0nS2w2X6R3vRsL5dHarFu6Key81Uq7HjJgiP4+LM2bA==@vger.kernel.org, AJvYcCW4YVL5ezYSSVLmHS7BA9ubQHEnKVVdNceS8VycGNlj4W8XNSygxfo+BTnmFlC4kSM9DD/vPYcdcdVfXNpW@vger.kernel.org, AJvYcCWK+onlHzVxCAewGSF1hJjxiow87uTEGD0HfXpY41jEkD295G0NE6+y/fckuTvoYh4cMgnFjJ6EIOM=@vger.kernel.org, AJvYcCWrlqX8T5H4KCYH05jz+USPJ/2B6g6X+3LKDD8Wgpl5HPtX0FqJyZer/JW286eHzJkIY30GLGqeA7aM@vger.kernel.org, AJvYcCXD0cTu8rngZ1WDlNbtJjQe7YY7IYOl4P9e6IV5cK9E+jORsKjKH0DpkI07YMSJwA9xnDSIwPRiW41PIA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyOjWpIxv9ccUFwMoKZLhoC0Wrop8ActjLNQpy8P6UM47aYKfLK
+	ZX3rLpUvYlfSrO0yECTO1djyptq42TM9UEHWhiwT5EDzrlVXzB7UCMFSAipPGnhR0p9KMsCvT0n
+	Xx76BT5aGZhJ/gcvO8cdwDrnfYle1pdU=
+X-Gm-Gg: ASbGncsJF2IVjEnva+sKKHYhcBv4pR0ab5eZJxUvkm6Cg+LoHAcOh39ibttib2NILjZ
+	oKWxN4AR1fbjptTI2L2ZCrdYHavCnuhgbH6eoWrdJ/TPgIjkKGZVHp9yK07lW0hlMJCkSYstbOl
+	7A8VrOP6a1OFohWsFoHGJ5upHMu9Zawow2AgoKx424V5ZfqiMnf9hNzwsvxUO5KXzgTzIgsgF/w
+	Ev3Ceo=
+X-Google-Smtp-Source: AGHT+IEyNlWqeAhk/LpScYt9w4g0zV4KI7o0RDFgyEsYgfPOIWzZIEz6LWnNRfl0s84eTTaO2QcDUYXHT6IzkeoX6zs=
+X-Received: by 2002:a05:6402:348e:b0:617:b2ab:fba2 with SMTP id
+ 4fb4d7f45d1cf-6188c1f81c9mr2881340a12.34.1755179284840; Thu, 14 Aug 2025
+ 06:48:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAOQ4uxhU12U8g_EYkUyc4Jdpzjy3hT1hZYB0L1THwvTsti8mTw@mail.gmail.com>
- <175513400457.2234665.11514455496974675927@noble.neil.brown.name>
-In-Reply-To: <175513400457.2234665.11514455496974675927@noble.neil.brown.name>
+References: <20250813065333.GG222315@ZenIV> <175513726277.2234665.5395852687971371437@noble.neil.brown.name>
+In-Reply-To: <175513726277.2234665.5395852687971371437@noble.neil.brown.name>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 14 Aug 2025 15:29:53 +0200
-X-Gm-Features: Ac12FXxaF_DShrx33OMj2V-_0xjYwSUw8hYkyRK9A3TCkQqo54t8CoTIX4YaDII
-Message-ID: <CAOQ4uxg0K8s=dB6rG19bwj6bamsUOY7mRNhhg2ES-Y1CK7+3OA@mail.gmail.com>
-Subject: Re: [PATCH 07/11] VFS: Change vfs_mkdir() to unlock on failure.
+Date: Thu, 14 Aug 2025 15:47:53 +0200
+X-Gm-Features: Ac12FXwtQAorrE4W3bWM28WxLsn_dOcgt6iMm2QuEDqDEmfUynv58IGzMVEJihs
+Message-ID: <CAOQ4uxjOvsfV7o5Mnn_VBKYCR15FkmQBDASvwq0UQKPwxh1H2g@mail.gmail.com>
+Subject: Re: [PATCH 11/11] VFS: introduce d_alloc_noblock() and d_alloc_locked()
 To: NeilBrown <neil@brown.name>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+Cc: Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
 	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
 	Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>, Tyler Hicks <code@tyhicks.com>, 
 	Miklos Szeredi <miklos@szeredi.hu>, Richard Weinberger <richard@nod.at>, 
@@ -101,244 +100,97 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 14, 2025 at 3:13=E2=80=AFAM NeilBrown <neil@brown.name> wrote:
+On Thu, Aug 14, 2025 at 4:08=E2=80=AFAM NeilBrown <neil@brown.name> wrote:
 >
-> On Wed, 13 Aug 2025, Amir Goldstein wrote:
-> > On Wed, Aug 13, 2025 at 1:53=E2=80=AFAM NeilBrown <neil@brown.name> wro=
-te:
-> > >
-> > > Proposed changes to directory-op locking will lock the dentry rather
-> > > than the whole directory.  So the dentry will need to be unlocked.
-> > >
-> > > vfs_mkdir() consumes the dentry on error, so there will be no dentry =
-to
-> > > be unlocked.
-> >
-> > Why does it need to consume the dentry on error?
->
-> Because when the recent change was made to have vfs_mkdir() and ->mkdir
-> handling the fact that the passed-in denty might not be used, that was
-> the interface that was deemed to be best of all that were considered.
->
->
-> > Why can't it leave the state as is on error and let the caller handle
-> > its own cleanup?
->
-> There are three possible results from vfs_mkdir()
->  - the dentry that was passed in has been instantiated
->  - a different dentry was already attached to the inode, and it has been
->    splice in to the given name
->  - there was an error.
->
-> In the second case it seems easiest to dput() the original dentry as it
-> is no longer interesting and that saves the caller from having the test
-> and maybe dput() - all callers would need identical handling.
-> It seemed most consistent to always dput() the passed-in dentry if it
-> wasn't returned.
-> >
-> > >
-> > > So this patch changes vfs_mkdir() to unlock on error as well as
-> > > releasing the dentry.  This requires various other functions in vario=
-us
-> > > callers to also unlock on error - particularly in nfsd and overlayfs.
-> > >
-> > > At present this results in some clumsy code.  Once the transition to
-> > > dentry locking is complete the clumsiness will be gone.
-> > >
-> > > Callers of vfs_mkdir() in ecrypytfs, nfsd, xfs, cachefiles, and
-> > > overlayfs are changed to make the new behaviour.
-> >
-> > I will let Al do the vfs review of this and will speak up on behalf of
-> > the vfs users of the API
-> >
-> > One problem with a change like this - subtle change to semantics
-> > with no function prototype change is that it is a "backporting land min=
-e"
-> > both AUTOSEL and human can easily not be aware of the subtle
-> > semantic change in a future time when a fix is being backported
-> > across this semantic change.
-> >
-> > Now there was a prototype change in c54b386969a5 ("VFS: Change
-> > vfs_mkdir() to return the dentry.") in v6.15 not long ago, so (big) if =
-this
-> > semantic change (or the one that follows it) both get into the 2025 LTS
-> > kernel, we are in less of a problem, but if they don't, it's kind of a =
-big
-> > problem for the stability of those subsystems in LTS kernels IMO -
-> > not being able to use "cleanly applies and build" as an indication to
-> > "likelihood of a correct backport".
->
-> Renaming to vfs_mkdir2() might be justified.  I think we have to change
-> the interface somehow to enable per-dentry locking, and I don't think a
-> signature change would be justified.  So maybe a name change is needed.
-
-Fine by me. as long as we avoid the risk of hidden backport traps.
-
-> >
-> > and now onto review of ovl code...
-> >
-> > > diff --git a/fs/overlayfs/dir.c b/fs/overlayfs/dir.c
-> > > index 70b8687dc45e..24f7e28b9a4f 100644
-> > > --- a/fs/overlayfs/dir.c
-> > > +++ b/fs/overlayfs/dir.c
-> > > @@ -162,14 +162,18 @@ int ovl_cleanup_and_whiteout(struct ovl_fs *ofs=
-, struct dentry *dir,
-> > >         goto out;
-> > >  }
-> > >
-> > > +/* dir will be unlocked on return */
-> > >  struct dentry *ovl_create_real(struct ovl_fs *ofs, struct dentry *pa=
-rent,
-> > > -                              struct dentry *newdentry, struct ovl_c=
-attr *attr)
-> > > +                              struct dentry *newdentry_arg, struct o=
-vl_cattr *attr)
-> > >  {
-> > >         struct inode *dir =3D parent->d_inode;
-> > > +       struct dentry *newdentry __free(dentry_lookup) =3D newdentry_=
-arg;
-> > >         int err;
-> > >
-> > > -       if (IS_ERR(newdentry))
-> > > +       if (IS_ERR(newdentry)) {
-> > > +               inode_unlock(dir);
-> > >                 return newdentry;
-> > > +       }
-> > >
-> > >         err =3D -ESTALE;
-> > >         if (newdentry->d_inode)
-> > > @@ -213,12 +217,9 @@ struct dentry *ovl_create_real(struct ovl_fs *of=
-s, struct dentry *parent,
-> > >                 err =3D -EIO;
-> > >         }
-> > >  out:
-> > > -       if (err) {
-> > > -               if (!IS_ERR(newdentry))
-> > > -                       dput(newdentry);
-> > > +       if (err)
-> > >                 return ERR_PTR(err);
-> > > -       }
-> > > -       return newdentry;
-> > > +       return dget(newdentry);
-> > >  }
-> > >
-> > >  struct dentry *ovl_create_temp(struct ovl_fs *ofs, struct dentry *wo=
-rkdir,
-> > > @@ -228,7 +229,6 @@ struct dentry *ovl_create_temp(struct ovl_fs *ofs=
-, struct dentry *workdir,
-> > >         inode_lock(workdir->d_inode);
-> > >         ret =3D ovl_create_real(ofs, workdir,
-> > >                               ovl_lookup_temp(ofs, workdir), attr);
-> > > -       inode_unlock(workdir->d_inode);
-> >
-> > Things like that putting local code out of balance make my life as
-> > maintainer very hard.
->
-> I understand.  By the end of the change this is no longer unbalanced.
-> Keeping the code perfect at each step while making each step coherent
-> enough to be reviewed is a challenge.
->
-
-I am not sure when "by the end of the change" is going to land
-but I do not feel comfortable leaving the ovl code in a hard to
-maintain state.
-
->
-> >
-> > I prefer that you leave the explicit dir unlock in the callers until th=
-e time
-> > that you change the create() API not require holding the dir lock.
-> >
-> > I don't even understand how you changed the call semantics to an ovl
-> > function that creates a directory or non-directory when your patch only
-> > changes mkdir semantics, but I don't want to know, because even if this
-> > works and I cannot easily understand how, then I do not want the confus=
+> On Wed, 13 Aug 2025, Al Viro wrote:
+> > On Tue, Aug 12, 2025 at 12:25:14PM +1000, NeilBrown wrote:
+> > > Several filesystems use the results of readdir to prime the dcache.
+> > > These filesystems use d_alloc_parallel() which can block if there is =
+a
+> > > concurrent lookup.  Blocking in that case is pointless as the lookup
+> > > will add info to the dcache and there is no value in the readdir wait=
 ing
-> > semantics in ovl code.
+> > > to see if it should add the info too.
+> > >
+> > > Also these calls to d_alloc_parallel() are made while the parent
+> > > directory is locked.  A proposed change to locking will lock the pare=
+nt
+> > > later, after d_alloc_parallel().  This means it won't be safe to wait=
+ in
+> > > d_alloc_parallel() while holding the directory lock.
+> > >
+> > > So this patch introduces d_alloc_noblock() which doesn't block
+> > > but instead returns ERR_PTR(-EWOULDBLOCK).  Filesystems that prime th=
+e
+> > > dcache now use that and ignore -EWOULDBLOCK errors as harmless.
+> > >
+> > > A few filesystems need more than -EWOULDBLOCK - they need to be able =
+to
+> > > create the missing dentry within the readdir.  procfs is a good examp=
+le
+> > > as the inode number is not known until the lookup completes, so readd=
+ir
+> > > must perform a full lookup.
+> > >
+> > > For these filesystems d_alloc_locked() is provided.  It will return a
+> > > dentry which is already d_in_lookup() but will also lock it against
+> > > concurrent lookup.  The filesystem's ->lookup function must co-operat=
+e
+> > > by calling lock_lookup() before proceeding with the lookup.  This way=
+ we
+> > > can ensure exclusion between a lookup performed in ->iterate_shared a=
+nd
+> > > a lookup performed in ->lookup.  Currently this exclusion is provided=
+ by
+> > > waiting in d_wait_lookup().  The proposed changed to dir locking will
+> > > mean that calling d_wait_lookup() (in readdir) while already holding
+> > > i_rwsem could deadlock.
 > >
-> > I think you should be able to scope ovl_lookup_temp() with
-> > dentry_lookup*() { } done_dentry_lookup() and use whichever semantics
-> > you like about dir lock inside the helpers, as long as ovl code looks a=
-nd feels
-> > balanced.
-> >
-> > >         return ret;
-> > >  }
-> > >
-> > > @@ -336,7 +336,6 @@ static int ovl_create_upper(struct dentry *dentry=
-, struct inode *inode,
-> > >                                     ovl_lookup_upper(ofs, dentry->d_n=
-ame.name,
-> > >                                                      upperdir, dentry=
-->d_name.len),
-> > >                                     attr);
-> > > -       inode_unlock(udir);
-> > >         if (IS_ERR(newdentry))
-> > >                 return PTR_ERR(newdentry);
-> > >
-> > > diff --git a/fs/overlayfs/overlayfs.h b/fs/overlayfs/overlayfs.h
-> > > index 4f84abaa0d68..238c26142318 100644
-> > > --- a/fs/overlayfs/overlayfs.h
-> > > +++ b/fs/overlayfs/overlayfs.h
-> > > @@ -250,6 +250,7 @@ static inline struct dentry *ovl_do_mkdir(struct =
-ovl_fs *ofs,
-> > >
-> > >         ret =3D vfs_mkdir(ovl_upper_mnt_idmap(ofs), dir, dentry, mode=
-);
-> > >         pr_debug("mkdir(%pd2, 0%o) =3D %i\n", dentry, mode, PTR_ERR_O=
-R_ZERO(ret));
-> > > +       /* Note: dir will have been unlocked on failure */
-> > >         return ret;
-> > >  }
-> > >
-> > > diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
-> > > index df85a76597e9..5a4b0a05139c 100644
-> > > --- a/fs/overlayfs/super.c
-> > > +++ b/fs/overlayfs/super.c
-> > > @@ -328,11 +328,13 @@ static struct dentry *ovl_workdir_create(struct=
- ovl_fs *ofs,
-> > >                 }
-> > >
-> > >                 work =3D ovl_do_mkdir(ofs, dir, work, attr.ia_mode);
-> > > -               inode_unlock(dir);
-> > >                 err =3D PTR_ERR(work);
-> > >                 if (IS_ERR(work))
-> > >                         goto out_err;
-> > >
-> > > +               dget(work); /* Need to return this */
-> > > +
-> > > +               done_dentry_lookup(work);
-> >
-> > Another weird example.
-> > I would expect that dentry_lookup*()/done_dentry_lookup()
-> > would be introduced to users in the same commit, so the code
-> > always remains balanced.
-> >
-> > All in all, I think you should drop this patch from the series altogeth=
-er
-> > and drop dir unlock from callers only later after they have been
-> > converted to use the new API.
-> >
-> > Am I misunderstanding something that prevents you from doing that?
+> > The last one is playing fast and loose with one assertion that is used
+> > in quite a few places in correctness proofs - that the only thing other
+> > threads do to in-lookup dentries is waiting on them (and that - only
+> > in d_wait_lookup()).  I can't tell whether it will be a problem without
+> > seeing what you do in the users of that thing, but that creates an
+> > unpleasant areas to watch out for in the future ;-/
 >
-> I think I tried delaying the vfs_mkdir() change and stumbled.
-> The problem involved done_path_create(). e.g. dev_mkdir() calls
->   kern_path_create()
->   vfs_mkdir()
->   done_path_create()
+> Yeah, it's not my favourite part of the series.
 >
-> Changing semantics of vfs_mkdir() necessitated a corresponding change in
-> done_path_create() and doing that necessitated prep elsewhere.
-> init_mkdir and ksmbd_vfs_mkdir follow the same pattern.
+> >
+> > Which filesystems are those, aside of procfs?
+> >
 >
-> Maybe I could temporarily introduce a done_path_create_mkdir() for
-> those.
+> afs in afs_lookup_atsys().  While looking up a name that ends "@sys" it
+> need to look up the prefix with various alternate suffixes appended.
+> So this isn't readdir related, but is a lookup-within-a-lookup.
+>
+> The use of d_add_ci() in xfs is the same basic pattern.
+>
+> overlayfs does something in ovl_lookup_real_one() that I don't
+> understand yet but it seems to need a lookup while the directory is
+> locked.
+
+We decoded a connected real directory path (from file handle) and we
+are trying to lookup in overlay a directory that is referencing the
+underlying real dir that we decoded.
+
+This is the context. Not sure what problem exactly this code gives you.
+
+>
+> ovl_cache_update is in the ovl iterate_shared code (which in fact holds
+> an exclusive lock).  I think this is the same pattern as procfs in that
+> an inode number needs to be allocated at lookup time, but there might be
+> more too it.
 >
 
-Can't say I went to check what all this means, but introducing
-temporary helpers as scaffolding along the way and removing them
-later is perfectly fine by me as far as the ovl code is concerned as
-long as ovl code remains readable and well balanced.
+It's kind of a hack I guess.
+ovl has those rules (see xino) to compose a consistent inode number
+from real inode number and layer number.
+lookup of children during readdir composes the child stack to realize
+the consistent xino.
+
+We could do this internally in ovl by doing lookups on the real layers
+and composing the xino, but calling lookup on ovl during readdir was
+so much easier :/
 
 Thanks,
 Amir.
