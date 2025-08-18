@@ -1,89 +1,89 @@
-Return-Path: <ecryptfs+bounces-405-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-406-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 160C5B26819
-	for <lists+ecryptfs@lfdr.de>; Thu, 14 Aug 2025 15:53:42 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B9DEB2A1CD
+	for <lists+ecryptfs@lfdr.de>; Mon, 18 Aug 2025 14:40:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 739A1560CAC
-	for <lists+ecryptfs@lfdr.de>; Thu, 14 Aug 2025 13:48:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 215C95E7E6B
+	for <lists+ecryptfs@lfdr.de>; Mon, 18 Aug 2025 12:40:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF3673002D8;
-	Thu, 14 Aug 2025 13:48:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83E9931CA53;
+	Mon, 18 Aug 2025 12:39:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SVmMjtHj"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JCkg6G/d"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAF48301498;
-	Thu, 14 Aug 2025 13:48:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 940D731B11D;
+	Mon, 18 Aug 2025 12:39:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755179289; cv=none; b=rTb5V07GBWZngK/qCP0C9WgsTwe6o0sQmZsLzHszyi+XWUaRUt3iZrgDNx5CDbWEyYGpjizCyhYyzmh17lvpa8AgUAPiC6IxsbGiXtKa6b7hOK01QjUWE9fOs0VQc73g3sbBocreBgxU1QeergeEYDIlxQXNJl2g3wB0Rjlj+A4=
+	t=1755520776; cv=none; b=VZeojTLQ/+sA6/jMY9TsyljqdVf411zhKbty/KdNOXaaIUDXFopuPIryp1qdNN09/aMunrA0W1gltvuWIPSg48RIJa6H5ewOLkHIIqfJyrRgAeKgUgfOIFG8XBQVczdc6MNsyXoapZjO09Emphx4PGKSWferBkKXZU5XMhzGgcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755179289; c=relaxed/simple;
-	bh=3nDch1TwnwnOFxnyGs00pASm7HAHD3urGrnQFPRpJis=;
+	s=arc-20240116; t=1755520776; c=relaxed/simple;
+	bh=iRiQFMBV+DKdPhtateZaMw71WRCGXS+1o0qcYMlsaNw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ISiDJqpCuCcWbMBThjKavPdFwKr82cnx7yVtYf27l4lUPZqj5bg4C7uErbDQXVNuutY9xYUK2c8GFdj95JfX0k8tEcmEm5SiM18fI2mq2z8H2nyH5rKqGTyF3+Bf+VTqVw0It7uUMRrbpe1gdApk2JeyuvLKaPjcku1MlO8+oaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SVmMjtHj; arc=none smtp.client-ip=209.85.208.41
+	 To:Cc:Content-Type; b=BA/AuoVy7T1bDJcoXnCcE0sq46g/D68UrXpWiFGoFLeLKPR1hz4YxV5egp7PtAvV/pJrMGSrCuH1WnkzCg0fGnlvTTdGnL3Yt5kl/SGyyK0izEQvAe3BtwXrrdAkL4pZvpMSfkTIGeaF3se3zmzpNJQT7Xwd8cQ/BYd3CxgLodk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JCkg6G/d; arc=none smtp.client-ip=209.85.208.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6188b5b11b2so1238311a12.0;
-        Thu, 14 Aug 2025 06:48:06 -0700 (PDT)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6188b73bef3so7369849a12.3;
+        Mon, 18 Aug 2025 05:39:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755179285; x=1755784085; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1755520773; x=1756125573; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kknE7rDUjEpODcHDSlY2nJGg21LqzdjsCFp42JS4Ico=;
-        b=SVmMjtHjyDWUAv8RYC77foqLZ64FkzLAVO+E5YBxcj8zgauvxcJk6RQKFlux1yLNP3
-         3f8HP4YvicdbqH91iKsn5YwEc/Faeoq8bMx9a4nQVr0R1TqBvK7ixdfK8UNiQB1YXv99
-         +24TYdIYlFoamRmOz44EZEBIq3rMS3LRQ1PlqRzBUR2ekMDCG5M7X3VoCvLejlYC8xDF
-         xLlHn1ESboMXuSUZsbpJOYP7eu65BRT5rJdCXn5jCNPAOao3AaXUUFlojJcc12OxvV7H
-         Bdj8/FiIZdn17RsylTeCamTst6WBS6+HDdp6dfOIiRGoRv7plTGlO4lNY/ooVDbO94uy
-         rtNg==
+        bh=Ubbjo8h4cvXI+kpbxgHKGsgNRSO5oS6kJQNOdicLg+U=;
+        b=JCkg6G/dEzZAyztvOMPrbTJUURh1ZfaJwZJvoJFNYb1IhakyprOGSklKUBjfkUiDRz
+         ZLxndigssEOiOXVJkEE1SO7jA/Q83wH27/mduR/zIQqBoDewr8m7XnV4lTiwEvW1l6kH
+         YG+W7RkxeuB5QgMdG7wdLpt+k8XQld/5LSTqYqxCLsKsTT2nlMAvZKlVKxLKiJNZpW/M
+         Cm7Xmf58QxLWGb8fxjDaQznds6deqC3AXmsuappwZg3OhtDLpUfyb80Wvf2hNy0ru774
+         6c7sPpDfl5dYsK1/OzTWPs/Fz83B2fvy2vieXvlhLsrmPdkASen6klQoAQd7jS9buzIT
+         bKYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755179285; x=1755784085;
+        d=1e100.net; s=20230601; t=1755520773; x=1756125573;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kknE7rDUjEpODcHDSlY2nJGg21LqzdjsCFp42JS4Ico=;
-        b=SPVIOlOPdCjDSEM/Ppi851QV7x6H7Rrdcj9Z7+nxnfwRi5lrriGZ10ply2ppexLA9E
-         OJutZ01AUg87uKyVwSNzf9VmQAQGewuj4zGHcSylYbqtJ9RC6Gw6H9yYxnDyHpghRhSx
-         /yuAdPfLZdTThdE7iBDtXdryOHumP7zHnUMwZ1dV61uKaK4/CpCQKZys9ocjZLu2HA5p
-         WBCPLdADBFCPSbNQwpqMfk/9sunTZCSpAu5T08gMWjjtWi7M3QJMgDKxhWfmEW974aLn
-         YFlFc8jzZjEPOd4qK7KKxUcglNOBL/4bs6gkfWELJoTewbYtpAanVi5ZbaWO5kfLSguT
-         a6Mg==
-X-Forwarded-Encrypted: i=1; AJvYcCUPPd1yk+8bkQrdGZayvR3aO78+O39btGP4Hg/Vu1+zg9fvek6R30uUMbHgI0Xzm/maRVLIFTbJA44FiBCJhg==@vger.kernel.org, AJvYcCVGOth4jlR3SQK+ZjfZSmXur7Z0B7o+yLMBEt8s7LC5RBhboqwWeU8iZesqAm9zEnU3/t3VOXJc0962@vger.kernel.org, AJvYcCVjuTGjcKpOuYDJ+gJwWPVw1c5ceo70617t82C6UtPyiwjyz9FpDUMnVPtWkrdFSXeSQt2sQ63QfetI@vger.kernel.org, AJvYcCVw87kqUXv8fkx7nEoilm+uwX5s2QVqNhQwS+FOdRA0nS2w2X6R3vRsL5dHarFu6Key81Uq7HjJgiP4+LM2bA==@vger.kernel.org, AJvYcCW4YVL5ezYSSVLmHS7BA9ubQHEnKVVdNceS8VycGNlj4W8XNSygxfo+BTnmFlC4kSM9DD/vPYcdcdVfXNpW@vger.kernel.org, AJvYcCWK+onlHzVxCAewGSF1hJjxiow87uTEGD0HfXpY41jEkD295G0NE6+y/fckuTvoYh4cMgnFjJ6EIOM=@vger.kernel.org, AJvYcCWrlqX8T5H4KCYH05jz+USPJ/2B6g6X+3LKDD8Wgpl5HPtX0FqJyZer/JW286eHzJkIY30GLGqeA7aM@vger.kernel.org, AJvYcCXD0cTu8rngZ1WDlNbtJjQe7YY7IYOl4P9e6IV5cK9E+jORsKjKH0DpkI07YMSJwA9xnDSIwPRiW41PIA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyOjWpIxv9ccUFwMoKZLhoC0Wrop8ActjLNQpy8P6UM47aYKfLK
-	ZX3rLpUvYlfSrO0yECTO1djyptq42TM9UEHWhiwT5EDzrlVXzB7UCMFSAipPGnhR0p9KMsCvT0n
-	Xx76BT5aGZhJ/gcvO8cdwDrnfYle1pdU=
-X-Gm-Gg: ASbGncsJF2IVjEnva+sKKHYhcBv4pR0ab5eZJxUvkm6Cg+LoHAcOh39ibttib2NILjZ
-	oKWxN4AR1fbjptTI2L2ZCrdYHavCnuhgbH6eoWrdJ/TPgIjkKGZVHp9yK07lW0hlMJCkSYstbOl
-	7A8VrOP6a1OFohWsFoHGJ5upHMu9Zawow2AgoKx424V5ZfqiMnf9hNzwsvxUO5KXzgTzIgsgF/w
-	Ev3Ceo=
-X-Google-Smtp-Source: AGHT+IEyNlWqeAhk/LpScYt9w4g0zV4KI7o0RDFgyEsYgfPOIWzZIEz6LWnNRfl0s84eTTaO2QcDUYXHT6IzkeoX6zs=
-X-Received: by 2002:a05:6402:348e:b0:617:b2ab:fba2 with SMTP id
- 4fb4d7f45d1cf-6188c1f81c9mr2881340a12.34.1755179284840; Thu, 14 Aug 2025
- 06:48:04 -0700 (PDT)
+        bh=Ubbjo8h4cvXI+kpbxgHKGsgNRSO5oS6kJQNOdicLg+U=;
+        b=Ml2paIi0BRiZidRnxAFMA29PlPUhRC2Pjf3myF4lAcGAvpi74r9XundLc3oKE4vTo+
+         5iiPVSH/BOjTGXfKmzWbt6tSmC7ROgBuWL7/IJc5Bt4esHWT9G1osAvMHmP5aPjv33lU
+         xTJHKjxTudTJq6vcU9RChsWfkPeBvgEDArfGG+v1z5K9SIVakF4jPdtVwmXJsy6D8vUt
+         OhDpXpfZwVkg1GNHR6Yc1X/XWJeQLb1w0ndQbUd0XQ7V1cNmU3YOehZoW7loRAKB0lIU
+         ewaeHEmni6VeGtXbBzxda5xlXEmBjg3RpB76+qbPF+bNA1K+jsRW+GMbSq/WzPtjQkur
+         a/YA==
+X-Forwarded-Encrypted: i=1; AJvYcCUGH52+LRpXAuQYgtnvNZkh2xvRGBikEGYyI2kU3YZsABSYTZ8u3+P1o0KkkUJgYvVZvwF9fsw2mfSF@vger.kernel.org, AJvYcCUHzAO8Vlcbwj1aTT2OHmpiqINDYD722CRI1haOnsbMpYoXjs+jXRrPeRP9hWdb8D0k/Va1DX4SuXE=@vger.kernel.org, AJvYcCUbO0DM9dONilK5jCRh/k+10NLexU9h8QGx7OTYkyuf1o9pZqfSuH1to7R4qVbMRarBXNu2KqeaUH7KOtQ57Q==@vger.kernel.org, AJvYcCVJIo6t8ftsTupNlRWC1VpqeDOyhWwvKNXksIj+IvLPTLfHHXAFTVLkNmjBBYdXNjCMELV/OQjTPuFpE0Lh@vger.kernel.org, AJvYcCVehUBlbpVCzwLALZh1Zc8m6BMjqxdxleqW01NiN086UgIUJKkXcdwhcz+CIHklfIcKTntiEZK7IVEd@vger.kernel.org, AJvYcCWKgkWcC5I/qRD+EVGTTQChe8UW1440sD+MogJqkALxV09CwbmuVL0LQ1GdM1Mziz1MSRtSizZ0NPHoc+6akQ==@vger.kernel.org, AJvYcCWmuqJIVhdHseERtcLDubnOqNoa7mm9SaIysp7mDCkOyJC3ftjuzcccXfqXkV14Oumea2Pb84zT2QiM@vger.kernel.org, AJvYcCX/f/0UMtL3kYMtTv9NLfSzy+RljlR0bk9EP1aTfImiSfY6lRnEvnnuVvZTH16Zn7azJpiUFa0lGbuPZQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxnE4h9ZL8/PjdHeccvqkKQyTZymbijRnJEG8letTMeYXuN+rVk
+	Ea58tGhbbbBuKInNh6mYWWTiCK/sponVjvt4y/8Q2lJORImSHP4t9MYTYMZXBfVnnzb8hInyd3Z
+	hA5Txoc2oDndm6eJj2lNU8J9VX9sH+TzDHxTQoMHKIQ==
+X-Gm-Gg: ASbGnctF7TubNPR8nXjABLwAbAovoikkJJWyA2KxcojMSOmbXvqweSrxDkZ0z8WdyZO
+	hS7gmDYDrbMKsh3Lm+4g7hG/8fh3OQVpBJYJi+EOgspVXLlNS+9zcSFMfuh6tUnSUC3ReVBou4w
+	pPZtiBxVLIqvrnCLZ31DbopEaU4czkD9UadP8R8V45Bdv7U1uUdJUy6ZJe+S5rTT8+d+24bjL9x
+	7Sxwaw=
+X-Google-Smtp-Source: AGHT+IHreI+It7iS6Rfr+brWbz70Us6HtoYs+C56L+JOM9s0ucMSXKqtnWOloo9akQbTFfs/x14TcE577HD2A1hPXyo=
+X-Received: by 2002:a05:6402:278f:b0:612:d3cf:d1e4 with SMTP id
+ 4fb4d7f45d1cf-619b707c2a0mr6715378a12.8.1755520772728; Mon, 18 Aug 2025
+ 05:39:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250813065333.GG222315@ZenIV> <175513726277.2234665.5395852687971371437@noble.neil.brown.name>
-In-Reply-To: <175513726277.2234665.5395852687971371437@noble.neil.brown.name>
+References: <20250812235228.3072318-1-neil@brown.name> <20250812235228.3072318-5-neil@brown.name>
+In-Reply-To: <20250812235228.3072318-5-neil@brown.name>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 14 Aug 2025 15:47:53 +0200
-X-Gm-Features: Ac12FXwtQAorrE4W3bWM28WxLsn_dOcgt6iMm2QuEDqDEmfUynv58IGzMVEJihs
-Message-ID: <CAOQ4uxjOvsfV7o5Mnn_VBKYCR15FkmQBDASvwq0UQKPwxh1H2g@mail.gmail.com>
-Subject: Re: [PATCH 11/11] VFS: introduce d_alloc_noblock() and d_alloc_locked()
+Date: Mon, 18 Aug 2025 14:39:21 +0200
+X-Gm-Features: Ac12FXwaOAmOjlUtH5bpB7wOuhOZPTQBUdVvt2kp3aUZBDH4-UANLHNzz7IOKqs
+Message-ID: <CAOQ4uxjFPOZe004Cv+tT=NyQg2JOY6MOYQniSjaefVcg+3s-Kg@mail.gmail.com>
+Subject: Re: [PATCH 04/11] VFS: introduce dentry_lookup_continue()
 To: NeilBrown <neil@brown.name>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
 	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
 	Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>, Tyler Hicks <code@tyhicks.com>, 
 	Miklos Szeredi <miklos@szeredi.hu>, Richard Weinberger <richard@nod.at>, 
@@ -100,97 +100,79 @@ Cc: Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, J
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 14, 2025 at 4:08=E2=80=AFAM NeilBrown <neil@brown.name> wrote:
+On Wed, Aug 13, 2025 at 1:53=E2=80=AFAM NeilBrown <neil@brown.name> wrote:
 >
-> On Wed, 13 Aug 2025, Al Viro wrote:
-> > On Tue, Aug 12, 2025 at 12:25:14PM +1000, NeilBrown wrote:
-> > > Several filesystems use the results of readdir to prime the dcache.
-> > > These filesystems use d_alloc_parallel() which can block if there is =
-a
-> > > concurrent lookup.  Blocking in that case is pointless as the lookup
-> > > will add info to the dcache and there is no value in the readdir wait=
-ing
-> > > to see if it should add the info too.
-> > >
-> > > Also these calls to d_alloc_parallel() are made while the parent
-> > > directory is locked.  A proposed change to locking will lock the pare=
-nt
-> > > later, after d_alloc_parallel().  This means it won't be safe to wait=
- in
-> > > d_alloc_parallel() while holding the directory lock.
-> > >
-> > > So this patch introduces d_alloc_noblock() which doesn't block
-> > > but instead returns ERR_PTR(-EWOULDBLOCK).  Filesystems that prime th=
-e
-> > > dcache now use that and ignore -EWOULDBLOCK errors as harmless.
-> > >
-> > > A few filesystems need more than -EWOULDBLOCK - they need to be able =
-to
-> > > create the missing dentry within the readdir.  procfs is a good examp=
-le
-> > > as the inode number is not known until the lookup completes, so readd=
-ir
-> > > must perform a full lookup.
-> > >
-> > > For these filesystems d_alloc_locked() is provided.  It will return a
-> > > dentry which is already d_in_lookup() but will also lock it against
-> > > concurrent lookup.  The filesystem's ->lookup function must co-operat=
-e
-> > > by calling lock_lookup() before proceeding with the lookup.  This way=
- we
-> > > can ensure exclusion between a lookup performed in ->iterate_shared a=
-nd
-> > > a lookup performed in ->lookup.  Currently this exclusion is provided=
- by
-> > > waiting in d_wait_lookup().  The proposed changed to dir locking will
-> > > mean that calling d_wait_lookup() (in readdir) while already holding
-> > > i_rwsem could deadlock.
-> >
-> > The last one is playing fast and loose with one assertion that is used
-> > in quite a few places in correctness proofs - that the only thing other
-> > threads do to in-lookup dentries is waiting on them (and that - only
-> > in d_wait_lookup()).  I can't tell whether it will be a problem without
-> > seeing what you do in the users of that thing, but that creates an
-> > unpleasant areas to watch out for in the future ;-/
+> A few callers operate on a dentry which they already have - unlike the
+> normal case where a lookup proceeds an operation.
 >
-> Yeah, it's not my favourite part of the series.
+> For these callers dentry_lookup_continue() is provided where other
+> callers would use dentry_lookup().  The call will fail if, after the
+> lock was gained, the child is no longer a child of the given parent.
 >
-> >
-> > Which filesystems are those, aside of procfs?
-> >
+> There are a couple of callers that want to lock a dentry in whatever
+> its current parent is.  For these a NULL parent can be passed, in which
+> case ->d_parent is used.  In this case the call cannot fail.
 >
-> afs in afs_lookup_atsys().  While looking up a name that ends "@sys" it
-> need to look up the prefix with various alternate suffixes appended.
-> So this isn't readdir related, but is a lookup-within-a-lookup.
+> The idea behind the name is that the actual lookup occurred some time
+> ago, and now we are continuing with an operation on the dentry.
 >
-> The use of d_add_ci() in xfs is the same basic pattern.
+> When the operation completes done_dentry_lookup() must be called.  An
+> extra reference is taken when the dentry_lookup_continue() call succeeds
+> and will be dropped by done_dentry_lookup().
 >
-> overlayfs does something in ovl_lookup_real_one() that I don't
-> understand yet but it seems to need a lookup while the directory is
-> locked.
+> This will be used in smb/server, ecryptfs, and overlayfs, each of which
+> have their own lock_parent() or parent_lock() or similar; and a few
+> other places which lock the parent but don't check if the parent is
+> still correct (often because rename isn't supported so parent cannot be
+> incorrect).
+>
+> Signed-off-by: NeilBrown <neil@brown.name>
+> ---
+>  fs/namei.c            | 39 +++++++++++++++++++++++++++++++++++++++
+>  include/linux/namei.h |  2 ++
+>  2 files changed, 41 insertions(+)
+>
+> diff --git a/fs/namei.c b/fs/namei.c
+> index 7af9b464886a..df21b6fa5a0e 100644
+> --- a/fs/namei.c
+> +++ b/fs/namei.c
+> @@ -1874,6 +1874,45 @@ struct dentry *dentry_lookup_killable(struct mnt_i=
+dmap *idmap,
+>  }
+>  EXPORT_SYMBOL(dentry_lookup_killable);
+>
+> +/**
+> + * dentry_lookup_continue: lock a dentry if it is still in the given par=
+ent, prior to dir ops
+> + * @child: the dentry to lock
+> + * @parent: the dentry of the assumed parent
+> + *
+> + * The child is locked - currently by taking i_rwsem on the parent - to
+> + * prepare for create/remove operations.  If the given parent is not
+> + * %NULL and is no longer the parent of the dentry after the lock is
+> + * gained, the lock is released and the call fails (returns
+> + * ERR_PTR(-EINVAL).
+> + *
+> + * On success a reference to the child is taken and returned.  The lock
+> + * and reference must both be dropped by done_dentry_lookup() after the
+> + * operation completes.
+> + */
+> +struct dentry *dentry_lookup_continue(struct dentry *child,
+> +                                     struct dentry *parent)
+> +{
+> +       struct dentry *p =3D parent;
+> +
+> +again:
+> +       if (!parent)
+> +               p =3D dget_parent(child);
+> +       inode_lock_nested(d_inode(p), I_MUTEX_PARENT);
+> +       if (child->d_parent !=3D p) {
 
-We decoded a connected real directory path (from file handle) and we
-are trying to lookup in overlay a directory that is referencing the
-underlying real dir that we decoded.
+|| d_unhashed(child))
 
-This is the context. Not sure what problem exactly this code gives you.
+;)
 
->
-> ovl_cache_update is in the ovl iterate_shared code (which in fact holds
-> an exclusive lock).  I think this is the same pattern as procfs in that
-> an inode number needs to be allocated at lookup time, but there might be
-> more too it.
->
-
-It's kind of a hack I guess.
-ovl has those rules (see xino) to compose a consistent inode number
-from real inode number and layer number.
-lookup of children during readdir composes the child stack to realize
-the consistent xino.
-
-We could do this internally in ovl by doing lookups on the real layers
-and composing the xino, but calling lookup on ovl during readdir was
-so much easier :/
+and what about silly renames? are those also d_unhashed()?
 
 Thanks,
 Amir.
