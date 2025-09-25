@@ -1,391 +1,343 @@
-Return-Path: <ecryptfs+bounces-452-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-453-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46314BA080E
-	for <lists+ecryptfs@lfdr.de>; Thu, 25 Sep 2025 17:59:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BED97BA0BEF
+	for <lists+ecryptfs@lfdr.de>; Thu, 25 Sep 2025 19:08:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E9F8417B806
-	for <lists+ecryptfs@lfdr.de>; Thu, 25 Sep 2025 15:59:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CB0161898C6F
+	for <lists+ecryptfs@lfdr.de>; Thu, 25 Sep 2025 17:08:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6600305058;
-	Thu, 25 Sep 2025 15:58:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45C0D304BA9;
+	Thu, 25 Sep 2025 17:08:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="XFlomXez";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="dq5o9ACW";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="XFlomXez";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="dq5o9ACW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y+JoObfz"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B5E305042
-	for <ecryptfs@vger.kernel.org>; Thu, 25 Sep 2025 15:58:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F67277C8F;
+	Thu, 25 Sep 2025 17:08:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758815932; cv=none; b=kjLYZngybH2YbNunlkd1ZiyLhdRKH0KS6hBj8DR+goszzwMieUYS4zfftENTG0iZY7VHBIIsNTBS3Emd5+tNf7NQBaimQBj30pvbM1RwE7Na9exb4LiUHJZYiOMr4SPREFYEJV0Gm+lHn0cV+jC4oqQ0aJs6vkncJQZqLlVPJug=
+	t=1758820095; cv=none; b=UF5pS/hbCvtcrOk9hNH6ZpEv90vusX3LqOJqwq+uZlh2W76LGV9cKgcpdAkKCHDFQ1RPCpa6oMjZsZQxHvrHD3x3zRYj9tmGjT6dIROMVAJkDRbmYSbhciMNOWA74ogxvM5RLOzZw3DD8zOVDRQ0ieTyUHVmGeURICh4Cu9eAA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758815932; c=relaxed/simple;
-	bh=GXtEq3rF3FmY4v5f5e72IKPEQI8ujYWLQv6nCmj0v5U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=am3kj11jujAZdxqBeS9zept7m+1FGBYD0srdCbOCg59mmUefzxxDZZcdhdxhySLSNX8i2wZW9ZG0XYD4231ohxq2aIDUtPznY5xEJSMMtUKim0P1LJnVqJv7G5KFMCiJskJYLBZUfCE9vXwnStO0UxuCIsRYaTM1/VCmXyrQDNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=XFlomXez; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=dq5o9ACW; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=XFlomXez; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=dq5o9ACW; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0DB223EBB1;
-	Thu, 25 Sep 2025 15:58:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1758815928; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=H7kAeq27Btf68kumqbIJpRiiXBnvJcpACUD2OM/hNzM=;
-	b=XFlomXezvgCdYhPrZPrF6PTKy2r5oyB9lm5OG2R1NC2/O/HDpat/tt8llvIWWmXnZDWLHh
-	QSHhVHkDtm7QZd4B0tIlYKpLlUl3BBSK60rstqPvp2zYy/Q0Ube4nA1G5NyRXYoNPxDLAu
-	9j8f2SoYu1i24wEoCRAF090xX0BD27A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1758815928;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=H7kAeq27Btf68kumqbIJpRiiXBnvJcpACUD2OM/hNzM=;
-	b=dq5o9ACWLdxEeLy2B9gkrTzC7PkwZxZBzZBd3y3nzp2LtCipbNc5H2zLUSHA++af77Vdr4
-	vx/Z9iIKBUXNH/CA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1758815928; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=H7kAeq27Btf68kumqbIJpRiiXBnvJcpACUD2OM/hNzM=;
-	b=XFlomXezvgCdYhPrZPrF6PTKy2r5oyB9lm5OG2R1NC2/O/HDpat/tt8llvIWWmXnZDWLHh
-	QSHhVHkDtm7QZd4B0tIlYKpLlUl3BBSK60rstqPvp2zYy/Q0Ube4nA1G5NyRXYoNPxDLAu
-	9j8f2SoYu1i24wEoCRAF090xX0BD27A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1758815928;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=H7kAeq27Btf68kumqbIJpRiiXBnvJcpACUD2OM/hNzM=;
-	b=dq5o9ACWLdxEeLy2B9gkrTzC7PkwZxZBzZBd3y3nzp2LtCipbNc5H2zLUSHA++af77Vdr4
-	vx/Z9iIKBUXNH/CA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EC1F313869;
-	Thu, 25 Sep 2025 15:58:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 86CiObdm1Wi6XQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 25 Sep 2025 15:58:47 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 8D564A0AA0; Thu, 25 Sep 2025 17:58:47 +0200 (CEST)
-Date: Thu, 25 Sep 2025 17:58:47 +0200
-From: Jan Kara <jack@suse.cz>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Chuck Lever <chuck.lever@oracle.com>, 
-	Alexander Aring <alex.aring@gmail.com>, Trond Myklebust <trondmy@kernel.org>, 
-	Anna Schumaker <anna@kernel.org>, Steve French <sfrench@samba.org>, 
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>, Shyam Prasad N <sprasad@microsoft.com>, 
-	Tom Talpey <tom@talpey.com>, Bharath SM <bharathsm@microsoft.com>, 
-	NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
-	Dai Ngo <Dai.Ngo@oracle.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Amir Goldstein <amir73il@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Paulo Alcantara <pc@manguebit.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	David Howells <dhowells@redhat.com>, Tyler Hicks <code@tyhicks.com>, 
-	Namjae Jeon <linkinjeon@kernel.org>, Steve French <smfrench@gmail.com>, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>, Carlos Maiolino <cem@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Rick Macklem <rick.macklem@gmail.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
-	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org, linux-doc@vger.kernel.org, 
-	netfs@lists.linux.dev, ecryptfs@vger.kernel.org, linux-unionfs@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 04/38] vfs: allow mkdir to wait for delegation break
- on parent
-Message-ID: <t5keaycmuzytufkjufw54hpt6sf4mfjsvehc67zqxwoexuofhg@5jmeznwtcup4>
+	s=arc-20240116; t=1758820095; c=relaxed/simple;
+	bh=6HwOUkB0yToBaYa1glGfR0wga34tK3y6ETCOnEezSa4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=YuDTLprrU4VAV+yy6Z+gy8VMPjTSlXKYeYFwIEvBuwJUtkRWEeKKxyjGPK5KfDJjwdaqnbAduzaamTxy/AC5jxbRseSMu1+hucQEsEAvihO5z7tqDt8vyBvWRUPa1+MO3KSzVLKdKfzqSxHwsHVuNNJdriQWIGUpnSYE49TgdbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y+JoObfz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55E60C4CEF0;
+	Thu, 25 Sep 2025 17:08:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758820094;
+	bh=6HwOUkB0yToBaYa1glGfR0wga34tK3y6ETCOnEezSa4=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=Y+JoObfzDbCmu9AkTyqHCIH8JTaAPFRuffUKiUBZa4ged8sp7zN40k6ugKI9mdPK5
+	 zz6cv7UJ805SecPvfXUvMtwegfc1QjzvrbWO1FDMynHdxfDGdz+6uhKiRCQ8pEQ+6a
+	 X3O8M7oQ7gy6cWZsG8YSvtBwgDMDoeqvB1iut916uwhbbzNque5a4FV6/r3VmIxM1i
+	 4uhGmy09P4zEmg8fLbWHLZJRcziVdHttOF/7GcVcre4N/3seyM6WqiZy1YweFX9To2
+	 DhDHbB2mLSZQbeZNMH/8jQFQOwBl7T88eF6uxTym0+/Qa2X3Kz6P/Ustve/9+NWRcE
+	 mQJfgXXslcR2w==
+Message-ID: <77d7000f15341c20d254a7804e08b3b252cc4e52.camel@kernel.org>
+Subject: Re: [PATCH v3 00/38] vfs, nfsd: implement directory delegations
+From: Jeff Layton <jlayton@kernel.org>
+To: Chuck Lever <chuck.lever@oracle.com>, Alexander Viro	
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara
+	 <jack@suse.cz>, Alexander Aring <alex.aring@gmail.com>, Trond Myklebust	
+ <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, Steve French	
+ <sfrench@samba.org>, Ronnie Sahlberg <ronniesahlberg@gmail.com>, Shyam
+ Prasad N	 <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>, Bharath SM	
+ <bharathsm@microsoft.com>, NeilBrown <neil@brown.name>, Olga Kornievskaia	
+ <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Jonathan Corbet	
+ <corbet@lwn.net>, Amir Goldstein <amir73il@gmail.com>, Miklos Szeredi	
+ <miklos@szeredi.hu>, Paulo Alcantara <pc@manguebit.org>, Greg Kroah-Hartman
+	 <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Danilo Krummrich	 <dakr@kernel.org>, David Howells <dhowells@redhat.com>,
+ Tyler Hicks	 <code@tyhicks.com>, Namjae Jeon <linkinjeon@kernel.org>, Steve
+ French	 <smfrench@gmail.com>, Sergey Senozhatsky
+ <senozhatsky@chromium.org>, Carlos Maiolino <cem@kernel.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu	 <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: Rick Macklem <rick.macklem@gmail.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org, 
+	linux-doc@vger.kernel.org, netfs@lists.linux.dev, ecryptfs@vger.kernel.org,
+ 	linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org
+Date: Thu, 25 Sep 2025 13:08:10 -0400
+In-Reply-To: <e8889519-ca38-430f-b79c-790dabacafac@oracle.com>
 References: <20250924-dir-deleg-v3-0-9f3af8bc5c40@kernel.org>
- <20250924-dir-deleg-v3-4-9f3af8bc5c40@kernel.org>
+	 <e8889519-ca38-430f-b79c-790dabacafac@oracle.com>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=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
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250924-dir-deleg-v3-4-9f3af8bc5c40@kernel.org>
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_TWELVE(0.00)[44];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,oracle.com,gmail.com,samba.org,microsoft.com,talpey.com,brown.name,redhat.com,lwn.net,szeredi.hu,manguebit.org,linuxfoundation.org,tyhicks.com,chromium.org,goodmis.org,efficios.com,vger.kernel.org,lists.samba.org,lists.linux.dev];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RL63fqwwx8ot6gmekemcs76f9d)];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.com:email]
-X-Spam-Flag: NO
-X-Spam-Score: -2.30
 
-On Wed 24-09-25 14:05:50, Jeff Layton wrote:
-> In order to add directory delegation support, we need to break
-> delegations on the parent whenever there is going to be a change in the
-> directory.
-> 
-> Rename the existing vfs_mkdir to __vfs_mkdir, make it static and add a
-> new delegated_inode parameter. Add a new exported vfs_mkdir wrapper
-> around it that passes a NULL pointer for delegated_inode.
-> 
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+On Thu, 2025-09-25 at 09:39 -0400, Chuck Lever wrote:
+> On 9/24/25 11:05 AM, Jeff Layton wrote:
+> > This patchset is an update to a patchset that I posted in early June
+> > this year [1]. This version should be basically feature-complete, with =
+a
+> > few caveats.
+> >=20
+> > NFSv4.1 adds a GET_DIR_DELEGATION operation, to allow clients
+> > to request a delegation on a directory. If the client holds a directory
+> > delegation, then it knows that nothing will change the dentries in it
+> > until it has been recalled (modulo the case where the client requests
+> > notifications of directory changes).
+> >=20
+> > In 2023, Rick Macklem gave a talk at the NFS Bakeathon on his
+> > implementation of directory delegations for FreeBSD [2], and showed tha=
+t
+> > it can greatly improve LOOKUP-heavy workloads. There is also some
+> > earlier work by CITI [3] that showed similar results. The SMB protocol
+> > also has a similar sort of construct, and they have also seen large
+> > performance improvements on certain workloads.
+> >=20
+> > This version also starts with support for trivial directory delegations
+> > that support no notifications.  From there it adds VFS support for
+> > ignoring certain break_lease() events in directories. It then adds
+> > support for basic CB_NOTIFY calls (with names only). Next, support for
+> > sending attributes in the notifications is added.
+> >=20
+> > I think that this version should be getting close to merge ready. Anna
+> > has graciously agreed to work on the client-side pieces for this. I've
+> > mostly been testing using pynfs tests (which I will submit soon).
+> >=20
+> > The main limitation at this point is that callback requests are
+> > currently limited to a single page, so we can't send very many in a
+> > single CB_NOTIFY call. This will make it easy to "get into the weeds" i=
+f
+> > you're changing a directory quickly. The server will just recall the
+> > delegation in that case, so it's harmless even though it's not ideal.
+> >=20
+> > If this approach looks acceptable I'll see if we can increase that
+> > limitation (it seems doable).
+> >=20
+> > If anyone wishes to try this out, it's in the "dir-deleg" branch in my
+> > tree at kernel.org [4].
+> >=20
+> > [1]: https://lore.kernel.org/linux-nfs/20250602-dir-deleg-v2-0-a7919700=
+de86@kernel.org/
+> > [2]: https://www.youtube.com/watch?v=3DDdFyH3BN5pI
+> > [3]: https://linux-nfs.org/wiki/index.php/CITI_Experience_with_Director=
+y_Delegations
+> > [4]: https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git/
+> >=20
+> > Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> > ---
+> > Changes in v3:
+> > - Rework to do minimal work in fsnotify callbacks
+> > - Add support for sending attributes in CB_NOTIFY calls
+> > - Add support for dir attr change notifications
+> > - Link to v2: https://lore.kernel.org/r/20250602-dir-deleg-v2-0-a791970=
+0de86@kernel.org
+> >=20
+> > Changes in v2:
+> > - add support for ignoring certain break_lease() events
+> > - basic support for CB_NOTIFY
+> > - Link to v1: https://lore.kernel.org/r/20240315-dir-deleg-v1-0-a1d6209=
+a3654@kernel.org
+> >=20
+> > ---
+> > Jeff Layton (38):
+> >       filelock: push the S_ISREG check down to ->setlease handlers
+> >       filelock: add a lm_may_setlease lease_manager callback
+> >       vfs: add try_break_deleg calls for parents to vfs_{link,rename,un=
+link}
+> >       vfs: allow mkdir to wait for delegation break on parent
+> >       vfs: allow rmdir to wait for delegation break on parent
+> >       vfs: break parent dir delegations in open(..., O_CREAT) codepath
+> >       vfs: make vfs_create break delegations on parent directory
+> >       vfs: make vfs_mknod break delegations on parent directory
+> >       filelock: lift the ban on directory leases in generic_setlease
+> >       nfsd: allow filecache to hold S_IFDIR files
+> >       nfsd: allow DELEGRETURN on directories
+> >       nfsd: check for delegation conflicts vs. the same client
+> >       nfsd: wire up GET_DIR_DELEGATION handling
+> >       filelock: rework the __break_lease API to use flags
+> >       filelock: add struct delegated_inode
+> >       filelock: add support for ignoring deleg breaks for dir change ev=
+ents
+> >       filelock: add a tracepoint to start of break_lease()
+> >       filelock: add an inode_lease_ignore_mask helper
+> >       nfsd: add protocol support for CB_NOTIFY
+> >       nfs_common: add new NOTIFY4_* flags proposed in RFC8881bis
+> >       nfsd: allow nfsd to get a dir lease with an ignore mask
+> >       vfs: add fsnotify_modify_mark_mask()
+> >       nfsd: update the fsnotify mark when setting or removing a dir del=
+egation
+> >       nfsd: make nfsd4_callback_ops->prepare operation bool return
+> >       nfsd: add callback encoding and decoding linkages for CB_NOTIFY
+> >       nfsd: add data structures for handling CB_NOTIFY to directory del=
+egation
+> >       nfsd: add notification handlers for dir events
+> >       nfsd: add tracepoint to dir_event handler
+> >       nfsd: apply the notify mask to the delegation when requested
+> >       nfsd: add helper to marshal a fattr4 from completed args
+> >       nfsd: allow nfsd4_encode_fattr4_change() to work with no export
+> >       nfsd: send basic file attributes in CB_NOTIFY
+> >       nfsd: allow encoding a filehandle into fattr4 without a svc_fh
+> >       nfsd: add a fi_connectable flag to struct nfs4_file
+> >       nfsd: add the filehandle to returned attributes in CB_NOTIFY
+> >       nfsd: properly track requested child attributes
+> >       nfsd: track requested dir attributes
+> >       nfsd: add support to CB_NOTIFY for dir attribute changes
+> >=20
+> >  Documentation/sunrpc/xdr/nfs4_1.x    | 267 +++++++++++++++++-
+> >  drivers/base/devtmpfs.c              |   2 +-
+> >  fs/attr.c                            |   4 +-
+> >  fs/cachefiles/namei.c                |   2 +-
+> >  fs/ecryptfs/inode.c                  |   2 +-
+> >  fs/fuse/dir.c                        |   1 +
+> >  fs/init.c                            |   2 +-
+> >  fs/locks.c                           | 122 ++++++--
+> >  fs/namei.c                           | 253 +++++++++++------
+> >  fs/nfs/nfs4file.c                    |   2 +
+> >  fs/nfsd/filecache.c                  | 101 +++++--
+> >  fs/nfsd/filecache.h                  |   2 +
+> >  fs/nfsd/nfs4callback.c               |  60 +++-
+> >  fs/nfsd/nfs4layouts.c                |   3 +-
+> >  fs/nfsd/nfs4proc.c                   |  36 ++-
+> >  fs/nfsd/nfs4recover.c                |   2 +-
+> >  fs/nfsd/nfs4state.c                  | 531 +++++++++++++++++++++++++++=
+++++++--
+> >  fs/nfsd/nfs4xdr.c                    | 298 +++++++++++++++++---
+> >  fs/nfsd/nfs4xdr_gen.c                | 506 +++++++++++++++++++++++++++=
++++++-
+> >  fs/nfsd/nfs4xdr_gen.h                |  20 +-
+> >  fs/nfsd/state.h                      |  73 ++++-
+> >  fs/nfsd/trace.h                      |  21 ++
+> >  fs/nfsd/vfs.c                        |   7 +-
+> >  fs/nfsd/vfs.h                        |   2 +-
+> >  fs/nfsd/xdr4.h                       |   3 +
+> >  fs/nfsd/xdr4cb.h                     |  12 +
+> >  fs/notify/mark.c                     |  29 ++
+> >  fs/open.c                            |   8 +-
+> >  fs/overlayfs/overlayfs.h             |   2 +-
+> >  fs/posix_acl.c                       |  12 +-
+> >  fs/smb/client/cifsfs.c               |   3 +
+> >  fs/smb/server/vfs.c                  |   2 +-
+> >  fs/utimes.c                          |   4 +-
+> >  fs/xattr.c                           |  16 +-
+> >  fs/xfs/scrub/orphanage.c             |   2 +-
+> >  include/linux/filelock.h             | 143 +++++++---
+> >  include/linux/fs.h                   |  11 +-
+> >  include/linux/fsnotify_backend.h     |   1 +
+> >  include/linux/nfs4.h                 | 127 ---------
+> >  include/linux/sunrpc/xdrgen/nfs4_1.h | 304 +++++++++++++++++++-
+> >  include/linux/xattr.h                |   4 +-
+> >  include/trace/events/filelock.h      |  38 ++-
+> >  include/uapi/linux/nfs4.h            |   2 -
+> >  43 files changed, 2636 insertions(+), 406 deletions(-)
+> > ---
+> > base-commit: 36c204d169319562eed170f266c58460d5dad635
+> > change-id: 20240215-dir-deleg-e212210ba9d4
+> >=20
+> > Best regards,
+>=20
+> Series is clean and easy to read, thanks for your hard work! I agree
+> that the NFSD portions appear to be complete and ready to accept.
+>=20
+> Because the series is cross-subsystem, we will need to discuss a merge
+> plan. So I'll hold off on R-b or Acked until that is nailed down.
+>=20
 
-The changelog looks stale (__vfs_mkdir() doesn't exist anymore) but
-otherwise the patch looks good. Feel free to add:
+Thanks. It's sensible to hold off for a bit. There is at least one leak
+that I found earlier today, and a few cleanups that I have queued up.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+We also have a bake-a-thon in another couple of weeks where I hope to
+test this more extensively. After that, I'm hoping we'll be in
+reasonable shape to take it into linux-next.
 
-								Honza
+What I may do is reorder the vfs patches to the front of the queue and
+plead to Christian and Al to take them into a branch that feeds into
+linux-next. That way we can at least get some feedback and testing with
+those bits in place, and a foundation on which we can merge the nfsd
+bits.
 
-> ---
->  drivers/base/devtmpfs.c  |  2 +-
->  fs/cachefiles/namei.c    |  2 +-
->  fs/ecryptfs/inode.c      |  2 +-
->  fs/init.c                |  2 +-
->  fs/namei.c               | 24 ++++++++++++++++++------
->  fs/nfsd/nfs4recover.c    |  2 +-
->  fs/nfsd/vfs.c            |  2 +-
->  fs/overlayfs/overlayfs.h |  2 +-
->  fs/smb/server/vfs.c      |  2 +-
->  fs/xfs/scrub/orphanage.c |  2 +-
->  include/linux/fs.h       |  2 +-
->  11 files changed, 28 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/base/devtmpfs.c b/drivers/base/devtmpfs.c
-> index 31bfb3194b4c29a1d6a002449045bf4e4141911d..a57da600ce7523e9e2755b78f75342bf4fa56ef6 100644
-> --- a/drivers/base/devtmpfs.c
-> +++ b/drivers/base/devtmpfs.c
-> @@ -180,7 +180,7 @@ static int dev_mkdir(const char *name, umode_t mode)
->  	if (IS_ERR(dentry))
->  		return PTR_ERR(dentry);
->  
-> -	dentry = vfs_mkdir(&nop_mnt_idmap, d_inode(path.dentry), dentry, mode);
-> +	dentry = vfs_mkdir(&nop_mnt_idmap, d_inode(path.dentry), dentry, mode, NULL);
->  	if (!IS_ERR(dentry))
->  		/* mark as kernel-created inode */
->  		d_inode(dentry)->i_private = &thread;
-> diff --git a/fs/cachefiles/namei.c b/fs/cachefiles/namei.c
-> index 91dfd02318772fa63050ecf40fa5625ab48ad589..b3dac91efec622261186fbba8e704ae9e782bea0 100644
-> --- a/fs/cachefiles/namei.c
-> +++ b/fs/cachefiles/namei.c
-> @@ -130,7 +130,7 @@ struct dentry *cachefiles_get_directory(struct cachefiles_cache *cache,
->  			goto mkdir_error;
->  		ret = cachefiles_inject_write_error();
->  		if (ret == 0)
-> -			subdir = vfs_mkdir(&nop_mnt_idmap, d_inode(dir), subdir, 0700);
-> +			subdir = vfs_mkdir(&nop_mnt_idmap, d_inode(dir), subdir, 0700, NULL);
->  		else
->  			subdir = ERR_PTR(ret);
->  		if (IS_ERR(subdir)) {
-> diff --git a/fs/ecryptfs/inode.c b/fs/ecryptfs/inode.c
-> index 72fbe1316ab8831bb4228d573278f32fe52b6b25..00f54c125b102856c33ffff24627475f40dcbc7b 100644
-> --- a/fs/ecryptfs/inode.c
-> +++ b/fs/ecryptfs/inode.c
-> @@ -517,7 +517,7 @@ static struct dentry *ecryptfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
->  		goto out;
->  
->  	lower_dentry = vfs_mkdir(&nop_mnt_idmap, lower_dir,
-> -				 lower_dentry, mode);
-> +				 lower_dentry, mode, NULL);
->  	rc = PTR_ERR(lower_dentry);
->  	if (IS_ERR(lower_dentry))
->  		goto out;
-> diff --git a/fs/init.c b/fs/init.c
-> index eef5124885e372ac020d2923692116c5e884b3cf..dd5240ce8ad41f02367a54ddf1b6ac0aa28e9721 100644
-> --- a/fs/init.c
-> +++ b/fs/init.c
-> @@ -232,7 +232,7 @@ int __init init_mkdir(const char *pathname, umode_t mode)
->  	error = security_path_mkdir(&path, dentry, mode);
->  	if (!error) {
->  		dentry = vfs_mkdir(mnt_idmap(path.mnt), path.dentry->d_inode,
-> -				  dentry, mode);
-> +				  dentry, mode, NULL);
->  		if (IS_ERR(dentry))
->  			error = PTR_ERR(dentry);
->  	}
-> diff --git a/fs/namei.c b/fs/namei.c
-> index cd517eb232317d326e6d2fc5a60cb4c7569a137d..c939a58f16f9c4edded424475aff52f2c423d301 100644
-> --- a/fs/namei.c
-> +++ b/fs/namei.c
-> @@ -4320,10 +4320,11 @@ SYSCALL_DEFINE3(mknod, const char __user *, filename, umode_t, mode, unsigned, d
->  
->  /**
->   * vfs_mkdir - create directory returning correct dentry if possible
-> - * @idmap:	idmap of the mount the inode was found from
-> - * @dir:	inode of the parent directory
-> - * @dentry:	dentry of the child directory
-> - * @mode:	mode of the child directory
-> + * @idmap:		idmap of the mount the inode was found from
-> + * @dir:		inode of the parent directory
-> + * @dentry:		dentry of the child directory
-> + * @mode:		mode of the child directory
-> + * @delegated_inode:	returns victim inode, if the inode is delegated.
->   *
->   * Create a directory.
->   *
-> @@ -4340,7 +4341,8 @@ SYSCALL_DEFINE3(mknod, const char __user *, filename, umode_t, mode, unsigned, d
->   * In case of an error the dentry is dput() and an ERR_PTR() is returned.
->   */
->  struct dentry *vfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
-> -			 struct dentry *dentry, umode_t mode)
-> +			 struct dentry *dentry, umode_t mode,
-> +			 struct inode **delegated_inode)
->  {
->  	int error;
->  	unsigned max_links = dir->i_sb->s_max_links;
-> @@ -4363,6 +4365,10 @@ struct dentry *vfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
->  	if (max_links && dir->i_nlink >= max_links)
->  		goto err;
->  
-> +	error = try_break_deleg(dir, delegated_inode);
-> +	if (error)
-> +		goto err;
-> +
->  	de = dir->i_op->mkdir(idmap, dir, dentry, mode);
->  	error = PTR_ERR(de);
->  	if (IS_ERR(de))
-> @@ -4386,6 +4392,7 @@ int do_mkdirat(int dfd, struct filename *name, umode_t mode)
->  	struct path path;
->  	int error;
->  	unsigned int lookup_flags = LOOKUP_DIRECTORY;
-> +	struct inode *delegated_inode = NULL;
->  
->  retry:
->  	dentry = filename_create(dfd, name, &path, lookup_flags);
-> @@ -4397,11 +4404,16 @@ int do_mkdirat(int dfd, struct filename *name, umode_t mode)
->  			mode_strip_umask(path.dentry->d_inode, mode));
->  	if (!error) {
->  		dentry = vfs_mkdir(mnt_idmap(path.mnt), path.dentry->d_inode,
-> -				  dentry, mode);
-> +				   dentry, mode, &delegated_inode);
->  		if (IS_ERR(dentry))
->  			error = PTR_ERR(dentry);
->  	}
->  	done_path_create(&path, dentry);
-> +	if (delegated_inode) {
-> +		error = break_deleg_wait(&delegated_inode);
-> +		if (!error)
-> +			goto retry;
-> +	}
->  	if (retry_estale(error, lookup_flags)) {
->  		lookup_flags |= LOOKUP_REVAL;
->  		goto retry;
-> diff --git a/fs/nfsd/nfs4recover.c b/fs/nfsd/nfs4recover.c
-> index b1005abcb9035b2cf743200808a251b00af7e3f4..423dd102b51198ea7c447be2b9a0a5020c950dba 100644
-> --- a/fs/nfsd/nfs4recover.c
-> +++ b/fs/nfsd/nfs4recover.c
-> @@ -202,7 +202,7 @@ nfsd4_create_clid_dir(struct nfs4_client *clp)
->  		 * as well be forgiving and just succeed silently.
->  		 */
->  		goto out_put;
-> -	dentry = vfs_mkdir(&nop_mnt_idmap, d_inode(dir), dentry, S_IRWXU);
-> +	dentry = vfs_mkdir(&nop_mnt_idmap, d_inode(dir), dentry, 0700, NULL);
->  	if (IS_ERR(dentry))
->  		status = PTR_ERR(dentry);
->  out_put:
-> diff --git a/fs/nfsd/vfs.c b/fs/nfsd/vfs.c
-> index 2026431500ecbc0cf5fb5d4af1a7632c611ce4f4..6f1275fdc8ac831aa0ea8da588f751eddff88df1 100644
-> --- a/fs/nfsd/vfs.c
-> +++ b/fs/nfsd/vfs.c
-> @@ -1560,7 +1560,7 @@ nfsd_create_locked(struct svc_rqst *rqstp, struct svc_fh *fhp,
->  			nfsd_check_ignore_resizing(iap);
->  		break;
->  	case S_IFDIR:
-> -		dchild = vfs_mkdir(&nop_mnt_idmap, dirp, dchild, iap->ia_mode);
-> +		dchild = vfs_mkdir(&nop_mnt_idmap, dirp, dchild, iap->ia_mode, NULL);
->  		if (IS_ERR(dchild)) {
->  			host_err = PTR_ERR(dchild);
->  		} else if (d_is_negative(dchild)) {
-> diff --git a/fs/overlayfs/overlayfs.h b/fs/overlayfs/overlayfs.h
-> index bb0d7ded8e763a4a7a6fc506d966ed2f3bdb4f06..4a3a22f422c37d45e49a762cd3c9957aa2c6a485 100644
-> --- a/fs/overlayfs/overlayfs.h
-> +++ b/fs/overlayfs/overlayfs.h
-> @@ -248,7 +248,7 @@ static inline struct dentry *ovl_do_mkdir(struct ovl_fs *ofs,
->  {
->  	struct dentry *ret;
->  
-> -	ret = vfs_mkdir(ovl_upper_mnt_idmap(ofs), dir, dentry, mode);
-> +	ret = vfs_mkdir(ovl_upper_mnt_idmap(ofs), dir, dentry, mode, NULL);
->  	pr_debug("mkdir(%pd2, 0%o) = %i\n", dentry, mode, PTR_ERR_OR_ZERO(ret));
->  	return ret;
->  }
-> diff --git a/fs/smb/server/vfs.c b/fs/smb/server/vfs.c
-> index 04539037108c93e285f4e9d6aa61f93a507ae5da..b0fb73b277876a56797f5cc8a5aa53f156bb7a26 100644
-> --- a/fs/smb/server/vfs.c
-> +++ b/fs/smb/server/vfs.c
-> @@ -229,7 +229,7 @@ int ksmbd_vfs_mkdir(struct ksmbd_work *work, const char *name, umode_t mode)
->  	idmap = mnt_idmap(path.mnt);
->  	mode |= S_IFDIR;
->  	d = dentry;
-> -	dentry = vfs_mkdir(idmap, d_inode(path.dentry), dentry, mode);
-> +	dentry = vfs_mkdir(idmap, d_inode(path.dentry), dentry, mode, NULL);
->  	if (IS_ERR(dentry))
->  		err = PTR_ERR(dentry);
->  	else if (d_is_negative(dentry))
-> diff --git a/fs/xfs/scrub/orphanage.c b/fs/xfs/scrub/orphanage.c
-> index 9c12cb8442311ca26b169e4d1567939ae44a5be0..91c9d07b97f306f57aebb9b69ba564b0c2cb8c17 100644
-> --- a/fs/xfs/scrub/orphanage.c
-> +++ b/fs/xfs/scrub/orphanage.c
-> @@ -167,7 +167,7 @@ xrep_orphanage_create(
->  	 */
->  	if (d_really_is_negative(orphanage_dentry)) {
->  		orphanage_dentry = vfs_mkdir(&nop_mnt_idmap, root_inode,
-> -					     orphanage_dentry, 0750);
-> +					     orphanage_dentry, 0750, NULL);
->  		error = PTR_ERR(orphanage_dentry);
->  		if (IS_ERR(orphanage_dentry))
->  			goto out_unlock_root;
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index 74f2bfc519263c6411a8e3427e1bd6680a1121db..24a091509f12ce65a2c8343d438fccf423d3062b 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -1997,7 +1997,7 @@ bool inode_owner_or_capable(struct mnt_idmap *idmap,
->  int vfs_create(struct mnt_idmap *, struct inode *,
->  	       struct dentry *, umode_t, bool);
->  struct dentry *vfs_mkdir(struct mnt_idmap *, struct inode *,
-> -			 struct dentry *, umode_t);
-> +			 struct dentry *, umode_t, struct inode **);
->  int vfs_mknod(struct mnt_idmap *, struct inode *, struct dentry *,
->                umode_t, dev_t);
->  int vfs_symlink(struct mnt_idmap *, struct inode *,
-> 
-> -- 
-> 2.51.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+--=20
+Jeff Layton <jlayton@kernel.org>
 
