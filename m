@@ -1,295 +1,299 @@
-Return-Path: <ecryptfs+bounces-461-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-462-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A26ACBA46F3
-	for <lists+ecryptfs@lfdr.de>; Fri, 26 Sep 2025 17:34:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AFE3BA49C3
+	for <lists+ecryptfs@lfdr.de>; Fri, 26 Sep 2025 18:27:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D7EE01C0342B
-	for <lists+ecryptfs@lfdr.de>; Fri, 26 Sep 2025 15:34:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 422151BC4D42
+	for <lists+ecryptfs@lfdr.de>; Fri, 26 Sep 2025 16:27:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20563223DEA;
-	Fri, 26 Sep 2025 15:33:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 012F225A2CF;
+	Fri, 26 Sep 2025 16:27:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="hPN1Q/Z2";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="qvsmI3WJ";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="hPN1Q/Z2";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="qvsmI3WJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U8PH/vX8"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E29F7223DF6
-	for <ecryptfs@vger.kernel.org>; Fri, 26 Sep 2025 15:33:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A89644C9F;
+	Fri, 26 Sep 2025 16:27:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758900804; cv=none; b=rSJAOB2h+nVZGSfMPm/72xGsAy6gY8c+OML0CIwUa/hAAmycLCvQrMdyH3OQhJFxdHsBBw6aYoGW2AqkuTuKJbOVnxaAlIpMOnoIY9WN1zS+OkjnUJgL6ZTPrSB3VBvfrMQD0y/ioEpsroX5r9ZgoNi6iVxJv1/svTxm+wfXPoA=
+	t=1758904033; cv=none; b=pnmpYZIMPxN0obz7KXtDKoNo5K0RHZMiRE87tbSgTtQkqSQGE0ejRzSOUCzK28bZmKBm+/m92wI+0HYTVy2cDmMKulKrb+y9zUOu3OfEqzcg29/+pt6DFThhU+iiWXaf1uj/N+XRWcTwc0+x3IHjDya8K5n/5cD5pRYksEm6D04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758900804; c=relaxed/simple;
-	bh=kd7bEABZ+uROS4oY4S3a/bjeGAoTAcj6vtm7z/gmab4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IY2SvhR2I5QALn3QIlkLfWpzX8MA5F6dhnGU5XTdt6t/FGatial+VD7eMzZeLe/BAilQYVpqtBQbYqPyJqP4GqPjFL6uZezoVtow9ccVvUSPzYMAz5TOKbLU0XlAMSYPWaxlRs/gBdbqi3EN/4bVLlvUgbh1PG5wh20/zSfKHhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=hPN1Q/Z2; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=qvsmI3WJ; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=hPN1Q/Z2; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=qvsmI3WJ; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 1F8DD1F84F;
-	Fri, 26 Sep 2025 15:33:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1758900800; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=glSyxRB6Xj36ASiIjA+TJGgbXUZyzaV6dbkxB9p11to=;
-	b=hPN1Q/Z2I0LleaVvFRVk+yXLW6mKv8nxGbCL4ruk19wSvq+3uPTxnoPMPL2ZdNeXu68zEE
-	ZHfIFjmXeybYmlsuTT/gGyP5+++DS0qkKLPB1nUbM6a2ZIIau/UlRX0DENJipCwjcahyG7
-	kcnHCmHP8mfbc/flUmB1bDEzR5g62Ls=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1758900800;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=glSyxRB6Xj36ASiIjA+TJGgbXUZyzaV6dbkxB9p11to=;
-	b=qvsmI3WJwdxotgPOWL64XgiQ7XQul3VTfRbYUxHg3hVGT+gxhleujtTOPyvGFODFYUjNhk
-	Ub5wEs52eNFsq7BQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="hPN1Q/Z2";
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=qvsmI3WJ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1758900800; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=glSyxRB6Xj36ASiIjA+TJGgbXUZyzaV6dbkxB9p11to=;
-	b=hPN1Q/Z2I0LleaVvFRVk+yXLW6mKv8nxGbCL4ruk19wSvq+3uPTxnoPMPL2ZdNeXu68zEE
-	ZHfIFjmXeybYmlsuTT/gGyP5+++DS0qkKLPB1nUbM6a2ZIIau/UlRX0DENJipCwjcahyG7
-	kcnHCmHP8mfbc/flUmB1bDEzR5g62Ls=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1758900800;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=glSyxRB6Xj36ASiIjA+TJGgbXUZyzaV6dbkxB9p11to=;
-	b=qvsmI3WJwdxotgPOWL64XgiQ7XQul3VTfRbYUxHg3hVGT+gxhleujtTOPyvGFODFYUjNhk
-	Ub5wEs52eNFsq7BQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0CA6E1386E;
-	Fri, 26 Sep 2025 15:33:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Wk0VA0Cy1mj4AgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 26 Sep 2025 15:33:20 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id B7903A0AA0; Fri, 26 Sep 2025 17:33:19 +0200 (CEST)
-Date: Fri, 26 Sep 2025 17:33:19 +0200
-From: Jan Kara <jack@suse.cz>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Chuck Lever <chuck.lever@oracle.com>, 
-	Alexander Aring <alex.aring@gmail.com>, Trond Myklebust <trondmy@kernel.org>, 
-	Anna Schumaker <anna@kernel.org>, Steve French <sfrench@samba.org>, 
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>, Shyam Prasad N <sprasad@microsoft.com>, 
-	Tom Talpey <tom@talpey.com>, Bharath SM <bharathsm@microsoft.com>, 
-	NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
-	Dai Ngo <Dai.Ngo@oracle.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Amir Goldstein <amir73il@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Paulo Alcantara <pc@manguebit.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	David Howells <dhowells@redhat.com>, Tyler Hicks <code@tyhicks.com>, 
-	Namjae Jeon <linkinjeon@kernel.org>, Steve French <smfrench@gmail.com>, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>, Carlos Maiolino <cem@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Rick Macklem <rick.macklem@gmail.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
-	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org, linux-doc@vger.kernel.org, 
-	netfs@lists.linux.dev, ecryptfs@vger.kernel.org, linux-unionfs@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 07/38] vfs: make vfs_create break delegations on
+	s=arc-20240116; t=1758904033; c=relaxed/simple;
+	bh=ky6CZf9ZflX9MtZEDtfZTEh1xsbZA4KMveJMCDkg6R8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=t20JBpcqz0CiYlhhnOafEF1QYCgo+n5GUecRzwzP3i2tg3FwnsrNYpGgV5MJuaoPoRLuBqUfFM8STE1qLILnpT547EvDV1/SiSjDuYlcesKblwLRw3Ue+vGcKW1I1LJ9SnGeq1uI6bcXQZC1//m/5kJMnOXCGMlAugfMpgkViYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U8PH/vX8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DBA1C4CEF4;
+	Fri, 26 Sep 2025 16:27:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758904032;
+	bh=ky6CZf9ZflX9MtZEDtfZTEh1xsbZA4KMveJMCDkg6R8=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=U8PH/vX8Jyonu5oIw3G72uLsjnLABhJOhpBTU0V2Aq+fW4W9h5xi5k5724LWSVCIx
+	 HCPyWiOUvbwswQktPj63IH5yqX1CL8IqgJroPhnXz+EokfUELvEYrLWPd+AuXESRWc
+	 kL7Y0YnnyytzpFXMw13GFRTitXxcN8BzbrCG/yGKNVmGxkvipuLv93gXz1z/KkkJlA
+	 JxbrK5Ah2oH8zInfxYXr7o0eANCf48kVHYkE+Qyn6yfClN960sj8rhZVnpvwv22tQE
+	 1Vp0iJ/5Wzai1aCATlF5lsz5GftLLHZ9jB5L6nnpDyPO6jC4W6tJrlFOnvG5LV1SGI
+	 GV2QAWI2mQuRg==
+Message-ID: <e08f4e061a9bff08066c7a255d8f9277add272f6.camel@kernel.org>
+Subject: Re: [PATCH v3 08/38] vfs: make vfs_mknod break delegations on
  parent directory
-Message-ID: <jshbhldhrbr2vbzfvuary3qowbfavcgkjznbgnjwhnxvmudvhw@c2uam4vtghcw>
+From: Jeff Layton <jlayton@kernel.org>
+To: Jan Kara <jack@suse.cz>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner	
+ <brauner@kernel.org>, Chuck Lever <chuck.lever@oracle.com>, Alexander Aring
+	 <alex.aring@gmail.com>, Trond Myklebust <trondmy@kernel.org>, Anna
+ Schumaker	 <anna@kernel.org>, Steve French <sfrench@samba.org>, Ronnie
+ Sahlberg	 <ronniesahlberg@gmail.com>, Shyam Prasad N
+ <sprasad@microsoft.com>, Tom Talpey	 <tom@talpey.com>, Bharath SM
+ <bharathsm@microsoft.com>, NeilBrown	 <neil@brown.name>, Olga Kornievskaia
+ <okorniev@redhat.com>, Dai Ngo	 <Dai.Ngo@oracle.com>, Jonathan Corbet
+ <corbet@lwn.net>, Amir Goldstein	 <amir73il@gmail.com>, Miklos Szeredi
+ <miklos@szeredi.hu>, Paulo Alcantara	 <pc@manguebit.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, David Howells
+ <dhowells@redhat.com>,  Tyler Hicks <code@tyhicks.com>, Namjae Jeon
+ <linkinjeon@kernel.org>, Steve French <smfrench@gmail.com>,  Sergey
+ Senozhatsky <senozhatsky@chromium.org>, Carlos Maiolino <cem@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>,  Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Rick Macklem	 <rick.macklem@gmail.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org, 
+	linux-doc@vger.kernel.org, netfs@lists.linux.dev, ecryptfs@vger.kernel.org,
+ 	linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org
+Date: Fri, 26 Sep 2025 12:27:07 -0400
+In-Reply-To: <ke7z7ptll7svm4ygbtbmv7ezv7rox75ct6mv5sn73lrnqp6g2r@ju2aolr2n5n7>
 References: <20250924-dir-deleg-v3-0-9f3af8bc5c40@kernel.org>
- <20250924-dir-deleg-v3-7-9f3af8bc5c40@kernel.org>
- <otguskcvjqwcojy6tsw7yimvshsgtj4vl7ciwksxazx7z5s2ko@vjyf5plolvvf>
+	 <20250924-dir-deleg-v3-8-9f3af8bc5c40@kernel.org>
+	 <ke7z7ptll7svm4ygbtbmv7ezv7rox75ct6mv5sn73lrnqp6g2r@ju2aolr2n5n7>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=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
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <otguskcvjqwcojy6tsw7yimvshsgtj4vl7ciwksxazx7z5s2ko@vjyf5plolvvf>
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 1F8DD1F84F
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[44];
-	RCVD_TLS_LAST(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,oracle.com,gmail.com,samba.org,microsoft.com,talpey.com,brown.name,redhat.com,lwn.net,szeredi.hu,manguebit.org,linuxfoundation.org,tyhicks.com,chromium.org,goodmis.org,efficios.com,vger.kernel.org,lists.samba.org,lists.linux.dev];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	R_RATELIMIT(0.00)[to_ip_from(RLpnapcpkwxdkc5mopt1ezhhna)];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:dkim,suse.cz:email]
-X-Spam-Score: -2.51
 
-On Fri 26-09-25 17:23:41, Jan Kara wrote:
-> On Wed 24-09-25 14:05:53, Jeff Layton wrote:
+On Fri, 2025-09-26 at 17:32 +0200, Jan Kara wrote:
+> On Wed 24-09-25 14:05:54, Jeff Layton wrote:
 > > In order to add directory delegation support, we need to break
 > > delegations on the parent whenever there is going to be a change in the
 > > directory.
-> > 
-> > Rename vfs_create as __vfs_create, make it static, and add a new
-> > delegated_inode parameter. Fix do_mknodat to call __vfs_create and wait
-> > for a delegation break if there is one. Add a new exported vfs_create
-> > wrapper that passes in NULL for delegated_inode.
-> > 
+> >=20
+> > Rename vfs_mknod as __vfs_mknod, make it static, and add a new
+> > delegated_inode parameter.  Make do_mknodat call __vfs_mknod and wait
+> > synchronously for delegation breaks to complete. Add a new exported
+> > vfs_mknod wrapper that calls __vfs_mknod with a NULL delegated_inode
+> > pointer.
+> >=20
 > > Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> 
+>=20
 > Looks good. Feel free to add:
-> 
+>=20
 > Reviewed-by: Jan Kara <jack@suse.cz>
+>=20
 
-Sorry, I've sent this twise by mistake.
+Thanks.
 
-								Honza
+FYI, I've revised this and the rmdir patches to get rid of the wrapper,
+and just have the callers pass in NULL directly. I think that's more
+along the lines of what Christian preferred.
 
+
+>=20
 > > ---
-> >  fs/namei.c | 55 ++++++++++++++++++++++++++++++++++++-------------------
-> >  1 file changed, 36 insertions(+), 19 deletions(-)
-> > 
+> >  fs/namei.c | 57 +++++++++++++++++++++++++++++++++++-------------------=
+---
+> >  1 file changed, 35 insertions(+), 22 deletions(-)
+> >=20
 > > diff --git a/fs/namei.c b/fs/namei.c
-> > index 903b70a82530938a0fdf10508529a1b7cc38136d..d4b8330a3eb97e205dc2e71766fed1e45503323b 100644
+> > index d4b8330a3eb97e205dc2e71766fed1e45503323b..7bcd898c84138061030f1f8=
+b91273261cdf2a9b4 100644
 > > --- a/fs/namei.c
 > > +++ b/fs/namei.c
-> > @@ -3370,6 +3370,32 @@ static inline umode_t vfs_prepare_mode(struct mnt_idmap *idmap,
-> >  	return mode;
+> > @@ -4215,24 +4215,9 @@ inline struct dentry *user_path_create(int dfd, =
+const char __user *pathname,
 > >  }
-> >  
-> > +static int __vfs_create(struct mnt_idmap *idmap, struct inode *dir,
-> > +			struct dentry *dentry, umode_t mode, bool want_excl,
-> > +			struct inode **delegated_inode)
-> > +{
-> > +	int error;
-> > +
-> > +	error = may_create(idmap, dir, dentry);
-> > +	if (error)
-> > +		return error;
-> > +
-> > +	if (!dir->i_op->create)
-> > +		return -EACCES;	/* shouldn't it be ENOSYS? */
-> > +
-> > +	mode = vfs_prepare_mode(idmap, dir, mode, S_IALLUGO, S_IFREG);
-> > +	error = security_inode_create(dir, dentry, mode);
-> > +	if (error)
-> > +		return error;
-> > +	error = try_break_deleg(dir, delegated_inode);
-> > +	if (error)
-> > +		return error;
-> > +	error = dir->i_op->create(idmap, dir, dentry, mode, want_excl);
-> > +	if (!error)
-> > +		fsnotify_create(dir, dentry);
-> > +	return error;
-> > +}
-> > +
-> >  /**
-> >   * vfs_create - create new file
-> >   * @idmap:	idmap of the mount the inode was found from
-> > @@ -3389,23 +3415,7 @@ static inline umode_t vfs_prepare_mode(struct mnt_idmap *idmap,
-> >  int vfs_create(struct mnt_idmap *idmap, struct inode *dir,
-> >  	       struct dentry *dentry, umode_t mode, bool want_excl)
+> >  EXPORT_SYMBOL(user_path_create);
+> > =20
+> > -/**
+> > - * vfs_mknod - create device node or file
+> > - * @idmap:	idmap of the mount the inode was found from
+> > - * @dir:	inode of the parent directory
+> > - * @dentry:	dentry of the child device node
+> > - * @mode:	mode of the child device node
+> > - * @dev:	device number of device to create
+> > - *
+> > - * Create a device node or file.
+> > - *
+> > - * If the inode has been found through an idmapped mount the idmap of
+> > - * the vfsmount must be passed through @idmap. This function will then=
+ take
+> > - * care to map the inode according to @idmap before checking permissio=
+ns.
+> > - * On non-idmapped mounts or if permission checking is to be performed=
+ on the
+> > - * raw inode simply pass @nop_mnt_idmap.
+> > - */
+> > -int vfs_mknod(struct mnt_idmap *idmap, struct inode *dir,
+> > -	      struct dentry *dentry, umode_t mode, dev_t dev)
+> > +static int __vfs_mknod(struct mnt_idmap *idmap, struct inode *dir,
+> > +		       struct dentry *dentry, umode_t mode, dev_t dev,
+> > +		       struct inode **delegated_inode)
 > >  {
-> > -	int error;
-> > -
-> > -	error = may_create(idmap, dir, dentry);
-> > -	if (error)
-> > -		return error;
-> > -
-> > -	if (!dir->i_op->create)
-> > -		return -EACCES;	/* shouldn't it be ENOSYS? */
-> > -
-> > -	mode = vfs_prepare_mode(idmap, dir, mode, S_IALLUGO, S_IFREG);
-> > -	error = security_inode_create(dir, dentry, mode);
-> > -	if (error)
-> > -		return error;
-> > -	error = dir->i_op->create(idmap, dir, dentry, mode, want_excl);
-> > -	if (!error)
-> > -		fsnotify_create(dir, dentry);
-> > -	return error;
-> > +	return __vfs_create(idmap, dir, dentry, mode, want_excl, NULL);
-> >  }
-> >  EXPORT_SYMBOL(vfs_create);
-> >  
-> > @@ -4278,6 +4288,7 @@ static int do_mknodat(int dfd, struct filename *name, umode_t mode,
-> >  	struct path path;
-> >  	int error;
-> >  	unsigned int lookup_flags = 0;
-> > +	struct inode *delegated_inode = NULL;
-> >  
-> >  	error = may_mknod(mode);
+> >  	bool is_whiteout =3D S_ISCHR(mode) && dev =3D=3D WHITEOUT_DEV;
+> >  	int error =3D may_create(idmap, dir, dentry);
+> > @@ -4256,11 +4241,37 @@ int vfs_mknod(struct mnt_idmap *idmap, struct i=
+node *dir,
 > >  	if (error)
-> > @@ -4296,8 +4307,9 @@ static int do_mknodat(int dfd, struct filename *name, umode_t mode,
-> >  	idmap = mnt_idmap(path.mnt);
-> >  	switch (mode & S_IFMT) {
-> >  		case 0: case S_IFREG:
-> > -			error = vfs_create(idmap, path.dentry->d_inode,
-> > -					   dentry, mode, true);
-> > +			error = __vfs_create(idmap, path.dentry->d_inode,
-> > +					     dentry, mode, true,
-> > +					     &delegated_inode);
-> >  			if (!error)
+> >  		return error;
+> > =20
+> > +	error =3D try_break_deleg(dir, delegated_inode);
+> > +	if (error)
+> > +		return error;
+> > +
+> >  	error =3D dir->i_op->mknod(idmap, dir, dentry, mode, dev);
+> >  	if (!error)
+> >  		fsnotify_create(dir, dentry);
+> >  	return error;
+> >  }
+> > +
+> > +/**
+> > + * vfs_mknod - create device node or file
+> > + * @idmap:	idmap of the mount the inode was found from
+> > + * @dir:	inode of the parent directory
+> > + * @dentry:	dentry of the child device node
+> > + * @mode:	mode of the child device node
+> > + * @dev:	device number of device to create
+> > + *
+> > + * Create a device node or file.
+> > + *
+> > + * If the inode has been found through an idmapped mount the idmap of
+> > + * the vfsmount must be passed through @idmap. This function will then=
+ take
+> > + * care to map the inode according to @idmap before checking permissio=
+ns.
+> > + * On non-idmapped mounts or if permission checking is to be performed=
+ on the
+> > + * raw inode simply pass @nop_mnt_idmap.
+> > + */
+> > +int vfs_mknod(struct mnt_idmap *idmap, struct inode *dir,
+> > +	      struct dentry *dentry, umode_t mode, dev_t dev)
+> > +{
+> > +	return __vfs_mknod(idmap, dir, dentry, mode, dev, NULL);
+> > +}
+> >  EXPORT_SYMBOL(vfs_mknod);
+> > =20
+> >  static int may_mknod(umode_t mode)
+> > @@ -4314,12 +4325,14 @@ static int do_mknodat(int dfd, struct filename =
+*name, umode_t mode,
 > >  				security_path_post_mknod(idmap, dentry);
 > >  			break;
-> > @@ -4312,6 +4324,11 @@ static int do_mknodat(int dfd, struct filename *name, umode_t mode,
+> >  		case S_IFCHR: case S_IFBLK:
+> > -			error =3D vfs_mknod(idmap, path.dentry->d_inode,
+> > -					  dentry, mode, new_decode_dev(dev));
+> > +			error =3D __vfs_mknod(idmap, path.dentry->d_inode,
+> > +					    dentry, mode, new_decode_dev(dev),
+> > +					    &delegated_inode);
+> >  			break;
+> >  		case S_IFIFO: case S_IFSOCK:
+> > -			error =3D vfs_mknod(idmap, path.dentry->d_inode,
+> > -					  dentry, mode, 0);
+> > +			error =3D __vfs_mknod(idmap, path.dentry->d_inode,
+> > +					    dentry, mode, 0,
+> > +					    &delegated_inode);
+> >  			break;
 > >  	}
 > >  out2:
-> >  	done_path_create(&path, dentry);
-> > +	if (delegated_inode) {
-> > +		error = break_deleg_wait(&delegated_inode);
-> > +		if (!error)
-> > +			goto retry;
-> > +	}
-> >  	if (retry_estale(error, lookup_flags)) {
-> >  		lookup_flags |= LOOKUP_REVAL;
-> >  		goto retry;
-> > 
-> > -- 
+> >=20
+> > --=20
 > > 2.51.0
-> > 
-> -- 
-> Jan Kara <jack@suse.com>
-> SUSE Labs, CR
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> >=20
+
+--=20
+Jeff Layton <jlayton@kernel.org>
 
