@@ -1,76 +1,77 @@
-Return-Path: <ecryptfs+bounces-479-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-480-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EE43BD4B15
-	for <lists+ecryptfs@lfdr.de>; Mon, 13 Oct 2025 18:02:23 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id A536DBD6217
+	for <lists+ecryptfs@lfdr.de>; Mon, 13 Oct 2025 22:36:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 4A0AD546223
-	for <lists+ecryptfs@lfdr.de>; Mon, 13 Oct 2025 15:38:37 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 1A2BE4F6EE4
+	for <lists+ecryptfs@lfdr.de>; Mon, 13 Oct 2025 20:35:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7911D30DD31;
-	Mon, 13 Oct 2025 15:26:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFD4030C60B;
+	Mon, 13 Oct 2025 20:33:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QiXKKGQ7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DKswOP3J"
 X-Original-To: ecryptfs@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 380CF30DEA4;
-	Mon, 13 Oct 2025 15:26:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2D530C605;
+	Mon, 13 Oct 2025 20:33:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760369191; cv=none; b=p95bW+MzApwIsdspm5L2uCzvVPo2fwzE0tmLP6u1ihwl+njfk5b75C3Jza3a8CrWPZI0TKv8UooiQe6/iDMPFqh/HuyMYAeJwrzDm6MIb6JWPEI09UIJZpHiS4+gxHplNBs/7sEI/ttBclP+jF69pIWK42kUs21JvbevK5UgTGk=
+	t=1760387607; cv=none; b=M8DIpmkcnQbsZY+Lmh56WsFWhh8L9uv78AWQ0VllGNr5yVcCPNtHgksBbvTyHKZwqg94J+CvTK9m7HPM181VyOqkf7BES/NFlh1oyA61ON3UlGLnd1fuCntpStm1ogLTv+9qqbxQfwN3XMWXxyzupH9+1Xg5rXNMIlufCQfzHpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760369191; c=relaxed/simple;
-	bh=qzmsCLHvn1CkR8Is3amMxqjd9S3jL+Su3MM1yXwJK78=;
+	s=arc-20240116; t=1760387607; c=relaxed/simple;
+	bh=7AKYyDo9YRgfWjkjqDCsr+AI5gn+xU6nxrB2mhKrsmQ=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=GQmVHuiacZ3y0U46TNfMThLhJcxDpObeAXZn3Ok9KGDxRZOqqZJXY0XsnDJLNWTZ55DFB2WIlZQHuY3A3h09/TieO+imavMf4CmfSPXxbf+GLzfkK0ooBjfSeXvTJWi8gz6Lb+AyLq4u9YrtkMt/Wgq9MomZbbDZl6x/LgTB84c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QiXKKGQ7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA24EC4CEE7;
-	Mon, 13 Oct 2025 15:26:27 +0000 (UTC)
+	 Content-Type:MIME-Version; b=BVNEPc/9yBqVYwfKA4hJSvvJUM1eGUFvx7hw1cV+5ispTEe/pY7WBT2FJYWszLs2oXRjo/sFhxDioZvwx3uS9SUW/rF35Eq4pKW9hm9EhJxv0t4NnraOlsGDhiDSGDoIEZ5M0+xVWhjOy0GjvGEwY2Qu63Ki/UUBTrRT2FufxX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DKswOP3J; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9EE8C4CEE7;
+	Mon, 13 Oct 2025 20:33:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760369190;
-	bh=qzmsCLHvn1CkR8Is3amMxqjd9S3jL+Su3MM1yXwJK78=;
+	s=k20201202; t=1760387607;
+	bh=7AKYyDo9YRgfWjkjqDCsr+AI5gn+xU6nxrB2mhKrsmQ=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=QiXKKGQ7b0mt3ydyGwtJiiW6eJ8DGV/i8ZZQhxArZWBtRDEngK49QSNoDisJez2pG
-	 pC9GXsrZBQHwFHZdZEvFcFPSseVuH1l4Qy5olxWrpi5/GVLPsaQnd7pxkHMpS0ItGq
-	 bvc9Avu87Vk6L1Inb2Q/+gNv65mY67MBZBOG5cUSXLvacxeDYp2enHeGINuHtdScuK
-	 F4CAyjA8Idu5z5xKnNvSSKIQHu0nHnhgLXKR0Dd7NfEles20HmDKiIDZeUXPC33qxf
-	 qDT8jdk70ob8XWp6UOqDEqJ4qP5ExfAn7U91RZ8gkSg9JZ98uhjOPOyB/O0X8AiwRK
-	 Afa23H3GqOHGA==
-Message-ID: <acc332bcc7ad4b6f4d901bf783a5017dd6eca1b5.camel@kernel.org>
-Subject: Re: [PATCH 00/13] vfs: recall-only directory delegations for knfsd
+	b=DKswOP3J8KzmwjB6+tH1MMhzGvvpE8+q92VjjxZkb96+E516W8xA7OrNtnBwwy//5
+	 18zobh8/DhxMT753geoFpyUsyo3ycP8SEih6FhDAl0RzJUC0Cu9MWKgZdqdtrZ9Axe
+	 1E/3myAM34j3ZUXGc6gXHEzyO8qaWJyW4s898JKqPHTWIjp8MJIvu/HBUsBfVSVosz
+	 9yBkJKfmmtYADA3aLJtWhpPirpuyKsdnPYOukwMPW5qYoLRjFNh0z1nLc24MkyHbof
+	 x13XGa/d4ccZvJMw0onY3D1PGn8vLUTRbT7Thv95JiYizOWN+yV0nYCXy1qoR1DX7g
+	 UdEAn6CZUpLBQ==
+Message-ID: <4c582926e3996a6582e29fd4e51e926fb9d2c537.camel@kernel.org>
+Subject: Re: [PATCH 07/13] vfs: make vfs_create break delegations on parent
+ directory
 From: Jeff Layton <jlayton@kernel.org>
-To: Chuck Lever <chuck.lever@oracle.com>, Miklos Szeredi
- <miklos@szeredi.hu>,  Alexander Viro <viro@zeniv.linux.org.uk>, Christian
- Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,  Alexander Aring
+To: Miklos Szeredi <miklos@szeredi.hu>, Alexander Viro
+ <viro@zeniv.linux.org.uk>,  Christian Brauner	 <brauner@kernel.org>, Jan
+ Kara <jack@suse.cz>, Chuck Lever	 <chuck.lever@oracle.com>, Alexander Aring
  <alex.aring@gmail.com>, Trond Myklebust <trondmy@kernel.org>, Anna
- Schumaker <anna@kernel.org>,  Steve French <sfrench@samba.org>, Paulo
- Alcantara <pc@manguebit.org>, Ronnie Sahlberg	 <ronniesahlberg@gmail.com>,
- Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey	 <tom@talpey.com>,
- Bharath SM <bharathsm@microsoft.com>, Greg Kroah-Hartman	
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
- Danilo Krummrich	 <dakr@kernel.org>, David Howells <dhowells@redhat.com>,
- Tyler Hicks	 <code@tyhicks.com>, NeilBrown <neil@brown.name>, Olga
- Kornievskaia	 <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Amir
- Goldstein	 <amir73il@gmail.com>, Namjae Jeon <linkinjeon@kernel.org>, Steve
- French	 <smfrench@gmail.com>, Sergey Senozhatsky
+ Schumaker <anna@kernel.org>, Steve French <sfrench@samba.org>,  Paulo
+ Alcantara	 <pc@manguebit.org>, Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Shyam Prasad N	 <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>,
+ Bharath SM	 <bharathsm@microsoft.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>,  "Rafael J. Wysocki"	 <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, David Howells	 <dhowells@redhat.com>,
+ Tyler Hicks <code@tyhicks.com>, NeilBrown <neil@brown.name>,  Olga
+ Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Amir
+ Goldstein <amir73il@gmail.com>, Namjae Jeon	 <linkinjeon@kernel.org>, Steve
+ French <smfrench@gmail.com>, Sergey Senozhatsky	
  <senozhatsky@chromium.org>, Carlos Maiolino <cem@kernel.org>, Kuniyuki
- Iwashima <kuniyu@google.com>, "David S. Miller"	 <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski	 <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman	 <horms@kernel.org>
+ Iwashima	 <kuniyu@google.com>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet	 <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni	 <pabeni@redhat.com>, Simon Horman <horms@kernel.org>
 Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
 	samba-technical@lists.samba.org, netfs@lists.linux.dev,
  ecryptfs@vger.kernel.org, 	linux-unionfs@vger.kernel.org,
  linux-xfs@vger.kernel.org, netdev@vger.kernel.org
-Date: Mon, 13 Oct 2025 11:26:26 -0400
-In-Reply-To: <846db8bf-6e5a-4a2c-90fa-3d4ffaf4c1de@oracle.com>
+Date: Mon, 13 Oct 2025 16:33:22 -0400
+In-Reply-To: <20251013-dir-deleg-ro-v1-7-406780a70e5e@kernel.org>
 References: <20251013-dir-deleg-ro-v1-0-406780a70e5e@kernel.org>
-	 <846db8bf-6e5a-4a2c-90fa-3d4ffaf4c1de@oracle.com>
+	 <20251013-dir-deleg-ro-v1-7-406780a70e5e@kernel.org>
 Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
  keydata=mQINBE6V0TwBEADXhJg7s8wFDwBMEvn0qyhAnzFLTOCHooMZyx7XO7dAiIhDSi7G1NPxw
  n8jdFUQMCR/GlpozMFlSFiZXiObE7sef9rTtM68ukUyZM4pJ9l0KjQNgDJ6Fr342Htkjxu/kFV1Wv
@@ -155,24 +156,127 @@ List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-On Mon, 2025-10-13 at 10:52 -0400, Chuck Lever wrote:
-> On 10/13/25 10:47 AM, Jeff Layton wrote:
-> > It would be great if we could get into linux-next soon so that it can b=
-e
-> > merged for v6.19. Christian, could you pick up the vfs/filelock patches=
-,
-> > and Chuck pick up the nfsd patches?
+On Mon, 2025-10-13 at 10:48 -0400, Jeff Layton wrote:
+> In order to add directory delegation support, we need to break
+> delegations on the parent whenever there is going to be a change in the
+> directory.
 >=20
-> Question about merge strategy:
->=20
-> Seems like I would have to base nfsd-testing (and nfsd-next) on
-> Christian's tree, once the VFS changes are applied, for one or two of
-> the NFSD patches to work. Yes?
+> Rename vfs_create as __vfs_create, make it static, and add a new
+> delegated_inode parameter. Fix do_mknodat to call __vfs_create and wait
+> for a delegation break if there is one. Add a new exported vfs_create
+> wrapper that passes in NULL for delegated_inode.
 >=20
 
-Correct. I think the usual way we've done this in the past is to have
-Christian create a branch with just the vfs layer patches that you and
-he can both pull into your -next branches.
+My apologies. I meant to change this to just add the extra parameter to
+vfs_create() without all of the wrapper nonsense. I'll plan to re-post
+at least once more, but I'll wait a bit in case there are other changes
+needed.
+
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> ---
+>  fs/namei.c | 55 ++++++++++++++++++++++++++++++++++++-------------------
+>  1 file changed, 36 insertions(+), 19 deletions(-)
+>=20
+> diff --git a/fs/namei.c b/fs/namei.c
+> index 786f42bd184b5dbf6d754fa1fb6c94c0f75429f2..1427c53e13978e70adefdc572=
+b71247536985430 100644
+> --- a/fs/namei.c
+> +++ b/fs/namei.c
+> @@ -3458,6 +3458,32 @@ static inline umode_t vfs_prepare_mode(struct mnt_=
+idmap *idmap,
+>  	return mode;
+>  }
+> =20
+> +static int __vfs_create(struct mnt_idmap *idmap, struct inode *dir,
+> +			struct dentry *dentry, umode_t mode, bool want_excl,
+> +			struct inode **delegated_inode)
+> +{
+> +	int error;
+> +
+> +	error =3D may_create(idmap, dir, dentry);
+> +	if (error)
+> +		return error;
+> +
+> +	if (!dir->i_op->create)
+> +		return -EACCES;	/* shouldn't it be ENOSYS? */
+> +
+> +	mode =3D vfs_prepare_mode(idmap, dir, mode, S_IALLUGO, S_IFREG);
+> +	error =3D security_inode_create(dir, dentry, mode);
+> +	if (error)
+> +		return error;
+> +	error =3D try_break_deleg(dir, delegated_inode);
+> +	if (error)
+> +		return error;
+> +	error =3D dir->i_op->create(idmap, dir, dentry, mode, want_excl);
+> +	if (!error)
+> +		fsnotify_create(dir, dentry);
+> +	return error;
+> +}
+> +
+>  /**
+>   * vfs_create - create new file
+>   * @idmap:	idmap of the mount the inode was found from
+> @@ -3477,23 +3503,7 @@ static inline umode_t vfs_prepare_mode(struct mnt_=
+idmap *idmap,
+>  int vfs_create(struct mnt_idmap *idmap, struct inode *dir,
+>  	       struct dentry *dentry, umode_t mode, bool want_excl)
+>  {
+> -	int error;
+> -
+> -	error =3D may_create(idmap, dir, dentry);
+> -	if (error)
+> -		return error;
+> -
+> -	if (!dir->i_op->create)
+> -		return -EACCES;	/* shouldn't it be ENOSYS? */
+> -
+> -	mode =3D vfs_prepare_mode(idmap, dir, mode, S_IALLUGO, S_IFREG);
+> -	error =3D security_inode_create(dir, dentry, mode);
+> -	if (error)
+> -		return error;
+> -	error =3D dir->i_op->create(idmap, dir, dentry, mode, want_excl);
+> -	if (!error)
+> -		fsnotify_create(dir, dentry);
+> -	return error;
+> +	return __vfs_create(idmap, dir, dentry, mode, want_excl, NULL);
+>  }
+>  EXPORT_SYMBOL(vfs_create);
+> =20
+> @@ -4365,6 +4375,7 @@ static int do_mknodat(int dfd, struct filename *nam=
+e, umode_t mode,
+>  	struct path path;
+>  	int error;
+>  	unsigned int lookup_flags =3D 0;
+> +	struct inode *delegated_inode =3D NULL;
+> =20
+>  	error =3D may_mknod(mode);
+>  	if (error)
+> @@ -4383,8 +4394,9 @@ static int do_mknodat(int dfd, struct filename *nam=
+e, umode_t mode,
+>  	idmap =3D mnt_idmap(path.mnt);
+>  	switch (mode & S_IFMT) {
+>  		case 0: case S_IFREG:
+> -			error =3D vfs_create(idmap, path.dentry->d_inode,
+> -					   dentry, mode, true);
+> +			error =3D __vfs_create(idmap, path.dentry->d_inode,
+> +					     dentry, mode, true,
+> +					     &delegated_inode);
+>  			if (!error)
+>  				security_path_post_mknod(idmap, dentry);
+>  			break;
+> @@ -4399,6 +4411,11 @@ static int do_mknodat(int dfd, struct filename *na=
+me, umode_t mode,
+>  	}
+>  out2:
+>  	end_creating_path(&path, dentry);
+> +	if (delegated_inode) {
+> +		error =3D break_deleg_wait(&delegated_inode);
+> +		if (!error)
+> +			goto retry;
+> +	}
+>  	if (retry_estale(error, lookup_flags)) {
+>  		lookup_flags |=3D LOOKUP_REVAL;
+>  		goto retry;
 
 --=20
 Jeff Layton <jlayton@kernel.org>
