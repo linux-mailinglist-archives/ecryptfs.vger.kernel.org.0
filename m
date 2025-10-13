@@ -1,635 +1,194 @@
-Return-Path: <ecryptfs+bounces-463-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-464-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DD1FBCFC8A
-	for <lists+ecryptfs@lfdr.de>; Sat, 11 Oct 2025 22:02:32 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE5B6BD3AEF
+	for <lists+ecryptfs@lfdr.de>; Mon, 13 Oct 2025 16:51:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id EF5DB4E7E4B
-	for <lists+ecryptfs@lfdr.de>; Sat, 11 Oct 2025 20:02:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DAF7018830B3
+	for <lists+ecryptfs@lfdr.de>; Mon, 13 Oct 2025 14:51:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D991021B905;
-	Sat, 11 Oct 2025 20:02:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E51B826F445;
+	Mon, 13 Oct 2025 14:48:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mdAQFONs"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lKGV3p7A"
 X-Original-To: ecryptfs@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9CD4594A;
-	Sat, 11 Oct 2025 20:02:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A29E6211290;
+	Mon, 13 Oct 2025 14:48:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760212946; cv=none; b=rHozWHy4ozKxL3+mz68fTXG0hfRzpUuWyop7XO531hWI52AJysVu8ssdv5Twqryc31TP9LJpHz+RJf1QgDm569ESkY9vSt6mAyDpIQbY3UwdcwDhs56BtV8nEk2KNDhdbSaera6/cy859vN2WZBWDl+WqkI2X+7eGq6+7jgI05Q=
+	t=1760366896; cv=none; b=CSU2HVB91Qyp1U5UQpOtSLlURnIC7NTjTRSQ3YhttUEnOK/dZ5qp1uV78lRyDfmhkvhfD8uWd0pDfS+CvPrKeuWj+kNxpIDU44fk/qHNmxUfgCvWYZUSIlkew2o6ATK8u79yFZeS6t3ckC6BnKdJigwHNbCYsFZXtYZtHgglWCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760212946; c=relaxed/simple;
-	bh=FJgyJcCrFtfLyut82DOD1FxEo6UczmkBlhsTQvcJtjw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=D+XB/W1NLHlRJFSnXXih1B/h0CdSU4sxZpAhBWxeVpCwS7GTWNnGSqKoG0j4UN9pPdKGvHIspaHkDpcLLwXJEz3fBM+19h6yEc5/hBMkEKWjhkb7tWjylm1hsk5P114mDmKYPNDsKuPX+CbUmJO3pSB9x/Alj9FXmgsH4vCFLco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mdAQFONs; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1C03C4CEF4;
-	Sat, 11 Oct 2025 20:02:24 +0000 (UTC)
+	s=arc-20240116; t=1760366896; c=relaxed/simple;
+	bh=jWgRdOclHfQbfaaf9W2P4KkHZdNwhBqzpIGWPibgK3c=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=hae2wJ7NDRafYQh8LIA0b8jwu8oAFbGvk6fzN7MHeaBBcZ6mWA0a1h0kqfODEjc4eXWKKAaB9xHYrAAgbxbRxzCKJrKN2Xubd5fiWDKHF1i6xN9nUMYPP1m+yQfgX3FiYfssj/PTO5K/zIhI6pyxfYbh7KNQABhg3o8+/mmG9xM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lKGV3p7A; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB088C4CEE7;
+	Mon, 13 Oct 2025 14:48:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760212945;
-	bh=FJgyJcCrFtfLyut82DOD1FxEo6UczmkBlhsTQvcJtjw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=mdAQFONspnA6dXaGvjaUnd/Kuk+j4PEnbG716ng+af6vyo/3+Y7qjHYzxfDtl/oUH
-	 AWVNrjMHNc4SoNWGufpbMLKBTUd0nZ6jphSGAWj2aSE9T41NHYbBJUkKipi3XbqCug
-	 BXIQejfGVOygMqjSS6QzdyHiPB8KsVovf4bdNRXb1hi+GJDMHi4Ekfg+ZH9BTjhkRz
-	 D2N3bqse0GEZS80aCy+Ktxna7fKG3Yv1GDlxJBix3LI7x51gUxDJfeKjzOUYL4+klv
-	 5qw4XmKvdkAXS5BlCSQQRUgX8c5n//qaLMdY9q/aMmR9EAprPa4ap99O6y9OIa2mg/
-	 H1D5tfbrQyr2A==
-From: Eric Biggers <ebiggers@kernel.org>
-To: ecryptfs@vger.kernel.org,
-	linux-crypto@vger.kernel.org
-Cc: Tyler Hicks <code@tyhicks.com>,
-	linux-fsdevel@vger.kernel.org,
-	Eric Biggers <ebiggers@kernel.org>
-Subject: [PATCH] ecryptfs: Use MD5 library instead of crypto_shash
-Date: Sat, 11 Oct 2025 13:00:10 -0700
-Message-ID: <20251011200010.193140-1-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.51.0
+	s=k20201202; t=1760366896;
+	bh=jWgRdOclHfQbfaaf9W2P4KkHZdNwhBqzpIGWPibgK3c=;
+	h=From:Subject:Date:To:Cc:From;
+	b=lKGV3p7AwvrM7OJT7hOATJJT/UQN+kJq3n5xXj6pTbNb/aPqxIKhMOTBAMtYBveMU
+	 TgVOAT3NRJ2aqglav+lGus1drXMm5aA7AevvrCajbMeOZRo73m8fEM85t6G9zOnC47
+	 bkXLvwRG4lqnGBYomaZtBBEvED6bhbRwQKQzmgMFrnyZCIApHKZO4f7D6WeL8G25Rg
+	 c78aaDpyifmo5QKKLtVuHnMGcM83XQC/oy/41mkt0StfUpPOcU04WD37SJs+QTiVDz
+	 BHIRDvjN4HiU4B7Taa7rtLbx8UC+3WZc2Bx3pqHcQkG8pBWPz6ckrC0p8kFu8F2RJB
+	 G42YDsjvFASow==
+From: Jeff Layton <jlayton@kernel.org>
+Subject: [PATCH 00/13] vfs: recall-only directory delegations for knfsd
+Date: Mon, 13 Oct 2025 10:47:58 -0400
+Message-Id: <20251013-dir-deleg-ro-v1-0-406780a70e5e@kernel.org>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAB4R7WgC/x3MMQqAMAxA0atIZgNNi6BeRRzUpjUgVVIQoXh3i
+ +Mb/i+QWYUzjE0B5VuynKmC2ga2fUmRUXw1WGM7MuTQi6LngyPqid4EpqG3brUENbmUgzz/bpr
+ f9wMsflGqXgAAAA==
+X-Change-ID: 20251013-dir-deleg-ro-d0fe19823b21
+To: Miklos Szeredi <miklos@szeredi.hu>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Chuck Lever <chuck.lever@oracle.com>, 
+ Alexander Aring <alex.aring@gmail.com>, 
+ Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
+ Steve French <sfrench@samba.org>, Paulo Alcantara <pc@manguebit.org>, 
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
+ Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>, 
+ Bharath SM <bharathsm@microsoft.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ David Howells <dhowells@redhat.com>, Tyler Hicks <code@tyhicks.com>, 
+ NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
+ Dai Ngo <Dai.Ngo@oracle.com>, Amir Goldstein <amir73il@gmail.com>, 
+ Namjae Jeon <linkinjeon@kernel.org>, Steve French <smfrench@gmail.com>, 
+ Sergey Senozhatsky <senozhatsky@chromium.org>, 
+ Carlos Maiolino <cem@kernel.org>, Kuniyuki Iwashima <kuniyu@google.com>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
+ samba-technical@lists.samba.org, netfs@lists.linux.dev, 
+ ecryptfs@vger.kernel.org, linux-unionfs@vger.kernel.org, 
+ linux-xfs@vger.kernel.org, netdev@vger.kernel.org, 
+ Jeff Layton <jlayton@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4011; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=jWgRdOclHfQbfaaf9W2P4KkHZdNwhBqzpIGWPibgK3c=;
+ b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBo7REpbSXN3G6FhVhF7XoUUMttobFKJ1BVSzBKY
+ aCDKYuY4e2JAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaO0RKQAKCRAADmhBGVaC
+ FdWwEADB1fG+r8Su4S75zX1urKLYXefEdzK/4m7dqrLwtnMwVrkRljoJZTmFyjRp1sLur6cTdfm
+ BefXgRYtzswymnNoi9hw19fh/D0zWJ5o/nJetdEaseeMqb9pwOuflLudHalhJIQ+G3evmWazi1F
+ ZJJzDF9WiQchXF9Ezx56oZQTJpcxdXIdtE9VRLz//IFzRwAGlHttrOpnW8iKq7jaouBEwFQ7pLj
+ l5aF/xUAMxIKotGm0r1pOf6BFMLZd6n3e1NZJTPllLvT1bvpa/w9EW1ABO4SgzvFmPTl5Yj7OVi
+ eXYM2I9HeykVe3h9cW0z0jRIkSuJGZC5Cmvvlpg6PFHQXBJqbHuIKQb4wMMCxoebTZJVBanLuIc
+ SkSncW7lEH8Z56zqAJHNFSN7ApLT6xo8Cljcbk2ZpciKJcoWjXjCFIat62ASVUwAhpT2V1rIMZl
+ DvINrGLx1hl1stODptoSPvW8f+P4UbeRI5UAYRDYsV38WJPYwrCJlFbdXnY8SaxH+YSslvABTVh
+ xG1M9pPAgwZDe+2SN3/krfrgncKX9UujZrJBaIkuJS8YFJMG6+R4LcajTSrQvdyOSj+7+TTB+vx
+ a1jxuVEnA/cOqUmxrGC5B64PWdoG+UQEmYMFp2gg38R7C0Yls2PcT9yGsdlWTcUXohOHPoWsR8L
+ IIbHtLPojiFcNXg==
+X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
+ fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 
-eCryptfs uses MD5 for a couple unusual purposes: to "mix" the key into
-the IVs for file contents encryption (similar to ESSIV), and to prepend
-some key-dependent bytes to the plaintext when encrypting filenames
-(which is useless since eCryptfs encrypts the filenames with ECB).
+At the fall NFS Bakeathon last week, the NFS client and server
+maintainers had a discussion about how to merge support for directory
+delegations. We decided to start with just merging support for simple,
+recallable-only directory delegation support, for a number of reasons:
 
-Currently, eCryptfs computes these MD5 hashes using the crypto_shash
-API.  Update it to instead use the MD5 library API.  This is simpler and
-faster: the library doesn't require memory allocations, can't fail, and
-provides direct access to MD5 without overhead such as indirect calls.
+1/ RFC8881 has some gaps in coverage that we are hoping to have
+addressed in RFC8881bis. In particular, it's written such that CB_NOTIFY
+callbacks require directory position information. That will be hard to
+do properly under Linux, so we're planning to extend the spec to allow
+that information to be omitted.
 
-To preserve the existing behavior of eCryptfs support being disabled
-when the kernel is booted with "fips=1", make ecryptfs_get_tree() check
-fips_enabled itself.  Previously it relied on crypto_alloc_shash("md5")
-failing.  I don't know for sure that this is actually needed; e.g., it
-could be argued that eCryptfs's use of MD5 isn't for a security purpose
-as far as FIPS is concerned.  But this preserves the existing behavior.
+2/ client-side support for CB_NOTIFY still lags a bit. The client side
+is tricky, as it involves heuristics about when to request a delegation.
 
-Tested by verifying that an existing eCryptfs can still be mounted with
-a kernel that has this commit, with all the files matching.  Also tested
-creating a filesystem with this commit and mounting+reading it without.
+3/ we have some early indication that simple, recallable-only
+delegations can help performance in some cases. Anna mentioned seeing a
+multi-minute speedup in xfstests runs with them enabled. This needs more
+investigation, but it's promising and seems like enough justification to
+merge support.
 
-Signed-off-by: Eric Biggers <ebiggers@kernel.org>
+This patchset is quite similar to the set I initially posted back in
+early 2024 [1]. We've merged some GET_DIR_DELEGATION handling patches
+since then, but the VFS layer support is basically the same.
+
+One thing that I want to make clear is that with this patchset, userspace
+can request a read lease on a directory that will be recalled on
+conflicting accesses. I saw no reason to prevent this, and I think it may
+be something useful for applications like Samba.
+
+As always, users can disable leases altogether via the fs.leases-enable
+sysctl if this is an issue, but I wanted to point this out in case
+anyone sees footguns here.
+
+It would be great if we could get into linux-next soon so that it can be
+merged for v6.19. Christian, could you pick up the vfs/filelock patches,
+and Chuck pick up the nfsd patches?
+
+Thanks!
+
+[1]: https://lore.kernel.org/all/20240315-dir-deleg-v1-0-a1d6209a3654@kernel.org/
+
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
 ---
+Jeff Layton (13):
+      filelock: push the S_ISREG check down to ->setlease handlers
+      filelock: add a lm_may_setlease lease_manager callback
+      vfs: add try_break_deleg calls for parents to vfs_{link,rename,unlink}
+      vfs: allow mkdir to wait for delegation break on parent
+      vfs: allow rmdir to wait for delegation break on parent
+      vfs: break parent dir delegations in open(..., O_CREAT) codepath
+      vfs: make vfs_create break delegations on parent directory
+      vfs: make vfs_mknod break delegations on parent directory
+      filelock: lift the ban on directory leases in generic_setlease
+      nfsd: allow filecache to hold S_IFDIR files
+      nfsd: allow DELEGRETURN on directories
+      nfsd: check for delegation conflicts vs. the same client
+      nfsd: wire up GET_DIR_DELEGATION handling
 
-I can take this through the libcrypto tree if no one else volunteers.
-(It looks like eCryptfs doesn't have an active git tree anymore.)
+ drivers/base/devtmpfs.c  |   6 +-
+ fs/cachefiles/namei.c    |   2 +-
+ fs/ecryptfs/inode.c      |   6 +-
+ fs/fuse/dir.c            |   1 +
+ fs/init.c                |   4 +-
+ fs/locks.c               |  17 ++++-
+ fs/namei.c               | 163 ++++++++++++++++++++++++++++++++++-------------
+ fs/nfs/nfs4file.c        |   2 +
+ fs/nfsd/filecache.c      |  50 +++++++++++----
+ fs/nfsd/filecache.h      |   2 +
+ fs/nfsd/nfs4proc.c       |  21 +++++-
+ fs/nfsd/nfs4recover.c    |   6 +-
+ fs/nfsd/nfs4state.c      | 114 ++++++++++++++++++++++++++++++++-
+ fs/nfsd/state.h          |   5 ++
+ fs/nfsd/vfs.c            |  11 ++--
+ fs/nfsd/vfs.h            |   2 +-
+ fs/overlayfs/overlayfs.h |   6 +-
+ fs/smb/client/cifsfs.c   |   3 +
+ fs/smb/server/vfs.c      |   6 +-
+ fs/xfs/scrub/orphanage.c |   2 +-
+ include/linux/filelock.h |  14 ++++
+ include/linux/fs.h       |   9 +--
+ net/unix/af_unix.c       |   2 +-
+ 23 files changed, 363 insertions(+), 91 deletions(-)
+---
+base-commit: 2c40814eb5ae104d3f898fd8b705ecad114105b5
+change-id: 20251013-dir-deleg-ro-d0fe19823b21
 
- fs/ecryptfs/Kconfig           |  2 +-
- fs/ecryptfs/crypto.c          | 90 ++++-------------------------------
- fs/ecryptfs/ecryptfs_kernel.h | 13 ++---
- fs/ecryptfs/inode.c           |  7 +--
- fs/ecryptfs/keystore.c        | 65 +++++--------------------
- fs/ecryptfs/main.c            |  7 +++
- fs/ecryptfs/super.c           |  5 +-
- 7 files changed, 35 insertions(+), 154 deletions(-)
-
-diff --git a/fs/ecryptfs/Kconfig b/fs/ecryptfs/Kconfig
-index 1bdeaa6d57900..c2f4fb41b4e6a 100644
---- a/fs/ecryptfs/Kconfig
-+++ b/fs/ecryptfs/Kconfig
-@@ -2,11 +2,11 @@
- config ECRYPT_FS
- 	tristate "eCrypt filesystem layer support"
- 	depends on KEYS && CRYPTO && (ENCRYPTED_KEYS || ENCRYPTED_KEYS=n)
- 	select CRYPTO_ECB
- 	select CRYPTO_CBC
--	select CRYPTO_MD5
-+	select CRYPTO_LIB_MD5
- 	help
- 	  Encrypted filesystem that operates on the VFS layer.  See
- 	  <file:Documentation/filesystems/ecryptfs.rst> to learn more about
- 	  eCryptfs.  Userspace components are required and can be
- 	  obtained from <http://ecryptfs.sf.net>.
-diff --git a/fs/ecryptfs/crypto.c b/fs/ecryptfs/crypto.c
-index 69536cacdea8d..260f8a4938b01 100644
---- a/fs/ecryptfs/crypto.c
-+++ b/fs/ecryptfs/crypto.c
-@@ -7,11 +7,10 @@
-  * Copyright (C) 2004-2007 International Business Machines Corp.
-  *   Author(s): Michael A. Halcrow <mahalcro@us.ibm.com>
-  *   		Michael C. Thompson <mcthomps@us.ibm.com>
-  */
- 
--#include <crypto/hash.h>
- #include <crypto/skcipher.h>
- #include <linux/fs.h>
- #include <linux/mount.h>
- #include <linux/pagemap.h>
- #include <linux/random.h>
-@@ -46,36 +45,10 @@ void ecryptfs_from_hex(char *dst, char *src, int dst_size)
- 		tmp[1] = src[x * 2 + 1];
- 		dst[x] = (unsigned char)simple_strtol(tmp, NULL, 16);
- 	}
- }
- 
--/**
-- * ecryptfs_calculate_md5 - calculates the md5 of @src
-- * @dst: Pointer to 16 bytes of allocated memory
-- * @crypt_stat: Pointer to crypt_stat struct for the current inode
-- * @src: Data to be md5'd
-- * @len: Length of @src
-- *
-- * Uses the allocated crypto context that crypt_stat references to
-- * generate the MD5 sum of the contents of src.
-- */
--static int ecryptfs_calculate_md5(char *dst,
--				  struct ecryptfs_crypt_stat *crypt_stat,
--				  char *src, int len)
--{
--	int rc = crypto_shash_tfm_digest(crypt_stat->hash_tfm, src, len, dst);
--
--	if (rc) {
--		printk(KERN_ERR
--		       "%s: Error computing crypto hash; rc = [%d]\n",
--		       __func__, rc);
--		goto out;
--	}
--out:
--	return rc;
--}
--
- static int ecryptfs_crypto_api_algify_cipher_name(char **algified_name,
- 						  char *cipher_name,
- 						  char *chaining_modifier)
- {
- 	int cipher_name_len = strlen(cipher_name);
-@@ -102,17 +75,14 @@ static int ecryptfs_crypto_api_algify_cipher_name(char **algified_name,
-  * @crypt_stat: Pointer to crypt_stat struct for the current inode
-  * @offset: Offset of the extent whose IV we are to derive
-  *
-  * Generate the initialization vector from the given root IV and page
-  * offset.
-- *
-- * Returns zero on success; non-zero on error.
-  */
--int ecryptfs_derive_iv(char *iv, struct ecryptfs_crypt_stat *crypt_stat,
--		       loff_t offset)
-+void ecryptfs_derive_iv(char *iv, struct ecryptfs_crypt_stat *crypt_stat,
-+			loff_t offset)
- {
--	int rc = 0;
- 	char dst[MD5_DIGEST_SIZE];
- 	char src[ECRYPTFS_MAX_IV_BYTES + 16];
- 
- 	if (unlikely(ecryptfs_verbosity > 0)) {
- 		ecryptfs_printk(KERN_DEBUG, "root iv:\n");
-@@ -127,55 +97,32 @@ int ecryptfs_derive_iv(char *iv, struct ecryptfs_crypt_stat *crypt_stat,
- 	snprintf((src + crypt_stat->iv_bytes), 16, "%lld", offset);
- 	if (unlikely(ecryptfs_verbosity > 0)) {
- 		ecryptfs_printk(KERN_DEBUG, "source:\n");
- 		ecryptfs_dump_hex(src, (crypt_stat->iv_bytes + 16));
- 	}
--	rc = ecryptfs_calculate_md5(dst, crypt_stat, src,
--				    (crypt_stat->iv_bytes + 16));
--	if (rc) {
--		ecryptfs_printk(KERN_WARNING, "Error attempting to compute "
--				"MD5 while generating IV for a page\n");
--		goto out;
--	}
-+	md5(src, crypt_stat->iv_bytes + 16, dst);
- 	memcpy(iv, dst, crypt_stat->iv_bytes);
- 	if (unlikely(ecryptfs_verbosity > 0)) {
- 		ecryptfs_printk(KERN_DEBUG, "derived iv:\n");
- 		ecryptfs_dump_hex(iv, crypt_stat->iv_bytes);
- 	}
--out:
--	return rc;
- }
- 
- /**
-  * ecryptfs_init_crypt_stat
-  * @crypt_stat: Pointer to the crypt_stat struct to initialize.
-  *
-  * Initialize the crypt_stat structure.
-  */
--int ecryptfs_init_crypt_stat(struct ecryptfs_crypt_stat *crypt_stat)
-+void ecryptfs_init_crypt_stat(struct ecryptfs_crypt_stat *crypt_stat)
- {
--	struct crypto_shash *tfm;
--	int rc;
--
--	tfm = crypto_alloc_shash(ECRYPTFS_DEFAULT_HASH, 0, 0);
--	if (IS_ERR(tfm)) {
--		rc = PTR_ERR(tfm);
--		ecryptfs_printk(KERN_ERR, "Error attempting to "
--				"allocate crypto context; rc = [%d]\n",
--				rc);
--		return rc;
--	}
--
- 	memset((void *)crypt_stat, 0, sizeof(struct ecryptfs_crypt_stat));
- 	INIT_LIST_HEAD(&crypt_stat->keysig_list);
- 	mutex_init(&crypt_stat->keysig_list_mutex);
- 	mutex_init(&crypt_stat->cs_mutex);
- 	mutex_init(&crypt_stat->cs_tfm_mutex);
--	crypt_stat->hash_tfm = tfm;
- 	crypt_stat->flags |= ECRYPTFS_STRUCT_INITIALIZED;
--
--	return 0;
- }
- 
- /**
-  * ecryptfs_destroy_crypt_stat
-  * @crypt_stat: Pointer to the crypt_stat struct to initialize.
-@@ -185,11 +132,10 @@ int ecryptfs_init_crypt_stat(struct ecryptfs_crypt_stat *crypt_stat)
- void ecryptfs_destroy_crypt_stat(struct ecryptfs_crypt_stat *crypt_stat)
- {
- 	struct ecryptfs_key_sig *key_sig, *key_sig_tmp;
- 
- 	crypto_free_skcipher(crypt_stat->tfm);
--	crypto_free_shash(crypt_stat->hash_tfm);
- 	list_for_each_entry_safe(key_sig, key_sig_tmp,
- 				 &crypt_stat->keysig_list, crypt_stat_list) {
- 		list_del(&key_sig->crypt_stat_list);
- 		kmem_cache_free(ecryptfs_key_sig_cache, key_sig);
- 	}
-@@ -359,18 +305,11 @@ static int crypt_extent(struct ecryptfs_crypt_stat *crypt_stat,
- 	struct scatterlist src_sg, dst_sg;
- 	size_t extent_size = crypt_stat->extent_size;
- 	int rc;
- 
- 	extent_base = (((loff_t)page_index) * (PAGE_SIZE / extent_size));
--	rc = ecryptfs_derive_iv(extent_iv, crypt_stat,
--				(extent_base + extent_offset));
--	if (rc) {
--		ecryptfs_printk(KERN_ERR, "Error attempting to derive IV for "
--			"extent [0x%.16llx]; rc = [%d]\n",
--			(unsigned long long)(extent_base + extent_offset), rc);
--		goto out;
--	}
-+	ecryptfs_derive_iv(extent_iv, crypt_stat, extent_base + extent_offset);
- 
- 	sg_init_table(&src_sg, 1);
- 	sg_init_table(&dst_sg, 1);
- 
- 	sg_set_page(&src_sg, src_page, extent_size,
-@@ -607,35 +546,24 @@ void ecryptfs_set_default_sizes(struct ecryptfs_crypt_stat *crypt_stat)
-  *
-  * On error, sets the root IV to all 0's.
-  */
- int ecryptfs_compute_root_iv(struct ecryptfs_crypt_stat *crypt_stat)
- {
--	int rc = 0;
- 	char dst[MD5_DIGEST_SIZE];
- 
- 	BUG_ON(crypt_stat->iv_bytes > MD5_DIGEST_SIZE);
- 	BUG_ON(crypt_stat->iv_bytes <= 0);
- 	if (!(crypt_stat->flags & ECRYPTFS_KEY_VALID)) {
--		rc = -EINVAL;
- 		ecryptfs_printk(KERN_WARNING, "Session key not valid; "
- 				"cannot generate root IV\n");
--		goto out;
--	}
--	rc = ecryptfs_calculate_md5(dst, crypt_stat, crypt_stat->key,
--				    crypt_stat->key_size);
--	if (rc) {
--		ecryptfs_printk(KERN_WARNING, "Error attempting to compute "
--				"MD5 while generating root IV\n");
--		goto out;
--	}
--	memcpy(crypt_stat->root_iv, dst, crypt_stat->iv_bytes);
--out:
--	if (rc) {
- 		memset(crypt_stat->root_iv, 0, crypt_stat->iv_bytes);
- 		crypt_stat->flags |= ECRYPTFS_SECURITY_WARNING;
-+		return -EINVAL;
- 	}
--	return rc;
-+	md5(crypt_stat->key, crypt_stat->key_size, dst);
-+	memcpy(crypt_stat->root_iv, dst, crypt_stat->iv_bytes);
-+	return 0;
- }
- 
- static void ecryptfs_generate_new_key(struct ecryptfs_crypt_stat *crypt_stat)
- {
- 	get_random_bytes(crypt_stat->key, crypt_stat->key_size);
-diff --git a/fs/ecryptfs/ecryptfs_kernel.h b/fs/ecryptfs/ecryptfs_kernel.h
-index 9e6ab0b413376..62a2ea7f59eda 100644
---- a/fs/ecryptfs/ecryptfs_kernel.h
-+++ b/fs/ecryptfs/ecryptfs_kernel.h
-@@ -12,10 +12,11 @@
-  */
- 
- #ifndef ECRYPTFS_KERNEL_H
- #define ECRYPTFS_KERNEL_H
- 
-+#include <crypto/md5.h>
- #include <crypto/skcipher.h>
- #include <keys/user-type.h>
- #include <keys/encrypted-type.h>
- #include <linux/kernel.h>
- #include <linux/fs.h>
-@@ -135,12 +136,10 @@ ecryptfs_get_key_payload_data(struct key *key)
- #define ECRYPTFS_FILE_SIZE_BYTES (sizeof(u64))
- #define ECRYPTFS_SIZE_AND_MARKER_BYTES (ECRYPTFS_FILE_SIZE_BYTES \
- 					+ MAGIC_ECRYPTFS_MARKER_SIZE_BYTES)
- #define ECRYPTFS_DEFAULT_CIPHER "aes"
- #define ECRYPTFS_DEFAULT_KEY_BYTES 16
--#define ECRYPTFS_DEFAULT_HASH "md5"
--#define ECRYPTFS_TAG_70_DIGEST ECRYPTFS_DEFAULT_HASH
- #define ECRYPTFS_TAG_1_PACKET_TYPE 0x01
- #define ECRYPTFS_TAG_3_PACKET_TYPE 0x8C
- #define ECRYPTFS_TAG_11_PACKET_TYPE 0xED
- #define ECRYPTFS_TAG_64_PACKET_TYPE 0x40
- #define ECRYPTFS_TAG_65_PACKET_TYPE 0x41
-@@ -161,12 +160,10 @@ ecryptfs_get_key_payload_data(struct key *key)
- 				     */
- /* Constraint: ECRYPTFS_FILENAME_MIN_RANDOM_PREPEND_BYTES >=
-  * ECRYPTFS_MAX_IV_BYTES */
- #define ECRYPTFS_FILENAME_MIN_RANDOM_PREPEND_BYTES 16
- #define ECRYPTFS_NON_NULL 0x42 /* A reasonable substitute for NULL */
--#define MD5_DIGEST_SIZE 16
--#define ECRYPTFS_TAG_70_DIGEST_SIZE MD5_DIGEST_SIZE
- #define ECRYPTFS_TAG_70_MIN_METADATA_SIZE (1 + ECRYPTFS_MIN_PKT_LEN_SIZE \
- 					   + ECRYPTFS_SIG_SIZE + 1 + 1)
- #define ECRYPTFS_TAG_70_MAX_METADATA_SIZE (1 + ECRYPTFS_MAX_PKT_LEN_SIZE \
- 					   + ECRYPTFS_SIG_SIZE + 1 + 1)
- #define ECRYPTFS_FEK_ENCRYPTED_FILENAME_PREFIX "ECRYPTFS_FEK_ENCRYPTED."
-@@ -235,12 +232,10 @@ struct ecryptfs_crypt_stat {
- 	size_t key_size;
- 	size_t extent_shift;
- 	unsigned int extent_mask;
- 	struct ecryptfs_mount_crypt_stat *mount_crypt_stat;
- 	struct crypto_skcipher *tfm;
--	struct crypto_shash *hash_tfm; /* Crypto context for generating
--					* the initialization vectors */
- 	unsigned char cipher[ECRYPTFS_MAX_CIPHER_NAME_SIZE + 1];
- 	unsigned char key[ECRYPTFS_MAX_KEY_BYTES];
- 	unsigned char root_iv[ECRYPTFS_MAX_IV_BYTES];
- 	struct list_head keysig_list;
- 	struct mutex keysig_list_mutex;
-@@ -556,11 +551,11 @@ int ecryptfs_encrypt_and_encode_filename(
- void ecryptfs_dump_hex(char *data, int bytes);
- int virt_to_scatterlist(const void *addr, int size, struct scatterlist *sg,
- 			int sg_size);
- int ecryptfs_compute_root_iv(struct ecryptfs_crypt_stat *crypt_stat);
- void ecryptfs_rotate_iv(unsigned char *iv);
--int ecryptfs_init_crypt_stat(struct ecryptfs_crypt_stat *crypt_stat);
-+void ecryptfs_init_crypt_stat(struct ecryptfs_crypt_stat *crypt_stat);
- void ecryptfs_destroy_crypt_stat(struct ecryptfs_crypt_stat *crypt_stat);
- void ecryptfs_destroy_mount_crypt_stat(
- 	struct ecryptfs_mount_crypt_stat *mount_crypt_stat);
- int ecryptfs_init_crypt_ctx(struct ecryptfs_crypt_stat *crypt_stat);
- int ecryptfs_write_inode_size_to_metadata(struct inode *ecryptfs_inode);
-@@ -691,11 +686,11 @@ ecryptfs_parse_tag_70_packet(char **filename, size_t *filename_size,
- 			     size_t *packet_size,
- 			     struct ecryptfs_mount_crypt_stat *mount_crypt_stat,
- 			     char *data, size_t max_packet_size);
- int ecryptfs_set_f_namelen(long *namelen, long lower_namelen,
- 			   struct ecryptfs_mount_crypt_stat *mount_crypt_stat);
--int ecryptfs_derive_iv(char *iv, struct ecryptfs_crypt_stat *crypt_stat,
--		       loff_t offset);
-+void ecryptfs_derive_iv(char *iv, struct ecryptfs_crypt_stat *crypt_stat,
-+			loff_t offset);
- 
- extern const struct xattr_handler * const ecryptfs_xattr_handlers[];
- 
- #endif /* #ifndef ECRYPTFS_KERNEL_H */
-diff --git a/fs/ecryptfs/inode.c b/fs/ecryptfs/inode.c
-index ed1394da8d6bd..bae9011fa62ff 100644
---- a/fs/ecryptfs/inode.c
-+++ b/fs/ecryptfs/inode.c
-@@ -901,15 +901,12 @@ static int ecryptfs_setattr(struct mnt_idmap *idmap,
- 	struct inode *inode;
- 	struct inode *lower_inode;
- 	struct ecryptfs_crypt_stat *crypt_stat;
- 
- 	crypt_stat = &ecryptfs_inode_to_private(d_inode(dentry))->crypt_stat;
--	if (!(crypt_stat->flags & ECRYPTFS_STRUCT_INITIALIZED)) {
--		rc = ecryptfs_init_crypt_stat(crypt_stat);
--		if (rc)
--			return rc;
--	}
-+	if (!(crypt_stat->flags & ECRYPTFS_STRUCT_INITIALIZED))
-+		ecryptfs_init_crypt_stat(crypt_stat);
- 	inode = d_inode(dentry);
- 	lower_inode = ecryptfs_inode_to_lower(inode);
- 	lower_dentry = ecryptfs_dentry_to_lower(dentry);
- 	mutex_lock(&crypt_stat->cs_mutex);
- 	if (d_is_dir(dentry))
-diff --git a/fs/ecryptfs/keystore.c b/fs/ecryptfs/keystore.c
-index 7f9f68c00ef63..bbf8603242fa0 100644
---- a/fs/ecryptfs/keystore.c
-+++ b/fs/ecryptfs/keystore.c
-@@ -9,11 +9,10 @@
-  *   Author(s): Michael A. Halcrow <mhalcrow@us.ibm.com>
-  *              Michael C. Thompson <mcthomps@us.ibm.com>
-  *              Trevor S. Highland <trevor.highland@gmail.com>
-  */
- 
--#include <crypto/hash.h>
- #include <crypto/skcipher.h>
- #include <linux/string.h>
- #include <linux/pagemap.h>
- #include <linux/key.h>
- #include <linux/random.h>
-@@ -599,14 +598,11 @@ struct ecryptfs_write_tag_70_packet_silly_stack {
- 	struct scatterlist src_sg[2];
- 	struct scatterlist dst_sg[2];
- 	struct crypto_skcipher *skcipher_tfm;
- 	struct skcipher_request *skcipher_req;
- 	char iv[ECRYPTFS_MAX_IV_BYTES];
--	char hash[ECRYPTFS_TAG_70_DIGEST_SIZE];
--	char tmp_hash[ECRYPTFS_TAG_70_DIGEST_SIZE];
--	struct crypto_shash *hash_tfm;
--	struct shash_desc *hash_desc;
-+	char hash[MD5_DIGEST_SIZE];
- };
- 
- /*
-  * write_tag_70_packet - Write encrypted filename (EFN) packet against FNEK
-  * @filename: NULL-terminated filename string
-@@ -739,55 +735,19 @@ ecryptfs_write_tag_70_packet(char *dest, size_t *remaining_bytes,
- 		rc = -EOPNOTSUPP;
- 		printk(KERN_INFO "%s: Filename encryption only supports "
- 		       "password tokens\n", __func__);
- 		goto out_free_unlock;
- 	}
--	s->hash_tfm = crypto_alloc_shash(ECRYPTFS_TAG_70_DIGEST, 0, 0);
--	if (IS_ERR(s->hash_tfm)) {
--			rc = PTR_ERR(s->hash_tfm);
--			printk(KERN_ERR "%s: Error attempting to "
--			       "allocate hash crypto context; rc = [%d]\n",
--			       __func__, rc);
--			goto out_free_unlock;
--	}
--
--	s->hash_desc = kmalloc(sizeof(*s->hash_desc) +
--			       crypto_shash_descsize(s->hash_tfm), GFP_KERNEL);
--	if (!s->hash_desc) {
--		rc = -ENOMEM;
--		goto out_release_free_unlock;
--	}
- 
--	s->hash_desc->tfm = s->hash_tfm;
--
--	rc = crypto_shash_digest(s->hash_desc,
--				 (u8 *)s->auth_tok->token.password.session_key_encryption_key,
--				 s->auth_tok->token.password.session_key_encryption_key_bytes,
--				 s->hash);
--	if (rc) {
--		printk(KERN_ERR
--		       "%s: Error computing crypto hash; rc = [%d]\n",
--		       __func__, rc);
--		goto out_release_free_unlock;
--	}
-+	md5(s->auth_tok->token.password.session_key_encryption_key,
-+	    s->auth_tok->token.password.session_key_encryption_key_bytes,
-+	    s->hash);
- 	for (s->j = 0; s->j < (s->num_rand_bytes - 1); s->j++) {
- 		s->block_aligned_filename[s->j] =
--			s->hash[(s->j % ECRYPTFS_TAG_70_DIGEST_SIZE)];
--		if ((s->j % ECRYPTFS_TAG_70_DIGEST_SIZE)
--		    == (ECRYPTFS_TAG_70_DIGEST_SIZE - 1)) {
--			rc = crypto_shash_digest(s->hash_desc, (u8 *)s->hash,
--						ECRYPTFS_TAG_70_DIGEST_SIZE,
--						s->tmp_hash);
--			if (rc) {
--				printk(KERN_ERR
--				       "%s: Error computing crypto hash; "
--				       "rc = [%d]\n", __func__, rc);
--				goto out_release_free_unlock;
--			}
--			memcpy(s->hash, s->tmp_hash,
--			       ECRYPTFS_TAG_70_DIGEST_SIZE);
--		}
-+			s->hash[s->j % MD5_DIGEST_SIZE];
-+		if ((s->j % MD5_DIGEST_SIZE) == (MD5_DIGEST_SIZE - 1))
-+			md5(s->hash, MD5_DIGEST_SIZE, s->hash);
- 		if (s->block_aligned_filename[s->j] == '\0')
- 			s->block_aligned_filename[s->j] = ECRYPTFS_NON_NULL;
- 	}
- 	memcpy(&s->block_aligned_filename[s->num_rand_bytes], filename,
- 	       filename_size);
-@@ -796,20 +756,20 @@ ecryptfs_write_tag_70_packet(char *dest, size_t *remaining_bytes,
- 	if (rc < 1) {
- 		printk(KERN_ERR "%s: Internal error whilst attempting to "
- 		       "convert filename memory to scatterlist; rc = [%d]. "
- 		       "block_aligned_filename_size = [%zd]\n", __func__, rc,
- 		       s->block_aligned_filename_size);
--		goto out_release_free_unlock;
-+		goto out_free_unlock;
- 	}
- 	rc = virt_to_scatterlist(&dest[s->i], s->block_aligned_filename_size,
- 				 s->dst_sg, 2);
- 	if (rc < 1) {
- 		printk(KERN_ERR "%s: Internal error whilst attempting to "
- 		       "convert encrypted filename memory to scatterlist; "
- 		       "rc = [%d]. block_aligned_filename_size = [%zd]\n",
- 		       __func__, rc, s->block_aligned_filename_size);
--		goto out_release_free_unlock;
-+		goto out_free_unlock;
- 	}
- 	/* The characters in the first block effectively do the job
- 	 * of the IV here, so we just use 0's for the IV. Note the
- 	 * constraint that ECRYPTFS_FILENAME_MIN_RANDOM_PREPEND_BYTES
- 	 * >= ECRYPTFS_MAX_IV_BYTES. */
-@@ -823,36 +783,33 @@ ecryptfs_write_tag_70_packet(char *dest, size_t *remaining_bytes,
- 		       "encryption_key = [0x%p]; mount_crypt_stat->"
- 		       "global_default_fn_cipher_key_bytes = [%zd]\n", __func__,
- 		       rc,
- 		       s->auth_tok->token.password.session_key_encryption_key,
- 		       mount_crypt_stat->global_default_fn_cipher_key_bytes);
--		goto out_release_free_unlock;
-+		goto out_free_unlock;
- 	}
- 	skcipher_request_set_crypt(s->skcipher_req, s->src_sg, s->dst_sg,
- 				   s->block_aligned_filename_size, s->iv);
- 	rc = crypto_skcipher_encrypt(s->skcipher_req);
- 	if (rc) {
- 		printk(KERN_ERR "%s: Error attempting to encrypt filename; "
- 		       "rc = [%d]\n", __func__, rc);
--		goto out_release_free_unlock;
-+		goto out_free_unlock;
- 	}
- 	s->i += s->block_aligned_filename_size;
- 	(*packet_size) = s->i;
- 	(*remaining_bytes) -= (*packet_size);
--out_release_free_unlock:
--	crypto_free_shash(s->hash_tfm);
- out_free_unlock:
- 	kfree_sensitive(s->block_aligned_filename);
- out_unlock:
- 	mutex_unlock(s->tfm_mutex);
- out:
- 	if (auth_tok_key) {
- 		up_write(&(auth_tok_key->sem));
- 		key_put(auth_tok_key);
- 	}
- 	skcipher_request_free(s->skcipher_req);
--	kfree_sensitive(s->hash_desc);
- 	kfree(s);
- 	return rc;
- }
- 
- struct ecryptfs_parse_tag_70_packet_silly_stack {
-diff --git a/fs/ecryptfs/main.c b/fs/ecryptfs/main.c
-index 16ea14dd2c62e..c12dc680f8fe2 100644
---- a/fs/ecryptfs/main.c
-+++ b/fs/ecryptfs/main.c
-@@ -10,10 +10,11 @@
-  *              Tyler Hicks <code@tyhicks.com>
-  */
- 
- #include <linux/dcache.h>
- #include <linux/file.h>
-+#include <linux/fips.h>
- #include <linux/module.h>
- #include <linux/namei.h>
- #include <linux/skbuff.h>
- #include <linux/pagemap.h>
- #include <linux/key.h>
-@@ -452,10 +453,16 @@ static int ecryptfs_get_tree(struct fs_context *fc)
- 	if (rc) {
- 		err = "Error validating options";
- 		goto out;
- 	}
- 
-+	if (fips_enabled) {
-+		rc = -EINVAL;
-+		err = "eCryptfs support is disabled due to FIPS";
-+		goto out;
-+	}
-+
- 	s = sget_fc(fc, NULL, set_anon_super_fc);
- 	if (IS_ERR(s)) {
- 		rc = PTR_ERR(s);
- 		goto out;
- 	}
-diff --git a/fs/ecryptfs/super.c b/fs/ecryptfs/super.c
-index e7b7f426fecfb..3bc21d677564d 100644
---- a/fs/ecryptfs/super.c
-+++ b/fs/ecryptfs/super.c
-@@ -39,14 +39,11 @@ static struct inode *ecryptfs_alloc_inode(struct super_block *sb)
- 	struct inode *inode = NULL;
- 
- 	inode_info = alloc_inode_sb(sb, ecryptfs_inode_info_cache, GFP_KERNEL);
- 	if (unlikely(!inode_info))
- 		goto out;
--	if (ecryptfs_init_crypt_stat(&inode_info->crypt_stat)) {
--		kmem_cache_free(ecryptfs_inode_info_cache, inode_info);
--		goto out;
--	}
-+	ecryptfs_init_crypt_stat(&inode_info->crypt_stat);
- 	mutex_init(&inode_info->lower_file_mutex);
- 	atomic_set(&inode_info->lower_file_count, 0);
- 	inode_info->lower_file = NULL;
- 	inode = &inode_info->vfs_inode;
- out:
-
-base-commit: 0739473694c4878513031006829f1030ec850bc2
+Best regards,
 -- 
-2.51.0
+Jeff Layton <jlayton@kernel.org>
 
 
