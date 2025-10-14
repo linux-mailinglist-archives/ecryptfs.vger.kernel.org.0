@@ -1,69 +1,62 @@
-Return-Path: <ecryptfs+bounces-493-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-494-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68629BDAD90
-	for <lists+ecryptfs@lfdr.de>; Tue, 14 Oct 2025 19:52:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03D38BDB453
+	for <lists+ecryptfs@lfdr.de>; Tue, 14 Oct 2025 22:35:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 560AA4ECAF2
-	for <lists+ecryptfs@lfdr.de>; Tue, 14 Oct 2025 17:52:50 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 938634F97CA
+	for <lists+ecryptfs@lfdr.de>; Tue, 14 Oct 2025 20:35:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFE903016F5;
-	Tue, 14 Oct 2025 17:52:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 699BB30597E;
+	Tue, 14 Oct 2025 20:35:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="fMH2q/eL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dIDKKyFZ"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3372B24DCE6
-	for <ecryptfs@vger.kernel.org>; Tue, 14 Oct 2025 17:52:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF322D877C;
+	Tue, 14 Oct 2025 20:35:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760464357; cv=none; b=XXzsGaBhgbNX6viDnIy1EmPdzn9GZdchksGJ6DxC/wp95Qs3ZPMWHIrabeOD54jDSmI2OD8mvv2GtLfsubQIgVclvqmClLOj+q+9HCBzLfbAQuC25rh5TvniVh1sqMhX3RROVzuQzOjDdUpxa5cI5N4ARPRZ0TGOfLo3kNbafyg=
+	t=1760474138; cv=none; b=YjejYp0B0EHXZWZD8EcD9iqvGTNhIzFFXSsG8TSbAetRLYFkvUq6xiwhaVDz4+zbL4S2BGg6Pnk794IEdBinpN6wOnQzvWM1HPqvIt/6sD8IG+nRf2kX96ffq2/mzRgMxMyjxSOmOdoc28MnNq+UjKvPCUjcUnTfH7xpUEzkGYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760464357; c=relaxed/simple;
-	bh=FmjjXyYDKE/Yk7fJkAB+drvbulYa9bzAOTeJfv02M+I=;
+	s=arc-20240116; t=1760474138; c=relaxed/simple;
+	bh=dKSUwooapqfKnnp+tXFsmmogWc+n8vHaAutUZmOnCSk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mYEwZE57ff2f4kJzoJc0tzYg1EjniInvIlc2CSqW52J0+g+dz+WjXfMi9mvZG62eGp1wZZztQKaB+XV4S4QgN2lApWUCkjgDE4OWn/J6xvyF8WRiHfZieU+wrgpHinpRTdrMf68zAP31ljI3aqeTmChP+7lN3Ja/476dXbgx7EA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=fMH2q/eL; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
-Received: from trampoline.thunk.org (pool-173-48-113-184.bstnma.fios.verizon.net [173.48.113.184])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 59EHqIud022805
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Oct 2025 13:52:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1760464340; bh=YsCObiDZn6NMNieiulOH3PG817/IZ49leYxhOnoaZrs=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=fMH2q/eLPINH4uQNwqu7tmB76SAQn3RBLsxgQAU/Bd97lgA0BSLKgMlnIbUHpanyJ
-	 fWP4vQJ4NVu/v+CFqw2tuJVIO5z+YdXB7WkeH1enRdKLeRgxp1oP/yDqStk1Q+WEZH
-	 9JeDZwjWUkfU7WtuOaMZYwFlbyilxzCJQdhhFs+X9a+kS0cFdH2A5YwbfXYreAgVYM
-	 iaPZkp7Vo4+QE6mIEfwy5JlNdMuSSdFbHVBtZwxoNtiz0hOmYLexK5NM9y5sBpUgTj
-	 jzWV+OVWxYRJgBlWRKJlxc9CCiCh9OPze+xez5mToDDyJFLXhZcoBDXC2sCpibvt9e
-	 V0Nm/YwFL5onA==
-Received: by trampoline.thunk.org (Postfix, from userid 15806)
-	id 2A7942E00D9; Tue, 14 Oct 2025 13:52:18 -0400 (EDT)
-Date: Tue, 14 Oct 2025 13:52:18 -0400
-From: "Theodore Ts'o" <tytso@mit.edu>
-To: John Stultz <jstultz@google.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Matthew Wilcox <willy@infradead.org>,
-        Arnd Bergmann <arnd@kernel.org>, Tyler Hicks <code@tyhicks.com>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        ecryptfs@vger.kernel.org, linux-kernel@vger.kernel.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=maYKtgSpi2+G126VEUGxdLC0mthyP3mQ9mv8P0s9WA2tF0ImrUdfwZZkU+yZghaEQARXwgl4Zke6Xa4G7H352D0bgyEBNAeZ5oqvQvJb0OUBM62REXQdsc9eu8Mhy7uFkKXqk09LzHWXv8awdmNPcTn2f+RhTSAkTPm77X2RSOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dIDKKyFZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69A56C4CEE7;
+	Tue, 14 Oct 2025 20:35:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760474137;
+	bh=dKSUwooapqfKnnp+tXFsmmogWc+n8vHaAutUZmOnCSk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dIDKKyFZDqxvv9siup0KTO3d3EzU4BklF9FCmghKKfKrZrD546jULUFg0+vFVcHy0
+	 TRKzwdaBFIuQ6DFggz9HhQwJtbdRFrnG0nNJQmLetnvQvtZs76c0ggMokH/rS5J+va
+	 UI3iDUmKYv+zfB9n2T4VjDdQi6DnZs0oJSwf2S0uOMQr8TIOTx7wXwjezRcHba204z
+	 ULwiuvRlC4hDWxcVnusEpSt7hj15FBbnWnj2qG9/4z0+p6zFf84CZ+Y2zTpEaQ5y7z
+	 ThU3wcn4NPmwPim1s8Gs+WpCArRfMgde8I5Z0CY+F3hNR/cDvMDjl8bOQQlzWmfXRE
+	 /PfblxDQuiKYg==
+Date: Tue, 14 Oct 2025 13:35:35 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Theodore Ts'o <tytso@mit.edu>
+Cc: John Stultz <jstultz@google.com>, Arnd Bergmann <arnd@arndb.de>,
+	Matthew Wilcox <willy@infradead.org>,
+	Arnd Bergmann <arnd@kernel.org>, Tyler Hicks <code@tyhicks.com>,
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+	ecryptfs@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: ecryptfs is unmaintained and untested
-Message-ID: <20251014175218.GB566507@mit.edu>
+Message-ID: <20251014203535.GA1916@quark>
 References: <20241028141955.639633-1-arnd@kernel.org>
  <Zx-ndBo7wpYSHWPK@casper.infradead.org>
  <ef98d985-6153-416d-9d5e-9a8a8595461a@app.fastmail.com>
  <20241029043328.GB3213@mit.edu>
  <CANDhNCpsoPcotnrjH6y0yEBf43652DRasSsEnAyEbrKN=tjEfQ@mail.gmail.com>
  <20251014143916.GA569133@mit.edu>
- <CANDhNCp=06eNkOqNX2dFrnYhpZX0xsEd06U1xCwORk1mwt=MCw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
@@ -72,29 +65,47 @@ List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CANDhNCp=06eNkOqNX2dFrnYhpZX0xsEd06U1xCwORk1mwt=MCw@mail.gmail.com>
+In-Reply-To: <20251014143916.GA569133@mit.edu>
 
-On Tue, Oct 14, 2025 at 09:38:52AM -0700, John Stultz wrote:
-> Yeah, though to my understanding fscrypt complicates backing up the
-> data in its encrypted form.
+On Tue, Oct 14, 2025 at 10:39:16AM -0400, Theodore Ts'o wrote:
+> On Mon, Oct 13, 2025 at 11:07:56PM -0700, John Stultz wrote:
+> > 
+> > Yeah. Sadly I'm one, as I needed something to migrate off of when
+> > encfs was deprecated.
+> > 
+> > Is there another soon-to-be-deprecated filesystem to encrypt
+> > directories I should move to? :)
+> 
+> Well, the closest way of encrypting directories is fscrypt.  The good
+> news is that it works on top of btrfs, ext4, f2fs, and ubifs, and it's
+> not likely to be deprecated given that it is used by chromeos and
+> android.  The bad news is that the integration with traditional Linux
+> desktop setups (e.g., login, etc.) was never completed.
 
-Unfortunately, yes, that's correct.  Michael and I did throw around a
-rough design for doing encrypted backups and saving the encrypted
-per-file encryption key.  Actually doing the _backup_ wasn't that
-difficult; but doing the *restore* was very tricky/painful.
-Ultimately, we never implemented it because it wasn't necessarily for
-the Android/ChromeOS use case, and because we weren't getting a lot of
-interest for the desktop, without which having a better
-general-purpose backup is lower priority.
+The current set of filesystems that support fscrypt is ext4, f2fs,
+ubifs, cephfs, and (out-of-tree) Lustre.  btrfs's support for fscrypt is
+still under development, I'm afraid.  I'm told it's starting to be
+worked on again.
 
-> I've wondered if maybe something as simple as fuse mounting a password
-> protected zip file would do, but I'm guessing something a little more
-> modern like a fuse + age approach would be better. Unfortunately I'm
-> not finding anything so far.
+While the main user of the fscrypt kernel feature is Android which has
+its own userspace, there's also a userspace tool for general-purpose
+Linux distros, also called fscrypt.  See
+https://github.com/google/fscrypt and
+https://wiki.archlinux.org/title/Fscrypt
 
-Darrick is doing a lot of work to significantly improve the
-performance of fuse2fs.  So perhaps fuse mounting a dm-crypt device
-backed by a loop device might be a possibility?
+I've been maintaining the 'fscrypt' userspace tool, and in the past I've
+done quite a bit of work to improve it.  I also use it to encrypt the
+home directory on my personal desktop.
 
-	       	    	 	      	   - Ted
+It's true that it really could use some love, though.  It's not
+something that I've been prioritizing recently, and no one else has
+stepped up either.  (Compare to eCryptfs where Ubuntu adopted it, and
+Canonical stepped up to develop and maintain ecryptfs-tools.  That's
+just not something that's happened for fscrypt.)
+
+There are other userspace programs that use the fscrypt kernel feature
+too, such as systemd-homed and a new one called dirlock:
+https://lwn.net/Articles/1038859/
+
+- Eric
 
