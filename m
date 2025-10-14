@@ -1,233 +1,126 @@
-Return-Path: <ecryptfs+bounces-484-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-485-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D823CBD77A3
-	for <lists+ecryptfs@lfdr.de>; Tue, 14 Oct 2025 07:48:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80495BD7879
+	for <lists+ecryptfs@lfdr.de>; Tue, 14 Oct 2025 08:08:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8EA1D3A8B84
-	for <lists+ecryptfs@lfdr.de>; Tue, 14 Oct 2025 05:48:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AA71D1920BC6
+	for <lists+ecryptfs@lfdr.de>; Tue, 14 Oct 2025 06:08:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 795E61F4CB7;
-	Tue, 14 Oct 2025 05:48:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65EA830DD2D;
+	Tue, 14 Oct 2025 06:08:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="Aw5R92ec";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="o/btPEZQ"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CcJtUZCz"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from flow-b8-smtp.messagingengine.com (flow-b8-smtp.messagingengine.com [202.12.124.143])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89EC1D6DB5;
-	Tue, 14 Oct 2025 05:48:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.143
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A6E330CD9D
+	for <ecryptfs@vger.kernel.org>; Tue, 14 Oct 2025 06:08:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760420899; cv=none; b=TDUtUEEVfngwsm/qXesMhGZ7SxPXZh5FuGRVGOtAR5w6CUI6uZW/MVpqZSQMwpfJzTyBlSX21Wu6j2HUSWGWoide+dmGqB0/RsoMMeW6W6rQ3r7WcxrrWVYrtEHQB8u6HBGkvAlyUpjiw0PfzbumuyJWn2n4zM0KLD/j4a4THp8=
+	t=1760422094; cv=none; b=p5JamH/SO/ibjvr8wmSDMN3408jLiKDmb+1vVFEKAFEyLB7vVRiplF5jMWubTZF0KVm+xyf8wb70Pu3xsSH1k5IERBSuqGT5mgAyI0oy6VyRL+Fnw1mnzSfgZW1k/1zFb/kx0MezzOx2S6v716J0chtpGAIcvSQU1rykS8gHmmM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760420899; c=relaxed/simple;
-	bh=uegBLj59RJQhWXj6mlxI9NQJtvv1PvtnctEltpmrOTY=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=rOUNicLja2B+vmbPd3bZ3T8jREEsVo1e3bT8sulwDhFsJSslRsL6R58qBR5WDNzBlZJe/2xT8vuUDLPuhTpjnTX66QkBXfp0c6OqmRySk7hgzEU/fjql7Lr8TOTQdbBu07QcC/YGfVKwn96jsK/LOMO7Mz+nlNImFsxRMKgMm/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=Aw5R92ec; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=o/btPEZQ; arc=none smtp.client-ip=202.12.124.143
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
-Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
-	by mailflow.stl.internal (Postfix) with ESMTP id E88CE130001D;
-	Tue, 14 Oct 2025 01:48:15 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-07.internal (MEProxy); Tue, 14 Oct 2025 01:48:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
-	1760420895; x=1760428095; bh=rOMKmFAm0WYZgl5MX5scSy1m5wik2x9mcuD
-	tQFlTYLs=; b=Aw5R92eccAEyJrtqxi1RTOFXajVvHzlm4Eo2W1B7CJTwUduK5MT
-	zgZX9m1yexKNJy/QCC7qOr+xjb+eb9FQO9KtM4bzhm3rBxuCAC7RD+/qbErnWVNx
-	WzIzJlIMHGcGQ7ID6ost8tmDw5YfcvjBa46wnmB0rhzWAFSB1DDcsL4fG22q9zre
-	YgToglnSlnQAPV/qTZw3r57RhVcGGhiL0jO+pL6uX0H9GrTN8T8fOAh8THII0CcR
-	q+b1AsgEd4hii7jCLaTYMTrvn31SQc8qPNglPErSk6kpzrKlV8zN9n9W1jXwa3zZ
-	3RMarB9cNFW9xKHoWt+ErfDmKhByi+R6paA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1760420895; x=
-	1760428095; bh=rOMKmFAm0WYZgl5MX5scSy1m5wik2x9mcuDtQFlTYLs=; b=o
-	/btPEZQM6HQFqW+n0XO+WzOYpQd+7umSu6b3JOXOG4Xy9j/BqgL3bANljKs5BYdI
-	Cctp+GRKBjaV6gDXfN9qlFFjbfYYWg4uoWAoFtmvbRBZmo5mmZrqiEqZy2mHuBz6
-	wbRU94VcgXG1bOd55u9GITmnOP6/nKT7DMp5qyPgUoXHud+kyuFOlb4iPptRSoNI
-	navi1IrfkgvOcgf2N24dGy1Uc9r+ELVCb4FdODKrx13LjROZElXIyxfYCYYYG7Cb
-	Z4uZ9EU3uR/4o2heTutxqQn8gbkZliFqxRIWTYkHrHwxg9mRtksFLd6SxnTAjAme
-	xwtJJ0oWJDCq6XX7skX0Q==
-X-ME-Sender: <xms:H-TtaFJiME1Wr32XX27p5xp-hYn9E87GLO3-mJ8Odh7m_vhaFUeIeg>
-    <xme:H-TtaALqEJaS09U585MN_ydfOCav44M7MQmpUbB-BXYzWVXwpeHJrIzQP6M1bSXcI
-    522au_IT4RRn6s_V3cUu4f_C3VoEEm1jRRA2y_3eLQ3fj59Yg>
-X-ME-Received: <xmr:H-TtaF8G8LwTXDM9Z2qIQKXw46dp1dc6HTY2mBQaCAobzJU7fxzW8soTOmY3cFGQgk2pKLaBzFhH1YuTQQi9vtuxRLlBwlD8VovL56ZBftzQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduudeljeefucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurheptgfgggfhvfevufgjfhffkfhrsehtqhertddttdejnecuhfhrohhmpefpvghilheu
-    rhhofihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnh
-    epleejtdefgeeukeeiteduveehudevfeffvedutefgteduhfegvdfgtdeigeeuudejnecu
-    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhgvihhlsg
-    esohifnhhmrghilhdrnhgvthdpnhgspghrtghpthhtohepgeefpdhmohguvgepshhmthhp
-    ohhuthdprhgtphhtthhopehvihhrohesiigvnhhivhdrlhhinhhugidrohhrghdruhhkpd
-    hrtghpthhtohepnhgvthguvghvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthht
-    oheplhhinhhugidqgihfshesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhope
-    hlihhnuhigqdhunhhiohhnfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthht
-    oheplhhinhhugidqnhhfshesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhope
-    hlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthho
-    pehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpth
-    htoheplhhinhhugidqtghifhhssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthht
-    ohepvggtrhihphhtfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:H-TtaCwm8n5GoDWIJqcDj30FEpvpKSlL7xhdRYKYjkDOJZSwiQ_ygw>
-    <xmx:H-TtaF_fluZhrXLP0cldynUm31pJI37d-3hORrSMQFrPrTHyJsboOw>
-    <xmx:H-TtaGiFLmuX43K9Wpqo7vld6I146MTKS8MY6givHf_ph47qxRL3SA>
-    <xmx:H-TtaHPCM2MJ2cmkPiKr7wNINbGqxeu-bNlZBzwsmuQ8-dO_GlZWUg>
-    <xmx:H-TtaFnaFSlRAZiHAv6p5eBEN_hXXg4XBN7Pwkp6eBOp1VVSVtvZ5qZ5>
-Feedback-ID: iab3e480c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 14 Oct 2025 01:48:04 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1760422094; c=relaxed/simple;
+	bh=lof0YmaEG+LixcrlFfIQ7Ogl4ET9WZzFbwtodBp/9N0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HuTmgM23DSBTuOP8EbPPM063L9eRYr34HiDNrv1h6eWd2tgTf4vQn6Nt9oNFbTZ6seJLsHtYl2o4s/y6B7gN49YysbCXQCPAdu7Zuxf9vy4/Q2DqvH4T5DESEevmHkIflfVGSZp9JebCSDh0k74mTDMgJbP2CQXCg9uzOg9Zhz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=CcJtUZCz; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b3f5e0e2bf7so923017766b.3
+        for <ecryptfs@vger.kernel.org>; Mon, 13 Oct 2025 23:08:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1760422089; x=1761026889; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lof0YmaEG+LixcrlFfIQ7Ogl4ET9WZzFbwtodBp/9N0=;
+        b=CcJtUZCzLKwef2qI/CAlnpT8LJuw+YBJESBvjS8IJHRmV1xox3O/l7nZz1ruPh9kx/
+         dM15/ZMjyqyrAccFGAdWXGLdmJvTne6V7EZJAB1diKNklyN7ZtCHB1UDZk+pBUeAYKmQ
+         YzGxl5yT7qPWV6g/C63rOC00e+4HvfnOzsqfR3eBr/H6SkLsygvjNnVkDGGlPa8VNPRO
+         /5jfmiFYcagW0Dxtm/0aA7hPhif9s5XDQGc9YOfWHZRrWNxH5LKVKVPoSAGa2zWLkLpb
+         cVGaSKOg3Qp5F7VGXPvZdjAGzhulpdX9+NkOgQJKls3QhKWcc16Fj2K5vtQzuEmc1sGJ
+         lnhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760422089; x=1761026889;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lof0YmaEG+LixcrlFfIQ7Ogl4ET9WZzFbwtodBp/9N0=;
+        b=YoGgRZPwiTWmhuEJ7GCsLQqwwm0J1v63aWQhyfIjxkSIzSRdGWo67qgCO33u8ZemPB
+         d/+rRgn97A9sgLBgAi/0VoVJmC/eRNgsCuIntiUSi1npMpR5vCJ7i8QZ1s3J9grj0cGt
+         xvxceeoNNqdQ3RT3HZiNe55NIn9V8xcvHeU8xAVhK8LOqvW+JbtcoLbqfyXFAOz6Zmo2
+         06YHJLBh/vgeTcK7c6mYYRvvgJ11lFxM33KOWHDF7v3NgenPgq0D85mTCdh5asSjz2Vz
+         RdikFVvmroGr7K/4wHOsQYUmaMu7yyJ30loS/vNZEMMtguK+d5T40Vu/m/KwpaihH4Zm
+         40Jw==
+X-Forwarded-Encrypted: i=1; AJvYcCVPWOzi3Cy+esH2fc4Ltyg/uHcdxBMWXx4J9dky33L0ihxqWTRmehKRtnwWBuJCh2yEbQbSQewJ9w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzagCuEZLfcQ0ISjRIzXodRzfDQeeoJHAD63zNnCjykDPioXdCU
+	GNNQ6/f1u6RFGJhLrYiC095o1AYRX8SIHhsdthgYCRENiovAJrsYwwPaVmReVxpT+QStWU9lkOs
+	9gGZcLxzzIuOWocQaVsS5Q/sSQkKgBxT7LtSmfZw=
+X-Gm-Gg: ASbGncu0nHbO0cViIdPT/EE28g+SRcRm9lR1f1qKYTlZ3S+xi5icGg+ZQWPpR4vB6Hc
+	SeTZULyOYL0NGCIVkU9qp1a0fQji5N5DLQZwhLnJ8UCI3UTTzIYXsvjKWWXkmf/LrlN4akGHc2e
+	Z05dzFSiK6ZslBDhKVXs+DS/egBMBEa/+1HdKKqNS+qn68clK00XtmqIXp6/k1sXoYh6w1qYHIg
+	O+DUiM34oo7SeRBKkF6BKpkElPwLSFouQeHZiQM7iFpQNDSkF/DGa/mg7n9JQ==
+X-Google-Smtp-Source: AGHT+IGgdgiIGSvQYNIALqQ9pUoUutRB3h3EQJkldTUgUBPgd6YP8ch3nDyhEbNc4+8Rle8rXUNdTCWvtn+Bk1FuOVQ=
+X-Received: by 2002:a17:907:d86:b0:b3f:d9e9:baab with SMTP id
+ a640c23a62f3a-b50aa8a9056mr2856602866b.27.1760422088618; Mon, 13 Oct 2025
+ 23:08:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Jeff Layton" <jlayton@kernel.org>
-Cc: "Miklos Szeredi" <miklos@szeredi.hu>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
- "Chuck Lever" <chuck.lever@oracle.com>,
- "Alexander Aring" <alex.aring@gmail.com>,
- "Trond Myklebust" <trondmy@kernel.org>,
- "Anna Schumaker" <anna@kernel.org>, "Steve French" <sfrench@samba.org>,
- "Paulo Alcantara" <pc@manguebit.org>,
- "Ronnie Sahlberg" <ronniesahlberg@gmail.com>,
- "Shyam Prasad N" <sprasad@microsoft.com>, "Tom Talpey" <tom@talpey.com>,
- "Bharath SM" <bharathsm@microsoft.com>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- "Danilo Krummrich" <dakr@kernel.org>,
- "David Howells" <dhowells@redhat.com>, "Tyler Hicks" <code@tyhicks.com>,
- "Olga Kornievskaia" <okorniev@redhat.com>,
- "Dai Ngo" <Dai.Ngo@oracle.com>, "Amir Goldstein" <amir73il@gmail.com>,
- "Namjae Jeon" <linkinjeon@kernel.org>,
- "Steve French" <smfrench@gmail.com>,
- "Sergey Senozhatsky" <senozhatsky@chromium.org>,
- "Carlos Maiolino" <cem@kernel.org>,
- "Kuniyuki Iwashima" <kuniyu@google.com>,
- "David S. Miller" <davem@davemloft.net>,
- "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
- "Paolo Abeni" <pabeni@redhat.com>, "Simon Horman" <horms@kernel.org>,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org,
- samba-technical@lists.samba.org, netfs@lists.linux.dev,
- ecryptfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
- linux-xfs@vger.kernel.org, netdev@vger.kernel.org,
- "Jeff Layton" <jlayton@kernel.org>
-Subject:
- Re: [PATCH 12/13] nfsd: check for delegation conflicts vs. the same client
-In-reply-to: <20251013-dir-deleg-ro-v1-12-406780a70e5e@kernel.org>
-References: <20251013-dir-deleg-ro-v1-0-406780a70e5e@kernel.org>,
- <20251013-dir-deleg-ro-v1-12-406780a70e5e@kernel.org>
-Date: Tue, 14 Oct 2025 16:48:02 +1100
-Message-id: <176042088276.1793333.12640300967459688183@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+References: <20241028141955.639633-1-arnd@kernel.org> <Zx-ndBo7wpYSHWPK@casper.infradead.org>
+ <ef98d985-6153-416d-9d5e-9a8a8595461a@app.fastmail.com> <20241029043328.GB3213@mit.edu>
+In-Reply-To: <20241029043328.GB3213@mit.edu>
+From: John Stultz <jstultz@google.com>
+Date: Mon, 13 Oct 2025 23:07:56 -0700
+X-Gm-Features: AS18NWBRClzXhRlv_9uytilT7uxCBXfaLucmkCNNwGt2ZbA0vKObHGKWy_fvfp0
+Message-ID: <CANDhNCpsoPcotnrjH6y0yEBf43652DRasSsEnAyEbrKN=tjEfQ@mail.gmail.com>
+Subject: Re: ecryptfs is unmaintained and untested
+To: "Theodore Ts'o" <tytso@mit.edu>
+Cc: Arnd Bergmann <arnd@arndb.de>, Matthew Wilcox <willy@infradead.org>, Arnd Bergmann <arnd@kernel.org>, 
+	Tyler Hicks <code@tyhicks.com>, Damien Le Moal <damien.lemoal@opensource.wdc.com>, 
+	ecryptfs@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 14 Oct 2025, Jeff Layton wrote:
-> RFC 8881 requires that the server reply with GDD_UNAVAIL when the client
+On Mon, Oct 28, 2024 at 9:33=E2=80=AFPM Theodore Ts'o <tytso@mit.edu> wrote=
+:
+> On Mon, Oct 28, 2024 at 09:50:37PM +0000, Arnd Bergmann wrote:
+> > On Mon, Oct 28, 2024, at 15:02, Matthew Wilcox wrote:
+> > >
+> > > This comment has been there since June 2021, so I think we can just
+> > > delete ecryptfs now?
+> >
+> > I have no opinion on removing ecryptfs, but I don't how possibly
+> > removing it is related to the patch I sent, as far as I can tell
+> > it just means it relies on both CONFIG_BLOCK and CONFIG_BUFFER_HEAD
+> > then.
+> >
+> > Is there any indication that the last users that had files on
+> > ecryptfs are unable to update their kernels?
+>
+> Debian is still shipping ecryptfs-utils and is building and including
+> the ecryptfs kernel module in their distro kernel.`
+>
+> So it seems likely that there are probably a non-zero (although
+> probably relatively small) number of ecryptfs users out there.
 
-GDD4_UNAVAIL.  Then "git grep" finds it for me.
+Yeah. Sadly I'm one, as I needed something to migrate off of when
+encfs was deprecated.
 
-NeilBrown
+Is there another soon-to-be-deprecated filesystem to encrypt
+directories I should move to? :)
 
+I definitely think we need some loud warnings and Tylers' suggestion
+for a read-only grace period would be helpful.
 
-> requests a directory delegation that it already holds.
->=20
-> When setting a directory delegation, check that the client associated
-> with the stateid doesn't match an existing delegation. If it does,
-> reject the setlease attempt.
->=20
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> ---
->  fs/nfsd/nfs4state.c | 29 ++++++++++++++++++++++++++++-
->  1 file changed, 28 insertions(+), 1 deletion(-)
->=20
-> diff --git a/fs/nfsd/nfs4state.c b/fs/nfsd/nfs4state.c
-> index b06591f154aa372db710e071c69260f4639956d7..011e336dfd996daa82b706c3536=
-628971369fb10 100644
-> --- a/fs/nfsd/nfs4state.c
-> +++ b/fs/nfsd/nfs4state.c
-> @@ -88,6 +88,7 @@ void nfsd4_end_grace(struct nfsd_net *nn);
->  static void _free_cpntf_state_locked(struct nfsd_net *nn, struct nfs4_cpnt=
-f_state *cps);
->  static void nfsd4_file_hash_remove(struct nfs4_file *fi);
->  static void deleg_reaper(struct nfsd_net *nn);
-> +static bool nfsd_dir_may_setlease(struct file_lease *new, struct file_leas=
-e *old);
-> =20
->  /* Locking: */
-> =20
-> @@ -5550,6 +5551,31 @@ static const struct lease_manager_operations nfsd_le=
-ase_mng_ops =3D {
->  	.lm_change =3D nfsd_change_deleg_cb,
->  };
-> =20
-> +static const struct lease_manager_operations nfsd_dir_lease_mng_ops =3D {
-> +	.lm_breaker_owns_lease =3D nfsd_breaker_owns_lease,
-> +	.lm_break =3D nfsd_break_deleg_cb,
-> +	.lm_change =3D nfsd_change_deleg_cb,
-> +	.lm_may_setlease =3D nfsd_dir_may_setlease,
-> +};
-> +
-> +static bool
-> +nfsd_dir_may_setlease(struct file_lease *new, struct file_lease *old)
-> +{
-> +	struct nfs4_delegation *od, *nd;
-> +
-> +	/* Only conflicts with other nfsd dir delegs */
-> +	if (old->fl_lmops !=3D &nfsd_dir_lease_mng_ops)
-> +		return true;
-> +
-> +	od =3D old->c.flc_owner;
-> +	nd =3D new->c.flc_owner;
-> +
-> +	/* Are these for the same client? No bueno if so */
-> +	if (od->dl_stid.sc_client =3D=3D nd->dl_stid.sc_client)
-> +		return false;
-> +	return true;
-> +}
-> +
->  static __be32 nfsd4_check_seqid(struct nfsd4_compound_state *cstate, struc=
-t nfs4_stateowner *so, u32 seqid)
->  {
->  	if (nfsd4_has_session(cstate))
-> @@ -5888,12 +5914,13 @@ static struct file_lease *nfs4_alloc_init_lease(str=
-uct nfs4_delegation *dp)
->  	fl =3D locks_alloc_lease();
->  	if (!fl)
->  		return NULL;
-> -	fl->fl_lmops =3D &nfsd_lease_mng_ops;
->  	fl->c.flc_flags =3D FL_DELEG;
->  	fl->c.flc_type =3D deleg_is_read(dp->dl_type) ? F_RDLCK : F_WRLCK;
->  	fl->c.flc_owner =3D (fl_owner_t)dp;
->  	fl->c.flc_pid =3D current->tgid;
->  	fl->c.flc_file =3D dp->dl_stid.sc_file->fi_deleg_file->nf_file;
-> +	fl->fl_lmops =3D S_ISDIR(file_inode(fl->c.flc_file)->i_mode) ?
-> +				&nfsd_dir_lease_mng_ops : &nfsd_lease_mng_ops;
->  	return fl;
->  }
-> =20
->=20
-> --=20
-> 2.51.0
->=20
->=20
-
+thanks
+-john
 
