@@ -1,447 +1,382 @@
-Return-Path: <ecryptfs+bounces-514-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-515-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED333BEDAEC
-	for <lists+ecryptfs@lfdr.de>; Sat, 18 Oct 2025 21:47:15 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DE60BEE612
+	for <lists+ecryptfs@lfdr.de>; Sun, 19 Oct 2025 15:41:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5FF7819A5B64
-	for <lists+ecryptfs@lfdr.de>; Sat, 18 Oct 2025 19:47:39 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id EF70B4E1324
+	for <lists+ecryptfs@lfdr.de>; Sun, 19 Oct 2025 13:41:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 608762417E6;
-	Sat, 18 Oct 2025 19:47:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF016267B92;
+	Sun, 19 Oct 2025 13:41:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="NvrN7AkV";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="PAVbJfJ8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WNJGiqeO"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CEFB1B87C0;
-	Sat, 18 Oct 2025 19:47:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760816831; cv=fail; b=mahxPe5aiEXSCRhsXLrOKn7xv9MFW7x7BF35OPX77lV0k7gkOQXlfIGQuZ16SWODPQwk4f7Esnuht+l9feiZHUeIIMb9SJD0VM0fz432vfWhx5oz+YZGTiwnfELhlcKGLDH4r2K+T+qt6GlaesjIUFTzeuHr6mMy4KeOS3G+hj8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760816831; c=relaxed/simple;
-	bh=mqdiMEm/CTX+V6Yd/xKlQuxsCouPjel0wWQQolZdrQ8=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=kStImwhbq/+ZhcpFWZ5SIHkjXqm2bNsuv5TeaxZJzzw9mTFw1xgQDx1rwMQ0zYq+NEXPD0uuFRwBnRHnKPLzuZCfm5YtjiBHfoIGQE+khqZ8akjtmFtCKmykP9fMi0+WoTu7lGY1gO5I1PRTr8c3umoX2+3HfVuMFBfXjCBVW2Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=NvrN7AkV; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=PAVbJfJ8; arc=fail smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59IHqDek017267;
-	Sat, 18 Oct 2025 19:46:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=Ce4KW7bUCOnMucv+X2Gr6kEJJ47iQ5oVVlsXu5pgKyI=; b=
-	NvrN7AkV9Yf+8lOAHpvk52Sr9r/AyJuhGqvyPP49W15yPqLWdRStkNsMb2oBtpVQ
-	LdxAfYi93coGDvK/ceM2MCVMlROhwbU+PZeX++ep4HLxNiHodovaVbVYG3JLgWrz
-	4v775JE99CE/IpBvUZ63MFpATze63lcyTaErr/ja/HW/9qa9PXjCYDNCApzBJw0I
-	nsHWGtTaZh2+jhFYIPyPS1drX2LNXKGWmM6t3hPaFGdb92itlvhcZckBUMXjA9Uu
-	SsrwJ+/tDb6GXHbLSHfCZ4DkFmNTXhq7OTa3KNPWH2PXjJTda4sqNIpz18fjO7VK
-	l0wMcMIcmfZFgnJi3Hyqcw==
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 49v2yprg3h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 18 Oct 2025 19:46:28 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 59IDYAUx025420;
-	Sat, 18 Oct 2025 19:46:27 GMT
-Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11012030.outbound.protection.outlook.com [52.101.53.30])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 49v1b9fycf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 18 Oct 2025 19:46:27 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wrHtsg1dZtscxT0wJgNDfxlzpmlu4e+EXMPIs1hAGWAnUQtNAQ2fYuCQuYthucGJf0qjKgHWa5R2sItUPO22H3m+MKCFQTc4tRxI9KeZYySI8KwiMkt6bfxMIYuCU+QYcXnd85VAlfo+LjDdW4X8DIVQt6a97sYGJ+w0mPJdb4KxSXaW5Hnukf44CdCWLeSHz5l87fCAkFtT66xgPwCJrL7pglwhSThwn7fJE/G1IYH6mf8KVimN4cM5S8XMoMRl9pIo7vpwTEVSQbD7vfB2tM6Gwkyn2liM8XvB/pu9aI1eY1MoqPgLVV8JflflDIdpykQghrWkkxUGm5JbGraGgQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ce4KW7bUCOnMucv+X2Gr6kEJJ47iQ5oVVlsXu5pgKyI=;
- b=u7WQzw2sVU0xD8ZJfsLFRgTDwZvR7AtIe/csNTN1Yzny1oEu1kH5SEqTAOZ8L9VPFSof3G7DRyj0QP41uyPWj3tf/bti04GtcSYbRez31WPNdKuo35jzCsOAjFXpwKPpSdsfDaBXshR30O2UuoAzfHLbeE/JAm3Cv6q2IfM7HlBUazmROCJxTUOp3WzSVFdWb19z8JIMtLnZoO8yVh9BKvCx9K95Zw2H0CfLo6CqXSC0aQJFiM13P2ffLZhkjBq1w9pHqjD9kPzZ8OhQs2l0XuvxSe5D2sowxf173imUwFxnsuwJjf40NGF0XXpjEeX2mmC5AerKIpooULfkQvxuiA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ce4KW7bUCOnMucv+X2Gr6kEJJ47iQ5oVVlsXu5pgKyI=;
- b=PAVbJfJ8rFaHLPEfGMUbz5A48QerO106qzBJ1awx7n8Jnr3q1Re4ItSxkke21GWDBAilt+QlwPqp0W911nkBsp2huzaPuwECArCNiyOCBQhA84VFfeUn1uajHUdVmF5w8t0j3LuVI0uBmG8rLW7QJXtzKRDM1ALGvyjXG3gbXEw=
-Received: from BN0PR10MB5128.namprd10.prod.outlook.com (2603:10b6:408:117::24)
- by DS0PR10MB7454.namprd10.prod.outlook.com (2603:10b6:8:163::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.13; Sat, 18 Oct
- 2025 19:46:21 +0000
-Received: from BN0PR10MB5128.namprd10.prod.outlook.com
- ([fe80::743a:3154:40da:cf90]) by BN0PR10MB5128.namprd10.prod.outlook.com
- ([fe80::743a:3154:40da:cf90%4]) with mapi id 15.20.9228.012; Sat, 18 Oct 2025
- 19:46:21 +0000
-Message-ID: <cc8a624b-6747-4566-b812-e27caf7861a9@oracle.com>
-Date: Sat, 18 Oct 2025 15:46:17 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 11/11] nfsd: wire up GET_DIR_DELEGATION handling
-To: Jeff Layton <jlayton@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-        Alexander Aring <alex.aring@gmail.com>,
-        Trond Myklebust
- <trondmy@kernel.org>,
-        Anna Schumaker <anna@kernel.org>, Steve French <sfrench@samba.org>,
-        Paulo Alcantara <pc@manguebit.org>,
-        Ronnie Sahlberg <ronniesahlberg@gmail.com>,
-        Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>,
-        Bharath SM <bharathsm@microsoft.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Danilo Krummrich <dakr@kernel.org>,
-        David Howells <dhowells@redhat.com>, Tyler Hicks <code@tyhicks.com>,
-        NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>,
-        Dai Ngo <Dai.Ngo@oracle.com>, Amir Goldstein <amir73il@gmail.com>,
-        Namjae Jeon <linkinjeon@kernel.org>, Steve French <smfrench@gmail.com>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Carlos Maiolino <cem@kernel.org>,
-        Kuniyuki Iwashima <kuniyu@google.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org,
-        samba-technical@lists.samba.org, netfs@lists.linux.dev,
-        ecryptfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
-        linux-xfs@vger.kernel.org, netdev@vger.kernel.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6670D2E88B0;
+	Sun, 19 Oct 2025 13:41:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760881301; cv=none; b=Sydconc9wvVBdqgQgL8RTxbu/fXV5urrS/3ufUNLvfG/PNMp57ike1Izp10oKMgW4vn4tjCTqNigu39NApfpwsv/x9O6yw5cPauOBjiKb3ym1fRh+w+2taQ5l1q01tSkHgszzgC7ZMvErQJBjvkZY9nBySqpcda2e+bh5Fac8lE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760881301; c=relaxed/simple;
+	bh=1JCcGdU0D0dfIG7v2bCZYHFfv6kb8BQcykm1I3JapgY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=tI64gNtuFHPYIZptagubLhJCDGgvn9TGqnw6kjQAmpUN3rRY4+Dx9LJUygfYYbHLqK4E9jDBMd0tjXPZWxneRx6wqwwNcLJBdRgDhz1Ec/66dW1jPVnVsWlGFom02dflkBv7ir7KIceG6AF9JzPpAXTbECn6wksfsh05Nbohoew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WNJGiqeO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD14AC4CEF1;
+	Sun, 19 Oct 2025 13:41:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760881301;
+	bh=1JCcGdU0D0dfIG7v2bCZYHFfv6kb8BQcykm1I3JapgY=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=WNJGiqeO9IsVg1wCiwKSI5bb705R/GKPtimCYbS5LlnRlSTNoiLVDNB1tDPxQK87T
+	 fZ9waLTHZkhzh0CCvxM2DQ7ttKivu8HBnbSFdZXTCjpRCjXBj0JtBm33mCGHYvDYnT
+	 llt5s0AY1i0WcpduhELR42Xp35E95c1TMPdRZ9p63zZX71MZIFyiV8UtmAUfPmTYlU
+	 ebawMeO7oVrmN6tnf6O4VxLLzDgPFgXSbVCY6WDXVE4cX4Zj/OddZJIux/YpCsRH9c
+	 7HHH5ObJ4q8BfXjH/OlHtp9NZXjZ/HfxUyhCvlGIO+C4gaHSsfYxduL711R4zz2ev8
+	 DjXYChtEri78Q==
+Message-ID: <af2105e98a924a31ed76462b4076967735285276.camel@kernel.org>
+Subject: Re: [PATCH v2 09/11] nfsd: allow filecache to hold S_IFDIR files
+From: Jeff Layton <jlayton@kernel.org>
+To: Chuck Lever <chuck.lever@oracle.com>, Miklos Szeredi
+ <miklos@szeredi.hu>,  Alexander Viro <viro@zeniv.linux.org.uk>, Christian
+ Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,  Alexander Aring
+ <alex.aring@gmail.com>, Trond Myklebust <trondmy@kernel.org>, Anna
+ Schumaker <anna@kernel.org>,  Steve French <sfrench@samba.org>, Paulo
+ Alcantara <pc@manguebit.org>, Ronnie Sahlberg	 <ronniesahlberg@gmail.com>,
+ Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey	 <tom@talpey.com>,
+ Bharath SM <bharathsm@microsoft.com>, Greg Kroah-Hartman	
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Danilo Krummrich	 <dakr@kernel.org>, David Howells <dhowells@redhat.com>,
+ Tyler Hicks	 <code@tyhicks.com>, NeilBrown <neil@brown.name>, Olga
+ Kornievskaia	 <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Amir
+ Goldstein	 <amir73il@gmail.com>, Namjae Jeon <linkinjeon@kernel.org>, Steve
+ French	 <smfrench@gmail.com>, Sergey Senozhatsky
+ <senozhatsky@chromium.org>, Carlos Maiolino <cem@kernel.org>, Kuniyuki
+ Iwashima <kuniyu@google.com>, "David S. Miller"	 <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski	 <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman	 <horms@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
+	samba-technical@lists.samba.org, netfs@lists.linux.dev,
+ ecryptfs@vger.kernel.org, 	linux-unionfs@vger.kernel.org,
+ linux-xfs@vger.kernel.org, netdev@vger.kernel.org
+Date: Sun, 19 Oct 2025 09:41:36 -0400
+In-Reply-To: <21904951-0cac-4a79-9be6-7dbf2f9849b6@oracle.com>
 References: <20251017-dir-deleg-ro-v2-0-8c8f6dd23c8b@kernel.org>
- <20251017-dir-deleg-ro-v2-11-8c8f6dd23c8b@kernel.org>
-Content-Language: en-US
-From: Chuck Lever <chuck.lever@oracle.com>
-In-Reply-To: <20251017-dir-deleg-ro-v2-11-8c8f6dd23c8b@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH0PR13CA0010.namprd13.prod.outlook.com
- (2603:10b6:610:b1::15) To BN0PR10MB5128.namprd10.prod.outlook.com
- (2603:10b6:408:117::24)
+	 <20251017-dir-deleg-ro-v2-9-8c8f6dd23c8b@kernel.org>
+	 <21904951-0cac-4a79-9be6-7dbf2f9849b6@oracle.com>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=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
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN0PR10MB5128:EE_|DS0PR10MB7454:EE_
-X-MS-Office365-Filtering-Correlation-Id: 023c69b2-4033-40d2-52f2-08de0e7f032b
-X-LD-Processed: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|1800799024|376014|7416014|366016|921020|7053199007;
-X-Microsoft-Antispam-Message-Info:
- =?utf-8?B?ZXNsRTB4SWpacWRmdUFULzVRbnB5czNkeW8rdklLTVhaaDUxM1g5WXhTL25a?=
- =?utf-8?B?clc5eEd6V3d3MkhmdEROOGFUczFLM2s3WGFPSmhxdmdJbmxLaDE0RTFtYk5F?=
- =?utf-8?B?QTBkUENNUHpTVU1ZL2Fnd0RHbGVIdFFwMGpJQzBPYjM0TURTckgyOUhEU004?=
- =?utf-8?B?azVLVXA0V1pKai9iMC96TVRyZUthZjJCdXpEZEMxcklrY1krU2tJby9STndV?=
- =?utf-8?B?bTQ2SmVRTlFWekU4S1J5NGtpbGd2ZXFqM2dqdm9KY1ExWDRySHJMdUFCcVNr?=
- =?utf-8?B?SGRPTzBjaDN4RnpDY3RUa2ErczMxVnBHajFZSExPbkFZUTdkNkNuSk5sZ3ZZ?=
- =?utf-8?B?VnQ1T0NBb0M2T0JMT01IdjRmU2NZMXA4cG9SMVZaVmVUZFJXSUhaN0RCNXlZ?=
- =?utf-8?B?YTZDMHdRZlBGaHNOUTcvcnJLOXVIQ3czVFljQjZQUm9OT1RHZ3dnM1pLb2kr?=
- =?utf-8?B?TlZucWtGZDNpcTlSdFhVaGphVGswZmVuUkN2VmZkK2MvM3UwNkF2Q01jSGFD?=
- =?utf-8?B?QUtkOS9oSGtlb0wwOGRzR3lvb3dVMVhrSVVZZ2hrOHNzVjZ6dHFOajllVkxz?=
- =?utf-8?B?WmJ5ZEtZM1FUN3hCazJOazJpUG1ocm11Si9rQzU3YU5jcUUrNUZZaDUwZ2dB?=
- =?utf-8?B?dkZ4clJCeStSWUkrUDZ0ZmoxektDcTl4V3h4dTJvZll5TW15VVJ0ajlJZHNl?=
- =?utf-8?B?WmpTUmc0YjRKS2xRM09oN2tjM2ZMMHBMOUJzcjVuQTFCY1poZi8reW92dXV6?=
- =?utf-8?B?M3RYanZOR3JUUkxWN0xiOHlSdjBYeHczOFgvZUd6ZVhaRFZpTnVEWE00dmJE?=
- =?utf-8?B?VkMvTXdLUE1zeWpFRG00L0lKcGJtaEczeWc5Tm9ZTmplRW0zQ0ZzUXNHZDc2?=
- =?utf-8?B?RlU0TzFHUnIxaWwzd2xaQnRjRC85K0VLdmxybkgwbFB0Rk5xVVNlcVNIUkFx?=
- =?utf-8?B?MkNabnpWZmZWTXJFbTlTMldRQkp0UW5uQUFiNFdIdEp3RHRIbW1odzROSDdj?=
- =?utf-8?B?cWFoNHdpY3llTjBXWnFVVktXamZyUEZudjlmZmRqQkhFOWVaaWRPSjN1NVV0?=
- =?utf-8?B?aW9TeDdvVEhDT2R6QUE1VVIwT00vMG1aRGF0V0NxQWpZM1RTV0VBSUxJSjdQ?=
- =?utf-8?B?bkFXUWJBOWZBcnpKNjZlUVU2cXJ5U3BjbkcwMEptUHErSWNyS0dHU2xEZElU?=
- =?utf-8?B?b21kb2xBclhWTGIrUGYvbERTSjZBZUp2SUZsNzBHNnljQ1pOeXpBVzBzNHJp?=
- =?utf-8?B?eTkyUnpUS29MUjg3K1VIaG5BRVdhMmNGQ3l0SHkvK2hKUHo2Z0MwK01FMHVO?=
- =?utf-8?B?SzRqWFViTW9xWlhjMGZ0RG5CMWlmbFhDZ28yWkFQb2lxZU9MNUY2NG1CTmY2?=
- =?utf-8?B?VThUR3VjZDExOWxycE9CaTFwRlhIVFMyNVF6b29LRVhpaTBBTU5mWkxtVWQy?=
- =?utf-8?B?dzJLem9zQjdiU2thdHd4TDJQUysyQ1I2Nk5xM0NTNVBVRHkzNzFCZm1OMzBr?=
- =?utf-8?B?RXdRY3kwQjN6OENySzkzUWpzRkJKQ1llaXRIQURueVZId3UwcHVPbVJwRTQx?=
- =?utf-8?B?L2ZpeDRuRDMwa2dVRllTUk53L1hRMDkzaWY1NU12THNyam9HcFZMMElGMWZZ?=
- =?utf-8?B?SHlsbGtyZ0dsb20vVUc2S2dXNGRXZ2pxZWRWWjNrM3RUOWJwRFp5aW9vODRX?=
- =?utf-8?B?czNuVmMxT3pneTZ6TUZzcXVPWnVKaU95MlY5UkFuMUwrUDZ0dDNRdUU3aTlX?=
- =?utf-8?B?K3hxVGJaZjZSMUwzMFRNb3pIbk9yMGNzQzE0WHk5SDVKSmlNdmVmeWZpUXlO?=
- =?utf-8?B?cTFWMmVvTllMN28rdmJnaVlrMUNkY09nVkFOQ2pIMVY5UzNmZG9QZmh5ajg2?=
- =?utf-8?B?S2RoMDhPYlVmYWtNMCtRUVBkUlp2OHVIdkVuQ1JyTnZUN0NrUnNCdHp6VmhD?=
- =?utf-8?B?YW93MnNnM2VpbVZya3g1VGU2ZjBRZDNRL1pPaW42QzhWYVF5a3lmaVNFZTVq?=
- =?utf-8?Q?gIILlO4Z00gZnkHQ1iqdnTkuIXjdHs=3D?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN0PR10MB5128.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(921020)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?ZFpYZHFUcDcrRGN6NEIzUVg1SVpVQ3ZVUjRHV1REOUZoTGZXdUl5aDZ6OFJt?=
- =?utf-8?B?TGNNdGg4aC9RNGVyeDluS0Z4MUowd2N1YW9iVEhZSzdBakhwNS9JOFNodHpN?=
- =?utf-8?B?QkEyaHFtb3I0aGkydHlqL2toSEh6QlpYcm9GWWU4Ymx0Z2xoVnJBQkQraEtP?=
- =?utf-8?B?S0lyMWNtaUdHblZuRE5qckFjNitua3QzMDRmck1jUlZiWktDQ2ZoYitXQ0RV?=
- =?utf-8?B?MUdoWlFIb3EzK0lHdDZxRUttcFUxR21Ob01qOXVjUG01SWhrRUloNGZiZTBl?=
- =?utf-8?B?L0RNbUIxZDZQalFPOHVvbU43RlhQeVRZMkxMa3RXNmw2RklYejVQdTlBenVr?=
- =?utf-8?B?NFJVUmEwM2twazRBVTJkZ2VBY3BGTlJKa2hTRG44cGtJT2pyWW42RmxiaDBo?=
- =?utf-8?B?YWVybGUydDZwbUQ4cWxNQzJnd3VKMjdNWHNEZzl1UllyOFJ3b1VMVUFmNUFQ?=
- =?utf-8?B?cmdRVDRXV1k3NnpoWUxpWjZHclUzVktHbFRPT3ZwR0ZZMjk5R3VmWkRZL1JE?=
- =?utf-8?B?RkMvcndKbWxhNzlIUncyZFliSlBCYXNVV2hVdEZIbTY3R2ZWMkZsaHcxZmxV?=
- =?utf-8?B?QWUxdmpZVExjQXJiVkxaeldvSWlSQjZBTjl6bkFESlBFTUQyNnMrdlJUSFlO?=
- =?utf-8?B?OUtMYzJLQmlUdWI2clAzMTJWYmUrSUt3VXMwd09tVjVnRHFXeUMyZ2xwQmpB?=
- =?utf-8?B?UUdHOTBVTXZrcS8zS1d4clR0NEhMbytMU0xEWUkzMXkxOEN3eUJJbXYxSUxi?=
- =?utf-8?B?bkUwT1E4VTRXMzdnMzBLendoTUVHT05nQlJCV3pBTUU3aHVxYkNubDhPWFBv?=
- =?utf-8?B?bEE4ZWNTWmxYR0x1a2ZHb2ZENUwrY0xoY2xNeHNBM1hnNEdUWjZXb2lXbXBq?=
- =?utf-8?B?cExxb1hwYlVPSzRNZnJ2b0tQcjdNSFhic2xTWUt5NlFKOEJYZFVKc3h0WUlZ?=
- =?utf-8?B?OW1NbGRGTDF6c01DK3FKSVAzUDNMS0d4cUErWEhnSldxaWlXOFEvb1N5d1Rp?=
- =?utf-8?B?N1Brd2JjRlIzYW1TbkNqNG5ISzIrT3NldDM3ZjFUczYzZktteCtpVkhJT0x4?=
- =?utf-8?B?VUIyRTh0WWFRb241SUgydm41anpZMUtJNnZlT2NJc25yVHErbkpuQlBtZ013?=
- =?utf-8?B?N3JFM3BXb3V2d3BkZjZQN1FNclRyMXE1RXA2aGt3UkEyYzUwdkUvVEQyWEhv?=
- =?utf-8?B?MFRqVzl1VWtiS1h1M0ZaRVZTZGxlQmtlRm5nVFBncTFZSmtES3Rtc3BaUUFs?=
- =?utf-8?B?S1V5bDZTSUpFdTFydnFiNU05SndCYXVEMjBLUzZHZ3llR2d6Tlp3NVg0N1NZ?=
- =?utf-8?B?aXN6RGFwODJnTW1DNG02VWIrQ2EyNlk4QlhMYVlDOG9maXNMZ2JLYWo1Z0dJ?=
- =?utf-8?B?RzM4K0xIQzc1UTVqMkJoczQrUDJoVHdlMmNIRkZHa2NoS2RNWEMxekgwS2ZS?=
- =?utf-8?B?V2NrNm1wb3FCS1k4RCtiY1dYUWhJMEw0QjZDYnN5MWU2bnI1Y1NlOS9FREx4?=
- =?utf-8?B?SWI3TFJSdnNwcVllZC9oRlhXSTFEOWpySjBzWFB0QUc0cEFBMVo0UUhyU2Jw?=
- =?utf-8?B?QTN4WTh3OFoyUWJMYjJOQmorUlV1OWdUTDh5dFJQK2NXUStCcmM4bEpOaTZw?=
- =?utf-8?B?NThXT3R3a1pmWDRRQUQ1T1BsbTFOTEN5RWYvSEkrZm9DWVBjaTArdnlaZ09N?=
- =?utf-8?B?T0VjZmhxNW91YTMvUVI1Z3N1ajVlVFcyYjZ4Q0hFVitIOENQN3Ryd2tKWjZm?=
- =?utf-8?B?UWtNTGM2am5kaXpSaGZkWW9hTWdOcmVFZ3g0ZEh3UHBhV0h5QUNpS28yK1pj?=
- =?utf-8?B?NHEyeHF3YU4zNXE2OE1yRlkrOXpvS0VPNFg0UVA3ODRKVkVwcFpRMVVCYVZ2?=
- =?utf-8?B?aXd4aG5TV3BKNnRONHk1OTZXY1FubjZYUG9OM0xXNlZLQlpGcFJWRVZLSUpJ?=
- =?utf-8?B?TitlcEhocmR1SzR0ZFByZVdCYUd1SDdtU0ZHa0YwdTF1dGhUSHcyYjVBRG10?=
- =?utf-8?B?MW5XclZlSmMrNmovZTJSVGVyUExKeFNjMkdlQno4Q0NEMWxYcVhYR041Y0tq?=
- =?utf-8?B?N3ZHZDd1MW52OTJUWHh1d0srNWIyQ1NpTmd6ZWNsYzZCREZoSmVabGNnWDdG?=
- =?utf-8?B?TlRDajBPOUd0OTJhMHQ5d3g2bGtMell6ZGpWSnFJVUptY2dXdlMxY2hQNnZx?=
- =?utf-8?B?cVE9PQ==?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	/3uCIboQZ+0pFbSY9dXX+ToFrusHzwRkLY6WqXAoK4XmHt9HqSEdIv6T/H911HUE/6RVetVtSI5QSaQK15gXbaTD/wE7RviHz9uYg2oZxgoaVLbJQ3JGuY040wkI9rvzW4qPFbPHqD192+WyHFc7pMYGyEsc8wOxv2iE4ECI+n7An7stvBhzqJOJ46Zl7lqrCoW1QM0HZgtFFdKlOm2aVea5wLIEz+I37cWQMNHGbwRS/Elks1+dEdlibFJcGbQx/Srr1CnSxpRUutjcFjoeKgykqJFELHTEHrzVZumJ5NLGKw7cnD9PkohEPa7tJeiBQo+taSW4XrM6C0Rq7gh3dw17zgYukdambTxJXPmAz2skx/kPg+8kQtFuz1sDGffrnjfq60vZb5di8SdcyPt69lKh9OuqCiwFcl7ZbIxvEe31BqlR/CmmQqv0+L1hIQ019Ws1cwkMWLQoO7vc3DapYJEPLFv58Pi3InsJpLNkVuBEOa5oVLzvZ7LYsB6o35pHXesQRva1MTTiKwZmEN0r42V/2y6pHaS9bwcWDp530JY+VG1KHbcmn9nd8VFMfmV+HEvz8viGMeonJw7X29miwddi/RYMDZ7DN/bqVAq/OkU=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 023c69b2-4033-40d2-52f2-08de0e7f032b
-X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB5128.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Oct 2025 19:46:21.2285
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AGp5v3vcrXvtN2FArulQCY1aBPtO8XqdI71m1+mmUNe1n6zRf+tnxnMgWUS2coFGiY3PbXg3xxFS3XrxurFEYg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB7454
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-18_07,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxscore=0 spamscore=0
- adultscore=0 suspectscore=0 malwarescore=0 mlxlogscore=999 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2510020000
- definitions=main-2510180143
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAyMyBTYWx0ZWRfX7YZY4aaS1kBq
- WZ6h3Ckg1+yap4ReXErsudhHCaWg9VklKJS4a4AdRTmUf2xyAI/02JmXEg+kPVugPkqX05xm/gL
- SOdUyf+rQpAW1o7br1gEbtCgLILGux2MO1KUQyP8oiuw9auEo0fABk3H3f4HRmQrG/vxRs8KZ2H
- aGqocQUDlYhbAmO4mgw4Fh9f4dbEeHI71xR3fq+s1recbvwfxbJbWyk66D3ykMsBJmPDYf+mgVt
- Oz4Z6b0JKhTNSOfV1DaVDStAWoTVgfV/4rovYL1YKm5qe5LksYet9JED0QSTqpME1PEfj2eMmBJ
- OxqjN357zfg0ziWbuK16lpqhu+Pg9OVKHq39R9gX5wRqQDFkJg4ONlfLkvcsX8J5hryvAAA15mi
- w8MbMGmjVyOQhR+6jb847zlr4raEwA==
-X-Proofpoint-GUID: v34Tvpu2blxQG8BPyJay3k8j0NUmvsDY
-X-Authority-Analysis: v=2.4 cv=Db8aa/tW c=1 sm=1 tr=0 ts=68f3ee94 cx=c_pps
- a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=x6icFKpwvdMA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=_f52hmyKKtPQ7mZJ_noA:9 a=QEXdDO2ut3YA:10
- a=UhEZJTgQB8St2RibIkdl:22 a=Z5ABNNGmrOfJ6cZ5bIyy:22 a=QOGEsqRv6VhmHaoFNykA:22
-X-Proofpoint-ORIG-GUID: v34Tvpu2blxQG8BPyJay3k8j0NUmvsDY
 
-On 10/17/25 7:32 AM, Jeff Layton wrote:
-> Add a new routine for acquiring a read delegation on a directory. These
-> are recallable-only delegations with no support for CB_NOTIFY. That will
-> be added in a later phase.
-> 
-> Since the same CB_RECALL/DELEGRETURN infrastrure is used for regular and
-> directory delegations, a normal nfs4_delegation is used to represent a
-> directory delegation.
+On Sat, 2025-10-18 at 15:33 -0400, Chuck Lever wrote:
+> On 10/17/25 7:32 AM, Jeff Layton wrote:
+> > The filecache infrastructure will only handle S_IFREG files at the
+> > moment. Directory delegations will require adding support for opening
+> > S_IFDIR inodes.
+> >=20
+> > Plumb a "type" argument into nfsd_file_do_acquire() and have all of the
+> > existing callers set it to S_IFREG. Add a new nfsd_file_acquire_dir()
+> > wrapper that nfsd can call to request a nfsd_file that holds a director=
+y
+> > open.
+> >=20
+> > For now, there is no need for a fsnotify_mark for directories, as
+> > CB_NOTIFY is not yet supported. Change nfsd_file_do_acquire() to avoid
+> > allocating one for non-S_IFREG inodes.
+> >=20
+> > Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> > ---
+> >  fs/nfsd/filecache.c | 57 ++++++++++++++++++++++++++++++++++++++++-----=
+--------
+> >  fs/nfsd/filecache.h |  2 ++
+> >  fs/nfsd/vfs.c       |  5 +++--
+> >  fs/nfsd/vfs.h       |  2 +-
+> >  4 files changed, 49 insertions(+), 17 deletions(-)
+> >=20
+> > diff --git a/fs/nfsd/filecache.c b/fs/nfsd/filecache.c
+> > index a238b6725008a5c2988bd3da874d1f34ee778437..93798575b8075c63f95cd41=
+5b6d24df706ada0f6 100644
+> > --- a/fs/nfsd/filecache.c
+> > +++ b/fs/nfsd/filecache.c
+> > @@ -1086,7 +1086,7 @@ nfsd_file_do_acquire(struct svc_rqst *rqstp, stru=
+ct net *net,
+> >  		     struct auth_domain *client,
+> >  		     struct svc_fh *fhp,
+> >  		     unsigned int may_flags, struct file *file,
+> > -		     struct nfsd_file **pnf, bool want_gc)
+> > +		     umode_t type, bool want_gc, struct nfsd_file **pnf)
+> >  {
+> >  	unsigned char need =3D may_flags & NFSD_FILE_MAY_MASK;
+> >  	struct nfsd_file *new, *nf;
+> > @@ -1097,13 +1097,13 @@ nfsd_file_do_acquire(struct svc_rqst *rqstp, st=
+ruct net *net,
+> >  	int ret;
+> > =20
+> >  retry:
+> > -	if (rqstp) {
+> > -		status =3D fh_verify(rqstp, fhp, S_IFREG,
+> > +	if (rqstp)
+> > +		status =3D fh_verify(rqstp, fhp, type,
+> >  				   may_flags|NFSD_MAY_OWNER_OVERRIDE);
+> > -	} else {
+> > -		status =3D fh_verify_local(net, cred, client, fhp, S_IFREG,
+> > +	else
+> > +		status =3D fh_verify_local(net, cred, client, fhp, type,
+> >  					 may_flags|NFSD_MAY_OWNER_OVERRIDE);
+> > -	}
+> > +
+> >  	if (status !=3D nfs_ok)
+> >  		return status;
+> >  	inode =3D d_inode(fhp->fh_dentry);
+> > @@ -1176,15 +1176,18 @@ nfsd_file_do_acquire(struct svc_rqst *rqstp, st=
+ruct net *net,
+> > =20
+> >  open_file:
+> >  	trace_nfsd_file_alloc(nf);
+> > -	nf->nf_mark =3D nfsd_file_mark_find_or_create(inode);
+> > -	if (nf->nf_mark) {
+> > +
+> > +	if (type =3D=3D S_IFREG)
+> > +		nf->nf_mark =3D nfsd_file_mark_find_or_create(inode);
+> > +
+> > +	if (type !=3D S_IFREG || nf->nf_mark) {
+> >  		if (file) {
+> >  			get_file(file);
+> >  			nf->nf_file =3D file;
+> >  			status =3D nfs_ok;
+> >  			trace_nfsd_file_opened(nf, status);
+> >  		} else {
+> > -			ret =3D nfsd_open_verified(fhp, may_flags, &nf->nf_file);
+> > +			ret =3D nfsd_open_verified(fhp, type, may_flags, &nf->nf_file);
+> >  			if (ret =3D=3D -EOPENSTALE && stale_retry) {
+> >  				stale_retry =3D false;
+> >  				nfsd_file_unhash(nf);
+> > @@ -1246,7 +1249,7 @@ nfsd_file_acquire_gc(struct svc_rqst *rqstp, stru=
+ct svc_fh *fhp,
+> >  		     unsigned int may_flags, struct nfsd_file **pnf)
+> >  {
+> >  	return nfsd_file_do_acquire(rqstp, SVC_NET(rqstp), NULL, NULL,
+> > -				    fhp, may_flags, NULL, pnf, true);
+> > +				    fhp, may_flags, NULL, S_IFREG, true, pnf);
+> >  }
+> > =20
+> >  /**
+> > @@ -1271,7 +1274,7 @@ nfsd_file_acquire(struct svc_rqst *rqstp, struct =
+svc_fh *fhp,
+> >  		  unsigned int may_flags, struct nfsd_file **pnf)
+> >  {
+> >  	return nfsd_file_do_acquire(rqstp, SVC_NET(rqstp), NULL, NULL,
+> > -				    fhp, may_flags, NULL, pnf, false);
+> > +				    fhp, may_flags, NULL, S_IFREG, false, pnf);
+> >  }
+> > =20
+> >  /**
+> > @@ -1314,8 +1317,8 @@ nfsd_file_acquire_local(struct net *net, struct s=
+vc_cred *cred,
+> >  	const struct cred *save_cred =3D get_current_cred();
+> >  	__be32 beres;
+> > =20
+> > -	beres =3D nfsd_file_do_acquire(NULL, net, cred, client,
+> > -				     fhp, may_flags, NULL, pnf, false);
+> > +	beres =3D nfsd_file_do_acquire(NULL, net, cred, client, fhp, may_flag=
+s,
+> > +				     NULL, S_IFREG, false, pnf);
+> >  	put_cred(revert_creds(save_cred));
+> >  	return beres;
+> >  }
+> > @@ -1344,7 +1347,33 @@ nfsd_file_acquire_opened(struct svc_rqst *rqstp,=
+ struct svc_fh *fhp,
+> >  			 struct nfsd_file **pnf)
+> >  {
+> >  	return nfsd_file_do_acquire(rqstp, SVC_NET(rqstp), NULL, NULL,
+> > -				    fhp, may_flags, file, pnf, false);
+> > +				    fhp, may_flags, file, S_IFREG, false, pnf);
+> > +}
+> > +
+> > +/**
+> > + * nfsd_file_acquire_dir - Get a struct nfsd_file with an open directo=
+ry
+> > + * @rqstp: the RPC transaction being executed
+> > + * @fhp: the NFS filehandle of the file to be opened
+> > + * @pnf: OUT: new or found "struct nfsd_file" object
+> > + *
+> > + * The nfsd_file_object returned by this API is reference-counted
+> > + * but not garbage-collected. The object is unhashed after the
+> > + * final nfsd_file_put(). This opens directories only, and only
+> > + * in O_RDONLY mode.
+> > + *
+> > + * Return values:
+> > + *   %nfs_ok - @pnf points to an nfsd_file with its reference
+> > + *   count boosted.
+> > + *
+> > + * On error, an nfsstat value in network byte order is returned.
+> > + */
+> > +__be32
+> > +nfsd_file_acquire_dir(struct svc_rqst *rqstp, struct svc_fh *fhp,
+> > +		      struct nfsd_file **pnf)
+> > +{
+> > +	return nfsd_file_do_acquire(rqstp, SVC_NET(rqstp), NULL, NULL, fhp,
+> > +				    NFSD_MAY_READ|NFSD_MAY_64BIT_COOKIE,
+> > +				    NULL, S_IFDIR, false, pnf);
+> >  }
+> > =20
+> >  /*
+> > diff --git a/fs/nfsd/filecache.h b/fs/nfsd/filecache.h
+> > index e3d6ca2b60308e5e91ba4bb32d935f54527d8bda..b383dbc5b9218d21a29b852=
+572f80fab08de9fa9 100644
+> > --- a/fs/nfsd/filecache.h
+> > +++ b/fs/nfsd/filecache.h
+> > @@ -82,5 +82,7 @@ __be32 nfsd_file_acquire_opened(struct svc_rqst *rqst=
+p, struct svc_fh *fhp,
+> >  __be32 nfsd_file_acquire_local(struct net *net, struct svc_cred *cred,
+> >  			       struct auth_domain *client, struct svc_fh *fhp,
+> >  			       unsigned int may_flags, struct nfsd_file **pnf);
+> > +__be32 nfsd_file_acquire_dir(struct svc_rqst *rqstp, struct svc_fh *fh=
+p,
+> > +		  struct nfsd_file **pnf);
+> >  int nfsd_file_cache_stats_show(struct seq_file *m, void *v);
+> >  #endif /* _FS_NFSD_FILECACHE_H */
+> > diff --git a/fs/nfsd/vfs.c b/fs/nfsd/vfs.c
+> > index eeb138569eba5df6de361cf6ba29604722e14af9..12c33223b612664dbb3b18b=
+591e97fc708165763 100644
+> > --- a/fs/nfsd/vfs.c
+> > +++ b/fs/nfsd/vfs.c
+> > @@ -959,15 +959,16 @@ nfsd_open(struct svc_rqst *rqstp, struct svc_fh *=
+fhp, umode_t type,
+> >  /**
+> >   * nfsd_open_verified - Open a regular file for the filecache
+> >   * @fhp: NFS filehandle of the file to open
+> > + * @type: S_IFMT inode type allowed (0 means any type is allowed)
+> >   * @may_flags: internal permission flags
+> >   * @filp: OUT: open "struct file *"
+> >   *
+> >   * Returns zero on success, or a negative errno value.
+> >   */
+> >  int
+> > -nfsd_open_verified(struct svc_fh *fhp, int may_flags, struct file **fi=
+lp)
+> > +nfsd_open_verified(struct svc_fh *fhp, umode_t type, int may_flags, st=
+ruct file **filp)
+> >  {
+> > -	return __nfsd_open(fhp, S_IFREG, may_flags, filp);
+> > +	return __nfsd_open(fhp, type, may_flags, filp);
+> >  }
+> > =20
+> >  /*
+> > diff --git a/fs/nfsd/vfs.h b/fs/nfsd/vfs.h
+> > index fa46f8b5f132079e3a2c45e71ecf9cc43181f6b0..ded2900d423f80d33fb6c8b=
+809bc5d9fc842ebfd 100644
+> > --- a/fs/nfsd/vfs.h
+> > +++ b/fs/nfsd/vfs.h
+> > @@ -114,7 +114,7 @@ __be32		nfsd_setxattr(struct svc_rqst *rqstp, struc=
+t svc_fh *fhp,
+> >  int 		nfsd_open_break_lease(struct inode *, int);
+> >  __be32		nfsd_open(struct svc_rqst *, struct svc_fh *, umode_t,
+> >  				int, struct file **);
+> > -int		nfsd_open_verified(struct svc_fh *fhp, int may_flags,
+> > +int		nfsd_open_verified(struct svc_fh *fhp, umode_t type, int may_flag=
+s,
+> >  				struct file **filp);
+> >  __be32		nfsd_splice_read(struct svc_rqst *rqstp, struct svc_fh *fhp,
+> >  				struct file *file, loff_t offset,
+> >=20
+>=20
+> Reviewed-by: Chuck Lever <chuck.lever@oracle.com>
+>=20
+> These can probably go in via Christian's tree. I don't think there
+> are going to be conflicts between these and what's in nfsd-testing
+> now.
 
-s/infrastrure/infrastructure/
-
-
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> ---
->  fs/nfsd/nfs4proc.c  |  21 ++++++++++-
->  fs/nfsd/nfs4state.c | 100 ++++++++++++++++++++++++++++++++++++++++++++++++++++
->  fs/nfsd/state.h     |   5 +++
->  3 files changed, 125 insertions(+), 1 deletion(-)
-> 
-> diff --git a/fs/nfsd/nfs4proc.c b/fs/nfsd/nfs4proc.c
-> index 7f7e6bb23a90d9a1cafd154c0f09e236df75b083..527f8dc52159803770964700170473509ec328ed 100644
-> --- a/fs/nfsd/nfs4proc.c
-> +++ b/fs/nfsd/nfs4proc.c
-> @@ -2342,6 +2342,13 @@ nfsd4_get_dir_delegation(struct svc_rqst *rqstp,
->  			 union nfsd4_op_u *u)
->  {
->  	struct nfsd4_get_dir_delegation *gdd = &u->get_dir_delegation;
-> +	struct nfs4_delegation *dd;
-> +	struct nfsd_file *nf;
-> +	__be32 status;
-> +
-> +	status = nfsd_file_acquire_dir(rqstp, &cstate->current_fh, &nf);
-> +	if (status != nfs_ok)
-> +		return status;
->  
->  	/*
->  	 * RFC 8881, section 18.39.3 says:
-> @@ -2355,7 +2362,19 @@ nfsd4_get_dir_delegation(struct svc_rqst *rqstp,
->  	 * return NFS4_OK with a non-fatal status of GDD4_UNAVAIL in this
->  	 * situation.
->  	 */
-> -	gdd->gddrnf_status = GDD4_UNAVAIL;
-> +	dd = nfsd_get_dir_deleg(cstate, gdd, nf);
-> +	if (IS_ERR(dd)) {
-> +		int err = PTR_ERR(dd);
-> +
-> +		if (err != -EAGAIN)
-> +			return nfserrno(err);
-> +		gdd->gddrnf_status = GDD4_UNAVAIL;
-> +		return nfs_ok;
-> +	}
-
-These error flows might leak the nf acquired just above.
-
-
-> +
-> +	gdd->gddrnf_status = GDD4_OK;
-> +	memcpy(&gdd->gddr_stateid, &dd->dl_stid.sc_stateid, sizeof(gdd->gddr_stateid));
-> +	nfs4_put_stid(&dd->dl_stid);
->  	return nfs_ok;
->  }
->  
-> diff --git a/fs/nfsd/nfs4state.c b/fs/nfsd/nfs4state.c
-> index b06591f154aa372db710e071c69260f4639956d7..a63e8c885291fc377163f3255f26f5f693704437 100644
-> --- a/fs/nfsd/nfs4state.c
-> +++ b/fs/nfsd/nfs4state.c
-> @@ -9359,3 +9359,103 @@ nfsd4_deleg_getattr_conflict(struct svc_rqst *rqstp, struct dentry *dentry,
->  	nfs4_put_stid(&dp->dl_stid);
->  	return status;
->  }
-> +
-> +/**
-> + * nfsd_get_dir_deleg - attempt to get a directory delegation
-> + * @cstate: compound state
-> + * @gdd: GET_DIR_DELEGATION arg/resp structure
-> + * @nf: nfsd_file opened on the directory
-> + *
-> + * Given a GET_DIR_DELEGATION request @gdd, attempt to acquire a delegation
-> + * on the directory to which @nf refers. Note that this does not set up any
-> + * sort of async notifications for the delegation.
-> + */
-> +struct nfs4_delegation *
-> +nfsd_get_dir_deleg(struct nfsd4_compound_state *cstate,
-> +		   struct nfsd4_get_dir_delegation *gdd,
-> +		   struct nfsd_file *nf)
-> +{
-> +	struct nfs4_client *clp = cstate->clp;
-> +	struct nfs4_delegation *dp;
-> +	struct file_lease *fl;
-> +	struct nfs4_file *fp, *rfp;
-> +	int status = 0;
-> +
-> +	fp = nfsd4_alloc_file();
-> +	if (!fp)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	nfsd4_file_init(&cstate->current_fh, fp);
-> +
-> +	rfp = nfsd4_file_hash_insert(fp, &cstate->current_fh);
-> +	if (unlikely(!rfp)) {
-> +		put_nfs4_file(fp);
-> +		return ERR_PTR(-ENOMEM);
-> +	}
-> +
-> +	if (rfp != fp) {
-> +		put_nfs4_file(fp);
-> +		fp = rfp;
-> +	}
-> +
-> +	/* if this client already has one, return that it's unavailable */
-> +	spin_lock(&state_lock);
-> +	spin_lock(&fp->fi_lock);
-> +	/* existing delegation? */
-> +	if (nfs4_delegation_exists(clp, fp)) {
-> +		status = -EAGAIN;
-> +	} else if (!fp->fi_deleg_file) {
-> +		fp->fi_deleg_file = nf;
-> +		fp->fi_delegees = 1;
-> +	} else {
-> +		++fp->fi_delegees;
-
-The new nf is unused in this arm. Does it need to be released?
-
-
-> +	}
-> +	spin_unlock(&fp->fi_lock);
-> +	spin_unlock(&state_lock);
-> +
-> +	if (status) {
-> +		put_nfs4_file(fp);
-> +		return ERR_PTR(status);
-> +	}
-> +
-> +	/* Try to set up the lease */
-> +	status = -ENOMEM;
-> +	dp = alloc_init_deleg(clp, fp, NULL, NFS4_OPEN_DELEGATE_READ);
-> +	if (!dp)
-> +		goto out_delegees;
-> +
-> +	fl = nfs4_alloc_init_lease(dp);
-> +	if (!fl)
-> +		goto out_put_stid;
-> +
-> +	status = kernel_setlease(nf->nf_file,
-> +				 fl->c.flc_type, &fl, NULL);
-> +	if (fl)
-> +		locks_free_lease(fl);
-> +	if (status)
-> +		goto out_put_stid;
-> +
-> +	/*
-> +	 * Now, try to hash it. This can fail if we race another nfsd task
-> +	 * trying to set a delegation on the same file. If that happens,
-> +	 * then just say UNAVAIL.
-> +	 */
-> +	spin_lock(&state_lock);
-> +	spin_lock(&clp->cl_lock);
-> +	spin_lock(&fp->fi_lock);
-> +	status = hash_delegation_locked(dp, fp);
-> +	spin_unlock(&fp->fi_lock);
-> +	spin_unlock(&clp->cl_lock);
-> +	spin_unlock(&state_lock);
-> +
-> +	if (!status)
-> +		return dp;
-> +
-> +	/* Something failed. Drop the lease and clean up the stid */
-> +	kernel_setlease(fp->fi_deleg_file->nf_file, F_UNLCK, NULL, (void **)&dp);
-> +out_put_stid:
-> +	nfs4_put_stid(&dp->dl_stid);
-> +out_delegees:
-> +	put_deleg_file(fp);
-> +	return ERR_PTR(status);
-> +}
-> diff --git a/fs/nfsd/state.h b/fs/nfsd/state.h
-> index 1e736f4024263ffa9c93bcc9ec48f44566a8cc77..b052c1effdc5356487c610db9728df8ecfe851d4 100644
-> --- a/fs/nfsd/state.h
-> +++ b/fs/nfsd/state.h
-> @@ -867,4 +867,9 @@ static inline bool try_to_expire_client(struct nfs4_client *clp)
->  
->  extern __be32 nfsd4_deleg_getattr_conflict(struct svc_rqst *rqstp,
->  		struct dentry *dentry, struct nfs4_delegation **pdp);
-> +
-> +struct nfsd4_get_dir_delegation;
-> +struct nfs4_delegation *nfsd_get_dir_deleg(struct nfsd4_compound_state *cstate,
-> +						struct nfsd4_get_dir_delegation *gdd,
-> +						struct nfsd_file *nf);
->  #endif   /* NFSD4_STATE_H */
-> 
-
-
--- 
-Chuck Lever
+That would work. I think I have at least one more respin of the VFS
+bits before we merge anything anyway.
+--=20
+Jeff Layton <jlayton@kernel.org>
 
