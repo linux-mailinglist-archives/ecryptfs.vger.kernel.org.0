@@ -1,96 +1,98 @@
-Return-Path: <ecryptfs+bounces-527-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-528-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FEB2BF6AE4
-	for <lists+ecryptfs@lfdr.de>; Tue, 21 Oct 2025 15:11:44 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE246BF7454
+	for <lists+ecryptfs@lfdr.de>; Tue, 21 Oct 2025 17:14:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E03183A5172
-	for <lists+ecryptfs@lfdr.de>; Tue, 21 Oct 2025 13:09:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B2CED5401EE
+	for <lists+ecryptfs@lfdr.de>; Tue, 21 Oct 2025 15:09:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDF10334371;
-	Tue, 21 Oct 2025 13:09:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58222340279;
+	Tue, 21 Oct 2025 15:09:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D0BNN4bv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BXOdL9YH"
 X-Original-To: ecryptfs@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7860925B2E7;
-	Tue, 21 Oct 2025 13:09:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ADC7242D7C;
+	Tue, 21 Oct 2025 15:09:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761052191; cv=none; b=RCmdzJ9i0vWlIWheTFAqC8TvG2DZ6ZJLZJ62UfKYBbis61ViaXT8zSdU7V+34NRNC1gJq0x3qh3UpjH9LS2xSzbXb4vtI6+cHhXFci/k13Aq9JKhVm9V3mo7c0zZNtIY0BSlcT/ZMhzLUtZkj4+L9Mzhz06lERRYGHHrblykufM=
+	t=1761059349; cv=none; b=P52A8ZXz+t1HrXIS8PKqLlXQqEkV+f3r/Op7CiTY9ISG7dgyzvu8yFDjUbBgmWP2Cg9VK8WRQbmbZ9moT2uinPcCKuyMieZrEcbWaFGwuMZYCJXxvJwS7pC/A/5wqz99KLWxl6jAw1GLfaq7C5Ek9wvZiFw2je8c40YSti9b5U0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761052191; c=relaxed/simple;
-	bh=H7UgwUYXbmCQ0jWM81jD1014fDBSOlu/wN7/eync+l8=;
+	s=arc-20240116; t=1761059349; c=relaxed/simple;
+	bh=Xk4Lp8qVguRdNJEnylB5z9zbgHn7Y64gu99Lcgdv1Lk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=igAfYIQ9yEETzzpKO6usXA+AVF5RL1BhYJNmJFDwN6bHt48pJvnJatpBmxXTBkV2Ok9qxDyvrN8vwILPl0rTk7c5sZPNJ8+TnYZHXV17ST6CZPYLyX/lzUhpIdPujPtOoPyR8DbzXmenbwnpjUuzGgj4xJpLn4UwX9GC1Hr67Vo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D0BNN4bv; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D69DC4CEF1;
-	Tue, 21 Oct 2025 13:09:41 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=X7KhtnH+pzMfQrQ2V8SRXYt+iatyHhk/JnBjYldQak9TJ4YJYl74nQmw4Bq+9qX4uNovP9FqGEGkmhoQIsVPJQ1DDjvBZF/J/rXIVEqKxglSSNU63KbJ0qwlblH+xdKrhxyRWE7a9aYt4pRBneDh44G5lTIp7x1w3TNZ4+qSg3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BXOdL9YH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D819DC4CEF1;
+	Tue, 21 Oct 2025 15:09:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761052191;
-	bh=H7UgwUYXbmCQ0jWM81jD1014fDBSOlu/wN7/eync+l8=;
+	s=k20201202; t=1761059349;
+	bh=Xk4Lp8qVguRdNJEnylB5z9zbgHn7Y64gu99Lcgdv1Lk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=D0BNN4bv0f2bxHTh/+Nw5MNWVpFs/tQMMePND99gLOmnI0NT3sCkhUKwGW+t4YPJH
-	 hZxzQX/M2vfwhm82SiZp/NNrc9v/0+zip5dAUoBT+IFspML+LLlpWy4SAzOAV3KQrV
-	 lH3bhwZyVYkVak5I/n29kivKEpVz9lmKMS/YEw2pv7kB004pduoQd9/OpTz4Q6s4rt
-	 RYTmObHjwfYDi9vtkBhiuZmHyQF5GHxpqhG/E9pu5FLL4iKBk4ozH8VpRO9HaiGHWb
-	 UxeJTM2Iu+UcAxf7miIVbDtU8CAnNRG21EVRX6ejjt2wb8iUy7aVLNFlCMgg4tvHQ9
-	 FuMhBhxywkORg==
-Date: Tue, 21 Oct 2025 15:09:39 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Chuck Lever <chuck.lever@oracle.com>, 
-	Alexander Aring <alex.aring@gmail.com>, Trond Myklebust <trondmy@kernel.org>, 
-	Anna Schumaker <anna@kernel.org>, Steve French <sfrench@samba.org>, 
-	Paulo Alcantara <pc@manguebit.org>, Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
-	Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>, 
-	Bharath SM <bharathsm@microsoft.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	David Howells <dhowells@redhat.com>, Tyler Hicks <code@tyhicks.com>, NeilBrown <neil@brown.name>, 
-	Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
-	Amir Goldstein <amir73il@gmail.com>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Steve French <smfrench@gmail.com>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Carlos Maiolino <cem@kernel.org>, Kuniyuki Iwashima <kuniyu@google.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
-	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org, netfs@lists.linux.dev, 
-	ecryptfs@vger.kernel.org, linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org, 
-	netdev@vger.kernel.org
-Subject: Re: [PATCH v2 00/11] vfs: recall-only directory delegations for knfsd
-Message-ID: <20251021-meditation-bahnverbindung-7c1d2aa25415@brauner>
-References: <20251017-dir-deleg-ro-v2-0-8c8f6dd23c8b@kernel.org>
+	b=BXOdL9YHBxATL4p08Cc7K6ZZIhXKrxUt6CVqlILZs5vnyJ4IpKBQBIc1Nk8GFh/T+
+	 fCiN4TsRYpMRuBi1ULaw4ztF8i3VlxwxUHD+S42OOE1yHL7jtDjLs31KW/0P7RcSKD
+	 67UzyvEilxAWPBDJZekVRIYYuq1FzG9SrzV3Xk+oZbKHNRoVH0zbhbTRYdgzHiapM1
+	 R/oNv1qAWHEMW9+WvEUGJoZtFnN0gJru1Xxe6jaNqHK+QGvGyLb1MtAqM1VK/Wh9jV
+	 SFGV05bviyVxsZLr++4n4lM8snh8oAZOjBpe/+2YF1Vr0cUW/lAvDnjd6Kzd1SKbeD
+	 ZqBqEmWMy/PQg==
+Date: Tue, 21 Oct 2025 08:09:01 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: ecryptfs@vger.kernel.org, linux-crypto@vger.kernel.org,
+	Tyler Hicks <code@tyhicks.com>, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] ecryptfs: Use MD5 library instead of crypto_shash
+Message-ID: <20251021150901.GA1644@quark>
+References: <20251011200010.193140-1-ebiggers@kernel.org>
+ <20251021-uferpromenade-fachpersonal-70469a562891@brauner>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251017-dir-deleg-ro-v2-0-8c8f6dd23c8b@kernel.org>
+In-Reply-To: <20251021-uferpromenade-fachpersonal-70469a562891@brauner>
 
-On Fri, Oct 17, 2025 at 07:31:52AM -0400, Jeff Layton wrote:
-> A smaller variation of the v1 patchset that I posted earlier this week.
-> Neil's review inspired me to get rid of the lm_may_setlease operation
-> and to do the conflict resolution internally inside of nfsd. That means
-> a smaller VFS-layer change, and an overall reduction in code.
+On Tue, Oct 21, 2025 at 02:27:47PM +0200, Christian Brauner wrote:
+> On Sat, Oct 11, 2025 at 01:00:10PM -0700, Eric Biggers wrote:
+> > eCryptfs uses MD5 for a couple unusual purposes: to "mix" the key into
+> > the IVs for file contents encryption (similar to ESSIV), and to prepend
+> > some key-dependent bytes to the plaintext when encrypting filenames
+> > (which is useless since eCryptfs encrypts the filenames with ECB).
+> > 
+> > Currently, eCryptfs computes these MD5 hashes using the crypto_shash
+> > API.  Update it to instead use the MD5 library API.  This is simpler and
+> > faster: the library doesn't require memory allocations, can't fail, and
+> > provides direct access to MD5 without overhead such as indirect calls.
+> > 
+> > To preserve the existing behavior of eCryptfs support being disabled
+> > when the kernel is booted with "fips=1", make ecryptfs_get_tree() check
+> > fips_enabled itself.  Previously it relied on crypto_alloc_shash("md5")
+> > failing.  I don't know for sure that this is actually needed; e.g., it
+> > could be argued that eCryptfs's use of MD5 isn't for a security purpose
+> > as far as FIPS is concerned.  But this preserves the existing behavior.
+> > 
+> > Tested by verifying that an existing eCryptfs can still be mounted with
+> > a kernel that has this commit, with all the files matching.  Also tested
+> > creating a filesystem with this commit and mounting+reading it without.
+> > 
+> > Signed-off-by: Eric Biggers <ebiggers@kernel.org>
+> > ---
+> > 
+> > I can take this through the libcrypto tree if no one else volunteers.
+> > (It looks like eCryptfs doesn't have an active git tree anymore.)
 > 
-> This patchset adds support for directory delegations to nfsd. This
-> version only supports recallable delegations. There is no CB_NOTIFY
-> support yet. I have patches for those, but we've decided to add that
-> support in a later kernel once we get some experience with this part.
-> Anna is working on the client-side pieces.
-> 
-> It would be great if we could get into linux-next soon so that it can be
-> merged for v6.19. Christian, could you pick up the vfs/filelock patches,
-> and Chuck pick up the nfsd patches?
+> Thanks, but not need, fixes for orphaned fses (that have valid acks) are
+> taken through a VFS tree.
 
-Happy to! Sorry, for the late reply. I was out for a few days.
+Sounds good, thanks!
+
+- Eric
 
