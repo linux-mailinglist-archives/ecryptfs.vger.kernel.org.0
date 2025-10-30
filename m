@@ -1,52 +1,58 @@
-Return-Path: <ecryptfs+bounces-570-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-571-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62A73C1E6E7
-	for <lists+ecryptfs@lfdr.de>; Thu, 30 Oct 2025 06:33:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FD91C1E84C
+	for <lists+ecryptfs@lfdr.de>; Thu, 30 Oct 2025 07:12:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E7D593A3D6F
-	for <lists+ecryptfs@lfdr.de>; Thu, 30 Oct 2025 05:32:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D64003A9A4A
+	for <lists+ecryptfs@lfdr.de>; Thu, 30 Oct 2025 06:12:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC196263F32;
-	Thu, 30 Oct 2025 05:32:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A58ED2E9EA4;
+	Thu, 30 Oct 2025 06:12:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="pWZ489wE"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="Xo7Ax7AU"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7673D1D6BB;
-	Thu, 30 Oct 2025 05:32:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB7F632D0CB;
+	Thu, 30 Oct 2025 06:12:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761802347; cv=none; b=Pj/2/lGDES0xsDnRCxn4sMD4z0kZc8PWAeTgg3TT1zT/8KD/yQfC6acoCnUsA5PR56DnxO/G8vSOMpbGmlm1f9NLuwmQ4s0/T3iZkxP9ZD4sYJZgeemsG+EIZ9nCBGxDF137MU+MWyWUxIPMQ59g71dHoA8E5WIev+M869G0rWs=
+	t=1761804733; cv=none; b=eAA0/u55WpYBLjvO8OMC/G6254Vf5RV9oL4gZuw78wLg/3coxYkRX8Ql88LwkZT8I6hV93T11dQStEMslC0DZvhivKeV65mZh2mr4nvXtzi2XzQ9j/84lXFcghf/xX6W+LOulY3r0lAfPwaf8JhN/EYlop4hpG6K+MvWjjZcIpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761802347; c=relaxed/simple;
-	bh=RKZ55e/BX3Bsy8j/0XAduETGE5FWfV4zDbi6AF2gqjA=;
+	s=arc-20240116; t=1761804733; c=relaxed/simple;
+	bh=EsXrQ5IQO5LjXAeM0LF7jgld/4t6zHLfvBf4hCIbEvc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tc+K2iDQSXPcvEmEQIBmDfC5mRctw6ILtjLA5lYMt1wlQQzC/R+5UncTFFhXtPcEo3jLY2lnMUmgt2yvdC92n/Db73QMD5pCqL81mBe4qt6B/kog7ZO3PZKrFNYEwKRwqNv5aRfYB9PRigSHIpP12lMdcTXPruguUeG0H4RoXqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=pWZ489wE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66130C4CEF1;
-	Thu, 30 Oct 2025 05:32:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1761802347;
-	bh=RKZ55e/BX3Bsy8j/0XAduETGE5FWfV4zDbi6AF2gqjA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pWZ489wE0/m49sWPsV/Rq7Bz2NYaTqU6b90Ymhx8VEoudj0uV9WaKuBWHmU1WM/O/
-	 xHxhdceQwVt+HGjb6niSCPHuQjJXzAwL234wCbKVKiqhVjf1ULVAxCbXZwSilitsRx
-	 Mpjs6IhZxNwipGykTOUfLGAGdCRTODuSqIbQP0QE=
-Date: Thu, 30 Oct 2025 06:32:24 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=OE6Bxc0+dv1vwESWaq5iDplKwRcUzh7VXCYvRyYYIrfhSEAmYUTI2B788DYTbgxPLpOlBotEIPRfnbRvFwnuRK1Uzh+JczYr88j3H+iwNyHNX1z5wut2Hqv0FjN9mK0xFMYLdkx2pv0qw1pUbxhSYsO5OWD51N27YDCSH/tdTLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=Xo7Ax7AU; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=/BmhCV9rufXAtrnr0u46O1gC0ARwDi4lOsr3KRQzWXw=; b=Xo7Ax7AUQLBRpnVcsg4UXARQGf
+	5w0Iik69yaZ4Le7AglC8QGef3ZBFVj8U7bvF9q9ur+IB+Am1L4iy5hnLR0GyLMhAfs7FkNCE2H8Dq
+	kPPTfYYZXLldubyx0stjT/2ubwKlE9tCCpusXWwnNFL6EJ2G/7KG/cqxAxakqv333VlIQ7fKMFTiN
+	T7rEH+ctrmUJbjA6/7sR/WC5LCLfEke2JlfcZZqg05BKbK25ynix5CA5RWfjY0LaLXT8G9Tpn/Uxq
+	Zy+XQtMNlg7buCLCb90waCIosH0GoJT+YDoq1PKAhmzVenYp/WUdZ7KF13dNI+zd4eLiPwBXPQp4U
+	jujpQofw==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vELt9-00000008mUB-2sjF;
+	Thu, 30 Oct 2025 06:11:59 +0000
+Date: Thu, 30 Oct 2025 06:11:59 +0000
+From: Al Viro <viro@zeniv.linux.org.uk>
 To: NeilBrown <neil@brown.name>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
+Cc: Christian Brauner <brauner@kernel.org>,
 	Amir Goldstein <amir73il@gmail.com>, Jan Kara <jack@suse.cz>,
 	linux-fsdevel@vger.kernel.org, Jeff Layton <jlayton@kernel.org>,
 	Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
 	David Howells <dhowells@redhat.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>, Tyler Hicks <code@tyhicks.com>,
 	Miklos Szeredi <miklos@szeredi.hu>,
@@ -70,11 +76,10 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
 	linux-cifs@vger.kernel.org, linux-xfs@vger.kernel.org,
 	apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org,
 	selinux@vger.kernel.org
-Subject: Re: [PATCH v4 01/14] debugfs: rename end_creating() to
- debugfs_end_creating()
-Message-ID: <2025103013-overcome-jailhouse-538b@gregkh>
+Subject: Re: [PATCH v4 07/14] VFS: introduce start_removing_dentry()
+Message-ID: <20251030061159.GV2441659@ZenIV>
 References: <20251029234353.1321957-1-neilb@ownmail.net>
- <20251029234353.1321957-2-neilb@ownmail.net>
+ <20251029234353.1321957-8-neilb@ownmail.net>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
@@ -83,23 +88,32 @@ List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251029234353.1321957-2-neilb@ownmail.net>
+In-Reply-To: <20251029234353.1321957-8-neilb@ownmail.net>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Thu, Oct 30, 2025 at 10:31:01AM +1100, NeilBrown wrote:
-> From: NeilBrown <neil@brown.name>
-> 
-> By not using the generic end_creating() name here we are free to use it
-> more globally for a more generic function.
-> This should have been done when start_creating() was renamed.
-> 
-> For consistency, also rename failed_creating().
-> 
-> Reviewed-by: Amir Goldstein <amir73il@gmail.com>
-> Reviewed-by: Jeff Layton <jlayton@kernel.org>
-> Signed-off-by: NeilBrown <neil@brown.name>
-> ---
->  fs/debugfs/inode.c | 26 +++++++++++++-------------
->  1 file changed, 13 insertions(+), 13 deletions(-)
+On Thu, Oct 30, 2025 at 10:31:07AM +1100, NeilBrown wrote:
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> @@ -428,11 +429,14 @@ static bool cachefiles_invalidate_cookie(struct fscache_cookie *cookie)
+>  		if (!old_tmpfile) {
+>  			struct cachefiles_volume *volume = object->volume;
+>  			struct dentry *fan = volume->fanout[(u8)cookie->key_hash];
+> -
+> -			inode_lock_nested(d_inode(fan), I_MUTEX_PARENT);
+> -			cachefiles_bury_object(volume->cache, object, fan,
+> -					       old_file->f_path.dentry,
+> -					       FSCACHE_OBJECT_INVALIDATED);
+> +			struct dentry *obj;
+> +
+> +			obj = start_removing_dentry(fan, old_file->f_path.dentry);
+> +			if (!IS_ERR(obj))
+> +				cachefiles_bury_object(volume->cache, object,
+> +						       fan, obj,
+> +						       FSCACHE_OBJECT_INVALIDATED);
+> +			end_removing(obj);
+
+Huh?  Where did you change cachefiles_bury_object to *not* unlock the parent?
+Not in this commit, AFAICS, and that means at least a bisection hazard around
+here...
+
+Confused...
 
