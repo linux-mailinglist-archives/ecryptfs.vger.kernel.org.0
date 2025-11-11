@@ -1,223 +1,212 @@
-Return-Path: <ecryptfs+bounces-665-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-666-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B10E9C4D9F5
-	for <lists+ecryptfs@lfdr.de>; Tue, 11 Nov 2025 13:17:56 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7F11C4E53A
+	for <lists+ecryptfs@lfdr.de>; Tue, 11 Nov 2025 15:14:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5C8D33B352A
-	for <lists+ecryptfs@lfdr.de>; Tue, 11 Nov 2025 12:15:02 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 47F574E814F
+	for <lists+ecryptfs@lfdr.de>; Tue, 11 Nov 2025 14:13:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC964358D09;
-	Tue, 11 Nov 2025 12:14:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F954328250;
+	Tue, 11 Nov 2025 14:13:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L8+p8JpV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SkLj8QVr"
 X-Original-To: ecryptfs@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11F0357711;
-	Tue, 11 Nov 2025 12:14:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47C4E307ACF;
+	Tue, 11 Nov 2025 14:13:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762863285; cv=none; b=AzqTi7UjPt+M2ueC5rM4fWRvdPjnEfDBQEI5VaiueYdW94APTQ3wzfk06/cy2N92BZk/lSna2BJmYCHsXquz7o26viBVP/+gVPueGxjNmMQkQyIvo2Ca7pHKU/HyNbRjVHGWjyhzDZZIrKcsC96213k3d93c920OYmk008qzyGU=
+	t=1762870385; cv=none; b=sBqs96HNbbScxRG4SZYDe8I2wqKfrJVQR6UUgwFN4JFjNMQVouoiO8TNhrs6DAKSpMktLfVC9M64iOZttkutl+MUR7Nsm2VWVkT4pJUoahoWBxzioSj0nZWhKmZwVqrXXDzqsZtJS8CzqIG655+WZ/LpcdRVZU8FnYTE3pLFdWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762863285; c=relaxed/simple;
-	bh=+rzKQWAbRHUg4ouBJteUhgLiy1lvAwd+xZ2GORVTZyM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=mdW7+gyEWnaNZOk5MefMGkiT44hzxEzZsYI91ATKjsLS+YLek5XfCSakkuLlxXfWb1U5fUu/XGeZ8JRdV++HXqWDPKD9uVRnh1GTVLMHqw8K77VTOty/ftqwULBmD1+otSj77Cmw7a4VEgeLUpTS/6ul30sxeT0DPil/AAlIDk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L8+p8JpV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEFA8C16AAE;
-	Tue, 11 Nov 2025 12:14:41 +0000 (UTC)
+	s=arc-20240116; t=1762870385; c=relaxed/simple;
+	bh=5h7RkLioFUMB+LPNk9u9S7ASRzlRqbs2gto882mjrGc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=sgKekqVw0a3LWoURq5+UdzZA32+TrXJ16mgKx2GUXALAcaM9Vxt2WNHkhieM9KV9dIpRbpvQr/gvS7RKq8jNBgQwWDBm2HvNJghR5ANdYet36xYfAN5cMvfcG2jYixxesF5PmV1t10tXvxKj8WJsEKqa2amVnvBAo58IlMmFlzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SkLj8QVr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B87AEC19425;
+	Tue, 11 Nov 2025 14:12:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762863285;
-	bh=+rzKQWAbRHUg4ouBJteUhgLiy1lvAwd+xZ2GORVTZyM=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=L8+p8JpVK7PTEkla3qKRiaprmCyYkFkm3RFmbLOQ+JWWKk7+ZMQWwI3ZWJQSouxXT
-	 3ediEo5XyLbdJjUFNBQ6uuyhtSGizG0OZGr4jKhR5Dvlbp1UrgLBAr9ohjtwzEKXeM
-	 G1YDLaAbp57K2IDKGVRUig3r9zCCW6UB+KtgZ0xJSjmBvuFw4BlxXY1t9zQUFi5IzL
-	 4PksDCXtKYKJ4PLRQLxlY6LzZm16nK/tGZwcVOpZHddjo2mHvGH+clbQeWI7WdwHL7
-	 m0cBBE9o1zBeYd+fUA+PUWV0Lbw321Qzal+objZ6KSEKZLc22Iris+EiobHa6jX+WR
-	 nA98vwSRcRnHw==
-Message-ID: <4dd0e1f2dd1ef5103d54e1dceeb2a18fbf7d1e63.camel@kernel.org>
-Subject: Re: [PATCH v5 17/17] vfs: expose delegation support to userland
+	s=k20201202; t=1762870382;
+	bh=5h7RkLioFUMB+LPNk9u9S7ASRzlRqbs2gto882mjrGc=;
+	h=From:Subject:Date:To:Cc:From;
+	b=SkLj8QVrnBSCBecvMBq2NW2ncjPK9W9W3/debPfzLa26k62hZjRufvSGG5Op3I2pV
+	 Sx3xVbraPUdzQj4CzSfQv6xc4mKnyVlJtbRIJBaLVH5LMgLRouxRWT3k2FvIKuSAtA
+	 jzL/28h5TZHYmQT3sfABOoqVzmQ0LjXq9P10MdxriaEz8h5m61VqrQ8eV4Lp6LCTf/
+	 Lji6yv3OSvqJGbgm3t/JRX3BY/Ike5cDOru6HK763OPbMl1HEQMVgdi/lJi4TMuspp
+	 s3N5Qhw6WsNYm1Bq/d3KHY7+odhcvapp8pX/H0hiNpQC3VJTKh9pP3pEku6eHZKrRn
+	 hhqSZXO5PSfbw==
 From: Jeff Layton <jlayton@kernel.org>
-To: Jan Kara <jack@suse.cz>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Alexander Viro
- <viro@zeniv.linux.org.uk>,  Christian Brauner	 <brauner@kernel.org>, Chuck
- Lever <chuck.lever@oracle.com>, Alexander Aring	 <alex.aring@gmail.com>,
- Trond Myklebust <trondmy@kernel.org>, Anna Schumaker	 <anna@kernel.org>,
- Steve French <sfrench@samba.org>, Paulo Alcantara	 <pc@manguebit.org>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>, Shyam Prasad N	
- <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>, Bharath SM	
- <bharathsm@microsoft.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-  "Rafael J. Wysocki"	 <rafael@kernel.org>, Danilo Krummrich
- <dakr@kernel.org>, David Howells	 <dhowells@redhat.com>, Tyler Hicks
- <code@tyhicks.com>, NeilBrown <neil@brown.name>,  Olga Kornievskaia
- <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Amir Goldstein
- <amir73il@gmail.com>, Namjae Jeon	 <linkinjeon@kernel.org>, Steve French
- <smfrench@gmail.com>, Sergey Senozhatsky	 <senozhatsky@chromium.org>,
- Carlos Maiolino <cem@kernel.org>, Kuniyuki Iwashima	 <kuniyu@google.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet	
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni	
- <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
-	samba-technical@lists.samba.org, netfs@lists.linux.dev,
- ecryptfs@vger.kernel.org, 	linux-unionfs@vger.kernel.org,
- linux-xfs@vger.kernel.org, netdev@vger.kernel.org
-Date: Tue, 11 Nov 2025 07:14:40 -0500
-In-Reply-To: <tcpo34clqby633deon2qnccih24xor2mz6jm4fzh2zj7o24sjc@s5c25qgpgmv2>
-References: <20251105-dir-deleg-ro-v5-0-7ebc168a88ac@kernel.org>
-	 <20251105-dir-deleg-ro-v5-17-7ebc168a88ac@kernel.org>
-	 <tcpo34clqby633deon2qnccih24xor2mz6jm4fzh2zj7o24sjc@s5c25qgpgmv2>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=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
- QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.1 (3.58.1-1.fc43) 
+Subject: [PATCH v6 00/17] vfs: recall-only directory delegations for knfsd
+Date: Tue, 11 Nov 2025 09:12:41 -0500
+Message-Id: <20251111-dir-deleg-ro-v6-0-52f3feebb2f2@kernel.org>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3XOTW7DIBCG4atErEs1AwbGWeUeVRf8jB3UyI5wZ
+ bWKfPeSbOrYyvJDet7hJiYumSdxPNxE4TlPeRzqsG8HEc9+6FnmVLdQoAwCaplykYkv3MsyygQ
+ dY0tKB4WikmvhLv88ch+fdZ/z9D2W30d9xvvri9CMEmQD1hF4B2z49MVl4Mv7WHpxL81qrd1Gq
+ 6opUmdTUjpS2Gm90go3WlftgQLGxG3XxJ1u/jXC9udN1a3FYJ1PzNTutFlrs9GmaschoiVP5J9
+ vL8vyByZYe82hAQAA
+X-Change-ID: 20251013-dir-deleg-ro-d0fe19823b21
+To: Miklos Szeredi <miklos@szeredi.hu>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Chuck Lever <chuck.lever@oracle.com>, 
+ Alexander Aring <alex.aring@gmail.com>, 
+ Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
+ Steve French <sfrench@samba.org>, Paulo Alcantara <pc@manguebit.org>, 
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
+ Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>, 
+ Bharath SM <bharathsm@microsoft.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ David Howells <dhowells@redhat.com>, Tyler Hicks <code@tyhicks.com>, 
+ NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
+ Dai Ngo <Dai.Ngo@oracle.com>, Amir Goldstein <amir73il@gmail.com>, 
+ Namjae Jeon <linkinjeon@kernel.org>, Steve French <smfrench@gmail.com>, 
+ Sergey Senozhatsky <senozhatsky@chromium.org>, 
+ Carlos Maiolino <cem@kernel.org>, Kuniyuki Iwashima <kuniyu@google.com>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
+ samba-technical@lists.samba.org, netfs@lists.linux.dev, 
+ ecryptfs@vger.kernel.org, linux-unionfs@vger.kernel.org, 
+ linux-xfs@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-api@vger.kernel.org, Jeff Layton <jlayton@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4578; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=5h7RkLioFUMB+LPNk9u9S7ASRzlRqbs2gto882mjrGc=;
+ b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBpE0RhXZc3zlSR9KwkUEDh7QznT+wZyhLl0qE3F
+ hOKLwxlAjaJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaRNEYQAKCRAADmhBGVaC
+ FbOjD/9Bza9tIaT33dOL1RySziMT8MlJGCPPp4aMdvOCL6wQrCv+Kj2kMdmiOG/zHjU7eOuxuXB
+ WtsJr84Qetxd+ExmK1cjv9quRzdrjPdQvEp6rK3Te4xhtUwenjayswY2bV1UxXRyykNiDRVNgLS
+ HqjeSNBMq632uWhSiwbPUivxuY6mEeDiTpVf5Adnvry+JddbgNbN6W1wZZXbDtMQ7h+XNKiCkN4
+ XWHgr6qVG1snbR4AbTXSGAGtv3OCzU9849XSBZLcH2FtVGUOfMHWGYTGVqhYT+4Juxa74Vdr7WJ
+ Dg3JQm94om5oKs15uBNps7btijIxtwm/XoueWeTxNuXZXhtPlYTnD1dWqyDwgAI8kyUZO2tu6//
+ /C3Mwg1B4Pt4ozw0L/nA5QnlrJ5UJ/BRrKgsEFnRWaa1PxFo0Nw8tJKum+E0t+R3XN87qZrcSzh
+ dkxf40AiTjX7lPP+XbWCG7ivh5rhO1rbtz4FTgb2mH80H7qpePvnIDnoVgz4h6orT8fwVrWZpM1
+ kSm8isaNfrT23dxUfklHjc3hcOPCqzgEoMhbMXs07cSDDa+ZX2nzbng3oyvoG8LHtjsSdB9E8fI
+ tZ2QLjF2gcmRbUzu+j+c6Z7DvePj3t0kUSoZ+nKtMNgHDmsZzsvs1gFTWkMR1YSrBJcq2Ald1FH
+ i0F5Q5ecPAl5ZCA==
+X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
+ fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 
-On Tue, 2025-11-11 at 11:48 +0100, Jan Kara wrote:
-> On Wed 05-11-25 11:54:03, Jeff Layton wrote:
-> > Now that support for recallable directory delegations is available,
-> > expose this functionality to userland with new F_SETDELEG and F_GETDELE=
-G
-> > commands for fcntl().
-> >=20
-> > Note that this also allows userland to request a FL_DELEG type lease on
-> > files too. Userland applications that do will get signalled when there
-> > are metadata changes in addition to just data changes (which is a
-> > limitation of FL_LEASE leases).
-> >=20
-> > These commands accept a new "struct delegation" argument that contains =
-a
-> > flags field for future expansion.
-> >=20
-> > Signed-off-by: Jeff Layton <jlayton@kernel.org>
->=20
-> For new apis CCing linux-api is a good practice ;)
->=20
-> ...
->=20
+Behold, another version of the directory delegation patchset. This
+version contains support for recall-only delegations. Support for
+CB_NOTIFY will be forthcoming (once the client-side patches have caught
+up).
 
-Doh! I definitely will on the next posting.
-
-> > diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
-> > index 3741ea1b73d8500061567b6590ccf5fb4c6770f0..8123fe70e03cfb1ba9ce1b5=
-e20d61b62e462a7ea 100644
-> > --- a/include/uapi/linux/fcntl.h
-> > +++ b/include/uapi/linux/fcntl.h
-> > @@ -79,6 +79,16 @@
-> >   */
-> >  #define RWF_WRITE_LIFE_NOT_SET	RWH_WRITE_LIFE_NOT_SET
-> > =20
-> > +/* Set/Get delegations */
-> > +#define F_GETDELEG		(F_LINUX_SPECIFIC_BASE + 15)
-> > +#define F_SETDELEG		(F_LINUX_SPECIFIC_BASE + 16)
-> > +
-> > +/* Argument structure for F_GETDELEG and F_SETDELEG */
-> > +struct delegation {
-> > +	unsigned int	d_flags;	/* Must be 0 */
-> > +	short		d_type;		/* F_RDLCK, F_WRLCK, F_UNLCK */
-> > +};
-> > +
->=20
-> I think it would make sense for d_type to be unsigned since it's more or
-> less enum.
->=20
-
-FWIW, struct flock has the l_type as a signed short, so that's why I
-copied it here. Making it unsigned is better though.
-
-> Also struct delegation is going to have a hole in it at the end
-> which is always a concern with uAPI structures (passing around
-> uninitialized stuff). I think it would be good to put an explicit padding
-> there and enforce it is zeroed out.
->=20
-
-Makes sense. I'll incorporate that too.
+The main changes here are in response to Jan's comments. I also changed
+struct delegation use to fixed-with integer types.
 
 Thanks!
---=20
+Jeff
+
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+---
+Changes in v6:
+- Change struct delegation to use fixed-width types, and add explicit padding
+- Link to v5: https://lore.kernel.org/r/20251105-dir-deleg-ro-v5-0-7ebc168a88ac@kernel.org
+
+Changes in v5:
+- drop struct createdata patch
+- add patch to drop some unneeded arguments to vfs_create()
+- make fcntl_getdeleg() vet delegation->d_flags
+- Link to v4: https://lore.kernel.org/r/20251103-dir-deleg-ro-v4-0-961b67adee89@kernel.org
+
+Changes in v4:
+- Split lease_alloc() changes into separate patch
+- new patches to switch break_lease() to use single set of flags
+- add struct delegated_inode and use that instead of struct inode **
+- add struct createdata and use that as argument to vfs_create()
+- Rebase onto brauner/vfs-6.19.directory.delegation
+- Make F_GETDELEG take and fill out struct delegation too
+- Link to v3: https://lore.kernel.org/r/20251021-dir-deleg-ro-v3-0-a08b1cde9f4c@kernel.org
+
+Changes in v3:
+- Fix potential nfsd_file refcount leaks on GET_DIR_DELEGATION error
+- Add missing parent dir deleg break in vfs_symlink()
+- Add F_SETDELEG/F_GETDELEG support to fcntl()
+- Link to v2: https://lore.kernel.org/r/20251017-dir-deleg-ro-v2-0-8c8f6dd23c8b@kernel.org
+
+Changes in v2:
+- handle lease conflict resolution inside of nfsd
+- drop the lm_may_setlease lock_manager operation
+- just add extra argument to vfs_create() instead of creating wrapper
+- don't allocate fsnotify_mark for open directories
+- Link to v1: https://lore.kernel.org/r/20251013-dir-deleg-ro-v1-0-406780a70e5e@kernel.org
+
+---
+Jeff Layton (17):
+      filelock: make lease_alloc() take a flags argument
+      filelock: rework the __break_lease API to use flags
+      filelock: add struct delegated_inode
+      filelock: push the S_ISREG check down to ->setlease handlers
+      vfs: add try_break_deleg calls for parents to vfs_{link,rename,unlink}
+      vfs: allow mkdir to wait for delegation break on parent
+      vfs: allow rmdir to wait for delegation break on parent
+      vfs: break parent dir delegations in open(..., O_CREAT) codepath
+      vfs: clean up argument list for vfs_create()
+      vfs: make vfs_create break delegations on parent directory
+      vfs: make vfs_mknod break delegations on parent directory
+      vfs: make vfs_symlink break delegations on parent dir
+      filelock: lift the ban on directory leases in generic_setlease
+      nfsd: allow filecache to hold S_IFDIR files
+      nfsd: allow DELEGRETURN on directories
+      nfsd: wire up GET_DIR_DELEGATION handling
+      vfs: expose delegation support to userland
+
+ drivers/base/devtmpfs.c    |   6 +-
+ fs/attr.c                  |   2 +-
+ fs/cachefiles/namei.c      |   2 +-
+ fs/ecryptfs/inode.c        |  11 ++-
+ fs/fcntl.c                 |  13 ++++
+ fs/fuse/dir.c              |   1 +
+ fs/init.c                  |   6 +-
+ fs/locks.c                 | 100 +++++++++++++++++++++-------
+ fs/namei.c                 | 162 +++++++++++++++++++++++++++++++++------------
+ fs/nfs/nfs4file.c          |   2 +
+ fs/nfsd/filecache.c        |  57 ++++++++++++----
+ fs/nfsd/filecache.h        |   2 +
+ fs/nfsd/nfs3proc.c         |   2 +-
+ fs/nfsd/nfs4proc.c         |  22 +++++-
+ fs/nfsd/nfs4recover.c      |   6 +-
+ fs/nfsd/nfs4state.c        | 103 +++++++++++++++++++++++++++-
+ fs/nfsd/state.h            |   5 ++
+ fs/nfsd/vfs.c              |  16 ++---
+ fs/nfsd/vfs.h              |   2 +-
+ fs/open.c                  |  12 ++--
+ fs/overlayfs/overlayfs.h   |  10 +--
+ fs/posix_acl.c             |   8 +--
+ fs/smb/client/cifsfs.c     |   3 +
+ fs/smb/server/vfs.c        |   9 ++-
+ fs/utimes.c                |   4 +-
+ fs/xattr.c                 |  12 ++--
+ fs/xfs/scrub/orphanage.c   |   2 +-
+ include/linux/filelock.h   |  98 +++++++++++++++++++++------
+ include/linux/fs.h         |  24 ++++---
+ include/linux/xattr.h      |   4 +-
+ include/uapi/linux/fcntl.h |  11 +++
+ net/unix/af_unix.c         |   2 +-
+ 32 files changed, 543 insertions(+), 176 deletions(-)
+---
+base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
+change-id: 20251013-dir-deleg-ro-d0fe19823b21
+
+Best regards,
+-- 
 Jeff Layton <jlayton@kernel.org>
+
 
