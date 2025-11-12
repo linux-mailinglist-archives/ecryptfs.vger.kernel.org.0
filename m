@@ -1,361 +1,167 @@
-Return-Path: <ecryptfs+bounces-684-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-685-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2A4EC4E7D5
-	for <lists+ecryptfs@lfdr.de>; Tue, 11 Nov 2025 15:32:47 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF8A2C51456
+	for <lists+ecryptfs@lfdr.de>; Wed, 12 Nov 2025 10:07:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2C8664F7150
-	for <lists+ecryptfs@lfdr.de>; Tue, 11 Nov 2025 14:26:12 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id EEB4D4F3ABF
+	for <lists+ecryptfs@lfdr.de>; Wed, 12 Nov 2025 09:01:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92E033054DF;
-	Tue, 11 Nov 2025 14:25:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABFC02FDC5B;
+	Wed, 12 Nov 2025 09:01:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="XDPmb+Uf";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="BCw54wrv";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jtro0Scs";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="DhUb478c"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sdP5jmGf"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2267E3043BC
-	for <ecryptfs@vger.kernel.org>; Tue, 11 Nov 2025 14:25:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61E302BE02C;
+	Wed, 12 Nov 2025 09:01:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762871158; cv=none; b=r8vQshyGmUqeKtcEq3RfYYoxil9MASTpMeUXgePxUv3Lyc/23/UuwVL3/QK/jLmlp0vfZTiIREzLotjgnUck8mYDCgJhYI0neMVzWoXJrEtzHleLi5x2K28LwRN+7M208VeDW8NNVM9b/F/+P53K2NdEX+/KG5e/FTi1/fn5OIU=
+	t=1762938072; cv=none; b=IbYqAGKwh0FIc+WIaGoSRnsxDMeIwtQR++IM/bFQeC+SVB1Mv0/o1vOkvMTr6w8O6JHhYn3BODfjMQNl+yI2nd7HCQ68FH7uKHg8IiMZRZ8NDovJaaPXg8lL6liQtdl12lKZBs8kg7+LXAycG7qurliYK88PVmny8iaziEBimqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762871158; c=relaxed/simple;
-	bh=1809HnR7Hz1M8xafkGHEdCVyU1OizBxqpQi1PLjiYzE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aI+2I1xaypYpyoUx2aDHc26OPC/+UgRcvfyo0qO2l+PBGr3nYPwcEW1NRI52QpY9iHYHhmT1KgDoGz7pyzlJiCkmhK2+OhLGRdghDiGnYXpmgmQrFhdJ2vQUBk8nuf6iaJKpsoqR9X3AQodGwVBS7/PRnk2OTQ1GMKmMje4TwMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=XDPmb+Uf; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=BCw54wrv; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=jtro0Scs; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=DhUb478c; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3C2BB21A21;
-	Tue, 11 Nov 2025 14:25:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1762871154; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+8EYNR6057DpYywoZVROv3Xbkt2PD3YynG2WTWg+5xo=;
-	b=XDPmb+UfXnYZ4U4kJyC9+pBDY8gY9tDz64lI/0nR8GxyW9NPJIL4DPvOLQX33MEgVmxB5T
-	Jy2fKqv4Z1hESX7GbTr99569cCLZRMB+H26otLlDB31Ar0iq9jSi47j7ZevTLfQN/fAP1v
-	pN5WmpxftotUGEqUUEbxSqzhWHF6hv0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1762871154;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+8EYNR6057DpYywoZVROv3Xbkt2PD3YynG2WTWg+5xo=;
-	b=BCw54wrvCIsmkl1lRV4ZUJTTToBp0YdLl8Bo01xfMv/I8zga6cnMDthoEM+QgrU9sqUB6H
-	K7Vn26UeTrCLSUAw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1762871153; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+8EYNR6057DpYywoZVROv3Xbkt2PD3YynG2WTWg+5xo=;
-	b=jtro0ScsPQM4YnNdw66AZeap93Mf/8vY7pCxI1Kux+0ptVXqdcFOFxwN92DgNWmdIh5gos
-	wVskORC7dwbtRVliK1N48Nn4a6AzKjXPqy6/l/9DkFK0TdRXWWK4S7e+1D/9MEpErrFDnh
-	tSg3yuWjRsa8X6kbw8B9dvMmTWMLouo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1762871153;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+8EYNR6057DpYywoZVROv3Xbkt2PD3YynG2WTWg+5xo=;
-	b=DhUb478cbGhAGgd89TUndeM8qCjteLGvIUdnqcAVRUfeD0U9wKg66NdR3YIx+PPSp53/6e
-	7W6qgTZX4Rns+FBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 27CAB149D7;
-	Tue, 11 Nov 2025 14:25:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 1WqyCXFHE2mwGgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 11 Nov 2025 14:25:53 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id BEFCBA28CD; Tue, 11 Nov 2025 15:25:52 +0100 (CET)
-Date: Tue, 11 Nov 2025 15:25:52 +0100
-From: Jan Kara <jack@suse.cz>
+	s=arc-20240116; t=1762938072; c=relaxed/simple;
+	bh=NmxT3e9rVD+Vk0gwGiTwEsfo+VbVQUJ9eVtsypMNXuc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kjIRRlg54TReeS1MKEdXqZMJlYz4sTsQ14Evn9NObmG+g9VbSGcYYnj5EgTSrPT7sDHFa8coyGKrkoem+DiMeIT6HR/0UrRv7k/L1mQ9OunOXBG7JqH6rBSM+hkTbxc577N+IxKQRVERNzGp/D/mL7fm7KeRTsxGW8obojUksYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sdP5jmGf; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6871C4CEF5;
+	Wed, 12 Nov 2025 09:01:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762938071;
+	bh=NmxT3e9rVD+Vk0gwGiTwEsfo+VbVQUJ9eVtsypMNXuc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=sdP5jmGfLM+SqEuBX/RsMGAmFa8GSx+5s3qlPF12YVUgFuFMpcff20Xhp8BQtu318
+	 XA2RUpFBp4/3lodTcuJD9YOxWBHcqQMk3h0u5+ME/+CzWeA+bk0+dKlaisCTBqHd6o
+	 T355kOHQKyPmjbq0GoHZQNmcLvQtYngvT4iiH2Yz4Pxoon6WrwLqGla9zLz5WNvIde
+	 cx9FOyjZdSQNY97ifMj9UKI2ssD71LcFv7Xa9qcxmE1cNFEdtAm9HMRRMZLh6u0A5a
+	 AD1vXlXRa/op+Ax2MTk3mKPyO0SMhntbfLDp2az621cBgWCihv3p++dBVMO0VEQrwn
+	 3SDY/PgaVZE9g==
+From: Christian Brauner <brauner@kernel.org>
 To: Jeff Layton <jlayton@kernel.org>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Chuck Lever <chuck.lever@oracle.com>, Alexander Aring <alex.aring@gmail.com>, 
-	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
-	Steve French <sfrench@samba.org>, Paulo Alcantara <pc@manguebit.org>, 
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>, Shyam Prasad N <sprasad@microsoft.com>, 
-	Tom Talpey <tom@talpey.com>, Bharath SM <bharathsm@microsoft.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, David Howells <dhowells@redhat.com>, 
-	Tyler Hicks <code@tyhicks.com>, NeilBrown <neil@brown.name>, 
-	Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
-	Amir Goldstein <amir73il@gmail.com>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Steve French <smfrench@gmail.com>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Carlos Maiolino <cem@kernel.org>, Kuniyuki Iwashima <kuniyu@google.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
-	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org, netfs@lists.linux.dev, 
-	ecryptfs@vger.kernel.org, linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH v6 17/17] vfs: expose delegation support to userland
-Message-ID: <htsrrghapbhriwdtt6pbrgsptwf5nri6ehzgmgjqrc2bmsmku4@hl4q3fvz4kyc>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	linux-cifs@vger.kernel.org,
+	samba-technical@lists.samba.org,
+	netfs@lists.linux.dev,
+	ecryptfs@vger.kernel.org,
+	linux-unionfs@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Alexander Aring <alex.aring@gmail.com>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Steve French <sfrench@samba.org>,
+	Paulo Alcantara <pc@manguebit.org>,
+	Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+	Shyam Prasad N <sprasad@microsoft.com>,
+	Tom Talpey <tom@talpey.com>,
+	Bharath SM <bharathsm@microsoft.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Tyler Hicks <code@tyhicks.com>,
+	NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Steve French <smfrench@gmail.com>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Carlos Maiolino <cem@kernel.org>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>
+Subject: Re: [PATCH v6 00/17] vfs: recall-only directory delegations for knfsd
+Date: Wed, 12 Nov 2025 10:00:47 +0100
+Message-ID: <20251112-allesamt-ursprung-7581bf774318@brauner>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20251111-dir-deleg-ro-v6-0-52f3feebb2f2@kernel.org>
 References: <20251111-dir-deleg-ro-v6-0-52f3feebb2f2@kernel.org>
- <20251111-dir-deleg-ro-v6-17-52f3feebb2f2@kernel.org>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251111-dir-deleg-ro-v6-17-52f3feebb2f2@kernel.org>
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[45];
-	TAGGED_RCPT(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	R_RATELIMIT(0.00)[to_ip_from(RL63fqwwx8ot6gmekemcs76f9d)];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[szeredi.hu,zeniv.linux.org.uk,kernel.org,suse.cz,oracle.com,gmail.com,samba.org,manguebit.org,microsoft.com,talpey.com,linuxfoundation.org,redhat.com,tyhicks.com,brown.name,chromium.org,google.com,davemloft.net,vger.kernel.org,lists.samba.org,lists.linux.dev];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email]
-X-Spam-Flag: NO
-X-Spam-Score: -2.30
-X-Spam-Level: 
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3125; i=brauner@kernel.org; h=from:subject:message-id; bh=NmxT3e9rVD+Vk0gwGiTwEsfo+VbVQUJ9eVtsypMNXuc=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSK+Jx86vPs+ErnB/wb72nN1on3KMp9zX7dQSQ82GOlr L4T45e1HaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABN5uY/hn/2qqoNLZz+dwN+8 MaJT8c46z87PsQEvsjp28yya0xLDk8bwTylL6cEuZvNOz6YbIjsbtC63ni4K0TY9cPOZxLVsp4t dPAA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On Tue 11-11-25 09:12:58, Jeff Layton wrote:
-> Now that support for recallable directory delegations is available,
-> expose this functionality to userland with new F_SETDELEG and F_GETDELEG
-> commands for fcntl().
+On Tue, 11 Nov 2025 09:12:41 -0500, Jeff Layton wrote:
+> Behold, another version of the directory delegation patchset. This
+> version contains support for recall-only delegations. Support for
+> CB_NOTIFY will be forthcoming (once the client-side patches have caught
+> up).
 > 
-> Note that this also allows userland to request a FL_DELEG type lease on
-> files too. Userland applications that do will get signalled when there
-> are metadata changes in addition to just data changes (which is a
-> limitation of FL_LEASE leases).
+> The main changes here are in response to Jan's comments. I also changed
+> struct delegation use to fixed-with integer types.
 > 
-> These commands accept a new "struct delegation" argument that contains a
-> flags field for future expansion.
-> 
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> [...]
 
-Looks good. Feel free to add:
+Applied to the vfs-6.19.directory.delegations branch of the vfs/vfs.git tree.
+Patches in the vfs-6.19.directory.delegations branch should appear in linux-next soon.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-								Honza
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-> ---
->  fs/fcntl.c                 | 13 +++++++++++++
->  fs/locks.c                 | 45 ++++++++++++++++++++++++++++++++++++++++-----
->  include/linux/filelock.h   | 12 ++++++++++++
->  include/uapi/linux/fcntl.h | 11 +++++++++++
->  4 files changed, 76 insertions(+), 5 deletions(-)
-> 
-> diff --git a/fs/fcntl.c b/fs/fcntl.c
-> index 72f8433d9109889eecef56b32d20a85b4e12ea44..f93dbca0843557d197bd1e023519cfa0f00ad78f 100644
-> --- a/fs/fcntl.c
-> +++ b/fs/fcntl.c
-> @@ -445,6 +445,7 @@ static long do_fcntl(int fd, unsigned int cmd, unsigned long arg,
->  		struct file *filp)
->  {
->  	void __user *argp = (void __user *)arg;
-> +	struct delegation deleg;
->  	int argi = (int)arg;
->  	struct flock flock;
->  	long err = -EINVAL;
-> @@ -550,6 +551,18 @@ static long do_fcntl(int fd, unsigned int cmd, unsigned long arg,
->  	case F_SET_RW_HINT:
->  		err = fcntl_set_rw_hint(filp, arg);
->  		break;
-> +	case F_GETDELEG:
-> +		if (copy_from_user(&deleg, argp, sizeof(deleg)))
-> +			return -EFAULT;
-> +		err = fcntl_getdeleg(filp, &deleg);
-> +		if (!err && copy_to_user(argp, &deleg, sizeof(deleg)))
-> +			return -EFAULT;
-> +		break;
-> +	case F_SETDELEG:
-> +		if (copy_from_user(&deleg, argp, sizeof(deleg)))
-> +			return -EFAULT;
-> +		err = fcntl_setdeleg(fd, filp, &deleg);
-> +		break;
->  	default:
->  		break;
->  	}
-> diff --git a/fs/locks.c b/fs/locks.c
-> index dd290a87f58eb5d522f03fa99d612fbad84dacf3..7f4ccc7974bc8d3e82500ee692c6520b53f2280f 100644
-> --- a/fs/locks.c
-> +++ b/fs/locks.c
-> @@ -1703,7 +1703,7 @@ EXPORT_SYMBOL(lease_get_mtime);
->   *	XXX: sfr & willy disagree over whether F_INPROGRESS
->   *	should be returned to userspace.
->   */
-> -int fcntl_getlease(struct file *filp)
-> +static int __fcntl_getlease(struct file *filp, unsigned int flavor)
->  {
->  	struct file_lease *fl;
->  	struct inode *inode = file_inode(filp);
-> @@ -1719,7 +1719,8 @@ int fcntl_getlease(struct file *filp)
->  		list_for_each_entry(fl, &ctx->flc_lease, c.flc_list) {
->  			if (fl->c.flc_file != filp)
->  				continue;
-> -			type = target_leasetype(fl);
-> +			if (fl->c.flc_flags & flavor)
-> +				type = target_leasetype(fl);
->  			break;
->  		}
->  		spin_unlock(&ctx->flc_lock);
-> @@ -1730,6 +1731,19 @@ int fcntl_getlease(struct file *filp)
->  	return type;
->  }
->  
-> +int fcntl_getlease(struct file *filp)
-> +{
-> +	return __fcntl_getlease(filp, FL_LEASE);
-> +}
-> +
-> +int fcntl_getdeleg(struct file *filp, struct delegation *deleg)
-> +{
-> +	if (deleg->d_flags != 0 || deleg->__pad != 0)
-> +		return -EINVAL;
-> +	deleg->d_type = __fcntl_getlease(filp, FL_DELEG);
-> +	return 0;
-> +}
-> +
->  /**
->   * check_conflicting_open - see if the given file points to an inode that has
->   *			    an existing open that would conflict with the
-> @@ -2039,13 +2053,13 @@ vfs_setlease(struct file *filp, int arg, struct file_lease **lease, void **priv)
->  }
->  EXPORT_SYMBOL_GPL(vfs_setlease);
->  
-> -static int do_fcntl_add_lease(unsigned int fd, struct file *filp, int arg)
-> +static int do_fcntl_add_lease(unsigned int fd, struct file *filp, unsigned int flavor, int arg)
->  {
->  	struct file_lease *fl;
->  	struct fasync_struct *new;
->  	int error;
->  
-> -	fl = lease_alloc(filp, FL_LEASE, arg);
-> +	fl = lease_alloc(filp, flavor, arg);
->  	if (IS_ERR(fl))
->  		return PTR_ERR(fl);
->  
-> @@ -2081,7 +2095,28 @@ int fcntl_setlease(unsigned int fd, struct file *filp, int arg)
->  
->  	if (arg == F_UNLCK)
->  		return vfs_setlease(filp, F_UNLCK, NULL, (void **)&filp);
-> -	return do_fcntl_add_lease(fd, filp, arg);
-> +	return do_fcntl_add_lease(fd, filp, FL_LEASE, arg);
-> +}
-> +
-> +/**
-> + *	fcntl_setdeleg	-	sets a delegation on an open file
-> + *	@fd: open file descriptor
-> + *	@filp: file pointer
-> + *	@deleg: delegation request from userland
-> + *
-> + *	Call this fcntl to establish a delegation on the file.
-> + *	Note that you also need to call %F_SETSIG to
-> + *	receive a signal when the lease is broken.
-> + */
-> +int fcntl_setdeleg(unsigned int fd, struct file *filp, struct delegation *deleg)
-> +{
-> +	/* For now, no flags are supported */
-> +	if (deleg->d_flags != 0 || deleg->__pad != 0)
-> +		return -EINVAL;
-> +
-> +	if (deleg->d_type == F_UNLCK)
-> +		return vfs_setlease(filp, F_UNLCK, NULL, (void **)&filp);
-> +	return do_fcntl_add_lease(fd, filp, FL_DELEG, deleg->d_type);
->  }
->  
->  /**
-> diff --git a/include/linux/filelock.h b/include/linux/filelock.h
-> index 208d108df2d73a9df65e5dc9968d074af385f881..54b824c05299261e6bd6acc4175cb277ea35b35d 100644
-> --- a/include/linux/filelock.h
-> +++ b/include/linux/filelock.h
-> @@ -159,6 +159,8 @@ int fcntl_setlk64(unsigned int, struct file *, unsigned int,
->  
->  int fcntl_setlease(unsigned int fd, struct file *filp, int arg);
->  int fcntl_getlease(struct file *filp);
-> +int fcntl_setdeleg(unsigned int fd, struct file *filp, struct delegation *deleg);
-> +int fcntl_getdeleg(struct file *filp, struct delegation *deleg);
->  
->  static inline bool lock_is_unlock(struct file_lock *fl)
->  {
-> @@ -278,6 +280,16 @@ static inline int fcntl_getlease(struct file *filp)
->  	return F_UNLCK;
->  }
->  
-> +static inline int fcntl_setdeleg(unsigned int fd, struct file *filp, struct delegation *deleg)
-> +{
-> +	return -EINVAL;
-> +}
-> +
-> +static inline int fcntl_getdeleg(struct file *filp, struct delegation *deleg)
-> +{
-> +	return -EINVAL;
-> +}
-> +
->  static inline bool lock_is_unlock(struct file_lock *fl)
->  {
->  	return false;
-> diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
-> index 3741ea1b73d8500061567b6590ccf5fb4c6770f0..008fac15e573084a9b48e4e991528b4363c54047 100644
-> --- a/include/uapi/linux/fcntl.h
-> +++ b/include/uapi/linux/fcntl.h
-> @@ -79,6 +79,17 @@
->   */
->  #define RWF_WRITE_LIFE_NOT_SET	RWH_WRITE_LIFE_NOT_SET
->  
-> +/* Set/Get delegations */
-> +#define F_GETDELEG		(F_LINUX_SPECIFIC_BASE + 15)
-> +#define F_SETDELEG		(F_LINUX_SPECIFIC_BASE + 16)
-> +
-> +/* Argument structure for F_GETDELEG and F_SETDELEG */
-> +struct delegation {
-> +	uint32_t	d_flags;	/* Must be 0 */
-> +	uint16_t	d_type;		/* F_RDLCK, F_WRLCK, F_UNLCK */
-> +	uint16_t	__pad;		/* Must be 0 */
-> +};
-> +
->  /*
->   * Types of directory notifications that may be requested.
->   */
-> 
-> -- 
-> 2.51.1
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-6.19.directory.delegations
+
+[01/17] filelock: make lease_alloc() take a flags argument
+        https://git.kernel.org/vfs/vfs/c/6fc5f2b19e75
+[02/17] filelock: rework the __break_lease API to use flags
+        https://git.kernel.org/vfs/vfs/c/4be9f3cc582a
+[03/17] filelock: add struct delegated_inode
+        https://git.kernel.org/vfs/vfs/c/6976ed2dd0d5
+[04/17] filelock: push the S_ISREG check down to ->setlease handlers
+        https://git.kernel.org/vfs/vfs/c/e6d28ebc17eb
+[05/17] vfs: add try_break_deleg calls for parents to vfs_{link,rename,unlink}
+        https://git.kernel.org/vfs/vfs/c/b46ebf9a768d
+[06/17] vfs: allow mkdir to wait for delegation break on parent
+        https://git.kernel.org/vfs/vfs/c/e12d203b8c88
+[07/17] vfs: allow rmdir to wait for delegation break on parent
+        https://git.kernel.org/vfs/vfs/c/4fa76319cd0c
+[08/17] vfs: break parent dir delegations in open(..., O_CREAT) codepath
+        https://git.kernel.org/vfs/vfs/c/134796f43a5e
+[09/17] vfs: clean up argument list for vfs_create()
+        https://git.kernel.org/vfs/vfs/c/85bbffcad730
+[10/17] vfs: make vfs_create break delegations on parent directory
+        https://git.kernel.org/vfs/vfs/c/c826229c6a82
+[11/17] vfs: make vfs_mknod break delegations on parent directory
+        https://git.kernel.org/vfs/vfs/c/e8960c1b2ee9
+[12/17] vfs: make vfs_symlink break delegations on parent dir
+        https://git.kernel.org/vfs/vfs/c/92bf53577f01
+[13/17] filelock: lift the ban on directory leases in generic_setlease
+        https://git.kernel.org/vfs/vfs/c/d0eab9fc1047
+[14/17] nfsd: allow filecache to hold S_IFDIR files
+        https://git.kernel.org/vfs/vfs/c/544a0ee152f0
+[15/17] nfsd: allow DELEGRETURN on directories
+        https://git.kernel.org/vfs/vfs/c/80c8afddc8b1
+[16/17] nfsd: wire up GET_DIR_DELEGATION handling
+        https://git.kernel.org/vfs/vfs/c/8b99f6a8c116
+[17/17] vfs: expose delegation support to userland
+        https://git.kernel.org/vfs/vfs/c/1602bad16d7d
 
