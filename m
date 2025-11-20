@@ -1,85 +1,86 @@
-Return-Path: <ecryptfs+bounces-723-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-724-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75B1BC764DC
-	for <lists+ecryptfs@lfdr.de>; Thu, 20 Nov 2025 22:02:30 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 199CBC766D4
+	for <lists+ecryptfs@lfdr.de>; Thu, 20 Nov 2025 22:53:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sto.lore.kernel.org (Postfix) with ESMTPS id 1A9FA28CBA
-	for <lists+ecryptfs@lfdr.de>; Thu, 20 Nov 2025 21:02:30 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 9B8A135F0CA
+	for <lists+ecryptfs@lfdr.de>; Thu, 20 Nov 2025 21:52:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B61B82D9EFA;
-	Thu, 20 Nov 2025 21:02:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7C89371A2E;
+	Thu, 20 Nov 2025 21:48:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="sXKix0bG"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="eWaeSMQJ"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
+Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D60C121D58B
-	for <ecryptfs@vger.kernel.org>; Thu, 20 Nov 2025 21:02:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D130C31D757
+	for <ecryptfs@vger.kernel.org>; Thu, 20 Nov 2025 21:48:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763672531; cv=none; b=A/y3WGfjOIyJpJH3CdYdQRQjLI5gTG4ykznwwsWn5KL4aOOFkKgn/2T27mgigxyqm3E/C4S9v0iotRXM2BZngS2fZ3OO4LI9nVoW0nvRdhJl4zRjE9Yu88cyKsqUysmoZ+kpq6ldgQ23wL4K6Cb0heQy9wspLLsmfa+R3QGubq8=
+	t=1763675297; cv=none; b=OIXXd/BCXwRljYxHSAU8X5TpWFOKzsbgX7aSvq2pxbYdB0JqM6ntWpZYKq5J6DVb5TbT9vuP1dOPA+0UEc9OGFl1VddSXcFnLc6Eii3DGlqpINRLpf9W5nevHxOjeXk6s88uO3IQF76PQNzkTE6QdntmQjfFLy+RweC6UGga8qA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763672531; c=relaxed/simple;
-	bh=/0+yps8XPK9y7qXVhFTt8YRHYbrP0bw+XV/jpR32Xy0=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=l7gHr7sJiPXxaDMyIgz3vkRgW7BbTuZtHglEpfZwm+dXOiJzrd3PUxDy/d77EupBddS4rEYPNvPBlir0YPW2gHIEktxlpA3CgoRdrq2eJ368YnRzaKMubnMgvbmCL8jSJF0LuE0ZOGqqBPx+0I90Dqa0qXM2fbFzxOcrQkntfFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=sXKix0bG; arc=none smtp.client-ip=95.215.58.178
+	s=arc-20240116; t=1763675297; c=relaxed/simple;
+	bh=ZpLvQ1lINqo+k94kKlQDd7Y3RyCcBxaSd/Pmj8E988s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YZwpr6uuAD+xM3P4fvfeaU1lhrFCLyRXf5yJT4XO1EkHt7Fae7gfVs3y9Y7++NQzX7YNT3meo32vuD/qRgIndktlB/pAEb764aVBi0IYzxIkOSBTvGDz7zRZa9tuYdUm/WPJDP+Jz6hwnaQo6pY3/tZwzfIqSlDewHEmwGpL02A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=eWaeSMQJ; arc=none smtp.client-ip=95.215.58.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Content-Type: text/plain;
-	charset=us-ascii
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1763672525;
+	t=1763675281;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0fVqlf4PSMAtsIkR0CmK3Eg1WYRI0DRj+w+t48dW3t0=;
-	b=sXKix0bGHf+o6v00WI3s/0oDpVBatFuWH1i7jUIkP5h8ctVGhRUYUAxg/BueehSTPUJJwe
-	YBUO7E++B8ZA9zNhIP1VuSvG8uNGWqJfHbx5LZSQ0QpyRua+1G8PEx0eTRpWgevkao638M
-	D6E37YpGq+lzGoUyXMR4PtgfSX90Lks=
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=duWqcUo3510DqxytY/GVenrT9tSxQ9UeuFc0cdTfYbM=;
+	b=eWaeSMQJPqqPNIPAvXp9MgXE4jXAhGJ0zcbjA0h1CD8RaHbmZW0NJazxty/ZHka3HqBEnv
+	5pMSxPSeaqo1LE9IFji32upJt7jYJvmPTaYBCS/Xo5+IW+jzmJ+H6D1/FbefRQyZTTNatP
+	9QTt6biOgkStaW93ltzicwHNzZmV6jA=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Tyler Hicks <code@tyhicks.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>,
+	ecryptfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ecryptfs: Drop redundant NUL termination in ecryptfs_parse_tag_70_packet
+Date: Thu, 20 Nov 2025 22:45:33 +0100
+Message-ID: <20251120214535.5952-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
-Subject: Re: [RESEND PATCH] ecryptfs: Fix packet format comment in
- parse_tag_67_packet()
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Thorsten Blum <thorsten.blum@linux.dev>
-In-Reply-To: <ZxX2wy1leH/fWznR@redbud>
-Date: Thu, 20 Nov 2025 22:02:02 +0100
-Cc: Brian Kubisiak <brian@kubisiak.com>,
- Christian Brauner <brauner@kernel.org>,
- ecryptfs@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: 7bit
-Message-Id: <3B155F44-5937-4841-BC45-DE873F020DAC@linux.dev>
-References: <20241018214144.163036-2-thorsten.blum@linux.dev>
- <ZxX2wy1leH/fWznR@redbud>
-To: Tyler Hicks <code@tyhicks.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
-On 21. Oct 2024, at 08:37, Tyler Hicks wrote:
-> On 2024-10-18 23:41:42, Thorsten Blum wrote:
->> s/TAG 65/TAG 67/
->> 
->> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
-> 
-> Acked-by: Tyler Hicks <code@tyhicks.com>
-> 
-> Thank you, Thorsten!
+ecryptfs_to_hex() already NUL-terminates ->fnek_sig_hex. Drop the manual
+NUL termination.
 
-I just noticed that this has been in linux-next for more than a year,
-but never made it to master. Does anybody know why?
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+---
+ fs/ecryptfs/keystore.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Thanks,
-Thorsten
+diff --git a/fs/ecryptfs/keystore.c b/fs/ecryptfs/keystore.c
+index b5204ab3150d..87990c0d4e2d 100644
+--- a/fs/ecryptfs/keystore.c
++++ b/fs/ecryptfs/keystore.c
+@@ -908,7 +908,6 @@ ecryptfs_parse_tag_70_packet(char **filename, size_t *filename_size,
+ 	(*packet_size) += s->packet_size_len;
+ 	ecryptfs_to_hex(s->fnek_sig_hex, &data[(*packet_size)],
+ 			ECRYPTFS_SIG_SIZE);
+-	s->fnek_sig_hex[ECRYPTFS_SIG_SIZE_HEX] = '\0';
+ 	(*packet_size) += ECRYPTFS_SIG_SIZE;
+ 	s->cipher_code = data[(*packet_size)++];
+ 	rc = ecryptfs_cipher_code_to_string(s->cipher_string, s->cipher_code);
+-- 
+2.51.1
 
 
