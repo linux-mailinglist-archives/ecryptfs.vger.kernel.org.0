@@ -1,177 +1,161 @@
-Return-Path: <ecryptfs+bounces-728-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-729-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AB96C8DE7C
-	for <lists+ecryptfs@lfdr.de>; Thu, 27 Nov 2025 12:11:52 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05D7FC94958
+	for <lists+ecryptfs@lfdr.de>; Sun, 30 Nov 2025 01:01:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 21FFE4E02F7
-	for <lists+ecryptfs@lfdr.de>; Thu, 27 Nov 2025 11:11:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D25F63A690F
+	for <lists+ecryptfs@lfdr.de>; Sun, 30 Nov 2025 00:01:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D14132AABE;
-	Thu, 27 Nov 2025 11:11:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFE835477E;
+	Sun, 30 Nov 2025 00:01:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="c+VxFWOo";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="YK6ML7HD"
+	dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b="cTTUT3M1"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from flow-b3-smtp.messagingengine.com (flow-b3-smtp.messagingengine.com [202.12.124.138])
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B87223BD06;
-	Thu, 27 Nov 2025 11:11:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BD8436D4EE
+	for <ecryptfs@vger.kernel.org>; Sun, 30 Nov 2025 00:01:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764241909; cv=none; b=SvzTXwdWFYZrtPnsGFT+IktpOo8uPRIlqyvnkNERx7kzf7aU2jg2NP+pLKwkxPUmKITlZcOyv66TZLrwIyv03gg0Ms2Vi9BILAdLnnWi71YUpDQ2CcUIV5MSrdZ6gKBZ10hdfyaS2AEP0YputqTQClLbiynWYjJMs8Y3vWzwtJ0=
+	t=1764460897; cv=none; b=GdTU1FnXAGuc8ltg0Y5UEG+SmqBNJJSClXXJy3Z1Im+L7Yt/OuxYGz3uTPjiz2ryL0na+g6nuxtMEegygRjendpdh6gb8kjFMbiYCutmAXIEzUsYzYGSRLCmGWMpySOe/QbqKBSbveEuilTt3fSmT5QH/D3IY4uKO3Abk9VaXJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764241909; c=relaxed/simple;
-	bh=GbIDAT9rtj7UlTcfXk6NmMiPhN0t9jJouRITwhbuniQ=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=fAjqoGyAp9J3imr3YX+bTtZO8yFfHgOICh6l6dkC7WNIc8ANqrBpYTkcW0T6ICDK2mX8x9RlQ92VvvZvu3nkKH7FtqpkvBR4gkDpD84Oosl33Y5r8cDgTFwjqhH0Xi9EG1Ou8FvdY9yQ8Cs/ZXvzadDdufcyqaHoM+LM2P/59wo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=c+VxFWOo; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=YK6ML7HD; arc=none smtp.client-ip=202.12.124.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
-Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
-	by mailflow.stl.internal (Postfix) with ESMTP id E54531300112;
-	Thu, 27 Nov 2025 06:11:45 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-07.internal (MEProxy); Thu, 27 Nov 2025 06:11:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
-	1764241905; x=1764249105; bh=m1kV6hlzxb2O2XlqHGM1BPPCpFOnIPzOUy0
-	n7fZKnGU=; b=c+VxFWOo9uq1DK4cCUXO6NBeE5V6mjiuePKe7uq7i7Uzw+e5z1r
-	KSIFI9qcaqcHz/n4M2JGC1ShKl/MbAFLeZ5Gkz2dElDfo78nIMMAzxNeatPtEK9e
-	Ru07vJE9mRlHzolsNc6YCOBgflzvX8LDXidjAqnXlE38xqoVzFriH4DNrf2ruGli
-	heSyikJBEqbjPgZS6+el63Q1N05e2qxh4QAGs1ZfrzHXS7yCHKjO1lQEOkmReEhx
-	qnzUYADGoVR0mdu9DH1ddnFcsMreV9GoBSAI6qINupHzYFkPg0j5YH5S3fkJCJTp
-	FrDhzYk2BwjOPy5YmiyxBPmHIMvYQb6zYWA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1764241905; x=
-	1764249105; bh=m1kV6hlzxb2O2XlqHGM1BPPCpFOnIPzOUy0n7fZKnGU=; b=Y
-	K6ML7HDTpTVp9PjUPBfoTqh+u1zoLmFqmw+hkFRFq+N9YuLOKVRydNumSmfQAYgx
-	OAttLjP+MFjq5RGkd91Hsq1Qcr44B8QVwobJrDtMl5UulnzgmDvIeua0pUppOct1
-	22Hh23EtIDNgAw6sEMv/72llJaTe/P8BT5wbDKTpu7rR9nT1jj5Z/uUAWxmrcbAy
-	V/h1oahiRy9rLpbiThxDQ+oIi8S+8z6uK9W6qpNro9kteF6xAi8wW7pXkY8pEIxL
-	mzXa3JvSnawJshJHoyvNpEsRSBSqP/ndEheTdpqPjD3QX1ywhnT1v/sxGhBhdxEW
-	zJ9oWyeEY/D8XM1NtqTaw==
-X-ME-Sender: <xms:8TEoabu7JYFYMUfT7S8_I5--Lo9rbrFJdwoaNpvJDL9YrWnILVfvgQ>
-    <xme:8TEoaRi_IAui-deAtJacilhZHHf4PFcDfB7m1UWRGkdliewWwXHx4qEADYj6VQBh7
-    Qhd33fJ6UAMn6BXa5LXo7PE8unF5m36jwIvdlqBrbZforJtLg>
-X-ME-Received: <xmr:8TEoabwy5w0jZKY1rlGFdR9h2JuLLKcSlLcY3KhHiDFqYSQUh_uGJMNO0XTo5J1Em-XAiAWPRrsI0FwLL4oUHwxhQtwrO4uben-LiXPBsZkx>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvgeejtdekucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurheptgfgggfhvfevufgjfhffkfhrsehtqhertddttdejnecuhfhrohhmpefpvghilheu
-    rhhofihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnh
-    epvdeuteelkeejkeevteetvedtkeegleduieeftdeftefgtddtleejgfelgfevffeinecu
-    ffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurf
-    grrhgrmhepmhgrihhlfhhrohhmpehnvghilhgssehofihnmhgrihhlrdhnvghtpdhnsggp
-    rhgtphhtthhopeegtddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepvhhirhhose
-    iivghnihhvrdhlihhnuhigrdhorhhgrdhukhdprhgtphhtthhopehsvghlihhnuhigsehv
-    ghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqgihfshesvhhgvg
-    hrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhunhhiohhnfhhssehv
-    ghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqshgvtghurhhith
-    ihqdhmohguuhhlvgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhn
-    uhigqdhnfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugi
-    dqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhu
-    gidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlih
-    hnuhigqdgtihhfshesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:8TEoaX4jhOU-RJfrf3t1xEcR-lNfjS28e99wANWzbIhtgXOc8tvlQQ>
-    <xmx:8TEoadfn3ihxo_f2JsQabXyhrsPX7Ty6n2NXo-mzGemtFZUciGdvkw>
-    <xmx:8TEoafruRCtJU5PoM56axqXYQfY267HfKJE3cT5se9N7bV25X2ebug>
-    <xmx:8TEoaR1xv1E0dscVlFpB4htOxcDXJkE0QaT7-sPWv8fjNCO-_Nn03g>
-    <xmx:8TEoacuIUsW2XK9lNoDW8FFI-jSTzwnKCqQ_3XoqxqRE8twj9TVgjbxl>
-Feedback-ID: iab3e480c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 27 Nov 2025 06:11:35 -0500 (EST)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1764460897; c=relaxed/simple;
+	bh=LSJ70a7sqpVfPbtWx1NwHyhEjI0E0jggLRDHw6XUKNY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=G/8f+vyt4ITR/l00Uy65AX+72sN6VzXT3W3G09zrPhCuUXpE0Kmn3zchFh7Ucxc2e48GX/nt/dz+k2MglCBdkgoZQXHaR7vTX7l57gvS4CybVN/4PwIVRUcY4aPd9wJTiiUAWRuCkp45IGTLrdYDQRjQ7Ao5zkCK6HD9jezyLIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool; spf=pass smtp.mailfrom=packett.cool; dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b=cTTUT3M1; arc=none smtp.client-ip=95.215.58.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=packett.cool
+Message-ID: <6713ea38-b583-4c86-b74a-bea55652851d@packett.cool>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=packett.cool;
+	s=key1; t=1764460882;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=srEr3LoKq1Czaq8I5z3/A4FoFBjqxOV0LMrfiR1/IRI=;
+	b=cTTUT3M1OgZOXf9KsjND5eMtqvOa5Da+1AeeP4jR0sw0vC4IDg5Xa7CSv88SWqP6ld8c4U
+	feLTIFGjsHi46wUcXcnZnBNFYyUA+k4gt6/btlcqIgvR4xvfo97KEbgbLW8O6jDXdJrKlx
+	N47LnE5fWNIgP4vLf6QeSzk7h8hxo+Mf0b3ed+iyBgZDt5MyHgOMDd1kv+b3MkRIf/97oF
+	Xk4+Fm9asGPOO/UHvFRyAPJkp7+BxqbSkXxGSQ7XQCxe3dquat/XoNWuSDCvFSrDBacD6P
+	XPihqavrhekC6KevGwsdpq2omOGhg4neyyNLaEyfIuqzGpoqSCNpP7XeImwedA==
+Date: Sat, 29 Nov 2025 21:01:05 -0300
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Christian Brauner" <brauner@kernel.org>
-Cc: "Jeff Layton" <jlayton@kernel.org>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Amir Goldstein" <amir73il@gmail.com>, "Jan Kara" <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, "Chris Mason" <clm@fb.com>,
- "David Sterba" <dsterba@suse.com>, "David Howells" <dhowells@redhat.com>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- "Danilo Krummrich" <dakr@kernel.org>, "Tyler Hicks" <code@tyhicks.com>,
- "Miklos Szeredi" <miklos@szeredi.hu>,
- "Chuck Lever" <chuck.lever@oracle.com>,
- "Olga Kornievskaia" <okorniev@redhat.com>,
- "Dai Ngo" <Dai.Ngo@oracle.com>, "Namjae Jeon" <linkinjeon@kernel.org>,
- "Steve French" <smfrench@gmail.com>,
- "Sergey Senozhatsky" <senozhatsky@chromium.org>,
- "Carlos Maiolino" <cem@kernel.org>,
- "John Johansen" <john.johansen@canonical.com>,
- "Paul Moore" <paul@paul-moore.com>, "James Morris" <jmorris@namei.org>,
- "Serge E. Hallyn" <serge@hallyn.com>,
- "Stephen Smalley" <stephen.smalley.work@gmail.com>,
- "Ondrej Mosnacek" <omosnace@redhat.com>,
- "Mateusz Guzik" <mjguzik@gmail.com>,
- "Lorenzo Stoakes" <lorenzo.stoakes@oracle.com>,
- "Stefan Berger" <stefanb@linux.ibm.com>,
- "Darrick J. Wong" <djwong@kernel.org>, linux-kernel@vger.kernel.org,
- netfs@lists.linux.dev, ecryptfs@vger.kernel.org,
- linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
- linux-cifs@vger.kernel.org, linux-xfs@vger.kernel.org,
- linux-security-module@vger.kernel.org, selinux@vger.kernel.org
-Subject: Re: [PATCH v6 00/15] Create and use APIs to centralise locking for
- directory ops
-In-reply-to: <20251114-liedgut-eidesstattlich-8c116178202f@brauner>
-References: <20251113002050.676694-1-neilb@ownmail.net>,
- <20251114-baden-banknoten-96fb107f79d7@brauner>,
- <20251114-liedgut-eidesstattlich-8c116178202f@brauner>
-Date: Thu, 27 Nov 2025 22:11:33 +1100
-Message-id: <176424189349.634289.4480398011245842622@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+Subject: Re: [PATCH v6 06/15] VFS: introduce start_creating_noperm() and
+ start_removing_noperm()
+To: NeilBrown <neil@brown.name>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Amir Goldstein <amir73il@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org,
+ Jeff Layton <jlayton@kernel.org>, Chris Mason <clm@fb.com>,
+ David Sterba <dsterba@suse.com>, David Howells <dhowells@redhat.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Tyler Hicks <code@tyhicks.com>, Miklos Szeredi <miklos@szeredi.hu>,
+ Chuck Lever <chuck.lever@oracle.com>, Olga Kornievskaia
+ <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>,
+ Namjae Jeon <linkinjeon@kernel.org>, Steve French <smfrench@gmail.com>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Carlos Maiolino <cem@kernel.org>, John Johansen
+ <john.johansen@canonical.com>, Paul Moore <paul@paul-moore.com>,
+ James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>,
+ Ondrej Mosnacek <omosnace@redhat.com>, Mateusz Guzik <mjguzik@gmail.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Stefan Berger <stefanb@linux.ibm.com>, "Darrick J. Wong"
+ <djwong@kernel.org>, linux-kernel@vger.kernel.org, netfs@lists.linux.dev,
+ ecryptfs@vger.kernel.org, linux-nfs@vger.kernel.org,
+ linux-unionfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+ linux-xfs@vger.kernel.org, linux-security-module@vger.kernel.org,
+ selinux@vger.kernel.org
+References: <20251113002050.676694-1-neilb@ownmail.net>
+ <20251113002050.676694-7-neilb@ownmail.net>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Val Packett <val@packett.cool>
+In-Reply-To: <20251113002050.676694-7-neilb@ownmail.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Sat, 15 Nov 2025, Christian Brauner wrote:
-> On Fri, Nov 14, 2025 at 01:24:41PM +0100, Christian Brauner wrote:
-> > On Thu, Nov 13, 2025 at 11:18:23AM +1100, NeilBrown wrote:
-> > > Following is a new version of this series:
-> > >  - fixed a bug found by syzbot
-> > >  - cleanup suggested by Stephen Smalley
-> > >  - added patch for missing updates in smb/server - thanks Jeff Layton
-> >=20
-> > The codeflow right now is very very gnarly in a lot of places which
-> > obviously isn't your fault. But start_creating() and end_creating()
-> > would very naturally lend themselves to be CLASS() guards.
-> >=20
-> > Unrelated: I'm very inclined to slap a patch on top that renames
-> > start_creating()/end_creating() and start_dirop()/end_dirop() to
-> > vfs_start_creating()/vfs_end_creating() and
-> > vfs_start_dirop()/vfs_end_dirop(). After all they are VFS level
-> > maintained helpers and I try to be consistent with the naming in the
-> > codebase making it very easy to grep.
->=20
-> @Neil, @Jeff, could you please look at:
-> https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git/log/?h=3Dvfs.all
->=20
-> and specifically at the merge conflict resolution I did for:
->=20
-> https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git/commit/?h=3Dvfs=
-.all&id=3Df28c9935f78bffe6fee62f7fb9f6c5af7e30d9b2
->=20
-> and tell me whether it all looks sane?
->=20
+Hi,
 
-That merge is a7b062be95fed490d1dcd350d3b5657f243d7d4f today, and I
-agree with Jeff that it looks good.
+On 11/12/25 9:18 PM, NeilBrown wrote:
+> From: NeilBrown <neil@brown.name>
+>
+> xfs, fuse, ipc/mqueue need variants of start_creating or start_removing
+> which do not check permissions.
+> This patch adds _noperm versions of these functions.
+> [..]
+> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+> index 316922d5dd13..a0d5b302bcc2 100644
+> --- a/fs/fuse/dir.c
+> +++ b/fs/fuse/dir.c
+> @@ -1397,27 +1397,25 @@ int fuse_reverse_inval_entry(struct fuse_conn *fc, u64 parent_nodeid,
+>   	if (!parent)
+>   		return -ENOENT;
+>   
+> -	inode_lock_nested(parent, I_MUTEX_PARENT);
+>   	if (!S_ISDIR(parent->i_mode))
+> -		goto unlock;
+> +		goto put_parent;
+>   
+>   	err = -ENOENT;
+>   	dir = d_find_alias(parent);
+>   	if (!dir)
+> -		goto unlock;
+> +		goto put_parent;
+>   
+> -	name->hash = full_name_hash(dir, name->name, name->len);
+> -	entry = d_lookup(dir, name);
+> +	entry = start_removing_noperm(dir, name);
+>   	dput(dir);
+> -	if (!entry)
+> -		goto unlock;
+> +	if (IS_ERR(entry))
+> +		goto put_parent;
+
+This broke xdg-document-portal (and potentially other FUSE filesystems) 
+by introducing a massive deadlock.
+
+❯ doas cat /proc/40751/stack # main thread
+[<0>] __fuse_simple_request+0x37c/0x5c0 [fuse]
+[<0>] fuse_lookup_name+0x12c/0x2a0 [fuse]
+[<0>] fuse_lookup+0x9c/0x1e8 [fuse]
+[<0>] lookup_one_qstr_excl+0xd4/0x160
+[<0>] start_removing_noperm+0x5c/0x90
+[<0>] fuse_reverse_inval_entry+0x64/0x1e0 [fuse]
+[<0>] fuse_dev_do_write+0x13a8/0x16a8 [fuse]
+[<0>] fuse_dev_write+0x64/0xa8 [fuse]
+[<0>] do_iter_readv_writev+0x170/0x1d0
+[<0>] vfs_writev+0x100/0x2d0
+[<0>] do_writev+0x88/0x130
+
+d_lookup which was previously used here —from what I could understand by 
+reading it— is cache-only and does not call into the FS's lookup at all.
+
+This new start_removing_noperm calls start_dirop which calls 
+lookup_one_qstr_excl which according to its own comment is the "one and 
+only case when ->lookup() gets called on non in-lookup dentries". Well, 
+->lookup() is the request back to the userspace FUSE server.. but the 
+FUSE server is waiting for the write() to the FUSE device that invokes 
+this operation to return! We cannot reenter the FUSE server 
+from fuse_reverse_inval_entry.
+
+x-d-p issue link: https://github.com/flatpak/xdg-desktop-portal/issues/1871
+
+Reverting the fuse/dir.c changes has fixed that for me.
 
 Thanks,
-NeilBrown
+~val
+
 
