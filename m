@@ -1,133 +1,223 @@
-Return-Path: <ecryptfs+bounces-730-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-731-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8437CC94974
-	for <lists+ecryptfs@lfdr.de>; Sun, 30 Nov 2025 01:19:27 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CFA1C9551E
+	for <lists+ecryptfs@lfdr.de>; Sun, 30 Nov 2025 23:06:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 1D6623461C4
-	for <lists+ecryptfs@lfdr.de>; Sun, 30 Nov 2025 00:19:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E53013A2094
+	for <lists+ecryptfs@lfdr.de>; Sun, 30 Nov 2025 22:06:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38C0D19D071;
-	Sun, 30 Nov 2025 00:19:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3B9023ABA1;
+	Sun, 30 Nov 2025 22:06:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="P0lI00AM"
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="hy5/vAJ7";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="y272tXC1"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from flow-a2-smtp.messagingengine.com (flow-a2-smtp.messagingengine.com [103.168.172.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38B6D18FDDB;
-	Sun, 30 Nov 2025 00:19:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3910C3B2A0;
+	Sun, 30 Nov 2025 22:06:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764461961; cv=none; b=s5fcQmbNb6WvjOpnmNj6SB8SfSlfeQL3K0t48l1wjsVmXXfxKQMKV1zxrhj+DhG8vIJhX7IuRkxklyJyLmLaOrvugkFKoPyW4Bfdf0XA9WIZpLA1BUKSmA6R5WXM/vvhcFwuDJWGsCjMpRVXW+O2i7chgTzD6FZMRui8L/jxcT8=
+	t=1764540402; cv=none; b=RGzH1OxeY6nbEXzPkR7hFcRZlqmnjmAdAZZIk/zPmaeKugglFqVw1mIX0LXUNIj5u7ORkDPOnOnfhwMprNwRM2S6wXzbs5mxrvtb6s6WfiumciEmXPG9xuXtPjyyc4/Qyl9eJFSsmYxN9VYq95teKLG90Fz1z7blXVRBYLHi5Gs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764461961; c=relaxed/simple;
-	bh=HFGaExAsqMAWO5sUzUnvqPSfrdycmZcM33Wu9Kesduw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FPrDELIEkD6ArhiPm02HBkqAE17SLcV8YOdra5ZlgTg7aJ2++rOiJ74rWMctKHOfNC9U9Lg42jqupQnm+fDQmoFObBra3NS4yd6UYYzr7ZVLUqsbEAt9OIup7jECajtxkaKZtaI4g/pFgibONVoRk3ldUo4MmZqW0emL1YGfXnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=P0lI00AM; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=/QciF8G+P9yAIBwI/Xv/gYc2UTZnSkqo4skR1MpMD7w=; b=P0lI00AMxhFts2RFB74Z0P96Sh
-	E8woe6RG9A+6J5H20ey0imQtCJMcy5U1TWTK7Iu1T2P7EuNyuA7oTrbFVjxkqfviAnpZeISCqG7U4
-	ZcYBq1rW6Xg4/XpVHZAI+OGOmKpBc2nwqfLCACY0TWVOoLR2+2suf458IULSa7HTAvPGyQFApiC+u
-	c22Uhl84dnaPOo+ZMjL2AfJHrHbHY9RgSC8ELZXYIGm/SvU5zD7wC2K3d3ASdk0vxK9inq/WokTWB
-	IvBl34Sx+XRhxeumVN/fwUK8HaXStoRMX9DU6QKNZadt4O1WJtGTCI+NxgS2dVYQLr7PO3FK6v76S
-	fLoFcoLw==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99 #2 (Red Hat Linux))
-	id 1vPV9q-000000097kZ-20ez;
-	Sun, 30 Nov 2025 00:19:18 +0000
-Date: Sun, 30 Nov 2025 00:19:18 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Val Packett <val@packett.cool>
-Cc: NeilBrown <neil@brown.name>, Christian Brauner <brauner@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, Jeff Layton <jlayton@kernel.org>,
-	Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
-	David Howells <dhowells@redhat.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Tyler Hicks <code@tyhicks.com>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>, Namjae Jeon <linkinjeon@kernel.org>,
-	Steve French <smfrench@gmail.com>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Carlos Maiolino <cem@kernel.org>,
-	John Johansen <john.johansen@canonical.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Stephen Smalley <stephen.smalley.work@gmail.com>,
-	Ondrej Mosnacek <omosnace@redhat.com>,
-	Mateusz Guzik <mjguzik@gmail.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Stefan Berger <stefanb@linux.ibm.com>,
-	"Darrick J. Wong" <djwong@kernel.org>, linux-kernel@vger.kernel.org,
-	netfs@lists.linux.dev, ecryptfs@vger.kernel.org,
-	linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
-	linux-cifs@vger.kernel.org, linux-xfs@vger.kernel.org,
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org
-Subject: Re: [PATCH v6 06/15] VFS: introduce start_creating_noperm() and
- start_removing_noperm()
-Message-ID: <20251130001918.GM3538@ZenIV>
-References: <20251113002050.676694-1-neilb@ownmail.net>
- <20251113002050.676694-7-neilb@ownmail.net>
- <6713ea38-b583-4c86-b74a-bea55652851d@packett.cool>
+	s=arc-20240116; t=1764540402; c=relaxed/simple;
+	bh=H286xqveeebZVFlOJOqpEwPmE65EXLOG8U9NM8Xrtdo=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=fwfqN3gFzr4Xu90ky6wvZw52VsseSGe4d290cNcfWsMnEs8Fm3/4Z7FPUD1Unv5JOdQ4OY1x72ed68j0ssGHEmoSIjA+ji/lWkOzrtzUKdjdLzsLTyo+dPzviyvc6Pz1PzTkUiJLQhNlmySI8/Cv4QHnSM/WnG43hm5oDJmY468=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=hy5/vAJ7; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=y272tXC1; arc=none smtp.client-ip=103.168.172.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailflow.phl.internal (Postfix) with ESMTP id 450E51380024;
+	Sun, 30 Nov 2025 17:06:38 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-10.internal (MEProxy); Sun, 30 Nov 2025 17:06:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
+	1764540398; x=1764547598; bh=cUn5L4iU3G/E8nSDoCgXMFvcb9eqiqLJ+fQ
+	AZ+yuHdY=; b=hy5/vAJ7VDnRhPu4NAEcVVv5VsCE99D675b1O637LQNqU1hryk/
+	A/EwucRaao1fI6D4r6ZaOKqt2g6bmwWC4pZER7WFg+rFCQJU+ghwRrHn8QdyHh7U
+	wWrBMhq2Gz88NaUam/Uq4qYHiRRHRS43Kz0SBZ7JqhyEsObMvhqjQEB18G2yKbv8
+	yZo7Nck5pHkxnO0T5Eqt9hVBjZXdX2JWgv8T+9wL+ZEOTb7ZQl7RL2SWsVPnG30f
+	k31TDgRK0oxDUB7RDk6Gn1QUd+OOIrsHKSLwbo2u8ivxkF5LYs296RGBl7CItxJS
+	i7rfTNDNyp5c/ImAnGydvwA9he1U6kda60Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1764540398; x=
+	1764547598; bh=cUn5L4iU3G/E8nSDoCgXMFvcb9eqiqLJ+fQAZ+yuHdY=; b=y
+	272tXC1TzhAQ6gKrWtHDyuZvjT0XwA6swylW6W+atTM93qeEOrbVAHzYzJLoqQeC
+	4GAyjyJmLnqETLkstn0asGU2zEK6cBwQ75RawoX+ZjBG3onwhYv5SEaKOY3NEfJ/
+	D/rjR4jx39PlpAy2UFJsDkDrb08XtOsIIdBZHG8UuB3/RKc56tcM/hqKQjkmP5z+
+	y84WFGJ+dLJbBCHcjOJEFOiqpy2sCoU8Ex1CT+3+XVkc0fevdIyFWHPN4Kh5wI7/
+	Tm4Rh0LpFY6U1lvMP5w4Cq5Lev0WWHd6eNXh//JI9Y07T14zV4IqrdwpubzOXJVu
+	uBLOYqtxMytIs/omBPIBg==
+X-ME-Sender: <xms:7L8saTWcEafKZ2FpjadU01KY8PuBlI8D2__CoFf7AH7DE8vVThGARA>
+    <xme:7L8saS2Hg_Agw2b_UqsdZapIuyLwRvHe8PG9OhPVIF9JtTRGry871lIsum6vmo9Tm
+    NmTP9dpkW6ErCDzE1FP_5HkWztCLYM1_0aFREAH-RdZyk9E>
+X-ME-Received: <xmr:7L8saX9eeiVROyJDWFcHpO0l-SnDtbn3IMZ8yovZ9u11OJLcVhVEVwx3pE40OdgljGfKwHLnp8Z34cVEftMbygtc7KphNEIDVeVZ9U-Me9Og>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvheehleekucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurheptgfgggfhvfevufgjfhffkfhrsehtqhertddttdejnecuhfhrohhmpefpvghilheu
+    rhhofihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnh
+    epvdeuteelkeejkeevteetvedtkeegleduieeftdeftefgtddtleejgfelgfevffeinecu
+    ffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpehnvghilhgssehofihnmhgrihhlrdhnvghtpdhnsggp
+    rhgtphhtthhopeeguddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepvhhirhhose
+    iivghnihhvrdhlihhnuhigrdhorhhgrdhukhdprhgtphhtthhopehsvghlihhnuhigsehv
+    ghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqgihfshesvhhgvg
+    hrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhunhhiohhnfhhssehv
+    ghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqshgvtghurhhith
+    ihqdhmohguuhhlvgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhn
+    uhigqdhnfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugi
+    dqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhu
+    gidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlih
+    hnuhigqdgtihhfshesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:7L8sabv1hwad4uB-c2PQ4ZcwG4YZgTowtFHZGh4S1mV2rmjavl4Jow>
+    <xmx:7L8saVp4ytL8p8tJltTf_fg3sJ9L92UyFGAW_-zyaFMYURI9cMq0oQ>
+    <xmx:7L8saTBNO0Qq7t2Rk4de2_ZalprfLHw8QVmBaPJTovyRZMtUqf011w>
+    <xmx:7L8saf__QCw4QViuhSyQmGZsduckUhwXnncrojwu0fWg0rrtz3NkxQ>
+    <xmx:7r8saVuqvLl2cKFnnBlIg06ge-4Sz-lh_rIp7ez61MtsKGFAbg0Db5GS>
+Feedback-ID: iab3e480c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 30 Nov 2025 17:06:26 -0500 (EST)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6713ea38-b583-4c86-b74a-bea55652851d@packett.cool>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+From: NeilBrown <neilb@ownmail.net>
+To: "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Val Packett" <val@packett.cool>
+Cc: "Amir Goldstein" <amir73il@gmail.com>, "Jan Kara" <jack@suse.cz>,
+ linux-fsdevel@vger.kernel.org, "Jeff Layton" <jlayton@kernel.org>,
+ "Chris Mason" <clm@fb.com>, "David Sterba" <dsterba@suse.com>,
+ "David Howells" <dhowells@redhat.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ "Danilo Krummrich" <dakr@kernel.org>, "Tyler Hicks" <code@tyhicks.com>,
+ "Miklos Szeredi" <miklos@szeredi.hu>,
+ "Chuck Lever" <chuck.lever@oracle.com>,
+ "Olga Kornievskaia" <okorniev@redhat.com>,
+ "Dai Ngo" <Dai.Ngo@oracle.com>, "Namjae Jeon" <linkinjeon@kernel.org>,
+ "Steve French" <smfrench@gmail.com>,
+ "Sergey Senozhatsky" <senozhatsky@chromium.org>,
+ "Carlos Maiolino" <cem@kernel.org>,
+ "John Johansen" <john.johansen@canonical.com>,
+ "Paul Moore" <paul@paul-moore.com>, "James Morris" <jmorris@namei.org>,
+ "Serge E. Hallyn" <serge@hallyn.com>,
+ "Stephen Smalley" <stephen.smalley.work@gmail.com>,
+ "Ondrej Mosnacek" <omosnace@redhat.com>,
+ "Mateusz Guzik" <mjguzik@gmail.com>,
+ "Lorenzo Stoakes" <lorenzo.stoakes@oracle.com>,
+ "Stefan Berger" <stefanb@linux.ibm.com>,
+ "Darrick J. Wong" <djwong@kernel.org>, linux-kernel@vger.kernel.org,
+ netfs@lists.linux.dev, ecryptfs@vger.kernel.org,
+ linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
+ linux-cifs@vger.kernel.org, linux-xfs@vger.kernel.org,
+ linux-security-module@vger.kernel.org, selinux@vger.kernel.org
+Subject: [PATCH] fuse: fix conversion of fuse_reverse_inval_entry() to
+ start_removing()
+In-reply-to: <6713ea38-b583-4c86-b74a-bea55652851d@packett.cool>
+References: <20251113002050.676694-1-neilb@ownmail.net>,
+ <20251113002050.676694-7-neilb@ownmail.net>,
+ <6713ea38-b583-4c86-b74a-bea55652851d@packett.cool>
+Date: Mon, 01 Dec 2025 09:06:18 +1100
+Message-id: <176454037897.634289.3566631742434963788@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-On Sat, Nov 29, 2025 at 09:01:05PM -0300, Val Packett wrote:
 
-> > diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-> > index 316922d5dd13..a0d5b302bcc2 100644
-> > --- a/fs/fuse/dir.c
-> > +++ b/fs/fuse/dir.c
-> > @@ -1397,27 +1397,25 @@ int fuse_reverse_inval_entry(struct fuse_conn *fc, u64 parent_nodeid,
-> >   	if (!parent)
-> >   		return -ENOENT;
-> > -	inode_lock_nested(parent, I_MUTEX_PARENT);
-> >   	if (!S_ISDIR(parent->i_mode))
-> > -		goto unlock;
-> > +		goto put_parent;
-> >   	err = -ENOENT;
-> >   	dir = d_find_alias(parent);
-> >   	if (!dir)
-> > -		goto unlock;
-> > +		goto put_parent;
-> > -	name->hash = full_name_hash(dir, name->name, name->len);
-> > -	entry = d_lookup(dir, name);
-> > +	entry = start_removing_noperm(dir, name);
-> >   	dput(dir);
-> > -	if (!entry)
-> > -		goto unlock;
-> > +	if (IS_ERR(entry))
-> > +		goto put_parent;
-> 
-> This broke xdg-document-portal (and potentially other FUSE filesystems) by
-> introducing a massive deadlock.
+From: NeilBrown <neil@brown.name>
 
-ACK.  That chunk needs to be reverted - this is *not* "remove an object by
-parent and name", it's "invalidate stuff under that parent with this
-first name component" and I would like to understand what FUSE_EXPIRE_ONLY
-thing is about.
+The recent conversion of fuse_reverse_inval_entry() to use
+start_removing() was wrong.
+As Val Packett points out the original code did not call ->lookup
+while the new code does.  This can lead to a deadlock.
 
-Miklos, could you give some details on that thing?  This chunk definitely
-needs to go, the question is what that code is trying to do other than
-d_invalidate()...
+Rather than using full_name_hash() and d_lookup() as the old code
+did, we can use try_lookup_noperm() which combines these.  Then
+the result can be given to start_removing_dentry() to get the required
+locks for removal.  We then double check that the name hasn't
+changed.
+
+As 'dir' needs to be used several times now, we load the dput() until
+the end, and initialise to NULL so dput() is always safe.
+
+Reported-by: Val Packett <val@packett.cool>
+Closes: https://lore.kernel.org/all/6713ea38-b583-4c86-b74a-bea55652851d@pack=
+ett.cool
+Fixes: c9ba789dad15 ("VFS: introduce start_creating_noperm() and start_removi=
+ng_noperm()")
+Signed-off-by: NeilBrown <neil@brown.name>
+---
+ fs/fuse/dir.c | 23 ++++++++++++++++-------
+ 1 file changed, 16 insertions(+), 7 deletions(-)
+
+diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+index a0d5b302bcc2..8384fa96cf53 100644
+--- a/fs/fuse/dir.c
++++ b/fs/fuse/dir.c
+@@ -1390,8 +1390,8 @@ int fuse_reverse_inval_entry(struct fuse_conn *fc, u64 =
+parent_nodeid,
+ {
+ 	int err =3D -ENOTDIR;
+ 	struct inode *parent;
+-	struct dentry *dir;
+-	struct dentry *entry;
++	struct dentry *dir =3D NULL;
++	struct dentry *entry =3D NULL;
+=20
+ 	parent =3D fuse_ilookup(fc, parent_nodeid, NULL);
+ 	if (!parent)
+@@ -1404,11 +1404,19 @@ int fuse_reverse_inval_entry(struct fuse_conn *fc, u6=
+4 parent_nodeid,
+ 	dir =3D d_find_alias(parent);
+ 	if (!dir)
+ 		goto put_parent;
+-
+-	entry =3D start_removing_noperm(dir, name);
+-	dput(dir);
+-	if (IS_ERR(entry))
+-		goto put_parent;
++	while (!entry) {
++		struct dentry *child =3D try_lookup_noperm(name, dir);
++		if (!child || IS_ERR(child))
++			goto put_parent;
++		entry =3D start_removing_dentry(dir, child);
++		dput(child);
++		if (IS_ERR(entry))
++			goto put_parent;
++		if (!d_same_name(entry, dir, name)) {
++			end_removing(entry);
++			entry =3D NULL;
++		}
++	}
+=20
+ 	fuse_dir_changed(parent);
+ 	if (!(flags & FUSE_EXPIRE_ONLY))
+@@ -1446,6 +1454,7 @@ int fuse_reverse_inval_entry(struct fuse_conn *fc, u64 =
+parent_nodeid,
+=20
+ 	end_removing(entry);
+  put_parent:
++	dput(dir);
+ 	iput(parent);
+ 	return err;
+ }
+--=20
+2.50.0.107.gf914562f5916.dirty
+
 
