@@ -1,177 +1,145 @@
-Return-Path: <ecryptfs+bounces-737-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-738-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD2C1C97C3F
-	for <lists+ecryptfs@lfdr.de>; Mon, 01 Dec 2025 15:03:51 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24654C9868C
+	for <lists+ecryptfs@lfdr.de>; Mon, 01 Dec 2025 18:08:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id E683E3430BF
-	for <lists+ecryptfs@lfdr.de>; Mon,  1 Dec 2025 14:03:39 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 174204E1BAF
+	for <lists+ecryptfs@lfdr.de>; Mon,  1 Dec 2025 17:08:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64D7A2AE70;
-	Mon,  1 Dec 2025 14:03:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 774E6282EB;
+	Mon,  1 Dec 2025 17:08:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="FkfFon9r"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="m6tHBhvO"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED89831354D
-	for <ecryptfs@vger.kernel.org>; Mon,  1 Dec 2025 14:03:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E83733468A;
+	Mon,  1 Dec 2025 17:08:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764597809; cv=none; b=lWxBSbsVr24IPLA/ICowcA7tHnHnGYK7IkcZ9RfP00JAsqgj6W+n69u4ZcIFhIiykzN3vyg8EOa4jh5fZBiUPdYmgXQ9R3yZfXTEnTVW80tV9eCsUoBKZCNEWaicNocJ0LHv7f6stl1XN37E3+xUWonJd0JrcJrnuOw8Ej/VUsk=
+	t=1764608892; cv=none; b=SS83MYQ3XFL0X6sQHYxcuCmb1/FSKkLWrud0Kz2LOtjuP8s2QtxBm8x0EB1iH90ASugqFdoA6dQMf2QnsJqeTMRs/22ygTiEyV6I9a+gmDx/Y/b56W1FFTeUeuB06mkeu/7xJp+ADHl1yvlskToXWpWdcTNrN4QZFytKCMBMP7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764597809; c=relaxed/simple;
-	bh=hCy7wy8vuqNWE9XYZr4j0RcbaKs2mtvp9/lvu/KlWYk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=es66ISg1KlFKvk/Jkw7gQV0B0ojX5oZZWGa7evtN/sbPKkRMRMnFf6uhfRKcPHzMWUaW8L9KhSxq0b4bJQqRM+7Ky2JweKh3zdIys9o+tA+O4pGX3ieC/YSsyuMyEMD9DwVK/3JOEyGSRphxm4XVyZeX61dd8jCyLFjIWYzrMf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=FkfFon9r; arc=none smtp.client-ip=209.85.222.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-8b2ed01b95dso413934285a.0
-        for <ecryptfs@vger.kernel.org>; Mon, 01 Dec 2025 06:03:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1764597805; x=1765202605; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1KFCs0NTdHYBkqxI4V4hinYQFxLArElxZO4emBYMw68=;
-        b=FkfFon9riFZP2+XU+g2VaYYn06uepSkuy9/zBDlsT2pqHns8/0ZBLiJ1s2GV6cRufh
-         WqXV1LAbgrNim5FHXu4zni/oRVi393yItyxPnWXDAadLZuv9etnTz9YmlbLH+jQFHVBo
-         kmqApRvttkaK8yzWZVzXCi8dr0qb2dtJ9uU9o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764597805; x=1765202605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1KFCs0NTdHYBkqxI4V4hinYQFxLArElxZO4emBYMw68=;
-        b=DP2GVOlYC4ncwptCKPAS1DcKwVMSJw3mnvD45hu2+fRTYdVRCZQ4L7KeNvdiUV72zO
-         3wPB+Jn97fg3SAGvF955mgtz4sNJOl5PdbefIYGZkjd7Ja6s4tj0EiHND5PX3qOcSseo
-         TE9BgKENPxTCzKrctem4kZhk5W6Jegc/jf8BROcyjM1ZTDtZ0rCVeusZAFlQgWslxuT7
-         Sv2pB3wSWt8egxSHTzOd+fpLz+R1uXhwJbB1NueVP6tPgQi8bs1rE9ex+nnU8qX/sXL2
-         n+Qdfk/V+dEb7mbb9p+2D4fwlveZIHVucQw6zTFvwST/v/a47q+nFN7QZhUsYqJk/xbi
-         temw==
-X-Forwarded-Encrypted: i=1; AJvYcCWE0QOiBe1nzrZwpHa9ccH+2X7V01WZfqAOtsAIOYOjakrUIvaoFb+lQQGCjr8ijpyX99eAgJvV+w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwoeNLadbXkBzXSzNVDUhxlcFHc02PKrMRHuCjNru0V+4LIGCKq
-	vz7sURmtR3lKcEbKitAlaCOeb9Iy06ggNjQg1CGe5vNXQu9sdEK85x+cK9MNbrLH4Yx2nbu0XVe
-	mrEA8TSqNa5K11pOKWjhV7L/290U1aEPbcrMfpakrLQ==
-X-Gm-Gg: ASbGncuwqD/j2jrJLDNIwkjWZTmhcB3gVjQkQ3sBgWA4Zr34Cfd31rkyUNznij3x7zk
-	Qf0m83tkeqwikff5nKyYN+6Tec4/Yo0L3458V8pYin4iwggilSXbfs+wNP2mXz0wENTeADG10Yk
-	X2/66bfyxpouKGBcVWXC3ze5HGIcmQFI0SeoeSrabZFbL0nOJHXgc/pFZFV8YdvSi2EptWsO7Zs
-	Mulmrd4ZqNtooTE3pKJXLD/R7Ugphp6plCSJV5n8Wvml3I6VMLiRP3qLXd1S0theU0/1l3MDFcf
-	A2ri
-X-Google-Smtp-Source: AGHT+IH9e15mSm8msBABqerYeTx3rQAzok2GPl6sP70EZC9oepRn4XZPxnLCpaxN3VQQU2c5RJNRlXYj4bdaGtAuEGs=
-X-Received: by 2002:a05:620a:4691:b0:8b2:6ac5:bcb1 with SMTP id
- af79cd13be357-8b33d1d0d7fmr4629786785a.31.1764597803090; Mon, 01 Dec 2025
- 06:03:23 -0800 (PST)
+	s=arc-20240116; t=1764608892; c=relaxed/simple;
+	bh=c1hVLffTbOic9SRKj/Vx/1bE1OkZBkKNJY7xX1j8I3g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=POLJ7GqLU0xad/kS7ZBYwoaCtaRRMzoPMX64BPxA+oAmnqZ0ArJd8KF/WiRHAGdh9WmWzYzbuXcdGIytRXkS9IJNwvBLhU6wWpsSRAx4WJ31CJtLPlEpMFunyNQBoUAloCFrGF8eRgJ+Te5OBoK/MbwofYifLKwOk5rc+QCldP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=m6tHBhvO; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=chyrhP448TKCA7mjR+pn/4FRynfEGDb/eEOSGrjCi48=; b=m6tHBhvODjORIENDeypTobyuUz
+	dAfJPXFwkttmrEIudNiC+eJ++pHJAehlDyTlgb+ujjJWYhGYSpXw0zgCrIZdzySovjHT9cA2lZ7cz
+	jzkoihgeSwKZL/QyryX0gMwRMsHu9fIKtRAIcuexFdlw2rHqKpYf1jthXT46t235cSaPO8XhxuaTe
+	UAahQWu4SoOIcWhhn/JZl9xBFfE56iKVrlHQOW3w03FPhCGJmpbu8/gQLozFObDI4/H9EJOOIPMa2
+	/2Q76hpj/QtV0dHTpaDtoXdZQnJPZ4t9wMlA/K+oYAUz07/WLzmLSKsNCsBoZqTGtGNhzD+M8DpUC
+	vLmNTgIw==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99 #2 (Red Hat Linux))
+	id 1vQ7Nl-000000041Kz-21Ah;
+	Mon, 01 Dec 2025 17:08:13 +0000
+Date: Mon, 1 Dec 2025 17:08:13 +0000
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Amir Goldstein <amir73il@gmail.com>, NeilBrown <neil@brown.name>,
+	Christian Brauner <brauner@kernel.org>,
+	Val Packett <val@packett.cool>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, Jeff Layton <jlayton@kernel.org>,
+	Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
+	David Howells <dhowells@redhat.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Tyler Hicks <code@tyhicks.com>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>, Namjae Jeon <linkinjeon@kernel.org>,
+	Steve French <smfrench@gmail.com>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Carlos Maiolino <cem@kernel.org>,
+	John Johansen <john.johansen@canonical.com>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	Ondrej Mosnacek <omosnace@redhat.com>,
+	Mateusz Guzik <mjguzik@gmail.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Stefan Berger <stefanb@linux.ibm.com>,
+	"Darrick J. Wong" <djwong@kernel.org>, linux-kernel@vger.kernel.org,
+	netfs@lists.linux.dev, ecryptfs@vger.kernel.org,
+	linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
+	linux-cifs@vger.kernel.org, linux-xfs@vger.kernel.org,
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org
+Subject: Re: [PATCH] fuse: fix conversion of fuse_reverse_inval_entry() to
+ start_removing()
+Message-ID: <20251201170813.GH3538@ZenIV>
+References: <20251113002050.676694-1-neilb@ownmail.net>
+ <20251113002050.676694-7-neilb@ownmail.net>
+ <6713ea38-b583-4c86-b74a-bea55652851d@packett.cool>
+ <176454037897.634289.3566631742434963788@noble.neil.brown.name>
+ <CAOQ4uxjihcBxJzckbJis8hGcWO61QKhiqeGH+hDkTUkDhu23Ww@mail.gmail.com>
+ <20251201083324.GA3538@ZenIV>
+ <CAJfpegs+o01jgY76WsGnk9j41LS5V0JQSk--d6xsJJp4VjTh8Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251113002050.676694-1-neilb@ownmail.net> <20251113002050.676694-7-neilb@ownmail.net>
- <6713ea38-b583-4c86-b74a-bea55652851d@packett.cool> <176454037897.634289.3566631742434963788@noble.neil.brown.name>
- <CAOQ4uxjihcBxJzckbJis8hGcWO61QKhiqeGH+hDkTUkDhu23Ww@mail.gmail.com> <20251201083324.GA3538@ZenIV>
-In-Reply-To: <20251201083324.GA3538@ZenIV>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Mon, 1 Dec 2025 15:03:08 +0100
-X-Gm-Features: AWmQ_bkq-c147coZVJ_xFCYJz0AMxHeF-U02i3W2hF6lAiCeAU2r572GvtMCvDY
-Message-ID: <CAJfpegs+o01jgY76WsGnk9j41LS5V0JQSk--d6xsJJp4VjTh8Q@mail.gmail.com>
-Subject: Re: [PATCH] fuse: fix conversion of fuse_reverse_inval_entry() to start_removing()
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Amir Goldstein <amir73il@gmail.com>, NeilBrown <neil@brown.name>, 
-	Christian Brauner <brauner@kernel.org>, Val Packett <val@packett.cool>, Jan Kara <jack@suse.cz>, 
-	linux-fsdevel@vger.kernel.org, Jeff Layton <jlayton@kernel.org>, 
-	Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>, David Howells <dhowells@redhat.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Tyler Hicks <code@tyhicks.com>, Chuck Lever <chuck.lever@oracle.com>, 
-	Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
-	Namjae Jeon <linkinjeon@kernel.org>, Steve French <smfrench@gmail.com>, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>, Carlos Maiolino <cem@kernel.org>, 
-	John Johansen <john.johansen@canonical.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
-	Mateusz Guzik <mjguzik@gmail.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	Stefan Berger <stefanb@linux.ibm.com>, "Darrick J. Wong" <djwong@kernel.org>, linux-kernel@vger.kernel.org, 
-	netfs@lists.linux.dev, ecryptfs@vger.kernel.org, linux-nfs@vger.kernel.org, 
-	linux-unionfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	selinux@vger.kernel.org
-Content-Type: multipart/mixed; boundary="0000000000003a97430644e4717c"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJfpegs+o01jgY76WsGnk9j41LS5V0JQSk--d6xsJJp4VjTh8Q@mail.gmail.com>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
---0000000000003a97430644e4717c
-Content-Type: text/plain; charset="UTF-8"
+On Mon, Dec 01, 2025 at 03:03:08PM +0100, Miklos Szeredi wrote:
+> On Mon, 1 Dec 2025 at 09:33, Al Viro <viro@zeniv.linux.org.uk> wrote:
+> >
+> > On Mon, Dec 01, 2025 at 09:22:54AM +0100, Amir Goldstein wrote:
+> >
+> > > I don't think there is a point in optimizing parallel dir operations
+> > > with FUSE server cache invalidation, but maybe I am missing
+> > > something.
+> >
+> > The interesting part is the expected semantics of operation;
+> > d_invalidate() side definitely doesn't need any of that cruft,
+> > but I would really like to understand what that function
+> > is supposed to do.
+> >
+> > Miklos, could you post a brain dump on that?
+> 
+> This function is supposed to invalidate a dentry due to remote changes
+> (FUSE_NOTIFY_INVAL_ENTRY).  Originally it was supplied a parent ID and
+> a name and called d_invalidate() on the looked up dentry.
+> 
+> Then it grew a variant (FUSE_NOTIFY_DELETE) that was also supplied a
+> child ID, which was matched against the looked up inode.  This was
+> commit 451d0f599934 ("FUSE: Notifying the kernel of deletion."),
+> Apparently this worked around the fact that at that time
+> d_invalidate() returned -EBUSY if the target was still in use and
+> didn't unhash the dentry in that case.
+> 
+> That was later changed by commit bafc9b754f75 ("vfs: More precise
+> tests in d_invalidate") to unconditionally unhash the target, which
+> effectively made FUSE_NOTIFY_INVAL_ENTRY and FUSE_NOTIFY_DELETE
+> equivalent and the code in question unnecessary.
+> 
+> For the future, we could also introduce FUSE_NOTIFY_MOVE, that would
+> differentiate between a delete and a move, while
+> FUSE_NOTIFY_INVAL_ENTRY would continue to be the common (deleted or
+> moved) notification.
 
-On Mon, 1 Dec 2025 at 09:33, Al Viro <viro@zeniv.linux.org.uk> wrote:
->
-> On Mon, Dec 01, 2025 at 09:22:54AM +0100, Amir Goldstein wrote:
->
-> > I don't think there is a point in optimizing parallel dir operations
-> > with FUSE server cache invalidation, but maybe I am missing
-> > something.
->
-> The interesting part is the expected semantics of operation;
-> d_invalidate() side definitely doesn't need any of that cruft,
-> but I would really like to understand what that function
-> is supposed to do.
->
-> Miklos, could you post a brain dump on that?
+Then as far as VFS is concerned, it's an equivalent of "we'd done
+a dcache lookup and revalidate told us to bugger off", which does
+*not* need locking the parent - the same sequence can very well
+happen without touching any inode locks.
 
-This function is supposed to invalidate a dentry due to remote changes
-(FUSE_NOTIFY_INVAL_ENTRY).  Originally it was supplied a parent ID and
-a name and called d_invalidate() on the looked up dentry.
+IOW, from the point of view of locking protocol changes that's not
+a removal at all.
 
-Then it grew a variant (FUSE_NOTIFY_DELETE) that was also supplied a
-child ID, which was matched against the looked up inode.  This was
-commit 451d0f599934 ("FUSE: Notifying the kernel of deletion."),
-Apparently this worked around the fact that at that time
-d_invalidate() returned -EBUSY if the target was still in use and
-didn't unhash the dentry in that case.
-
-That was later changed by commit bafc9b754f75 ("vfs: More precise
-tests in d_invalidate") to unconditionally unhash the target, which
-effectively made FUSE_NOTIFY_INVAL_ENTRY and FUSE_NOTIFY_DELETE
-equivalent and the code in question unnecessary.
-
-For the future, we could also introduce FUSE_NOTIFY_MOVE, that would
-differentiate between a delete and a move, while
-FUSE_NOTIFY_INVAL_ENTRY would continue to be the common (deleted or
-moved) notification.
-
-Attaching untested patch to remove this cruft.
-
-Thanks,
-Miklos
-
---0000000000003a97430644e4717c
-Content-Type: text/x-patch; charset="US-ASCII"; 
-	name="fuse-notify_inval_entry-and-notify_delete-are-equivalent.patch"
-Content-Disposition: attachment; 
-	filename="fuse-notify_inval_entry-and-notify_delete-are-equivalent.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_min7x5320>
-X-Attachment-Id: f_min7x5320
-
-ZGlmZiAtLWdpdCBhL2ZzL2Z1c2UvZGlyLmMgYi9mcy9mdXNlL2Rpci5jCmluZGV4IGVjYWVjMGZl
-YTNhMS4uZDlkZmZjMzI2YTI2IDEwMDY0NAotLS0gYS9mcy9mdXNlL2Rpci5jCisrKyBiL2ZzL2Z1
-c2UvZGlyLmMKQEAgLTE0MTcsMzQgKzE0MTcsOSBAQCBpbnQgZnVzZV9yZXZlcnNlX2ludmFsX2Vu
-dHJ5KHN0cnVjdCBmdXNlX2Nvbm4gKmZjLCB1NjQgcGFyZW50X25vZGVpZCwKIAkJZF9pbnZhbGlk
-YXRlKGVudHJ5KTsKIAlmdXNlX2ludmFsaWRhdGVfZW50cnlfY2FjaGUoZW50cnkpOwogCi0JaWYg
-KGNoaWxkX25vZGVpZCAhPSAwICYmIGRfcmVhbGx5X2lzX3Bvc2l0aXZlKGVudHJ5KSkgewotCQlp
-bm9kZV9sb2NrKGRfaW5vZGUoZW50cnkpKTsKLQkJaWYgKGdldF9ub2RlX2lkKGRfaW5vZGUoZW50
-cnkpKSAhPSBjaGlsZF9ub2RlaWQpIHsKLQkJCWVyciA9IC1FTk9FTlQ7Ci0JCQlnb3RvIGJhZGVu
-dHJ5OwotCQl9Ci0JCWlmIChkX21vdW50cG9pbnQoZW50cnkpKSB7Ci0JCQllcnIgPSAtRUJVU1k7
-Ci0JCQlnb3RvIGJhZGVudHJ5OwotCQl9Ci0JCWlmIChkX2lzX2RpcihlbnRyeSkpIHsKLQkJCXNo
-cmlua19kY2FjaGVfcGFyZW50KGVudHJ5KTsKLQkJCWlmICghc2ltcGxlX2VtcHR5KGVudHJ5KSkg
-ewotCQkJCWVyciA9IC1FTk9URU1QVFk7Ci0JCQkJZ290byBiYWRlbnRyeTsKLQkJCX0KLQkJCWRf
-aW5vZGUoZW50cnkpLT5pX2ZsYWdzIHw9IFNfREVBRDsKLQkJfQotCQlkb250X21vdW50KGVudHJ5
-KTsKLQkJY2xlYXJfbmxpbmsoZF9pbm9kZShlbnRyeSkpOwotCQllcnIgPSAwOwotIGJhZGVudHJ5
-OgotCQlpbm9kZV91bmxvY2soZF9pbm9kZShlbnRyeSkpOwotCQlpZiAoIWVycikKLQkJCWRfZGVs
-ZXRlKGVudHJ5KTsKLQl9IGVsc2UgewotCQllcnIgPSAwOwotCX0KKwllcnIgPSAwOworCWlmIChj
-aGlsZF9ub2RlaWQgIT0gMCAmJiBnZXRfbm9kZV9pZChkX2lub2RlKGVudHJ5KSkgIT0gY2hpbGRf
-bm9kZWlkKQorCQllcnIgPSAtRU5PRU5UOwogCWRwdXQoZW50cnkpOwogCiAgdW5sb2NrOgo=
---0000000000003a97430644e4717c--
+Or do you need them serialized for fuse-internal purposes?
 
