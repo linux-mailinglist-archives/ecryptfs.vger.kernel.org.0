@@ -1,111 +1,131 @@
-Return-Path: <ecryptfs+bounces-745-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-746-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 600E3CBA868
-	for <lists+ecryptfs@lfdr.de>; Sat, 13 Dec 2025 12:07:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57823CBE62C
+	for <lists+ecryptfs@lfdr.de>; Mon, 15 Dec 2025 15:50:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4ACC330424B5
-	for <lists+ecryptfs@lfdr.de>; Sat, 13 Dec 2025 11:06:58 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 234E230F197A
+	for <lists+ecryptfs@lfdr.de>; Mon, 15 Dec 2025 14:43:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C126A3019B0;
-	Sat, 13 Dec 2025 11:06:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 217CB3451DF;
+	Mon, 15 Dec 2025 14:20:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="mw3eMmGx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DFCKKO8Y"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A79ED3019B5
-	for <ecryptfs@vger.kernel.org>; Sat, 13 Dec 2025 11:06:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA65B3451D9;
+	Mon, 15 Dec 2025 14:20:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765624017; cv=none; b=hRjviAgp1LdJ9237Yop5bVOqKNdfy+qJy6GsZCH+h9u15Ji0YMzxRsUndslJ3xYA2Hy632m1DCTc17T8veYnxC4yGyejVmc4XSyKsyGmluQ05yoowNK7XY33m2SE+OJI5dftDtSwU4llsDu2gd5kdtcImpSGoIYsdsGrBqhs5CE=
+	t=1765808401; cv=none; b=Uz/ULNkROUSRhpVbfpWDpmGr7rc+aSqYkuhZUQpXW2ca5s5v5GaCVfYrEHsTV21OrRLyo9H5EpnPv6NYtiV8WnaaNUYPk2w8VhG+NJCq8ji1GqJCOBp+mEhJrNq/q+LXzfX4xw7wjogdm0Ols8d/MTQzcgr/XqW2gPqaqketfJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765624017; c=relaxed/simple;
-	bh=En4ntuB/h/d+cG1MOeOeR9++42bn42+jxkAlSY/g820=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dUm0lMOJsY99RKZfO+755BByno2Va/oDjaiSjQgHqYkcV5cPRZ8EZSORePOQrt4tmeI2QInuxQ3ZklWKla8/QaDP42g0PmrVqpVqbc+Ie+01Vbx54kjuk8BeqWsdVzRElg8n7JNXWHrnxWfgxae80UKxCE818+fBlPA2TW95IW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=mw3eMmGx; arc=none smtp.client-ip=91.218.175.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1765624013;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P5ByhitJRUuYQHobAwUT4hcZjvfeOOyco/2QNBpzeMg=;
-	b=mw3eMmGxTpdGPF6lWO/Hyur3zQxqfIQ+Ms9GGeX8HUV6IanLRVLugLsgQxQdI9u4kEVm3Y
-	aMvxEi/wNVS1tgmKNN106/KDv6a6r25bpDmc5eTtyja1FbQ1J37Vmr07EFEB5utdRJIq/X
-	d9oDbG61eDsvQUIPRnzi7XsgoCWNcfQ=
-From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Tyler Hicks <code@tyhicks.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Ankit Chauhan <ankitchauhan2065@gmail.com>,
-	Eric Biggers <ebiggers@kernel.org>,
-	Ard Biesheuvel <ardb@kernel.org>
-Cc: Thorsten Blum <thorsten.blum@linux.dev>,
-	ecryptfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] ecryptfs: Replace strcpy with strscpy in ecryptfs_validate_options
-Date: Sat, 13 Dec 2025 12:04:54 +0100
-Message-ID: <20251213110502.302950-6-thorsten.blum@linux.dev>
-In-Reply-To: <20251213110502.302950-2-thorsten.blum@linux.dev>
-References: <20251213110502.302950-2-thorsten.blum@linux.dev>
+	s=arc-20240116; t=1765808401; c=relaxed/simple;
+	bh=SOKNAp3KlXqmQkYAHiY1KnI5hmWZlwxQAhzfS0nZwp0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kIoEB+n1sPAcQgcbWZrUiLBH+jZQZY3o6jxGUMLFjiuxGX500ACkKSve6XLqihOQw8EGfPHDOGNnKS8OpLkaOFF+tBdZQb1xKhsgLoTGcgp1JuPnzZ7c67KaxgVeZHXxsXIsLIC2cP2eGx2RBcmLvjW8qVe5gMficrmvqbPcgfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DFCKKO8Y; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0605C4CEF5;
+	Mon, 15 Dec 2025 14:19:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765808400;
+	bh=SOKNAp3KlXqmQkYAHiY1KnI5hmWZlwxQAhzfS0nZwp0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DFCKKO8Y56kGcvgU39JK+toyUpk4jGwiPG6HyglacSq1MKmKkenC3jKNS9/HS5ipp
+	 B6NSOx8wBgq7Am6EMfMeh1PNOzsczwCgxkrjC6/z42Hk9J8i+SuYZOm6VUp9ou3SV9
+	 dgItcJM7Pf5rvLbJn9iHf33BlNlYry5yy3lCZ7IwJ+0MJKNGUTfNv5fUXEn1llrPl4
+	 EdZzX8EDySvcR9aLsG+tR4I+BaJYILYt8x/3OPDwPDyv8kLUOno34+gcWfYODinh1u
+	 qnMHAYCJBYMihFLwg4WxBl6Nw3qxa68g95/milv0l5zl+UvAMcycihLDuAxNErOEg+
+	 Xu0/K5zP9ANjw==
+Date: Mon, 15 Dec 2025 15:19:49 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, Amir Goldstein <amir73il@gmail.com>, 
+	NeilBrown <neil@brown.name>, Val Packett <val@packett.cool>, Jan Kara <jack@suse.cz>, 
+	linux-fsdevel@vger.kernel.org, Jeff Layton <jlayton@kernel.org>, Chris Mason <clm@fb.com>, 
+	David Sterba <dsterba@suse.com>, David Howells <dhowells@redhat.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Tyler Hicks <code@tyhicks.com>, 
+	Chuck Lever <chuck.lever@oracle.com>, Olga Kornievskaia <okorniev@redhat.com>, 
+	Dai Ngo <Dai.Ngo@oracle.com>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Steve French <smfrench@gmail.com>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Carlos Maiolino <cem@kernel.org>, John Johansen <john.johansen@canonical.com>, 
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Ondrej Mosnacek <omosnace@redhat.com>, Mateusz Guzik <mjguzik@gmail.com>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Stefan Berger <stefanb@linux.ibm.com>, 
+	"Darrick J. Wong" <djwong@kernel.org>, linux-kernel@vger.kernel.org, netfs@lists.linux.dev, 
+	ecryptfs@vger.kernel.org, linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org, 
+	linux-cifs@vger.kernel.org, linux-xfs@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	selinux@vger.kernel.org
+Subject: Re: [PATCH] fuse: fix conversion of fuse_reverse_inval_entry() to
+ start_removing()
+Message-ID: <20251215-immens-hurtig-1f0b23aa4bf3@brauner>
+References: <20251113002050.676694-1-neilb@ownmail.net>
+ <20251113002050.676694-7-neilb@ownmail.net>
+ <6713ea38-b583-4c86-b74a-bea55652851d@packett.cool>
+ <176454037897.634289.3566631742434963788@noble.neil.brown.name>
+ <CAOQ4uxjihcBxJzckbJis8hGcWO61QKhiqeGH+hDkTUkDhu23Ww@mail.gmail.com>
+ <20251201083324.GA3538@ZenIV>
+ <CAJfpegs+o01jgY76WsGnk9j41LS5V0JQSk--d6xsJJp4VjTh8Q@mail.gmail.com>
+ <20251205-unmoralisch-jahrtausend-cca02ad0e4fa@brauner>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251205-unmoralisch-jahrtausend-cca02ad0e4fa@brauner>
 
-strcpy() has been deprecated [1] because it performs no bounds checking
-on the destination buffer, which can lead to buffer overflows. Replace
-it with the safer strscpy().
+On Fri, Dec 05, 2025 at 02:09:41PM +0100, Christian Brauner wrote:
+> On Mon, Dec 01, 2025 at 03:03:08PM +0100, Miklos Szeredi wrote:
+> > On Mon, 1 Dec 2025 at 09:33, Al Viro <viro@zeniv.linux.org.uk> wrote:
+> > >
+> > > On Mon, Dec 01, 2025 at 09:22:54AM +0100, Amir Goldstein wrote:
+> > >
+> > > > I don't think there is a point in optimizing parallel dir operations
+> > > > with FUSE server cache invalidation, but maybe I am missing
+> > > > something.
+> > >
+> > > The interesting part is the expected semantics of operation;
+> > > d_invalidate() side definitely doesn't need any of that cruft,
+> > > but I would really like to understand what that function
+> > > is supposed to do.
+> > >
+> > > Miklos, could you post a brain dump on that?
+> > 
+> > This function is supposed to invalidate a dentry due to remote changes
+> > (FUSE_NOTIFY_INVAL_ENTRY).  Originally it was supplied a parent ID and
+> > a name and called d_invalidate() on the looked up dentry.
+> > 
+> > Then it grew a variant (FUSE_NOTIFY_DELETE) that was also supplied a
+> > child ID, which was matched against the looked up inode.  This was
+> > commit 451d0f599934 ("FUSE: Notifying the kernel of deletion."),
+> > Apparently this worked around the fact that at that time
+> > d_invalidate() returned -EBUSY if the target was still in use and
+> > didn't unhash the dentry in that case.
+> > 
+> > That was later changed by commit bafc9b754f75 ("vfs: More precise
+> > tests in d_invalidate") to unconditionally unhash the target, which
+> > effectively made FUSE_NOTIFY_INVAL_ENTRY and FUSE_NOTIFY_DELETE
+> > equivalent and the code in question unnecessary.
+> > 
+> > For the future, we could also introduce FUSE_NOTIFY_MOVE, that would
+> > differentiate between a delete and a move, while
+> > FUSE_NOTIFY_INVAL_ENTRY would continue to be the common (deleted or
+> > moved) notification.
+> > 
+> > Attaching untested patch to remove this cruft.
+> 
+> Should we revert the fuse specific bits of c9ba789dad15 ("VFS: introduce
+> start_creating_noperm() and start_removing_noperm()") and then apply
+> your changes afterwards?
 
-Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strcpy [1]
-Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
----
- fs/ecryptfs/main.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/fs/ecryptfs/main.c b/fs/ecryptfs/main.c
-index 16ea14dd2c62..636aff7a48cf 100644
---- a/fs/ecryptfs/main.c
-+++ b/fs/ecryptfs/main.c
-@@ -22,6 +22,7 @@
- #include <linux/fs_stack.h>
- #include <linux/sysfs.h>
- #include <linux/slab.h>
-+#include <linux/string.h>
- #include <linux/magic.h>
- #include "ecryptfs_kernel.h"
- 
-@@ -353,13 +354,13 @@ static int ecryptfs_validate_options(struct fs_context *fc)
- 		int cipher_name_len = strlen(ECRYPTFS_DEFAULT_CIPHER);
- 
- 		BUG_ON(cipher_name_len > ECRYPTFS_MAX_CIPHER_NAME_SIZE);
--		strcpy(mount_crypt_stat->global_default_cipher_name,
--		       ECRYPTFS_DEFAULT_CIPHER);
-+		strscpy(mount_crypt_stat->global_default_cipher_name,
-+			ECRYPTFS_DEFAULT_CIPHER);
- 	}
- 	if ((mount_crypt_stat->flags & ECRYPTFS_GLOBAL_ENCRYPT_FILENAMES)
- 	    && !ctx->fn_cipher_name_set)
--		strcpy(mount_crypt_stat->global_default_fn_cipher_name,
--		       mount_crypt_stat->global_default_cipher_name);
-+		strscpy(mount_crypt_stat->global_default_fn_cipher_name,
-+			mount_crypt_stat->global_default_cipher_name);
- 	if (!ctx->cipher_key_bytes_set)
- 		mount_crypt_stat->global_default_cipher_key_size = 0;
- 	if ((mount_crypt_stat->flags & ECRYPTFS_GLOBAL_ENCRYPT_FILENAMES)
--- 
-Thorsten Blum <thorsten.blum@linux.dev>
-GPG: 1D60 735E 8AEF 3BE4 73B6  9D84 7336 78FD 8DFE EAD4
-
+I think we shouldn't have this sitting around indefinitely so it would
+be good if we'd get a nod that this is ok or someone sending revert +
+fix that I can pick up. :)
 
