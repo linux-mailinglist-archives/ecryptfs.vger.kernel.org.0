@@ -1,98 +1,99 @@
-Return-Path: <ecryptfs+bounces-751-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-752-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07585CDA824
-	for <lists+ecryptfs@lfdr.de>; Tue, 23 Dec 2025 21:29:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA91ECDAA28
+	for <lists+ecryptfs@lfdr.de>; Tue, 23 Dec 2025 21:58:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A286B301EFAC
-	for <lists+ecryptfs@lfdr.de>; Tue, 23 Dec 2025 20:28:45 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D70C53007628
+	for <lists+ecryptfs@lfdr.de>; Tue, 23 Dec 2025 20:54:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BE8535FF54;
-	Tue, 23 Dec 2025 20:28:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3873D306B3D;
+	Tue, 23 Dec 2025 20:54:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b="VenTTpso";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fBzcW9DQ"
+	dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b="Bjnq4UMz";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="SiAXKlhE"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
+Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4B835FF4B;
-	Tue, 23 Dec 2025 20:28:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683D4288517;
+	Tue, 23 Dec 2025 20:54:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766521725; cv=none; b=h8Pc22X+Pj3ellUcC+iHr+zbRaAokihxAUTGtouiq1EhpqlUVRdnpaJgRnUBjdQc1bq3XzbEKeamJL8B/aksBoEbJ2ZgXdO92exg5vLt6Xivw941gVW1CiTLKa0GjwCKLdcpXDJT6sJ0zxxI0LHq0zCoMrM2184X6ixDpn+vb8s=
+	t=1766523298; cv=none; b=YtoxCZEcmGtB/RcEcoIewwAyB+aZq+W7VaKqmWY7A1890Qbe5OfQMbhshj/1XtdOKlrYa6wYgPB6YoOp97DfiIykVMdhtnDoJseYOBEtMFnlxd+PGFrRhUA1E7WGgJw/IQKZu0T6x79Xx342ZAGbPON+NDuJ9ZU8PuX/F51D6uI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766521725; c=relaxed/simple;
-	bh=GVwl5lpk0Q5s3AqIl3i1j0m7nIDAVHmowtKo68RHv0o=;
+	s=arc-20240116; t=1766523298; c=relaxed/simple;
+	bh=mLfT8gCaUUHL0AtMQirmvgbM+KJxSSS7MYLj90Qxasw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MJXMp9i9TLbZf14yyU5wymNAzGLl6hcH3YwcXOiXkcacdwewCGjws/zM3WdmpjfUoL32gYf1ZdLs3fTcBUs0z1H0VYEgf8NwPi4U8y1GzaJxN3czPqqzR/NpgGTTLusEcoHa5fjqaagvqjmNyTSjL6maNFhxwxZMx1V7A7cc9O8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com; spf=pass smtp.mailfrom=tyhicks.com; dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b=VenTTpso; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fBzcW9DQ; arc=none smtp.client-ip=202.12.124.159
+	 Content-Type:Content-Disposition:In-Reply-To; b=DtuSw6FskUEMjEp0gzEzcyx2/m6K9oRiCrzc5DMU4F5Cq28amJM7m1IioflWuS3JElEJCqEvG6Kgxl6HdNpxnrUWyfUxtHg4OSmTSHkzA+GMFnSRaPS84G8B8p6iezfzSgUllTb165d7foXjwSJZSxh1Gbn32eZm3OLncna+Njg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com; spf=pass smtp.mailfrom=tyhicks.com; dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b=Bjnq4UMz; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=SiAXKlhE; arc=none smtp.client-ip=202.12.124.152
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tyhicks.com
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 324477A00A1;
-	Tue, 23 Dec 2025 15:28:42 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Tue, 23 Dec 2025 15:28:42 -0500
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 98E2A7A010E;
+	Tue, 23 Dec 2025 15:54:55 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Tue, 23 Dec 2025 15:54:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tyhicks.com; h=
 	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1766521722; x=1766608122; bh=nBuf5ENwpT
-	wJqRbkRr12XVZ6tHLl8Cag0OFzfm027YI=; b=VenTTpso6I5sb1rqh5r46jcefV
-	cC6RE1ghepl2mkwR+H5CEDgy9EpA7zurfg6FrdvCLs8dzRK09gQgcsY4qaavPApx
-	jYZcEcHH5rLXnSqrBrsVsEOu2FTh0qNhM+rDIWiYR1+AzKvHvcCMuNa3EcWjMOj1
-	BgDpVyC5nsq8bhMc1tE1Z2szQtjuqVo15gho4ynXMyGNegh7t8ytP2cQrG46T5fG
-	Zfx1fMb8PhxMtTooqje9edfgAjZXlylvSUkedchALWMiG2pjgn/3RIFdEYizWP/n
-	iMMyVmekMlHjw47QkToNTGqeAqb72hTAc+PyQIyhFuApkV+ZUTmx4P4/lAFg==
+	:subject:to:to; s=fm3; t=1766523295; x=1766609695; bh=sI+zOWLzzx
+	YQpfcVDJYfb2XrwZetA5o+XMvrUxiHmn4=; b=Bjnq4UMzIR4thIFB+/XQIGS/h5
+	wwVtEJyOF872vYyLLmJ25/8A7eg8ACiOWDs+Yu/PLFHa4ZItAA/Rpa85hhxFAYwH
+	w/oj9mzQ6Sr1oMasDM7a17l/yWr7v7AuHOSSyPZku9LlzGWsnP5Ml1sJK/BnTfCP
+	BQ6xrC+bx45Umqo1u/fxNfnsDpUPb4QFOtF2c06AaEzaXU/yeY+IIM3+oa5IsyMZ
+	tzHmq+dfQVNf8PmG2Zp9R1pppCSjds0NOZhXAw76RKLOkzo96JIFuiOA1zozgygW
+	TwWeFAR1ezoTOVxAondtYICTK0FaOhzoFe37a0wbRCOTe11Zv6I8vsDO9plA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1766521722; x=1766608122; bh=nBuf5ENwpTwJqRbkRr12XVZ6tHLl8Cag0OF
-	zfm027YI=; b=fBzcW9DQMnXRZFqiT0ZoVHiuXgsrrPbUWdPoFDV+w1YPWclTMPR
-	V1ng8Y2tmaHgqOkff/pn2iLPiQLQdJ8tlbSEpen25l4UNu79mqHHXWf7b6DsZFMj
-	JhVHeRz7iT6X0xch89JupARgnmC6xZ8HCl9LgT9R0HlN9H9ey9uvseuxKpHpms/m
-	Tl1Pi9KuluNCPOv5R4gJp/AEVLuk5Sh7ojngZkjQ5x/ELsAPRd4b99f2shcRKSHa
-	WEhzrJg5EEjCs/1jl+mC1/xOEwFc7Y4lC2xbHIOOsqroMJpamSS/wEN988vPHgy/
-	KEWWr7P+lReRUZlg3edh8jcAKG7cm8tQ9UA==
-X-ME-Sender: <xms:eftKab9vCJ4tO8YnMAe5t94Dq2DWPDOAlzIf1GQvb9ENtawKhg-6Eg>
-    <xme:eftKaRCe_me58QeeODUzFEje1LrXQR36MSLo1m64VseTJvYNg_JMRU08aG8hoCZHd
-    G4q1FbwRp8WAFbGdVqclPGrWpWlXHtqCxhJo7JOBe-_QrQIZMagbOnZ>
-X-ME-Received: <xmr:eftKaQR8oQYuQypWEcNCINWTy0ROm1BZRNqYDJxKb55ZqR_5YICQEht4OIGbwgo3bgbGBgrZqB0GRs7orLDEqmBd5C_io1TpqhXrXFoFyF4k>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeitdejkecutefuodetggdotefrod
+	1766523295; x=1766609695; bh=sI+zOWLzzxYQpfcVDJYfb2XrwZetA5o+XMv
+	rUxiHmn4=; b=SiAXKlhEiOaFSKUGkzlYIYy/UhdiB0KelqUUBWzTz0SVkuwkDlG
+	bNP95p0LFALqQW+KVaIupFWJ+azHOSSjIVfJjvhVQ7gbcuRVeR/i0Z0kYXjhqRlf
+	GP4+RqVCDB/YOMIGRjVqtOB7eJhxRBdpoPhgIzzB+udYKTkNWvCFdWzztGw44rm+
+	tzft4EMPxStAJ82uV2JIBMr88k2/Jztu9DIZG+y6LhZbVjWAI/h242Bo532mioxQ
+	hqqYILL+UfvAt6zKr/PR2vr/Kf+LeTS9NbMMvPuemvmilsZiBxoK2Df4HI6qwnef
+	77pDtJ4ncD0QpIGRfIKar7fmIpykFKl1cIg==
+X-ME-Sender: <xms:nwFLafE9LVmq1D3iNqqDi9F1kNR8GWPTH9HkGrrrkEheUbGS4vn7lQ>
+    <xme:nwFLaVpVA5qDKTMhhSaGl7s4VfV2cZLOcvUuTbE1BNtIlg37kiXPirnNPVjdilM2E
+    _1vAQ9IjlJmJF_9zPFG2YGY96xH4iWCwjz-5gHxMOvir8IiCEfoejg>
+X-ME-Received: <xmr:nwFLaYYCiLMZx59qxDDI59iHyVZvZFxOGZyJjvrKdxuzh9nygMc9AmHzSX8qghcgNRFqbg1D-8pEkpTdxXFeUupKUW_BI3lQD6GKntM2pyuI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeitdekfecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
     ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
     hrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefvhihlvghrucfj
     ihgtkhhsuceotghouggvsehthihhihgtkhhsrdgtohhmqeenucggtffrrghtthgvrhhnpe
-    dvhedvtddthfefhfdtgfelheefgefgudejueevkeduveekvdegjedttdefgfelieenucev
-    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegtohguvgesth
-    ihhhhitghkshdrtghomhdpnhgspghrtghpthhtohepiedpmhhouggvpehsmhhtphhouhht
-    pdhrtghpthhtohepthhhohhrshhtvghnrdgslhhumheslhhinhhugidruggvvhdprhgtph
-    htthhopegsrhgruhhnvghrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrrhgusges
-    khgvrhhnvghlrdhorhhgpdhrtghpthhtohepvggsihhgghgvrhhssehkvghrnhgvlhdroh
-    hrghdprhgtphhtthhopegvtghrhihpthhfshesvhhgvghrrdhkvghrnhgvlhdrohhrghdp
-    rhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:eftKaYuEDUOsmHfMC1IMV_9UpJU6hUHwdG6aX7Dlwh9FCJKRZqvH5g>
-    <xmx:eftKac3HAnpFKtTgqtNtPuItJUgd_j_E2lZ__KdHrFRUHoR6artNDA>
-    <xmx:eftKaZVEe2gMTE02O9ByAXK9ywwfQrZpRCwPyuJqNRAl_22bD7vcwQ>
-    <xmx:eftKaXLtuZZQRDQ6X0cEHOwQVZHURv8m9MVQtiIc93TL65_-ACoTQA>
-    <xmx:evtKaWj7Fnq5EilQKF3Kmgx80WEo8dl6yJijYrW0nVs_Heh7ovlGLUcp>
+    fggeekieffteehgfetffduhfefjeehvdejhfejkeduleffudelhfefkeeiledujeenucff
+    ohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+    hrrghmpehmrghilhhfrhhomheptghouggvsehthihhihgtkhhsrdgtohhmpdhnsggprhgt
+    phhtthhopeeipdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehthhhorhhsthgvnh
+    drsghluhhmsehlihhnuhigrdguvghvpdhrtghpthhtoheprghruggssehkvghrnhgvlhdr
+    ohhrghdprhgtphhtthhopegsrhgruhhnvghrsehkvghrnhgvlhdrohhrghdprhgtphhtth
+    hopegvsghighhgvghrsheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepvggtrhihphht
+    fhhssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrh
+    hnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:nwFLaeWV5bl6d4E8w9f9R-JOPbGZZO-uQCujojXOKNu-Lz5MQZNFbQ>
+    <xmx:nwFLaR8HkT5Y6ZZSkEnoTbcvChaY2knrQPCK1BOCLT2jkWoUJjuPbA>
+    <xmx:nwFLaX_mh2El3LZ2sRKWBZDV-AJ6lKZft2Kfh3CBF5nO9k0ul9jNzw>
+    <xmx:nwFLaRQaSyoiM3abDHCrpgNL_N65AIlyEMszu12I-OD6KtjJ9amtCw>
+    <xmx:nwFLaYrN8cQGXDNFe4RJHslTnnbe-H6fYSMlEmWbxvfcoTrHFP14nvHS>
 Feedback-ID: i78e14604:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 23 Dec 2025 15:28:41 -0500 (EST)
-Date: Tue, 23 Dec 2025 14:28:33 -0600
+ 23 Dec 2025 15:54:54 -0500 (EST)
+Date: Tue, 23 Dec 2025 14:54:52 -0600
 From: Tyler Hicks <code@tyhicks.com>
 To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
+Cc: Ard Biesheuvel <ardb@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
 	Eric Biggers <ebiggers@kernel.org>, ecryptfs@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND] ecryptfs: Replace memcpy + NUL termination in
- ecryptfs_new_file_context
-Message-ID: <aUr7cX-QULAhQ1oF@yaupon>
-References: <20251219213235.71774-1-thorsten.blum@linux.dev>
+Subject: Re: [PATCH v2] ecryptfs: Drop redundant NUL terminations after
+ calling ecryptfs_to_hex
+Message-ID: <aUsBnAdoEmQW8wVb@yaupon>
+References: <20251120221800.9985-3-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
@@ -101,54 +102,63 @@ List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251219213235.71774-1-thorsten.blum@linux.dev>
+In-Reply-To: <20251120221800.9985-3-thorsten.blum@linux.dev>
 
-On 2025-12-19 22:32:33, Thorsten Blum wrote:
-> Use strscpy() to copy the NUL-terminated '->global_default_cipher_name'
-> to the destination buffer instead of using memcpy() followed by a manual
-> NUL termination. Remove the now-unused local variable 'cipher_name_len'.
+On 2025-11-20 23:17:57, Thorsten Blum wrote:
+> ecryptfs_to_hex() already NUL-terminates the destination buffers. Drop
+> the manual NUL terminations.
 > 
 > Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 
-Thanks for the cleanup!
+Thanks again for the cleanup!
 
 Acked-by: Tyler Hicks <code@tyhicks.com>
 
 Tyler
 
 > ---
->  fs/ecryptfs/crypto.c | 9 ++-------
->  1 file changed, 2 insertions(+), 7 deletions(-)
+> Changes in v2:
+> - Remove all redundant NUL terminations after calling ecryptfs_to_hex
+> - Link to v1: https://lore.kernel.org/lkml/20251120214535.5952-2-thorsten.blum@linux.dev/
+> ---
+>  fs/ecryptfs/debug.c    | 1 -
+>  fs/ecryptfs/keystore.c | 3 ---
+>  2 files changed, 4 deletions(-)
 > 
-> diff --git a/fs/ecryptfs/crypto.c b/fs/ecryptfs/crypto.c
-> index 260f8a4938b0..5d9ec4a1e12d 100644
-> --- a/fs/ecryptfs/crypto.c
-> +++ b/fs/ecryptfs/crypto.c
-> @@ -678,7 +678,6 @@ int ecryptfs_new_file_context(struct inode *ecryptfs_inode)
->  	struct ecryptfs_mount_crypt_stat *mount_crypt_stat =
->  	    &ecryptfs_superblock_to_private(
->  		    ecryptfs_inode->i_sb)->mount_crypt_stat;
-> -	int cipher_name_len;
->  	int rc = 0;
->  
->  	ecryptfs_set_default_crypt_stat_vals(crypt_stat, mount_crypt_stat);
-> @@ -692,12 +691,8 @@ int ecryptfs_new_file_context(struct inode *ecryptfs_inode)
->  		       "to the inode key sigs; rc = [%d]\n", rc);
->  		goto out;
->  	}
-> -	cipher_name_len =
-> -		strlen(mount_crypt_stat->global_default_cipher_name);
-> -	memcpy(crypt_stat->cipher,
-> -	       mount_crypt_stat->global_default_cipher_name,
-> -	       cipher_name_len);
-> -	crypt_stat->cipher[cipher_name_len] = '\0';
-> +	strscpy(crypt_stat->cipher,
-> +		mount_crypt_stat->global_default_cipher_name);
->  	crypt_stat->key_size =
->  		mount_crypt_stat->global_default_cipher_key_size;
->  	ecryptfs_generate_new_key(crypt_stat);
+> diff --git a/fs/ecryptfs/debug.c b/fs/ecryptfs/debug.c
+> index cf6d0e8e25a1..c185a8cb5fe2 100644
+> --- a/fs/ecryptfs/debug.c
+> +++ b/fs/ecryptfs/debug.c
+> @@ -28,7 +28,6 @@ void ecryptfs_dump_auth_tok(struct ecryptfs_auth_tok *auth_tok)
+>  		ecryptfs_printk(KERN_DEBUG, " * passphrase type\n");
+>  		ecryptfs_to_hex(salt, auth_tok->token.password.salt,
+>  				ECRYPTFS_SALT_SIZE);
+> -		salt[ECRYPTFS_SALT_SIZE * 2] = '\0';
+>  		ecryptfs_printk(KERN_DEBUG, " * salt = [%s]\n", salt);
+>  		if (auth_tok->token.password.flags &
+>  		    ECRYPTFS_PERSISTENT_PASSWORD) {
+> diff --git a/fs/ecryptfs/keystore.c b/fs/ecryptfs/keystore.c
+> index 3a6283477d61..9f53069bbc7c 100644
+> --- a/fs/ecryptfs/keystore.c
+> +++ b/fs/ecryptfs/keystore.c
+> @@ -908,7 +908,6 @@ ecryptfs_parse_tag_70_packet(char **filename, size_t *filename_size,
+>  	(*packet_size) += s->packet_size_len;
+>  	ecryptfs_to_hex(s->fnek_sig_hex, &data[(*packet_size)],
+>  			ECRYPTFS_SIG_SIZE);
+> -	s->fnek_sig_hex[ECRYPTFS_SIG_SIZE_HEX] = '\0';
+>  	(*packet_size) += ECRYPTFS_SIG_SIZE;
+>  	s->cipher_code = data[(*packet_size)++];
+>  	rc = ecryptfs_cipher_code_to_string(s->cipher_string, s->cipher_code);
+> @@ -1777,8 +1776,6 @@ int ecryptfs_parse_packet_set(struct ecryptfs_crypt_stat *crypt_stat,
+>  			}
+>  			ecryptfs_to_hex(new_auth_tok->token.password.signature,
+>  					sig_tmp_space, tag_11_contents_size);
+> -			new_auth_tok->token.password.signature[
+> -				ECRYPTFS_PASSWORD_SIG_SIZE] = '\0';
+>  			crypt_stat->flags |= ECRYPTFS_ENCRYPTED;
+>  			break;
+>  		case ECRYPTFS_TAG_1_PACKET_TYPE:
 > -- 
-> Thorsten Blum <thorsten.blum@linux.dev>
-> GPG: 1D60 735E 8AEF 3BE4 73B6  9D84 7336 78FD 8DFE EAD4
+> 2.51.1
 > 
 
