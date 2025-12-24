@@ -1,148 +1,131 @@
-Return-Path: <ecryptfs+bounces-756-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-757-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9B35CDAA98
-	for <lists+ecryptfs@lfdr.de>; Tue, 23 Dec 2025 22:04:01 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52E5DCDB794
+	for <lists+ecryptfs@lfdr.de>; Wed, 24 Dec 2025 07:24:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id D464B301E6D6
-	for <lists+ecryptfs@lfdr.de>; Tue, 23 Dec 2025 21:03:58 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id AC4F330092ED
+	for <lists+ecryptfs@lfdr.de>; Wed, 24 Dec 2025 06:24:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6179C2C11FA;
-	Tue, 23 Dec 2025 21:03:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62AE22F747D;
+	Wed, 24 Dec 2025 06:24:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b="kVWrGwd+";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="l0CYbCVE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h61WXPVb"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A793298CD5;
-	Tue, 23 Dec 2025 21:03:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD7FD2ED86F
+	for <ecryptfs@vger.kernel.org>; Wed, 24 Dec 2025 06:24:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766523837; cv=none; b=Ydl2M5k3LXfT94WzN4/KxCi6aYw2YlAQEHB1VY5lYy9ctinqPBCDLN4SzaZhGOUiAEp+A4f5AKfOh4BZxTOHPe3B/InEGAGWmBQPEZh4EbZgWKyc4qQ4ej0L3E5tPMv7TwVuXbYChtp8cPZsUw7KDXIT2zctZ8cI2gXq8bmGeuw=
+	t=1766557447; cv=none; b=DYscHPELSaxqwWDEkI1hOIitJqqBZQhjY6OuR4GlWGTcRWZM0aZlE81nHH0nkVN0xFcBZbJHNNxp5IK1IerbXIf04nRrxMxcm8jL+k7015UN3p24tPntBg0+ieVqBCyA43qfNasOklQvUMrZLfqySuoYEp81zxPocrX4sEFwNQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766523837; c=relaxed/simple;
-	bh=0Cttns0QvsbksxzEnD5sWxBt7gNaA3F9+yVAdv5BBFw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d4OfRbZG5+0BPLPdXiu6RdRDCfM50/ZBd1/7R2JbbZUchCM9W/KOLg+U5pgRhR/6oypZJe2yIlvS/9119msZ4KPYV9BsOIZ8IUWKB4GHD0TqXEuz16eILxoE6vUbQi4nI3iLc0o1NsgpBCtCZqtgG1VGiby61txbadU9S2pm+B0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com; spf=pass smtp.mailfrom=tyhicks.com; dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b=kVWrGwd+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=l0CYbCVE; arc=none smtp.client-ip=202.12.124.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tyhicks.com
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 876557A0087;
-	Tue, 23 Dec 2025 16:03:54 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Tue, 23 Dec 2025 16:03:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tyhicks.com; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1766523834; x=1766610234; bh=KDBi0BYtxm
-	8Irou6z00GnhkncKBNnm0ljWrGuDx1osk=; b=kVWrGwd+nQIZJLg5YyCUCjhHCg
-	Hjvuncl+JYTeNnjE0PmwsDdtlqmVhaSb2szfCaZY5YDy5U+VOcdLmOakI3RJUfzL
-	JPowr/0IcLgoXR0817UoWpL5QuJkuNXAIctj3AnkMUyqPUIxILE8LZbqY7P45Oom
-	U02S6HkyoGDW2bandG4kyAbIw0XxeaBheMf5bJIMOJSGsgGlbOaeegGRrSHmGpY3
-	CBmPjB+dMz4+ysQuIvx1ks4gNovdlTopY9ZU4RW4NxdQROxOuUEq5QbjQpxXuC+P
-	IBSme1HWP5M3iMWesJtgn4LypdxTdtJCiutTkpmH/LZens8TRanbYVrhbuWg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1766523834; x=1766610234; bh=KDBi0BYtxm8Irou6z00GnhkncKBNnm0ljWr
-	GuDx1osk=; b=l0CYbCVE5pYQpm1MltusooJyt4dbRBmasvOAx7kScsZUS3NfBeB
-	6j2zH5t4GQjmVnjk/XqlWErVk6s2ueCUftAcYyEP8id7s0hbzvFVMYW2CJoB3M+l
-	GwtILX5LrhkHjIncqSNdW8zyna6yPRwx+La19sovV2UBS2Yu3wB8uJYlax4DhOpv
-	WrttwdbWXPjygqc9UKaiYUzp1oGAfUFDBh/ewyGbxKEPeXr3p212UCQwWsilXY7t
-	AYARuLG4ptT81yzHQ7ZjZmAE9RggzO81zR4PLzLTzC4tj8tuY38Hz8kRKtHmVNVK
-	XgjpMYj0kBcSSWE+DP1sPi7sG9kJysozgpQ==
-X-ME-Sender: <xms:uQNLactTc_iH1D2vfU1F0brTc5RUV2eZ_yoGlFpN2Mb9Ty9RtQ3a-Q>
-    <xme:uQNLaXQdp4gIEXbGcAnhG0C6DKs9KUdq3fF1HyBSKSlY5F6EAu0MoG0NCx9-LdcJ9
-    gKYom5-sjKHSH70OEpI8dWB6bQvhvwfs52SNPazrlfCaI7z3Lx81g>
-X-ME-Received: <xmr:uQNLaSP4zr_IOm3rjelvHMIBLL4reDAbPe8jNv05VUiLmBr1P8je-4p56fCTe6U1J3rdInvBFRuPu21VlxNeQU1bAue42jrxW51RRCPzSZZ7>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeitdekhecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefvhihlvghrucfj
-    ihgtkhhsuceotghouggvsehthihhihgtkhhsrdgtohhmqeenucggtffrrghtthgvrhhnpe
-    dvhedvtddthfefhfdtgfelheefgefgudejueevkeduveekvdegjedttdefgfelieenucev
-    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegtohguvgesth
-    ihhhhitghkshdrtghomhdpnhgspghrtghpthhtohepgedpmhhouggvpehsmhhtphhouhht
-    pdhrtghpthhtoheplhhiuhgsrgholhhinhduvddufeekseduieefrdgtohhmpdhrtghpth
-    htohepvggtrhihphhtfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohep
-    lhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoh
-    eplhhiuhgsrgholhhinheskhihlhhinhhoshdrtghn
-X-ME-Proxy: <xmx:uQNLacZm6QY3SrYrgTMDmSmvWMV_8rjjm-KVYVgOZH28os0QqeQJpg>
-    <xmx:uQNLacy5KZ6HYKd0xHtDsnOrQfvJfqTuW-DnkY1FBy9oq2ywT_yWsA>
-    <xmx:uQNLaXJK7h-C-hmo4LK5AUXkm1KIuNwJDazrOFdj55Ewi5VqTl8pbQ>
-    <xmx:uQNLaWqxgs9z79oA53-eHThIDlI_-U87mDKVzmZbrrnSzVg-Q2Ft8A>
-    <xmx:ugNLaYBvNxMbflR0gwOO8rvIpjYnqNbM3zXRDzcHfmcBXNmoiu7P61EZ>
-Feedback-ID: i78e14604:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 23 Dec 2025 16:03:53 -0500 (EST)
-Date: Tue, 23 Dec 2025 15:03:52 -0600
-From: Tyler Hicks <code@tyhicks.com>
-To: Baolin Liu <liubaolin12138@163.com>
-Cc: ecryptfs@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Baolin Liu <liubaolin@kylinos.cn>
-Subject: Re: [PATCH v1] ecryptfs: simplify list initialization in
- ecryptfs_parse_packet_set()
-Message-ID: <aUsDuNRNQF6BzVCw@yaupon>
-References: <20251111121325.28975-1-liubaolin12138@163.com>
+	s=arc-20240116; t=1766557447; c=relaxed/simple;
+	bh=hN2PkEDWk4p2E8/jcdhO1Wom2sMdoHiHkGKM9xXk7zY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rnPFEIH5+RzHmYO0X1dyNFjXI4Dgz6b3inOxisiPOyvvMWaEuxs+I8pdbirPd7+56ldXZdLaoOJrW45E1hUx1z314zjfbN2WcgS5yJ+Mv9qNJikllMxY5/IiBmzmJ7UXNdUTd9b6Q5JTxfyLv1QGE23bFOf9gNMSbRJlQr7o4WY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h61WXPVb; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-64daeb28c56so2008540a12.2
+        for <ecryptfs@vger.kernel.org>; Tue, 23 Dec 2025 22:24:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766557444; x=1767162244; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JIT547IkNANMcip16wm0bsuCj6HL96IGzOppq4Wafpg=;
+        b=h61WXPVbMedFU/e6HB4EcnjaqEfssUbGVjWYwDJeJB/AGpRRstOjrqMWuY+yaeS+19
+         f7Y+fkZcccie4V6ya09rB356k8sVIIwNbkS1mC12NlOb1UXyyuGhiSruwqNd1IzQS5+e
+         yf4yqrwVU8fK7SbbN7rnjQojOZL8edrU98ihLC9Hxuqf4EPlquNO9bX/VjjYVCMsls5k
+         FwFZpTIHPEHi+LJPLgmKdT5zgC6PTGfJY8z1MjLEEh/5DCpvEW3Wy371523NhtkfKrQc
+         wViKL6Q6ycJBU9L4SXbTeAEoNrnhTxbC0Mi6gVwR5wLt8sV4nW6idREZTln9LRlx4oyO
+         TZxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766557444; x=1767162244;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=JIT547IkNANMcip16wm0bsuCj6HL96IGzOppq4Wafpg=;
+        b=t6AbTgKPS01qIDQRq2Ik0sjuaMMmsEmmx6REqyVGPtHBzaBehHrmmfDU2kpecUZYBY
+         6tXTdyJWx38DM3P+J1tGmyoirkDcg6vQan3tOyTveDZ4yGXuscr1Gs1jNSpnED6urVU1
+         2qIr2w4wNo/An/+TXbY3vnUZmIFDoOrO8ElHwDprPTAahfz9HOG4yuw1xp5elx2MgrLL
+         oi0sWPGGCrXo7clsDn6l5+4GjOyXdX7FOz4b+sm9SVZitliQuK9k7ib2Gu/OdJ97rhkm
+         cS1zgqKpLD2fdj01j8qQOBSvlN/3zK16IifRh9dwNdtqzezIr+gYBEvJPAUXEWXifTen
+         JWuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVQZSaYj+Tch0eTGOHRYP1G7GC67BEBVLbDXa1W6ud+Qu8ffCI75WuWfwLj8DOe9m9RrrtYo3v9Qw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/Wtx4SBay+hlxLeHro7n8EKHmnQnLTxTV8GX4W0IGVKM34CDp
+	FTZVe2S+o1CHI3PfmvEoA9I36r/4Kunz3XvOoSoZnVS9QUPkpDfFa8gviPghSeU2XVf+jMFFjQz
+	PKcnflarCZt7hrl3JY/YDT1SKKapSbCg=
+X-Gm-Gg: AY/fxX6GqOPj05IS8WAY2kISTaI+HHZO5t1VpL/4bj3ejb/CKVe7L63ah5H3/yzsPbw
+	p7wJdAqYbtK2dkWytWyzcztRrkLkBMggRV9FzW+2XIED6YTUddbW+sZbbT9de1rSvHt44DwJi/K
+	Kq+/gSbbgCok+HiDJ6sQ9OOCOb/wIVXbEiL2X1LKUgDwK8gMilVxI+CMNR3+bKly/ze8OSSTzEL
+	tKzc6QqVm65ietLOAjS54BHtD1jg97NgSOdk2eFzX4iso1FFCb0v9bBQNGU8WaUJw4UmmvLSJ5B
+	HALBGcWer3rZNF4LmA/k1xcARK253A==
+X-Google-Smtp-Source: AGHT+IE9U86IMBXEtqmcna1pEcud0+V5I+SOhvPPa8IjOF0zjJte5DVpekxcp5+lCBZn08cKqP7BDAqCSJh6ake+KcU=
+X-Received: by 2002:a17:907:97cf:b0:b7a:1b9c:ba5a with SMTP id
+ a640c23a62f3a-b803705df81mr1705550666b.32.1766557443686; Tue, 23 Dec 2025
+ 22:24:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251111121325.28975-1-liubaolin12138@163.com>
+References: <20251223194153.2818445-1-code@tyhicks.com> <20251223194153.2818445-2-code@tyhicks.com>
+In-Reply-To: <20251223194153.2818445-2-code@tyhicks.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Wed, 24 Dec 2025 07:23:52 +0100
+X-Gm-Features: AQt7F2qFhJorx7_UnWIzjgefPnTxGYx_37q0UlvMwqB2LNaWatC3LkaqqBjrOZo
+Message-ID: <CAOQ4uxhnw1sa1xxii+2r69hFs02sagbQt6uLti5TxSnaHk_Kkg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] ecryptfs: Fix improper mknod pairing of start_creating()/end_removing()
+To: Tyler Hicks <code@tyhicks.com>
+Cc: NeilBrown <neil@brown.name>, Christian Brauner <brauner@kernel.org>, 
+	Jeff Layton <jlayton@kernel.org>, ecryptfs@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2025-11-11 20:13:25, Baolin Liu wrote:
-> From: Baolin Liu <liubaolin@kylinos.cn>
-> 
-> In ecryptfs_parse_packet_set(),use LIST_HEAD() to declare and
-> initialize the 'auth_tok_list' list in one step instead of
-> using INIT_LIST_HEAD() separately.
-> 
-> No functional change.
-> 
-> Signed-off-by: Baolin Liu <liubaolin@kylinos.cn>
-
-Thank you!
-
-Acked-by: Tyler Hicks <code@tyhicks.com>
-
-Tyler
-
+On Tue, Dec 23, 2025 at 9:42=E2=80=AFPM Tyler Hicks <code@tyhicks.com> wrot=
+e:
+>
+> The ecryptfs_start_creating_dentry() function must be paired with the
+> end_creating() function. Fix ecryptfs_mknod() so that end_creating() is
+> properly called in the return path, instead of end_removing().
+>
+> Fixes: f046fbb4d81d ("ecryptfs: use new start_creating/start_removing API=
+s")
+> Signed-off-by: Tyler Hicks <code@tyhicks.com>
 > ---
->  fs/ecryptfs/keystore.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/fs/ecryptfs/keystore.c b/fs/ecryptfs/keystore.c
-> index 7f9f68c00ef6..ea00ba20a459 100644
-> --- a/fs/ecryptfs/keystore.c
-> +++ b/fs/ecryptfs/keystore.c
-> @@ -1759,7 +1759,7 @@ int ecryptfs_parse_packet_set(struct ecryptfs_crypt_stat *crypt_stat,
->  	size_t i = 0;
->  	size_t found_auth_tok;
->  	size_t next_packet_is_auth_tok_packet;
-> -	struct list_head auth_tok_list;
-> +	LIST_HEAD(auth_tok_list);
->  	struct ecryptfs_auth_tok *matching_auth_tok;
->  	struct ecryptfs_auth_tok *candidate_auth_tok;
->  	char *candidate_auth_tok_sig;
-> @@ -1772,7 +1772,6 @@ int ecryptfs_parse_packet_set(struct ecryptfs_crypt_stat *crypt_stat,
->  	struct key *auth_tok_key = NULL;
->  	int rc = 0;
->  
-> -	INIT_LIST_HEAD(&auth_tok_list);
->  	/* Parse the header to find as many packets as we can; these will be
->  	 * added the our &auth_tok_list */
->  	next_packet_is_auth_tok_packet = 1;
-> -- 
-> 2.39.2
-> 
+>  fs/ecryptfs/inode.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/fs/ecryptfs/inode.c b/fs/ecryptfs/inode.c
+> index 3978248247dc..e73d9de676a6 100644
+> --- a/fs/ecryptfs/inode.c
+> +++ b/fs/ecryptfs/inode.c
+> @@ -584,7 +584,7 @@ ecryptfs_mknod(struct mnt_idmap *idmap, struct inode =
+*dir,
+>         fsstack_copy_attr_times(dir, lower_dir);
+>         fsstack_copy_inode_size(dir, lower_dir);
+>  out:
+> -       end_removing(lower_dentry);
+> +       end_creating(lower_dentry);
+>         if (d_really_is_negative(dentry))
+>                 d_drop(dentry);
+>         return rc;
+> --
+
+Doh! Who's the dummy who reviewed this patch :-/
+
+FWIW now
+
+Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+
+Thanks,
+Amir.
+
+> 2.43.0
+>
 
