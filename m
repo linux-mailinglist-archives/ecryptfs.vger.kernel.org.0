@@ -1,131 +1,120 @@
-Return-Path: <ecryptfs+bounces-757-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-758-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52E5DCDB794
-	for <lists+ecryptfs@lfdr.de>; Wed, 24 Dec 2025 07:24:20 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id A222ACDB839
+	for <lists+ecryptfs@lfdr.de>; Wed, 24 Dec 2025 07:35:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id AC4F330092ED
-	for <lists+ecryptfs@lfdr.de>; Wed, 24 Dec 2025 06:24:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 28E7D30181A5
+	for <lists+ecryptfs@lfdr.de>; Wed, 24 Dec 2025 06:32:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62AE22F747D;
-	Wed, 24 Dec 2025 06:24:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73CC92F49F7;
+	Wed, 24 Dec 2025 06:32:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h61WXPVb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cABr1VWN"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD7FD2ED86F
-	for <ecryptfs@vger.kernel.org>; Wed, 24 Dec 2025 06:24:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A12CE2C0F8E
+	for <ecryptfs@vger.kernel.org>; Wed, 24 Dec 2025 06:32:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766557447; cv=none; b=DYscHPELSaxqwWDEkI1hOIitJqqBZQhjY6OuR4GlWGTcRWZM0aZlE81nHH0nkVN0xFcBZbJHNNxp5IK1IerbXIf04nRrxMxcm8jL+k7015UN3p24tPntBg0+ieVqBCyA43qfNasOklQvUMrZLfqySuoYEp81zxPocrX4sEFwNQY=
+	t=1766557934; cv=none; b=Z5PR2YCoZTSI4jCVrV19WKfkY9SAqKCbL/UquP8iXRfXj8PWEBdz8bWfY3QYYHm+UkX4Inq8IErSEhXpQY/V4nXN9EnTC/TYJ/S4wOZnizIx6U8db8cIyWgExvcqOD2+Wzzy4YZIQeC+BLNvXzEFHjqW/2nDCnp9KHnjLujxj0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766557447; c=relaxed/simple;
-	bh=hN2PkEDWk4p2E8/jcdhO1Wom2sMdoHiHkGKM9xXk7zY=;
+	s=arc-20240116; t=1766557934; c=relaxed/simple;
+	bh=1uKvSx8GPclRpAHaq5nkAFgGmVYzZkjqW0QbtatV/JQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rnPFEIH5+RzHmYO0X1dyNFjXI4Dgz6b3inOxisiPOyvvMWaEuxs+I8pdbirPd7+56ldXZdLaoOJrW45E1hUx1z314zjfbN2WcgS5yJ+Mv9qNJikllMxY5/IiBmzmJ7UXNdUTd9b6Q5JTxfyLv1QGE23bFOf9gNMSbRJlQr7o4WY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h61WXPVb; arc=none smtp.client-ip=209.85.208.41
+	 To:Cc:Content-Type; b=VVo6abaSMUy5h8m9XeIkfJzykQpO6QW6+63D8NM9Ixy+U5qhqyjNXHj7nxdttuA9zcJQpDvNfOMfuYVfBHjS99Q8mbZTJkpA1xMM2GyZezyVzDrVbMVwShWx4mw9uMQlfbiNkE8KTEOyZqkI0GKkVgbnP/x9oGiFSO7Hq32RI/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cABr1VWN; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-64daeb28c56so2008540a12.2
-        for <ecryptfs@vger.kernel.org>; Tue, 23 Dec 2025 22:24:05 -0800 (PST)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b8010b8f078so727939866b.0
+        for <ecryptfs@vger.kernel.org>; Tue, 23 Dec 2025 22:32:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766557444; x=1767162244; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1766557931; x=1767162731; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JIT547IkNANMcip16wm0bsuCj6HL96IGzOppq4Wafpg=;
-        b=h61WXPVbMedFU/e6HB4EcnjaqEfssUbGVjWYwDJeJB/AGpRRstOjrqMWuY+yaeS+19
-         f7Y+fkZcccie4V6ya09rB356k8sVIIwNbkS1mC12NlOb1UXyyuGhiSruwqNd1IzQS5+e
-         yf4yqrwVU8fK7SbbN7rnjQojOZL8edrU98ihLC9Hxuqf4EPlquNO9bX/VjjYVCMsls5k
-         FwFZpTIHPEHi+LJPLgmKdT5zgC6PTGfJY8z1MjLEEh/5DCpvEW3Wy371523NhtkfKrQc
-         wViKL6Q6ycJBU9L4SXbTeAEoNrnhTxbC0Mi6gVwR5wLt8sV4nW6idREZTln9LRlx4oyO
-         TZxg==
+        bh=1uKvSx8GPclRpAHaq5nkAFgGmVYzZkjqW0QbtatV/JQ=;
+        b=cABr1VWNJZlERfmPvcL5ZTRBOoc0nh4plU0wVu7poaxv0k+wp9tVCz9UEusA6Bw3Xk
+         9eR9u6Zr25me9l13uXoa/ljIpcgTOdFJPzvUjqYFMdicmy4rxRFIu8GRmjiY9V4Jhn/+
+         /knu79H1SbtwcTqO4GzeCcxhCVz6U0kI6f8ku0JhUONyG5WduOrXdBZ16Ms6xrV+I52e
+         PMWPhkoMVPhgsbXPXhnCl4uUJ1ICg8/YHF6X7o8G8ENqD6TDnkhWQ7poaKiTlnwZKS9k
+         to8DAUwHtzBEi2IwgrfuqKTMesGbsXvQeGo6bi+m9+2fWYPCRrJE9qOn2C6KWTgw2SwG
+         Z0Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766557444; x=1767162244;
+        d=1e100.net; s=20230601; t=1766557931; x=1767162731;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=JIT547IkNANMcip16wm0bsuCj6HL96IGzOppq4Wafpg=;
-        b=t6AbTgKPS01qIDQRq2Ik0sjuaMMmsEmmx6REqyVGPtHBzaBehHrmmfDU2kpecUZYBY
-         6tXTdyJWx38DM3P+J1tGmyoirkDcg6vQan3tOyTveDZ4yGXuscr1Gs1jNSpnED6urVU1
-         2qIr2w4wNo/An/+TXbY3vnUZmIFDoOrO8ElHwDprPTAahfz9HOG4yuw1xp5elx2MgrLL
-         oi0sWPGGCrXo7clsDn6l5+4GjOyXdX7FOz4b+sm9SVZitliQuK9k7ib2Gu/OdJ97rhkm
-         cS1zgqKpLD2fdj01j8qQOBSvlN/3zK16IifRh9dwNdtqzezIr+gYBEvJPAUXEWXifTen
-         JWuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVQZSaYj+Tch0eTGOHRYP1G7GC67BEBVLbDXa1W6ud+Qu8ffCI75WuWfwLj8DOe9m9RrrtYo3v9Qw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/Wtx4SBay+hlxLeHro7n8EKHmnQnLTxTV8GX4W0IGVKM34CDp
-	FTZVe2S+o1CHI3PfmvEoA9I36r/4Kunz3XvOoSoZnVS9QUPkpDfFa8gviPghSeU2XVf+jMFFjQz
-	PKcnflarCZt7hrl3JY/YDT1SKKapSbCg=
-X-Gm-Gg: AY/fxX6GqOPj05IS8WAY2kISTaI+HHZO5t1VpL/4bj3ejb/CKVe7L63ah5H3/yzsPbw
-	p7wJdAqYbtK2dkWytWyzcztRrkLkBMggRV9FzW+2XIED6YTUddbW+sZbbT9de1rSvHt44DwJi/K
-	Kq+/gSbbgCok+HiDJ6sQ9OOCOb/wIVXbEiL2X1LKUgDwK8gMilVxI+CMNR3+bKly/ze8OSSTzEL
-	tKzc6QqVm65ietLOAjS54BHtD1jg97NgSOdk2eFzX4iso1FFCb0v9bBQNGU8WaUJw4UmmvLSJ5B
-	HALBGcWer3rZNF4LmA/k1xcARK253A==
-X-Google-Smtp-Source: AGHT+IE9U86IMBXEtqmcna1pEcud0+V5I+SOhvPPa8IjOF0zjJte5DVpekxcp5+lCBZn08cKqP7BDAqCSJh6ake+KcU=
-X-Received: by 2002:a17:907:97cf:b0:b7a:1b9c:ba5a with SMTP id
- a640c23a62f3a-b803705df81mr1705550666b.32.1766557443686; Tue, 23 Dec 2025
- 22:24:03 -0800 (PST)
+        bh=1uKvSx8GPclRpAHaq5nkAFgGmVYzZkjqW0QbtatV/JQ=;
+        b=a7i3/eKMkIW9vRdFYmfwkFvzFr3G/OOQs87mtON0n+0elw2TTvHXVGOu0iatZHV9E0
+         9Q6aXidxC0QBJ4Y2a+tzN8urkua8M2jJPoNI1WGt7CwJG2kK8EEjJgi/9hCuC3DDt15X
+         ys9r30mh/WOyRs5CooPj+s8LAl3a+DHXE/7AewcI812stDsPle6IBgyqSxrp3QUiindO
+         i3j/y4IZ8NaucZv1Pha6qZc0+hMVkMutC8daZtO1VJwU+FcZImZtMyWJmjLMJIat+C22
+         Hw7xjEXCUX2FpySGubxLBcjHzYZj61n4GSCEyknKjdMEPJ/ThTlcI/YitY0w91KgEHj7
+         ylPA==
+X-Forwarded-Encrypted: i=1; AJvYcCUdEv1779AyIMUuqUMbxGLCkfm+jnbpOQ/bBsKCdrdtivBNy+Hq8ERyA5hbUuQ8MjdgsKBhpHP9Vg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzdkM1w6MSyVeXJWZ937uyGQhIPYZNomRnQ84YZIH8jlBj582lI
+	WOXED6dsP/yGg3RmtKrkPAfL4yArijOA3Io7Tm6ITRXlX/Kpg3x4gl7tYLZHpOV3cUYKdzqOqr9
+	cdANEeTi+UxRItHp9QY1rhoMjE/sMtxXjfZfW
+X-Gm-Gg: AY/fxX524YU0yk50W6d+IT0vKO3p7Rzsh+/ZTS3VApNYdbFvhIPgTtiqeLoNkecHLlV
+	dkQD0IMJb8cIBU0g3Uo84BFlXAeSmVCT4U0/QiOsaEvTuF9MCNrwABkg4jSnwvvZPGqevQJ292I
+	cqNNHarOKqxfj+iPD9Rix0VvSIB68W0uyz7wyBlNrA4Qmk+YkkSRMiNYjBjUy/RbC1tLp4DftIE
+	TtUXaqbg4yaDwqG90HGX2LrkEpVDlv3wxAs5lqHhgMpjFEQG+9yTIftZAB99pYUBb0T1LKiRPA0
+	8zuTp3CYDYbK3JCYLybt4I06KBAJxQ==
+X-Google-Smtp-Source: AGHT+IGmJVMeYigFDymdUe/6mHZ/HJiHYfzqfl9VBpWdyLYJMGAbhMPbzcvXggOcLw+GiuN1JxDw9RsWKjCIvLcK4fg=
+X-Received: by 2002:a17:907:1c27:b0:b75:7b39:847a with SMTP id
+ a640c23a62f3a-b80372228e5mr1842969866b.60.1766557930625; Tue, 23 Dec 2025
+ 22:32:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251223194153.2818445-1-code@tyhicks.com> <20251223194153.2818445-2-code@tyhicks.com>
-In-Reply-To: <20251223194153.2818445-2-code@tyhicks.com>
+References: <20251223194153.2818445-1-code@tyhicks.com>
+In-Reply-To: <20251223194153.2818445-1-code@tyhicks.com>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 24 Dec 2025 07:23:52 +0100
-X-Gm-Features: AQt7F2qFhJorx7_UnWIzjgefPnTxGYx_37q0UlvMwqB2LNaWatC3LkaqqBjrOZo
-Message-ID: <CAOQ4uxhnw1sa1xxii+2r69hFs02sagbQt6uLti5TxSnaHk_Kkg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] ecryptfs: Fix improper mknod pairing of start_creating()/end_removing()
-To: Tyler Hicks <code@tyhicks.com>
-Cc: NeilBrown <neil@brown.name>, Christian Brauner <brauner@kernel.org>, 
-	Jeff Layton <jlayton@kernel.org>, ecryptfs@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Wed, 24 Dec 2025 07:31:59 +0100
+X-Gm-Features: AQt7F2oRXnzj07uSDlnyIY1XRSS9cYyN-Y5WQrjvs27faDAkUwQ6idplvFpdkLw
+Message-ID: <CAOQ4uxg5Qbkt2WzfXojzCNUYwj9BsW6vzKEL4265PQxBgNkdeA@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Fix two regressions from start_creating()/start_removing()
+ conversion
+To: Tyler Hicks <code@tyhicks.com>, Christian Brauner <brauner@kernel.org>
+Cc: NeilBrown <neil@brown.name>, Jeff Layton <jlayton@kernel.org>, ecryptfs@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel <linux-fsdevel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Tue, Dec 23, 2025 at 9:42=E2=80=AFPM Tyler Hicks <code@tyhicks.com> wrot=
 e:
 >
-> The ecryptfs_start_creating_dentry() function must be paired with the
-> end_creating() function. Fix ecryptfs_mknod() so that end_creating() is
-> properly called in the return path, instead of end_removing().
+> When running the eCryptfs test suite on v6.19-rc2, I noticed BUG splats
+> from every test and that the umount utility was segfaulting when tearing
+> down after a test. Bisection led me to commit f046fbb4d81d ("ecryptfs:
+> use new start_creating/start_removing APIs").
 >
-> Fixes: f046fbb4d81d ("ecryptfs: use new start_creating/start_removing API=
-s")
-> Signed-off-by: Tyler Hicks <code@tyhicks.com>
-> ---
->  fs/ecryptfs/inode.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> This patch series addresses that regression and also a mknod problem
+> spotted during code review.
 >
-> diff --git a/fs/ecryptfs/inode.c b/fs/ecryptfs/inode.c
-> index 3978248247dc..e73d9de676a6 100644
-> --- a/fs/ecryptfs/inode.c
-> +++ b/fs/ecryptfs/inode.c
-> @@ -584,7 +584,7 @@ ecryptfs_mknod(struct mnt_idmap *idmap, struct inode =
-*dir,
->         fsstack_copy_attr_times(dir, lower_dir);
->         fsstack_copy_inode_size(dir, lower_dir);
->  out:
-> -       end_removing(lower_dentry);
-> +       end_creating(lower_dentry);
->         if (d_really_is_negative(dentry))
->                 d_drop(dentry);
->         return rc;
-> --
 
-Doh! Who's the dummy who reviewed this patch :-/
+Ouch!
 
-FWIW now
+Christian,
 
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+In retrospect, it's a shame that patches get merged with zero test coverage
+and no ACK from the maintainer.
+
+OTOH, relying on ACKs from all fs maintainers will seriously impair
+the ability to make vfs wide changes like this one.
+
+Feels like we need to find a better balance.
+
+At least for ecryptfs, if we know that Tyler is at least testing rc1
+regularly (?) that's a comfort.
 
 Thanks,
 Amir.
-
-> 2.43.0
->
 
