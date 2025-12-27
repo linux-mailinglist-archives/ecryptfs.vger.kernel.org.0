@@ -1,151 +1,142 @@
-Return-Path: <ecryptfs+bounces-761-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-762-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EC09CDC97D
-	for <lists+ecryptfs@lfdr.de>; Wed, 24 Dec 2025 15:54:31 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99E70CDF331
+	for <lists+ecryptfs@lfdr.de>; Sat, 27 Dec 2025 02:06:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 08BAC30213E3
-	for <lists+ecryptfs@lfdr.de>; Wed, 24 Dec 2025 14:49:13 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id BBB36300100C
+	for <lists+ecryptfs@lfdr.de>; Sat, 27 Dec 2025 01:06:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D776034F256;
-	Wed, 24 Dec 2025 14:47:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4D15221FBA;
+	Sat, 27 Dec 2025 01:06:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b="oz34Y+Eo";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="hdGU5FRS"
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="oCVjS7f6";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="E9cJ6Fm+"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
+Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB8334E74E;
-	Wed, 24 Dec 2025 14:47:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214A022256F;
+	Sat, 27 Dec 2025 01:06:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766587665; cv=none; b=fznQ77FPMua27afYYT3icOAGv4AdflIho/ZkYDaoqyj2kjgzPYzfPB13Wvk87m8SOI0CAbB66e8BUqMPRHMBENAQQwcT0UCjO/RpIyxn6MgyPCd2K58UWkt53l8Fc44lu94EncmJHHsS9oocJr/ubtKY8UTBLnl3C7OcF21PVkM=
+	t=1766797571; cv=none; b=Xzs68yQuDrUfBm2V4WfMDAUsQWseQJ8XNW2gZDD1NBTVpU2xPbQRTGjeAlYjcfl4AApjXrcKW+gkeVUGbzaxZLfmBRJOTx2Vybib/f7qn3r/tL6uEwUemVTq2SvuG+A5Ej1PxscqOcMNB3LAcvDB+NM9uxmpmpaK5S8IigUV8sI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766587665; c=relaxed/simple;
-	bh=SqBEQsTs8SDxEIJg4ZrazeXz15zlp0d74t+CsBqNEwo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cef8XisyJ5W++5/oIzhhHGwuT29GZrc8IihggCyEx74M7RMzGc5KjrzDw7iluJyQ3BJNGRYx1shl/Xp+1p0lKsyUxY9rr9EyA2907gkRfizrq79AvWnULvdjCZsccLeurioKBFoP81PCzjv05hyNB0FOaIJSQMpcZJBJp/Ns4SU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com; spf=pass smtp.mailfrom=tyhicks.com; dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b=oz34Y+Eo; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=hdGU5FRS; arc=none smtp.client-ip=202.12.124.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tyhicks.com
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.stl.internal (Postfix) with ESMTP id 78ABC1D000F8;
-	Wed, 24 Dec 2025 09:47:42 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Wed, 24 Dec 2025 09:47:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tyhicks.com; h=
+	s=arc-20240116; t=1766797571; c=relaxed/simple;
+	bh=NGHj5sL/YYuLkZYPsqVwatkaAf6spSy3cIDwRqxIr8A=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=KRzyR1rIK/EyfoWbwiYfAheDBxQqHLEbBpel9LZm+w7PSo4Phy1VDrjgnZleX9p6okevSZ/Z4QfE0OGTNAza0WTb77EbrcK3vYhJge4vqHnvN/gZKW4XtirrY/GU84D9DVKIH0haqfor05edXhtKPC6jYVCsihVJoFHLgruGFHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=oCVjS7f6; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=E9cJ6Fm+; arc=none smtp.client-ip=202.12.124.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 48D6E7A0040;
+	Fri, 26 Dec 2025 20:06:08 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Fri, 26 Dec 2025 20:06:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1766587662;
-	 x=1766674062; bh=5dlqoBNLe1qadi3fugn7RBaiGTrrIZ80AP50YCGn7xY=; b=
-	oz34Y+Eo3TjxE8PmKKYBfuLhEqry1N6+rBQZIcOTdKoxWwpB/7GeR6+3P1/Cxroo
-	m0EQWQq96XoChfzlB8Q1WwwxAuSykhByXUB2If6LZKTL14RukXSEOMAurFSwnWSp
-	afVCHE7Cj1XZ0jdnGx07DxGdx9xtHRQcdBVuyu48h1ja2R1mh4gE4TPXOerY2m0a
-	ygjOfSwUDp6EopuNpYz5hOr5ZKx+6H2q5vn4jDwjTq9Er3HH0OAs8F8NG72G6mbA
-	eXsdPkAHlJGXn31GeXZszmQtMFFTo3VQXfN4VR+8XyDYuqlgjJDv4eMH5iIOlod6
-	OEljYzgskhTSs8KUFNAUQw==
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
+	1766797568; x=1766883968; bh=tzFKenmNlFYBAT7fyzCpih1uo+o14qLZLaw
+	wBB1kw/w=; b=oCVjS7f6itF4yShxlWpNJA8OYGcf9ogeNA63XYkv3vSbdm/VVCq
+	YO3+TJQowrgNzelghiFlm/uCf+XzYcGl4rqiQd8nsjMMrATT5XTPTY0Vr6PPgz1D
+	ww0GxmklEn/jfUHFcS5bytm9MX8ecLUdZ7Nr7IeLQrGP5LtLMmtiADERXIbmL6ke
+	xhzq/mrjoQtar5x1KNnsNgwmgWaXwn7Xp2f9ohfvuCp4QeJnJSXaJCYEvsuOdrpV
+	SrGnr7m2/mNGqAWh2o1evahF1loHW88EZNglxAs7o5zoiOrOLw7ekDrKAJ57DwX1
+	ilIrPlT51z5wtIE+nsw7NIeBXtMa1GlKm9A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1766587662; x=
-	1766674062; bh=5dlqoBNLe1qadi3fugn7RBaiGTrrIZ80AP50YCGn7xY=; b=h
-	dGU5FRStUCpERImsfDUA+IrDlj1ssSyzUAuPHiKLWFBbqgIuBVhKE7vnpYpHUMwL
-	mRmHiufRXePoR8osuiCwCJDbUNbQn77/xGQqGFdPk8xy7MhP9OPt+b1whINodd5F
-	AUGJ7nhyUIvfm9P9sBKpRSlhnmWP6ULBr4DixBkTcAdhoFFtq1wFnZbHX/FgA4xi
-	ui1CY1NXEUhdEDeg86fbcExcZBvDHmm3msDzX+d/m3dBLp7cp2gqdjb2GOFNlAM5
-	PWPXJPDxBomrFB0C0GAMgsWT8qSXBMArb/MwCkSfVL56UXYxvX4jPFcFCw33PkVM
-	AUEtCZhjz/zpjkU1wHMhQ==
-X-ME-Sender: <xms:Dv1LabmB5W7u0smPsjKMjRDrxDtv0I597wrvUXrAr9POCnHe9XfFwg>
-    <xme:Dv1LaY7RHcFM2iY95Nt0f6ukejkFWF_6rpMe7bS_BqESV-qaNbvXkNc8fyV_VyLkI
-    2FWunPWBFu3MBfY3S7Ftn_2Vz6RVCXU1ZAkr6-03CnUD7suVkFuoQg>
-X-ME-Received: <xmr:Dv1LaRgpusoK8JQSSvHqSKKH45vrnVS9Ry-mAw1tPfAc_shoUN30_Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeivdelkecutefuodetggdotefrod
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1766797568; x=
+	1766883968; bh=tzFKenmNlFYBAT7fyzCpih1uo+o14qLZLawwBB1kw/w=; b=E
+	9cJ6Fm+TJJsTVCZ4UnI0m/gy/L5cTYB2k07IQEu3X1ggVNK+ULzJ972HBgJPPjal
+	ioydOcu8df5mP02nEbA6ZtTPK8rFghZtjHpaDQYlxwkdKu8p+IBpGkohjhIkWzHF
+	1HNi1oNXIX6in+YtS2+bLuvLG5Nh7GkuCLbrIWNoM+ukaij9gvDir4RqPkfdSsSt
+	GO/kC1mKr+bJ/dgE5W3vWfFLw089oxeqUT4hn23Ermwf1ujiCo0gW3ws+8wSoLVh
+	XGvBDVjXNhduQr2vp9EHcTh4sl/i1GBxaouKn0pKUW7QkDicPOfPq57NGKKADXqk
+	2CCDfoXPtay5ufxgzc2bQ==
+X-ME-Sender: <xms:ADFPaQmMBHarbxB2GOPtJaDQs9hbmU4_UvjjLl6ARZC5BcK89Oii9g>
+    <xme:ADFPaZIl-R80u6jW7EHvN4JFuyshfKVa2PTS16lNBVX6uULQDIZSMa5ERWyOC8VoI
+    eaFrY8m6qUGc1y9siK_azvBZ197AmDhd8KFY8i7NTjXdxH7iw>
+X-ME-Received: <xmr:ADFPaV764xkkZlGV6S66n6fLLft6F9OKZiiWfka7XHgPKlp1vVPVXvuKG5kiQIkd240Sm83EkL-LvzjO4Hubg8DlZDbCPIs3WEnDKnuh21hn>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeileeljecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
     ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomhepvfihlhgvrhcu
-    jfhitghkshcuoegtohguvgesthihhhhitghkshdrtghomheqnecuggftrfgrthhtvghrnh
-    epgefhieeuheefkeetffefffekjefhgfefiedvveeiuedugfeufeefvdeihfehieevnecu
-    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheptghouggvse
-    hthihhihgtkhhsrdgtohhmpdhnsggprhgtphhtthhopeejpdhmohguvgepshhmthhpohhu
-    thdprhgtphhtthhopegrmhhirhejfehilhesghhmrghilhdrtghomhdprhgtphhtthhope
-    gsrhgruhhnvghrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehnvghilhessghrohif
-    nhdrnhgrmhgvpdhrtghpthhtohepjhhlrgihthhonheskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtohepvggtrhihphhtfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthht
-    oheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpth
-    htoheplhhinhhugidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:Dv1LaVEKuNL9CyokRiLYshqJe82kfyRL0JEgX_Ej4Xv4EjSfPaPV_A>
-    <xmx:Dv1LaXTo2WUcUkHb6X9AT_kFQQWCmU34ioI570PynJWP80zreRJ8gA>
-    <xmx:Dv1LaSxPeXwjwrzFUPL3ZOw51J3CiIXx2ZjW8L5FrECttLX4bRE1Xg>
-    <xmx:Dv1LaTfMlknCSCL369P96_qizovsq7BI9aJAsjJ9-u_VMfJsvh9UqQ>
-    <xmx:Dv1LaTV8wY_1-wRSFM3T_KTp00-zzjMtK8BA5rCowLMmYJcOGn6nVZnB>
-Feedback-ID: i78e14604:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 24 Dec 2025 09:47:41 -0500 (EST)
-Date: Wed, 24 Dec 2025 08:47:39 -0600
-From: Tyler Hicks <code@tyhicks.com>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>, NeilBrown <neil@brown.name>,
-	Jeff Layton <jlayton@kernel.org>, ecryptfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH 0/2] Fix two regressions from
- start_creating()/start_removing() conversion
-Message-ID: <aUv9C5Z4Y996T8BT@yaupon>
-References: <20251223194153.2818445-1-code@tyhicks.com>
- <CAOQ4uxg5Qbkt2WzfXojzCNUYwj9BsW6vzKEL4265PQxBgNkdeA@mail.gmail.com>
+    hrpegtgfgghffvvefujghffffkrhesthejredttddtjeenucfhrhhomheppfgvihhluehr
+    ohifnhcuoehnvghilhgssehofihnmhgrihhlrdhnvghtqeenucggtffrrghtthgvrhhnpe
+    egheefveehheetteduheejudeihfeuheeivedvjeekueefveekleeiffffudfhveenucff
+    ohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+    hrrghmpehmrghilhhfrhhomhepnhgvihhlsgesohifnhhmrghilhdrnhgvthdpnhgspghr
+    tghpthhtohepiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheplhhinhhugidqkh
+    gvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepvggtrhihphht
+    fhhssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghouggvsehthihhih
+    gtkhhsrdgtohhmpdhrtghpthhtohepjhhlrgihthhonheskhgvrhhnvghlrdhorhhgpdhr
+    tghpthhtohepsghrrghunhgvrheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghmih
+    hrjeefihhlsehgmhgrihhlrdgtohhm
+X-ME-Proxy: <xmx:ADFPad0s2rp5x8bhdzoSggnYXb2jmFFWVypqrCUDIxy9mKUDnTIFXw>
+    <xmx:ADFPabce-KKKb9m0Us_8Gg-oyZRbieBSNrXITdOoRt05lJvg6PtLPw>
+    <xmx:ADFPaTeCv1AD9I7UFEe00haeT9ihxraEWSHvrfqmIMX2TB_xYXmmzQ>
+    <xmx:ADFPaWy3fxj0s0diuezJlto4xVGovnPu04NtapKZCsZ0C1DUB-hiqw>
+    <xmx:ADFPaUouIE3PR2ZUEegebuEyXsguaLGEAYgKbqJDp45BEUlHrMpkkgB0>
+Feedback-ID: iab3e480c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 26 Dec 2025 20:06:06 -0500 (EST)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOQ4uxg5Qbkt2WzfXojzCNUYwj9BsW6vzKEL4265PQxBgNkdeA@mail.gmail.com>
+From: NeilBrown <neilb@ownmail.net>
+To: "Tyler Hicks" <code@tyhicks.com>
+Cc: "Christian Brauner" <brauner@kernel.org>,
+ "Jeff Layton" <jlayton@kernel.org>, "Amir Goldstein" <amir73il@gmail.com>,
+ ecryptfs@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/2] Fix two regressions from
+ start_creating()/start_removing() conversion
+In-reply-to: <20251223194153.2818445-1-code@tyhicks.com>
+References: <20251223194153.2818445-1-code@tyhicks.com>
+Date: Sat, 27 Dec 2025 12:05:59 +1100
+Message-id: <176679755972.16766.8394247113563710609@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-On 2025-12-24 07:31:59, Amir Goldstein wrote:
-> On Tue, Dec 23, 2025 at 9:42 PM Tyler Hicks <code@tyhicks.com> wrote:
-> >
-> > When running the eCryptfs test suite on v6.19-rc2, I noticed BUG splats
-> > from every test and that the umount utility was segfaulting when tearing
-> > down after a test. Bisection led me to commit f046fbb4d81d ("ecryptfs:
-> > use new start_creating/start_removing APIs").
-> >
-> > This patch series addresses that regression and also a mknod problem
-> > spotted during code review.
-> >
+On Wed, 24 Dec 2025, Tyler Hicks wrote:
+> When running the eCryptfs test suite on v6.19-rc2, I noticed BUG splats
+> from every test and that the umount utility was segfaulting when tearing
+> down after a test. Bisection led me to commit f046fbb4d81d ("ecryptfs:
+> use new start_creating/start_removing APIs").
 > 
-> Ouch!
+> This patch series addresses that regression and also a mknod problem
+> spotted during code review.
 > 
-> Christian,
+> Tyler
 > 
-> In retrospect, it's a shame that patches get merged with zero test coverage
-> and no ACK from the maintainer.
-
-I wasn't able to be a very active maintainer over the last year. I think
-Christian did the right thing here.
-
-> OTOH, relying on ACKs from all fs maintainers will seriously impair
-> the ability to make vfs wide changes like this one.
-
-Exactly. The fringe filesystems shouldn't slow down the entire VFS.
-
-> Feels like we need to find a better balance.
+> Tyler Hicks (2):
+>   ecryptfs: Fix improper mknod pairing of
+>     start_creating()/end_removing()
+>   ecryptfs: Release lower parent dentry after creating dir
 > 
-> At least for ecryptfs, if we know that Tyler is at least testing rc1
-> regularly (?) that's a comfort.
+>  fs/ecryptfs/inode.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-I will be more active going forward and now have an easy setup for
-testing rc1's regularly.
+Thanks for finding and fixing these.
+both
+  Reviewed-by: NeilBrown <neil@brown.name>
 
-Tyler
+I note that in https://lore.kernel.org/all/ZCuSLNnFQEdOHW0c@sequoia/ you
+said of ecryptfs:
 
-> 
-> Thanks,
-> Amir.
+    I'll send a patch to deprecate and mark for removal in 2025.
+
+Did it ever get marked for removal?  Is there a chance that it might be
+removed?
+
+Thanks,
+NeilBrown
 
