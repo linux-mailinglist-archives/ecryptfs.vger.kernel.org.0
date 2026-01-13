@@ -1,67 +1,67 @@
-Return-Path: <ecryptfs+bounces-773-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-774-lists+ecryptfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+ecryptfs@lfdr.de
 Delivered-To: lists+ecryptfs@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4467D1507E
-	for <lists+ecryptfs@lfdr.de>; Mon, 12 Jan 2026 20:31:21 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C999D162FE
+	for <lists+ecryptfs@lfdr.de>; Tue, 13 Jan 2026 02:41:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 4C041300EBB2
-	for <lists+ecryptfs@lfdr.de>; Mon, 12 Jan 2026 19:27:19 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 5CEAF3006452
+	for <lists+ecryptfs@lfdr.de>; Tue, 13 Jan 2026 01:41:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4ED638E103;
-	Mon, 12 Jan 2026 19:23:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9973423D7DE;
+	Tue, 13 Jan 2026 01:41:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b="ivz5Uvc0";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="iTTE5Tjx"
+	dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b="jtdzSYJ/";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="I5TpEJ8e"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
+Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B183242D9;
-	Mon, 12 Jan 2026 19:23:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1712157480;
+	Tue, 13 Jan 2026 01:41:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768245818; cv=none; b=QW6oRz4DAo9pAtqDja8rPl4hj4DlQE7Hjh2Dk7Nkqvi9ETxeVSKNa17qAem0k+Jw7GJSXwkw78UtvSxd5J8uBs/Mpab2io7O74SHvA1FsfMNSvxJoCgvhJVnKabvB2PYnEdupM3ExbadMbJ3zrNpbMPGdzuuWL128j1cvVAilkM=
+	t=1768268479; cv=none; b=GGRv1VsnAETWLGm1WKBIVpxo2oXC0dzZjxoU8PaUVt6p4kD8Auc3Hrh+6GUxllc+JKGDongfRacq1AtxBwdCjKAcN0ghmoICW2+yT6JKk0ThrbYkXoVG+eZ+txFz+FVWyUc4ywvYUeYOrKpPTip5WqbES239G3RCQZbmlA1K9mg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768245818; c=relaxed/simple;
-	bh=VrQ+HuNDrrBvHmxfxFB3ppJO0NCjlmdu3wF4xgRXfVI=;
+	s=arc-20240116; t=1768268479; c=relaxed/simple;
+	bh=rxwMOqe/qt1KlRwViHXcOb6ztHRisi4CpbVb+aV8PM0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GV+7FOJ/gBEVqX6ppYb//vh4RmhoL8EmtjgxXAVLSYicbZ74xf/3E2sngvmjH2NkyNmBVrpXFqj52KP/w60WJDMlZYpEprMAGqkdMnEvwPNOsY9PrAJPBGJaaH0EjMSywHYS8PbISBZpo96gZ05dqvLtjggrk2sKRSBV8AEjt+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com; spf=pass smtp.mailfrom=tyhicks.com; dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b=ivz5Uvc0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=iTTE5Tjx; arc=none smtp.client-ip=103.168.172.157
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rww0M+YMW+ey0jLzaN2Lem3EKVL8xA0nnDhh6AuNWX2+lnRLj7+uhyQ1yr+kPIstx/hcH2j6oeFTNwN5BeDd5mZ7lCCEhrC+sFsZcpft7V3k9IyCm4CksKpmQkHOW9qzNxhr+RwUidddjU/bynBJ/SaOru14/N9m47XPbWm/yvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com; spf=pass smtp.mailfrom=tyhicks.com; dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b=jtdzSYJ/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=I5TpEJ8e; arc=none smtp.client-ip=103.168.172.153
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tyhicks.com
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id ED97414000D5;
-	Mon, 12 Jan 2026 14:23:35 -0500 (EST)
+Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id CA35414000A9;
+	Mon, 12 Jan 2026 20:41:16 -0500 (EST)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-09.internal (MEProxy); Mon, 12 Jan 2026 14:23:35 -0500
+  by phl-compute-11.internal (MEProxy); Mon, 12 Jan 2026 20:41:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tyhicks.com; h=
 	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1768245815; x=1768332215; bh=WsK+GQRd8+
-	amlKYl2ufesV7Qu4UKibxO52zq09OpqnM=; b=ivz5Uvc0kQT2sZqdiyEDI6y/hP
-	qFT3Cr+qkxd4N2exh3+nPVIZsh6TcULTVi6SfXYEmz4EMj72y7cVg8ncLBKcTNoM
-	Yjopn+Xd2Zgm/dO4iGfn63Mtm/oivTH7vbYHKgao++bSxlC1MBU+Oq2Dx0GuQwRB
-	Xv/UhKqn/5IQ5lR1CbpSeNLVbBEYUiSZxz5HS/qT72Je/bbdRP97MKaWe7buxjXx
-	DK4VOSIHwKlaVtnnuQFIMxeeR8/yCeEfwFbraoZ1Z4oWLNJtpCJP+3x8GW8YjXh7
-	eer5erwaon9RUz0PkllnkwbHCF6/Pt/JNtt0qJm5fmJTmd8hRcEQY3BmZ6MQ==
+	:subject:to:to; s=fm1; t=1768268476; x=1768354876; bh=XgzNYEb/hr
+	pXlRspJxbPf+Ybi2ysVkRdwsSKqp0L/K8=; b=jtdzSYJ/cwbc4wrv7n9UTIIjWp
+	TXdSuA+EBMs7D5m54jwtYdC+L8/LqIGiuw06nD9PzOJf88avfmyIlEbQXsfVLjhN
+	/Jlv4CHP9zPdO8JNq8rX1K4VAEwIdOOV7j/7wALgWh85IKNMFaHefNbSMTRBMJbg
+	bZBqZXZyrIc34TxtuPzkZtbNgi/+NQslIOK6OszpgirOe6/1oAD5wWXdsAYG5Q5f
+	hpgFVlhVLym4jUQwkjQNg8zX7Vb+3FEpQW3yjnALbCtViSfysjtkEwediMuA3JAO
+	Pt6MptxOonki1B7qeItjw1HGt5erdF/bSwsEBM5k0Imnm4RWCTu+qSgcLhmw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1768245815; x=1768332215; bh=WsK+GQRd8+amlKYl2ufesV7Qu4UKibxO52z
-	q09OpqnM=; b=iTTE5TjxrySxroUSioP1GJiHGGPLg+0LCdb4jLURf31hahKzaiw
-	xbeV/icKFUYy4TZMwJADaGXZ44p9YTPzieLyQrK3xtZQ03f9P3lXcRvxh5RwyyVw
-	Np1JAZ3OgrHmJw3apRU6Ub7ZZrR7rptytZxqK5Sk6BiRlona+BJ3MYSDt7VSWINk
-	oVqyVC9Kl1YTVM6uks/iDlKIctEc0Z2VrQC1Q5OV4mlIAWAjnwONsBCvo2+19cDV
-	TWpUyUO1iOEYBQAQZmhcQKN7vHRLleLkAC5pJD5FOpvawpCPWwjXq6icRjT7gqgd
-	Cn3C4Eu3JptqvNXUHG2Gl+MwOUkcyf063ew==
-X-ME-Sender: <xms:N0plaU4W31GyVQiA_KgH0IinhgR4Jf0BOO6Ppey3h5I1ScBg61bZ2w>
-    <xme:N0plaUIZZ-DGZv1CJ17uCOskbn5OZ2SHN0wlqgXxEPjNpR83phtDc0L51cQv81Ev0
-    kiz6n19r6jVrmskpi1Q65ly2Uk72rY9j2S5PejhzEOiq-v4ahGw>
-X-ME-Received: <xmr:N0placxQvai2PhEhGLM42cbCrKPjK48hD4svwsFVN16EK9Xtojvmsfo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduudekvdekucetufdoteggodetrf
+	1768268476; x=1768354876; bh=XgzNYEb/hrpXlRspJxbPf+Ybi2ysVkRdwsS
+	Kqp0L/K8=; b=I5TpEJ8exKaHokeUriMECgXtYkpubNnnU1IUBOxZ5ie1Y7VIN1U
+	Ud+7xO1Juwm0uqGRimYK8h8IWI7+Z+Yt14QVEaDZHNb7C5Z4rVgfZMGJrpoYu9QR
+	49NmsG+j79Kw/MGXCyd6H7tXwph33ebXrk9MZFetj/nbsg8t6e6m7sYU8AGNiV1p
+	7HhntJwMZv3hbseBTUyvQmTZ6XbXoI6XiiiDTw9XnqvjVYQI+kFK40pgpy0oQ1BT
+	x9QYvKL9y2yjVEslgFhYD0UkFWvdsIDlBj8RVdpYldWpNED8YhHdJUyohpcOfZUx
+	I8tQLc+dNUykgjgyafONBjyZV/hJUlZdBbA==
+X-ME-Sender: <xms:vKJladukOU2g6uXIb8ff5ZLJXahFGC0pJ95iUU0RIgC9VVe9bzG83A>
+    <xme:vKJlaUt5BPIvdy35Bbrba6Uhd7y6sqUEyWCKw3NPtjdgfIPCBs5Wkkok9gmsdZ3i2
+    IhbwhTZqkDIhc5ZXM6xyyPAJxJuQ7p9V54g5RzWlS-WR7fXpcePk1K9>
+X-ME-Received: <xmr:vKJlaaFKU-NzX1aieG97aD4JLMpRiVKjAh8nnOGe8kDBGhv67mmKoYORkA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduudeltdegucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
     gurhepfffhvfevuffkfhggtggujgesthdtrodttddtvdenucfhrhhomhepvfihlhgvrhcu
@@ -70,35 +70,35 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduudekvdekucetufdote
     vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheptghouggvse
     hthihhihgtkhhsrdgtohhmpdhnsggprhgtphhtthhopedutddpmhhouggvpehsmhhtphho
     uhhtpdhrtghpthhtohepthhhohhrshhtvghnrdgslhhumheslhhinhhugidruggvvhdprh
-    gtphhtthhopehvihhrohesiigvnhhivhdrlhhinhhugidrohhrghdruhhkpdhrtghpthht
-    oheprghruggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopeiihhgrnhhgiihiphgvnh
-    hgtdesfhhogihmrghilhdrtghomhdprhgtphhtthhopegsrhgruhhnvghrsehkvghrnhgv
-    lhdrohhrghdprhgtphhtthhopegvsghighhgvghrsheskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtoheprghkphhmsehlihhnuhigqdhfohhunhgurghtihhonhdrohhrghdprhgtphht
-    thhopehsthgrsghlvgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegvtg
-    hrhihpthhfshesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:N0placKBJ0pH_7Pr19dEBDOz6yToets4ix9ANGG45vCUsaIE6VDi9A>
-    <xmx:N0plabWmCbwJsEHJIm_TKD-uXTb-IxNxkfcO2h6exw7pJ4hg9u6TVA>
-    <xmx:N0plafYD8B17U9DmeoJlqoLe6jwtbpL1W8zQnL0vhCyLI8HoAiOTzg>
-    <xmx:N0plaSzt2SWVxWMFaCnDUaTQDF_aWA8swFhH5V5v1UeoCF4jCJ67pg>
-    <xmx:N0plaZyhu659jpzm98vPwCeZUhFbrLVnVdMTLXW7aPdoRgfw7t6O3gC2>
+    gtphhtthhopehkvggvsheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepghhushhtrghv
+    ohgrrhhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopegsrhgruhhnvghrsehkvghrnh
+    gvlhdrohhrghdprhgtphhtthhopehvihhrohesiigvnhhivhdrlhhinhhugidrohhrghdr
+    uhhkpdhrtghpthhtohepvggsihhgghgvrhhssehkvghrnhgvlhdrohhrghdprhgtphhtth
+    hopegrrhgusgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepvggtrhihphhtfhhssehv
+    ghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlse
+    hvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:vKJlaXM_1ADIHyYa4QG7ifK7aP3mZTuQwZFuJ2fUYrdrswLvLGn_bw>
+    <xmx:vKJlaRJxLxOgqJP1XZwz-jd7NlUPLw5iyekTJl-9stecxrZHQOBPqw>
+    <xmx:vKJlaY-7kmCKYjlReMZUeD9i1lJXlNgdoiwhGEW312cvTrCqJ69z_Q>
+    <xmx:vKJlaVGPIaX4QFJi4MNJpyiSR6ZPZmh35foAaoo3oCHvPcoV3Mg0nQ>
+    <xmx:vKJlafGjkVlhQe-6xLDcW9smHSARjTvWLSGMbCN-X-nH5IzOGEYyOvgC>
 Feedback-ID: i78e14604:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 12 Jan 2026 14:23:33 -0500 (EST)
-Date: Mon, 12 Jan 2026 13:23:30 -0600
+ 12 Jan 2026 20:41:14 -0500 (EST)
+Date: Mon, 12 Jan 2026 19:41:12 -0600
 From: Tyler Hicks <code@tyhicks.com>
 To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, Ard Biesheuvel <ardb@kernel.org>,
-	Zipeng Zhang <zhangzipeng0@foxmail.com>,
+Cc: Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	Christian Brauner <brauner@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
 	Eric Biggers <ebiggers@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>, stable@vger.kernel.org,
-	ecryptfs@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ecryptfs: Add missing gotos in ecryptfs_read_metadata
-Message-ID: <aWVKMoUMBwnYWCPw@yaupon>
-References: <20260111003655.491722-1-thorsten.blum@linux.dev>
- <20260111010825.GG3634291@ZenIV>
- <5DD6E30E-4974-42D9-86CF-A6A78CF0492E@linux.dev>
+	Ard Biesheuvel <ardb@kernel.org>, ecryptfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] ecryptfs: Annotate struct ecryptfs_message with
+ __counted_by
+Message-ID: <aWWiuLuqdhIIPgkJ@yaupon>
+References: <20260112115314.739612-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
@@ -107,34 +107,43 @@ List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5DD6E30E-4974-42D9-86CF-A6A78CF0492E@linux.dev>
+In-Reply-To: <20260112115314.739612-2-thorsten.blum@linux.dev>
 
-On 2026-01-11 13:28:17, Thorsten Blum wrote:
-> On 11. Jan 2026, at 02:08, Al Viro wrote:
-> > On Sun, Jan 11, 2026 at 01:36:52AM +0100, Thorsten Blum wrote:
-> >> Add two missing goto statements to exit ecryptfs_read_metadata() when an
-> >> error occurs.
-> >> 
-> >> The first goto is required; otherwise ECRYPTFS_METADATA_IN_XATTR may be
-> >> set when xattr metadata is enabled even though parsing the metadata
-> >> failed. The second goto is not strictly necessary, but it makes the
-> >> error path explicit instead of relying on falling through to 'out'.
-> > 
-> > Ugh...  IMO the whole thing from the point we'd successfully allocated
-> > the page to the point where we start to clear it ought to be in a separate
-> > helper.  Something like this, perhaps?
+On 2026-01-12 12:53:11, Thorsten Blum wrote:
+> Add the __counted_by() compiler attribute to the flexible array member
+> 'data' to improve access bounds-checking via CONFIG_UBSAN_BOUNDS and
+> CONFIG_FORTIFY_SOURCE.
 > 
-> I wanted to keep the fix simple, but I'm happy to refactor the function
-> if that's preferred. Any preferences, Tyler?
+> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 
-I typically like the multi-patch approach of a minimal, easy-to-backport
-fix first and then a more complete cleanup/improvement in the followup
-patch(es).
+Nice! I wasn't aware of this attribute. I'm surprised it isn't
+documented under Documentation/.
+
+Acked-by: Tyler Hicks <code@tyhicks.com>
+
+Thank you!
 
 Tyler
 
+> ---
+>  fs/ecryptfs/ecryptfs_kernel.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Thanks,
-> Thorsten
+> diff --git a/fs/ecryptfs/ecryptfs_kernel.h b/fs/ecryptfs/ecryptfs_kernel.h
+> index 62a2ea7f59ed..f58b12be8267 100644
+> --- a/fs/ecryptfs/ecryptfs_kernel.h
+> +++ b/fs/ecryptfs/ecryptfs_kernel.h
+> @@ -359,7 +359,7 @@ struct ecryptfs_message {
+>  	/* Inherits from msg_ctx->index */
+>  	u32 index;
+>  	u32 data_len;
+> -	u8 data[];
+> +	u8 data[] __counted_by(data_len);
+>  };
+>  
+>  struct ecryptfs_msg_ctx {
+> -- 
+> Thorsten Blum <thorsten.blum@linux.dev>
+> GPG: 1D60 735E 8AEF 3BE4 73B6  9D84 7336 78FD 8DFE EAD4
 > 
 
