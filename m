@@ -1,56 +1,59 @@
-Return-Path: <ecryptfs+bounces-782-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-783-lists+ecryptfs=lfdr.de@vger.kernel.org>
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sKaHFzuahGmh3gMAu9opvQ
-	(envelope-from <ecryptfs+bounces-782-lists+ecryptfs=lfdr.de@vger.kernel.org>)
-	for <lists+ecryptfs@lfdr.de>; Thu, 05 Feb 2026 14:25:15 +0100
+	id qImMLWiahGmh3gMAu9opvQ
+	(envelope-from <ecryptfs+bounces-783-lists+ecryptfs=lfdr.de@vger.kernel.org>)
+	for <lists+ecryptfs@lfdr.de>; Thu, 05 Feb 2026 14:26:00 +0100
 X-Original-To: lists+ecryptfs@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D193DF3352
-	for <lists+ecryptfs@lfdr.de>; Thu, 05 Feb 2026 14:25:14 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id E63A9F3384
+	for <lists+ecryptfs@lfdr.de>; Thu, 05 Feb 2026 14:25:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id BC8A830058F8
-	for <lists+ecryptfs@lfdr.de>; Thu,  5 Feb 2026 13:25:13 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 7306630055F5
+	for <lists+ecryptfs@lfdr.de>; Thu,  5 Feb 2026 13:25:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB94D3D6495;
-	Thu,  5 Feb 2026 13:25:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11C113D4101;
+	Thu,  5 Feb 2026 13:25:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="F2ePWrC/"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="pDF9zIEw"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
+Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7BAE3C1969
-	for <ecryptfs@vger.kernel.org>; Thu,  5 Feb 2026 13:25:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAFF23D3327
+	for <ecryptfs@vger.kernel.org>; Thu,  5 Feb 2026 13:25:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770297912; cv=none; b=EWKuU24Vz6I8h4nr/LYfRENmydF1DgkT+R/d0y6o931n2H9Fi02VvmzC5Qh2I+R8ZlsCbmbvJxgF37S+jIyX2NlQ1NMge/rBtrLWfcYEvTCM5+gsBhwxQdUky5CnV0B84QUXM6MUMSxReP0ruu+wwj1M4BRF2J8+lQ4mB9KG/AA=
+	t=1770297954; cv=none; b=a3X/CxKtq+qqfl89ozRAtrnr/jPn/rheoh6Nv6/0ZSkCEFgt/uPsITSEehud4K6Y0G+RHF1ntll+0t+raz//umzp8p8rgWyDJZ6SGMB6rdLRMHspS3u7MXQ9wSOIt4NfXLB4C3i934CI7Us8iV2w2HwP0QhUTcLP4wxWjPzadpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770297912; c=relaxed/simple;
-	bh=DqVmoWgtjt0CHFg7yZpgFZbYkSMRd4nJfjJCwFUuI2Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YQjAt1TeoLewiKvPgYH4nJJ/krs+WJPfdkzvZ91YdIQpG+MfUFmOFy7HZpjHzAcZsboX/QFjvgzJk6Cp14BC9oaj7S8w5UzVkwemzRYGZ1P7FLuVEwEVIxjWgV6FuQSa0pS3gbIsk9QWKcaFzvShZTnZGl2cow9fej4gsPupp74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=F2ePWrC/; arc=none smtp.client-ip=95.215.58.180
+	s=arc-20240116; t=1770297954; c=relaxed/simple;
+	bh=vGAiSd5RINZ18iLVlfJyKMx/ilvW9bhLBsN6bupcwUY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=abQ3smK2yZ93jCc1ZWRgaaikQonHqpCFDGLkLnWiqAjN+47Ve1Duy+xuh1deAgu4zYX26kUKUAroSShM5R/aooZDCx2PvX75Mw7v56v9VAWpvgZlhMEw5AEkD63QFheL6daNFzGEPPN8uAVRiNJ4OAaxW6esOtbQYYIVRm20EQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=pDF9zIEw; arc=none smtp.client-ip=91.218.175.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1770297909;
+	t=1770297941;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=b2MBAWpGjsKDZu9eb6vGXhfLBF99PlZHXbi/O6SAQzw=;
-	b=F2ePWrC/I3vqVuuBvFPC9X+CStsZiSi2v9hwBZXiTt2X9daSDKFkQ8A18hcVQiHg3nF7Ud
-	k97l+dP1q78Smu9CYf+Z1NE7+OExfsVdU91Wxpt6SLonWRbC5ZCPrQau/zD2AmWf7ygBKE
-	DCRYJKn4KeUYedkYuJO3qc9Jvk26r94=
+	bh=F9INFmCeG8m4mTLtVGVLw1SNSXYLotttmqstDkwTK9g=;
+	b=pDF9zIEwBbic+FPtJISaNb8qCEb0MV+MRQA8tWJTagoszqiPRspgxSLH+Fwem6qGJrBM4Y
+	/UMsKZMiVxL1Iob+uIkmyApKDjAS+bpQPbkoOhcVutfE5V+Rx/CUaOaxKJTVuQTO4YawXD
+	DpeDkYG/nR2J49eGOzMtM75Kc/9f97E=
 From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Tyler Hicks <code@tyhicks.com>
+To: Tyler Hicks <code@tyhicks.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>
 Cc: Thorsten Blum <thorsten.blum@linux.dev>,
 	ecryptfs@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND] ecryptfs: Use struct_size to improve process_response + send_miscdev
-Date: Thu,  5 Feb 2026 14:24:51 +0100
-Message-ID: <20260205132456.1011140-1-thorsten.blum@linux.dev>
+Subject: [PATCH RESEND] ecryptfs: Fix tag number in encrypt_filename() error message
+Date: Thu,  5 Feb 2026 14:25:32 +0100
+Message-ID: <20260205132535.1011291-1-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
@@ -61,100 +64,61 @@ Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_COUNT_THREE(0.00)[3];
-	TAGGED_FROM(0.00)[bounces-782-lists,ecryptfs=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-783-lists,ecryptfs=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	DKIM_TRACE(0.00)[linux.dev:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[thorsten.blum@linux.dev,ecryptfs@vger.kernel.org];
-	RCPT_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	TAGGED_RCPT(0.00)[ecryptfs];
-	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: D193DF3352
+X-Rspamd-Queue-Id: E63A9F3384
 X-Rspamd-Action: no action
 
-Use struct_size(), which provides additional compile-time checks for
-structures with flexible array members (e.g., __must_be_array()), to
-determine the allocation size for a new 'struct ecryptfs_message'.
+Report the correct tag number (70) instead of tag 72.
 
-In send_miscdev(), reuse 'msg_size' instead of recalculating it.
+Use ecryptfs_printk() and reformat the string to silence the checkpatch
+warning: "WARNING: quoted string split across lines".
 
 Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 ---
- fs/ecryptfs/messaging.c | 3 ++-
- fs/ecryptfs/miscdev.c   | 7 +++++--
- 2 files changed, 7 insertions(+), 3 deletions(-)
+ fs/ecryptfs/crypto.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/fs/ecryptfs/messaging.c b/fs/ecryptfs/messaging.c
-index 6318f3500e5c..c176d4a33ca2 100644
---- a/fs/ecryptfs/messaging.c
-+++ b/fs/ecryptfs/messaging.c
-@@ -6,6 +6,7 @@
-  *   Author(s): Michael A. Halcrow <mhalcrow@us.ibm.com>
-  *		Tyler Hicks <code@tyhicks.com>
-  */
-+#include <linux/overflow.h>
- #include <linux/sched.h>
- #include <linux/slab.h>
- #include <linux/user_namespace.h>
-@@ -232,7 +233,7 @@ int ecryptfs_process_response(struct ecryptfs_daemon *daemon,
- 		       msg_ctx->counter, seq);
- 		goto unlock;
- 	}
--	msg_size = (sizeof(*msg) + msg->data_len);
-+	msg_size = struct_size(msg, data, msg->data_len);
- 	msg_ctx->msg = kmemdup(msg, msg_size, GFP_KERNEL);
- 	if (!msg_ctx->msg) {
- 		rc = -ENOMEM;
-diff --git a/fs/ecryptfs/miscdev.c b/fs/ecryptfs/miscdev.c
-index 4e62c3cef70f..5a7d08149922 100644
---- a/fs/ecryptfs/miscdev.c
-+++ b/fs/ecryptfs/miscdev.c
-@@ -10,6 +10,7 @@
- #include <linux/hash.h>
- #include <linux/random.h>
- #include <linux/miscdevice.h>
-+#include <linux/overflow.h>
- #include <linux/poll.h>
- #include <linux/slab.h>
- #include <linux/wait.h>
-@@ -148,8 +149,10 @@ int ecryptfs_send_miscdev(char *data, size_t data_size,
- 			  u16 msg_flags, struct ecryptfs_daemon *daemon)
- {
- 	struct ecryptfs_message *msg;
-+	size_t msg_size;
- 
--	msg = kmalloc((sizeof(*msg) + data_size), GFP_KERNEL);
-+	msg_size = struct_size(msg, data, data_size);
-+	msg = kmalloc(msg_size, GFP_KERNEL);
- 	if (!msg)
- 		return -ENOMEM;
- 
-@@ -159,7 +162,7 @@ int ecryptfs_send_miscdev(char *data, size_t data_size,
- 	msg_ctx->msg->data_len = data_size;
- 	msg_ctx->type = msg_type;
- 	memcpy(msg_ctx->msg->data, data, data_size);
--	msg_ctx->msg_size = (sizeof(*msg_ctx->msg) + data_size);
-+	msg_ctx->msg_size = msg_size;
- 	list_add_tail(&msg_ctx->daemon_out_list, &daemon->msg_ctx_out_queue);
- 	mutex_unlock(&msg_ctx->mux);
- 
+diff --git a/fs/ecryptfs/crypto.c b/fs/ecryptfs/crypto.c
+index 260f8a4938b0..6012e4360096 100644
+--- a/fs/ecryptfs/crypto.c
++++ b/fs/ecryptfs/crypto.c
+@@ -1378,9 +1378,9 @@ ecryptfs_encrypt_filename(struct ecryptfs_filename *filename,
+ 			mount_crypt_stat, NULL,
+ 			filename->filename_size);
+ 		if (rc) {
+-			printk(KERN_ERR "%s: Error attempting to get packet "
+-			       "size for tag 72; rc = [%d]\n", __func__,
+-			       rc);
++			ecryptfs_printk(KERN_ERR,
++				"Error attempting to get packet size for tag 70; rc = [%d]\n",
++				rc);
+ 			filename->encrypted_filename_size = 0;
+ 			goto out;
+ 		}
 -- 
 Thorsten Blum <thorsten.blum@linux.dev>
 GPG: 1D60 735E 8AEF 3BE4 73B6  9D84 7336 78FD 8DFE EAD4
