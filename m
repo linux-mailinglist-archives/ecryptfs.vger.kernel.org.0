@@ -1,309 +1,475 @@
-Return-Path: <ecryptfs+bounces-886-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-887-lists+ecryptfs=lfdr.de@vger.kernel.org>
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aAyAAYuGoWlOuAQAu9opvQ
-	(envelope-from <ecryptfs+bounces-886-lists+ecryptfs=lfdr.de@vger.kernel.org>)
-	for <lists+ecryptfs@lfdr.de>; Fri, 27 Feb 2026 12:56:59 +0100
+	id sNOlMOnKoWm8wQQAu9opvQ
+	(envelope-from <ecryptfs+bounces-887-lists+ecryptfs=lfdr.de@vger.kernel.org>)
+	for <lists+ecryptfs@lfdr.de>; Fri, 27 Feb 2026 17:48:41 +0100
 X-Original-To: lists+ecryptfs@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A25311B6D26
-	for <lists+ecryptfs@lfdr.de>; Fri, 27 Feb 2026 12:56:58 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 736631BAFB5
+	for <lists+ecryptfs@lfdr.de>; Fri, 27 Feb 2026 17:48:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0D165310B404
-	for <lists+ecryptfs@lfdr.de>; Fri, 27 Feb 2026 11:56:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 62B06302D537
+	for <lists+ecryptfs@lfdr.de>; Fri, 27 Feb 2026 16:47:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75739361674;
-	Fri, 27 Feb 2026 11:56:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10121349B16;
+	Fri, 27 Feb 2026 16:47:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="fDIHokvL";
-	dkim=pass (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="GH8Eijfu"
+	dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b="AsZRArcr"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from esa1.hgst.iphmx.com (esa1.hgst.iphmx.com [68.232.141.245])
+Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 753DE355F37;
-	Fri, 27 Feb 2026 11:56:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=68.232.141.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 228C81A3154
+	for <ecryptfs@vger.kernel.org>; Fri, 27 Feb 2026 16:47:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.125.188.122
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772193369; cv=fail; b=IMwqaHiqKHYZS71qVU49Cr/kLcGEq/C3GVqKvchlvRGVodyPpqZIOcHmq67ntEWIS5XXrh36btwJ8bjJbZluRA2+iNLL7HExuEd2WYAZ8JKNKD00M8sNyDZgptw7iSOr5WkIim3CxY3D+SfViYyGzj+4s+yKjBwcnj9SyiLXD7k=
+	t=1772210843; cv=pass; b=mvo6bSIjs3bK7pk5MzBTMJ05LPsivLrmJQtwI3JVHr8S/0qhMqOIgSjT9gJfiFg090ljl4pkjXQ4ALp/z2lIBGs0Qgw9wKu98zc4R90ap6SYWk73vndBBjQ9fVutEetH3MNakvkYJzCWJr5ogP+1ySivDNBzLngj6c9+zU+TTQs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772193369; c=relaxed/simple;
-	bh=f+z6ql9M5JhawzkmfcJJBxApS2D5ls0dv54BOWw8ja8=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Nj/O15Bsy/yOezMYFueRKefXEvgQq2me2wPWGUBjlQxgIu9ek2UqRLCGgp9vDl7MrygNtMGMMdoI42ij2YKliMicnmdxtKhRXHIRSjoHnuZL5YW0YIaaf5NMkNN3iz9CrFUVn02bQlKU/xgGkxFuCKmP3ZDr58jkA9X+bN7s1FI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wdc.com; spf=pass smtp.mailfrom=wdc.com; dkim=pass (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b=fDIHokvL; dkim=pass (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b=GH8Eijfu; arc=fail smtp.client-ip=68.232.141.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wdc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1772193367; x=1803729367;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=f+z6ql9M5JhawzkmfcJJBxApS2D5ls0dv54BOWw8ja8=;
-  b=fDIHokvLlg6nRz9UiAsrAVdLMXaYzyUfOpj5CmGRwSuBRCfkUVmY0CFA
-   TtNmFxO8d9XdOAwRUUcUD7t86UWAI+7z6QkH6lbC14eRUUvVeTaeOWYkc
-   vQuzTIYSzxYOP3Qd+ej2ivcMGyy5Qfa6W7xxCV8KuuLWrQ/i7BFmwxk1X
-   UKKSsThlFoo58Ppn9SkWZ6vatn6rEbLfNTKNkBsJZ3mSWz6QWj4jaFjDt
-   6EmeTnmeKeS7AOS/hzc9VJvVq0ALH9EMiDtbCA1XA9Nh6UgvXH1eaHy6J
-   OIScOa9Q7rIV747qKpRy27i82MO0tJiFyK+ljJjVvE4JHs84eLX0sER1v
-   w==;
-X-CSE-ConnectionGUID: CeynFEfXQyy4D20d5rO42g==
-X-CSE-MsgGUID: UVWj+PIHTVqx+QVX6Yq93Q==
-X-IronPort-AV: E=Sophos;i="6.21,314,1763395200"; 
-   d="scan'208";a="141588070"
-Received: from mail-centralusazon11010033.outbound.protection.outlook.com (HELO DM1PR04CU001.outbound.protection.outlook.com) ([52.101.61.33])
-  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 27 Feb 2026 19:55:56 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hSujrcv8UkoMPULsgkLclhILgfgtZeCeGnKR4YUAVoELXAVzOJRFmlaHoPHMtl2ZO13TgtPoD8b+nctlcoRdnlJcSd3X14iCg6kHv4Gfpc+Zc1OBWcEmnPblM01fbUi41RM+l8x+SGpOH4a3FI4wRS2yVrm0ChfadD7wOXJrYAqXooP0a+FPSzw3a5gQeXrM09bAIHdgH44gG2aDcNIFN4QtiqSpKckv0SMOqGe724USaHhnO6rcxi8BPe1NtQYpMsBuLQQfSB5qxZrppk/GsjMehVOSb7AtoRH5mkjdILrjgQhefd75ycJ38lSzmvNXH1Mo7b4RhB2BUtO+vgTn3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=f+z6ql9M5JhawzkmfcJJBxApS2D5ls0dv54BOWw8ja8=;
- b=UVhlP7ijOFESc3naNQGA7p6AIIdwmf8nghKPCw0YhWayetZRn9mj6KAMJuiORqfNQFQTtVVqNldlUByLe/n0MdPHbdZuPymXs2AMvwKFu5wz4n3D0bDbhxt0wEObZ67M6oRV5/ZXX8HJ4dA6EHOmygzQkA8r089GfC8urm+v5W5gkPNyDNMZc9/jmNFqZp+wqty0GQq8GTxgMvh54un4C5b+o5QsxMuNVpIevVIIZ9wkEJXtSqZm2PAdSsxcvCkO8Q09sFD9xNHVuvdgiHRgsJsVnrFutZSvkfHz6KJHCFwRBqsaYGyi6gkyCv+74xH3M+Ed12u98/JooFNWtZMviQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=f+z6ql9M5JhawzkmfcJJBxApS2D5ls0dv54BOWw8ja8=;
- b=GH8Eijfut9oGfft/4NWXnLxibLbDR+kvMfvuA9HBQvaFxeV0Ul8+u+ERvWAL/nIOi3e3SMUTE98PdQFVPIYtqGSqoIzycJ1zxZHl0MnJVkNVQvPhIu1kqwpwpP1Xy1WGIV35jYhM+oTC8HYT/ZvmQV4dt0wfpnmr5ab4vdhOWoI=
-Received: from LV8PR04MB8984.namprd04.prod.outlook.com (2603:10b6:408:18b::13)
- by MN2PR04MB7088.namprd04.prod.outlook.com (2603:10b6:208:1e1::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.16; Fri, 27 Feb
- 2026 11:55:52 +0000
-Received: from LV8PR04MB8984.namprd04.prod.outlook.com
- ([fe80::14a1:5b7a:6cf4:31a3]) by LV8PR04MB8984.namprd04.prod.outlook.com
- ([fe80::14a1:5b7a:6cf4:31a3%3]) with mapi id 15.20.9654.007; Fri, 27 Feb 2026
- 11:55:52 +0000
-From: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
-To: Jeff Layton <jlayton@kernel.org>, Alexander Viro
-	<viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara
-	<jack@suse.cz>, Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
-	<mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Dan Williams <dan.j.williams@intel.com>, Matthew Wilcox
-	<willy@infradead.org>, Eric Biggers <ebiggers@kernel.org>, "Theodore Y. Ts'o"
-	<tytso@mit.edu>, Muchun Song <muchun.song@linux.dev>, Oscar Salvador
-	<osalvador@suse.de>, David Hildenbrand <david@kernel.org>, David Howells
-	<dhowells@redhat.com>, Paulo Alcantara <pc@manguebit.org>, Andreas Dilger
-	<adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>, Jaegeuk Kim
-	<jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, Trond Myklebust
-	<trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, Chuck Lever
-	<chuck.lever@oracle.com>, NeilBrown <neil@brown.name>, Olga Kornievskaia
-	<okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey
-	<tom@talpey.com>, Steve French <sfrench@samba.org>, Ronnie Sahlberg
-	<ronniesahlberg@gmail.com>, Shyam Prasad N <sprasad@microsoft.com>, Bharath
- SM <bharathsm@microsoft.com>, Alexander Aring <alex.aring@gmail.com>, Ryusuke
- Konishi <konishi.ryusuke@gmail.com>, Viacheslav Dubeyko <slava@dubeyko.com>,
-	Eric Van Hensbergen <ericvh@kernel.org>, Latchesar Ionkov <lucho@ionkov.net>,
-	Dominique Martinet <asmadeus@codewreck.org>, Christian Schoenebeck
-	<linux_oss@crudebyte.com>, David Sterba <dsterba@suse.com>, Marc Dionne
-	<marc.dionne@auristor.com>, Ian Kent <raven@themaw.net>, Luis de Bethencourt
-	<luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>, "Tigran A.
- Aivazian" <aivazian.tigran@gmail.com>, Ilya Dryomov <idryomov@gmail.com>,
-	Alex Markuze <amarkuze@redhat.com>, Jan Harkes <jaharkes@cs.cmu.edu>,
-	"coda@cs.cmu.edu" <coda@cs.cmu.edu>, Nicolas Pitre <nico@fluxnic.net>, Tyler
- Hicks <code@tyhicks.com>, Amir Goldstein <amir73il@gmail.com>,
-	"hch@infradead.org" <hch@infradead.org>, John Paul Adrian Glaubitz
-	<glaubitz@physik.fu-berlin.de>, Yangtao Li <frank.li@vivo.com>, Mikulas
- Patocka <mikulas@artax.karlin.mff.cuni.cz>, David Woodhouse
-	<dwmw2@infradead.org>, Richard Weinberger <richard@nod.at>, Dave Kleikamp
-	<shaggy@kernel.org>, Konstantin Komarov
-	<almaz.alexandrovich@paragon-software.com>, Mark Fasheh <mark@fasheh.com>,
-	Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Mike Marshall <hubcap@omnibond.com>, Martin Brandenburg
-	<martin@omnibond.com>, Miklos Szeredi <miklos@szeredi.hu>, Anders Larsen
-	<al@alarsen.net>, Zhihao Cheng <chengzhihao1@huawei.com>, Damien Le Moal
-	<dlemoal@kernel.org>, Naohiro Aota <Naohiro.Aota@wdc.com>, Johannes Thumshirn
-	<jth@kernel.org>, John Johansen <john.johansen@canonical.com>, Paul Moore
-	<paul@paul-moore.com>, James Morris <jmorris@namei.org>, "Serge E. Hallyn"
-	<serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, Roberto Sassu
-	<roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, Eric
- Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, Stephen
- Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek
-	<omosnace@redhat.com>, Casey Schaufler <casey@schaufler-ca.com>, Alex Deucher
-	<alexander.deucher@amd.com>, =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?=
-	<christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, Simona Vetter
-	<simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>, Eric Dumazet
-	<edumazet@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni
-	<pabeni@redhat.com>, Willem de Bruijn <willemb@google.com>, "David S. Miller"
-	<davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Simon Horman
-	<horms@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra
-	<peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de
- Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, Mark Rutland
-	<mark.rutland@arm.com>, Alexander Shishkin
-	<alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, Ian
- Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, James
- Clark <james.clark@linaro.org>, "Darrick J. Wong" <djwong@kernel.org>, Martin
- Schiller <ms@dev.tdt.de>
-CC: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>,
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, "fsverity@lists.linux.dev"
-	<fsverity@lists.linux.dev>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"netfs@lists.linux.dev" <netfs@lists.linux.dev>, "linux-ext4@vger.kernel.org"
-	<linux-ext4@vger.kernel.org>, "linux-f2fs-devel@lists.sourceforge.net"
-	<linux-f2fs-devel@lists.sourceforge.net>, "linux-nfs@vger.kernel.org"
-	<linux-nfs@vger.kernel.org>, "linux-cifs@vger.kernel.org"
-	<linux-cifs@vger.kernel.org>, "samba-technical@lists.samba.org"
-	<samba-technical@lists.samba.org>, "linux-nilfs@vger.kernel.org"
-	<linux-nilfs@vger.kernel.org>, "v9fs@lists.linux.dev" <v9fs@lists.linux.dev>,
-	"linux-afs@lists.infradead.org" <linux-afs@lists.infradead.org>,
-	"autofs@vger.kernel.org" <autofs@vger.kernel.org>,
-	"ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>,
-	"codalist@coda.cs.cmu.edu" <codalist@coda.cs.cmu.edu>,
-	"ecryptfs@vger.kernel.org" <ecryptfs@vger.kernel.org>,
-	"linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
-	"jfs-discussion@lists.sourceforge.net"
-	<jfs-discussion@lists.sourceforge.net>, "ntfs3@lists.linux.dev"
-	<ntfs3@lists.linux.dev>, "ocfs2-devel@lists.linux.dev"
-	<ocfs2-devel@lists.linux.dev>, "devel@lists.orangefs.org"
-	<devel@lists.orangefs.org>, "linux-unionfs@vger.kernel.org"
-	<linux-unionfs@vger.kernel.org>, "apparmor@lists.ubuntu.com"
-	<apparmor@lists.ubuntu.com>, "linux-security-module@vger.kernel.org"
-	<linux-security-module@vger.kernel.org>, "linux-integrity@vger.kernel.org"
-	<linux-integrity@vger.kernel.org>, "selinux@vger.kernel.org"
-	<selinux@vger.kernel.org>, "amd-gfx@lists.freedesktop.org"
-	<amd-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
-	<dri-devel@lists.freedesktop.org>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "linaro-mm-sig@lists.linaro.org"
-	<linaro-mm-sig@lists.linaro.org>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>, "linux-perf-users@vger.kernel.org"
-	<linux-perf-users@vger.kernel.org>, "linux-fscrypt@vger.kernel.org"
-	<linux-fscrypt@vger.kernel.org>, "linux-xfs@vger.kernel.org"
-	<linux-xfs@vger.kernel.org>, "linux-hams@vger.kernel.org"
-	<linux-hams@vger.kernel.org>, "linux-x25@vger.kernel.org"
-	<linux-x25@vger.kernel.org>
-Subject: Re: [PATCH 50/61] zonefs: update format strings for u64 i_ino
-Thread-Topic: [PATCH 50/61] zonefs: update format strings for u64 i_ino
-Thread-Index: AQHcp0MLQHR0nz4ahkS+p8n0/a9587WWcYOA
-Date: Fri, 27 Feb 2026 11:55:52 +0000
-Message-ID: <0ee5930b-40ef-4bbe-8c3f-e2712742d22a@wdc.com>
-References: <20260226-iino-u64-v1-0-ccceff366db9@kernel.org>
- <20260226-iino-u64-v1-50-ccceff366db9@kernel.org>
-In-Reply-To: <20260226-iino-u64-v1-50-ccceff366db9@kernel.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LV8PR04MB8984:EE_|MN2PR04MB7088:EE_
-x-ms-office365-filtering-correlation-id: 394e6759-8bb7-4159-879e-08de75f7283b
-x-ld-processed: b61c8803-16f3-4c35-9b17-6f65f441df86,ExtAddr
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|376014|1800799024|366016|19092799006|38070700021|921020;
-x-microsoft-antispam-message-info:
- fIWwFZPCWTqHHaGFWzL8H0uzGhvcIlRHz17hOKjf+/ESwyAsmb8tJwJWUJy/9QRDOjaVm+VQo9CRHjf85ItJqFIUOp6AgWyE8bITCC1GxsLC0CK0cSOwU+NWWN2RbjpjpxD8o+F/o5W/PLygeOyIIngMa/mA0NDs10YGwI84r2fyLTTY4ZZ/uCMcBpIo6qVyYcHq07pj5EcHQiy7JvGQFpvNgebQ+b2EMzZrtWHAodR0WjZSlyLePAitL26mrJuEP6/CxH7N3SVte687HudYqCLpfxRUuiHPp3RBNcRGAfYWmt5fepb2oCmGpXdE82DTNbuUtgmmjXurRdCqWSZqS1yPCyNrdFvX5IGjXxLzuiV22OUrUlLiaSkn6ytwIKwNmApJCACa72uqehsnHhjZq65Pfb+o0g8Nq551dBy7nc1e4jNpsn0SC3cFQkHj6+MsYQq8nmtsERvR6cu9wvyVqc2xEVTvDIlr/u3Qn6pCCIRXOaO51LvPNI+/xxRyLUfsO5ZDAiet6qmxDf82gKPg0RwZcUfRJHWVS8nBjj43Ej85zGr1LZ9DsL1k0/cy9Pp65YXHQkLbRTxh2AQ/dhpJJqCu6beAkdMDu054fgUfRj30cQ/TPOTB86dHkPoPR6g5A+8Or6A3YZoUxY2ER0L1B44iVHJu9X5krKakaBfL9OsCo5+WF+7OtZbivRtsMuRE4h7IHe/wJOpvfiq1/HbEXOIki3t0AhXSznyY+1YOCgwxzrg56Ui2cou1A2fBJNSu60jXtbBF63vvqMMqT95J37OyI25tpC5rh3bjRXVSiwoLXAr2XLqvhZtepIH/mrKZ
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR04MB8984.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(19092799006)(38070700021)(921020);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?YlgweENhb0VoZUVpbEpTc0ZwMWNHRHZlNW5LVzZ0bW9EMkJ1Q2ZEK0QzVnpI?=
- =?utf-8?B?UG5pUkxoN2JjWndnZFg3UWlaTWppVVhWVTVSZjFnZDI3S05ENkYvSG1iSFdT?=
- =?utf-8?B?ekJUZmErd05oODBsUkI2VmI5N1h6RkQrTldBbVc1Tm1jcFpmcEZoSWRsNnJt?=
- =?utf-8?B?RGpZNlZ3NUlpdWQ3SC9XemxTYlVubjJzRkZUdFlaVzJIbkFzajduZTJkdGJJ?=
- =?utf-8?B?cjZQYm1qQW9jd0VsVloyWXJZVDhWY3lHZWJlVDkveUFxaG9MS2FNdjZzWllR?=
- =?utf-8?B?QXFDMmFuQ2QwODNNWmlRdnRKWDhtd2dMU1JVK3JIeTQ3aFFDYUU3Y1NoQ0k5?=
- =?utf-8?B?Y0loeExtc2JhRkpjZjVHMm9VTWNhdGJRb1ZkY0lHZjVMQXY4OURYSGdhV3hZ?=
- =?utf-8?B?MDMyM3BDZUJNbmMvblRMRU5XMmF3dlNBNytXT2JoVzRVWGFPVUcwMk1XbjBX?=
- =?utf-8?B?RXM2MW85aXIxNnNpaGdKaEFLcTZvRXFBVFgxL2ltZVNHUWpzM0ptSkNIdlBX?=
- =?utf-8?B?T1ljTklCQVlOd25NcVdQVktxQXR3RDVBWThUK2NXcnlvQzN1MFlxRGRXOCtD?=
- =?utf-8?B?MGNUbitVQytEL3hMN052bDNQSjFKRDhEeVFHSXdhT1VMRUFpNlhKSmVDa2p2?=
- =?utf-8?B?Q0haSThqMVBtaEVuWDVHRFY3b2l6NlNyNzhSRWRENndYd0JXdTJCWFlBclhl?=
- =?utf-8?B?S2UzTHN1b2Z1OExYZnp2RHRBcFZEbklpTTNlcTRlMGRpbEdYN2EvNjM0VnRp?=
- =?utf-8?B?d0dwMStxaHBieVN0Y2R4dkRUS2FZbkhaNWh6WmZyQUhEUHhMMW5rc0YvRmVT?=
- =?utf-8?B?Ky9ra1p1N0hVT3JMcmtIUzFGUUYwbmNobGJKVkdUbjlERjQ2REtNN2ZvVU81?=
- =?utf-8?B?dk5UdFkvREwyQVc5aHhRWGxkUEFpb081a2IxTUFqWU5qbk5Da1h1UjhhV1lZ?=
- =?utf-8?B?OTRZVThrVjlEMTRBTmxBTGhLVVZVSU9TYUh3MEdlWEVtbnc1L3M5MmxLYjZa?=
- =?utf-8?B?Zml3ai96WjVEOWgycUlpWnJOMnFmcFdCazFXaVVZOGxtNmRUbFM2UjluWkhi?=
- =?utf-8?B?Zkx6N2VuR0NUbUxJSjdIWEtycTdqcktieG12akFwY0cvRFZyekwwemhLYlRO?=
- =?utf-8?B?bEFOMytsSFlSM2l0VGxEbitrM0grekF3MHZ2U043YmZTeU1DR1hhMTRzS0lR?=
- =?utf-8?B?TEdiL2g0MWZZb0xUbmpCVVZzTVVHSVN4MDhxWUNjVFZMZFV5RmNWTjIyY1ZM?=
- =?utf-8?B?NnNBeXhMaFNCMVRqbGtvVzRjNTJLVElCODYrZ0NHSXUxdlQzUkgwMUdMekYx?=
- =?utf-8?B?N3FVaHh4S3pUMUd3N3JuSks2YjhyV01RUU1mTmIyenN6SGpOeC9weHNKRWhj?=
- =?utf-8?B?czhXY3dmZlUvRnpzRjN4T0hmRzNLa2pXbElUaUpyaWJvaHNsZ0dQMVpTdjJM?=
- =?utf-8?B?M0plUndWU2pZNnN4MDVQVGRqWmhvWndydUFzb1V2NjkveFM0T3diSGUyZzFo?=
- =?utf-8?B?cmtpVHlGc3hRa0J6N251NE1ZYThJT05kTEluR0laZnZsemM0c3JjbFd3TWFG?=
- =?utf-8?B?bk9tazI0YnVGREFHdVJYRkZGWjlKSGY4R1UvbVIzSEVnSldCOVQxMy9LOFRt?=
- =?utf-8?B?R0J2ZHZ2UkxadHhMcUdDRlZ3N1hETnNFKzJTRklncUE5MkFVenpQN1JhZW9C?=
- =?utf-8?B?TlNORjNYM0ZPZG1WUkN5R0pYVUpBdFFmSFg4bE51Zms5Q1JJcG56ODN0NWtq?=
- =?utf-8?B?VFZDUTlPRXNYR3BnZHZ3c0FzZzBDc1ZVK0p4L25hS2l3eVFPYWJHZzdRS1VY?=
- =?utf-8?B?aUhaMXE4VzhQeUpjK0sxTGtRaXBXbis0VWlGWmRhOWNrYXM3c0ZFUXF5d09P?=
- =?utf-8?B?RVpCR2ExSysrT2pHemxQNHc1cFh2QTNCWVF4ejZWL1R3SlAxUEkzdGlJTEdV?=
- =?utf-8?B?WmVwNEFOWTE2cVB4cTZFWmR3NUJldHUyb1JpUHQzS0lWUWUwVFdwNlBxQm5l?=
- =?utf-8?B?SllKWXhoL3NsSjdnQzRlNkhSTUpTS3JsbXFwOWt1dlZpWHlQSTBHckF1NjFO?=
- =?utf-8?B?Rm93TWRPZjFDQmR1OTVtcHRqMUNLOC9DeXZGSllDRFJ3aE1zNHFGZzdRV1pU?=
- =?utf-8?B?c2ZHa1dKalk2dEFyT0F2UmFMZlNPUDV5YlJiMjJRUjRERE96NnppbUJBeEs2?=
- =?utf-8?B?djR1bFA5bFBLdVFpRHpLdWVsdFhja2FRMEp1QlJRT1lPV2VHTzdaZ2RMYmY3?=
- =?utf-8?B?Z051MUJGZGF4bTBTVEJ5NHRMdVFnR1Z2SFo5bzJZanJXV3Q4bkNXNHRDUWc3?=
- =?utf-8?B?ZGFxbFZ2ZGxDZUEyaFZPb1ZCRVRMOUNCUXN1UnJhT2xWNStkTDRSVUxjNjdM?=
- =?utf-8?Q?CdDb+/b7Y2SGqaik=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <CB85C4B88629F04386FB2CF892A90C2E@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1772210843; c=relaxed/simple;
+	bh=EtniMrkccfrrFst83snpcJ9FJYzCqUqT1Eux3rWxpmo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aF+SlkU0dBlmEAN98VE70PHDTD6awO0nEgN1e+FmXD91Cjb2CmMJMHWIIkQGE1HfU2ACqe83cmaYRE7GjUIZsfX9Db7IhZlN/SFrqYSPBlMArfd2iJJ0Jrt0PvwzfSxC7B0CdqAHNsYdw3Yct0Q1VnX6ewxacFNUTzX7QbS1Aas=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b=AsZRArcr; arc=pass smtp.client-ip=185.125.188.122
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+Received: from mail-yx1-f72.google.com (mail-yx1-f72.google.com [74.125.224.72])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id A2CDF3FCFD
+	for <ecryptfs@vger.kernel.org>; Fri, 27 Feb 2026 16:47:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20251003; t=1772210832;
+	bh=BKQzT9t7ZI3mb+6EDIKBTxaX0DX68JkIAcPYLBp08+M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type;
+	b=AsZRArcr+IHOjGSBnonu/oj477dSluZfbYqix5/Y3zCBdoV1+uw6mYYHWwc4sPEzW
+	 HjFcFZE09FnavTkEnrKbxmF0r3YbTQPiFMojDWqkufdWKDMCZW9OPxWmPLHGl8VYyP
+	 aEEDR142r/egN11v+6BUwh9UCjnO7iqcqVKNlvjuimRs6gHHfWgooiT0xYazkycZV9
+	 iGaNpfepDa56QYdI4I7j3O9bAMZ5DH4c2WTlkXndqNrhlLiQOUUvwizjaREzzR+RaW
+	 G6qhyP2mK34/AwEY8BsSjxU/P2yJBLCVcFF0FazsuIIhPpIJJoppDe/KKLv377XKJO
+	 ckRoiSwBJ3h5NMgLM0yT68s2FLDl6gyLkP/lRN3fVuLZu1yxgjda/ENN1odqNnDS9i
+	 cUltWCZdejwVb0iOVt7w8SJ+e7iURRxp5NxrVK346lnXyAMDOroqzltJLwTrKWTFrE
+	 AN4ruGpriTmmvQ9GwGNvr1LpOw6mwnclV+8SKwiXFM2kWGMs7WC4UqqVSYW/5oxS+O
+	 xoiqh6Acy+TYgniHFTAsDU75wpJzuZLSiIVgwW31LUadIpejlNvpg5EcfEaBbQmLVj
+	 NgnJJyPdPSKozzmB9LKkQNdrUwMQftfhfgs3hHlvFhllpGK5m8UgazcxDHxIY0+WhT
+	 Efp718XcrpREHjvzQoHFxdjs=
+Received: by mail-yx1-f72.google.com with SMTP id 956f58d0204a3-64ca2fce827so5119591d50.0
+        for <ecryptfs@vger.kernel.org>; Fri, 27 Feb 2026 08:47:12 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772210831; cv=none;
+        d=google.com; s=arc-20240605;
+        b=cofkgU/9xxVKysfSRn2fx4USpbOwbAB38K1GRx4VbC0fmkmevHn08VQ6Iibz04kkYm
+         80xstBFfWu5i9yu8KlBq0xsB7n9KzT3B0w4c4vcq9wf8st6EmqJbuY4KP70xQ/0qZEzQ
+         YVV2esNBoxxhSVqZnRYCAJIfcvjubfn0ngck1lZGmmeswBQRC4d0PHYP0SnGFzFkLJ4n
+         jmGw11e7beIOz2x2LL6eJHQ5FPJM1zBUUEYCm0Wi4b9sTeCCiTWMOHkCD+v5AJRO3Cns
+         RN+EtV2YYIQYRu0d6uTL+LfDyVJAhk6pX5ml7tG2eWXLo1ZdWt/u0H2du1fSDlNanNd2
+         6L9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version;
+        bh=BKQzT9t7ZI3mb+6EDIKBTxaX0DX68JkIAcPYLBp08+M=;
+        fh=uSiJpWIlMRC7+WORAYPqxLyQ+9+p89bKSFqL1BnK+qQ=;
+        b=dWUmwazzAnECoFueQIVq8/OvVQfp9hSgaeSrYvfYyfxvK8Tx9TVBa43E9zpMeHvbHX
+         iBdj6OLY0Oj8N75xLvBzuK6QpajxvD4oz20dngpmlnrA/QCosxFR6cu9htoWLNU6gjqh
+         Z1fAp8CnED446LathrT87/HrDBkHWTQ/NIXUFC38OHOk2Kao4C3mKtZTvDXq7qk/+J3/
+         scRNhArXJKGKvxUtHnxfcCf6VYvmLyn6awxDLhAPxBO2hybAHCAXwZgFEDE96yk1D5BA
+         wDvdcGnZrpR/4rEy50TCBVReoFhTvvMEGvgvPTulLrRZbXVYIPWGQWxNsiNEzCi5HmhS
+         HMEw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772210831; x=1772815631;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=BKQzT9t7ZI3mb+6EDIKBTxaX0DX68JkIAcPYLBp08+M=;
+        b=WVSlZH5DE46dPV3jyTTlXwfMyrU7ui8C03QFfWz3VeGspjK7DsrujsmUqxvvbgK2qa
+         OjAzP53K+2961cfGOu37wcASxdDkFdr2GZw8qy6zTcR5NCfwiwW5A4zkWHNlpxmfKoTK
+         5kdCQ0dgRkF6eAkCRUC5fPAMjqVl0sng9KOe1Yw6MmVIJo0qewvvRHCPWruFOPaLXhwp
+         7DJLuHf3bft/KdcbQyB5rlm0Nh3YI9TQVDvqKRVjOpuOmZLcamUbIIhdQs4GmpkVsmdm
+         OvOC9Meop3l1rQ7g+g7F0Dfq8MRdW81FUxGmol+hyJD/fkCswP6DK7gC11MgAfyeSrtI
+         Quhw==
+X-Forwarded-Encrypted: i=1; AJvYcCVjnik/7u4jWk/4hC31p7bSQVumyOE2gvR05J11y8UoOuhqGRqmqAQDWcQM4yCFxDrEv2L5mAK03A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCac5MdZZRecc9Pt/ynzSEABclsEkCgHz/H6vUYts/we1zuqiY
+	5M76UBxDMSm0fUrFymoVMzQaa/vGu9pfvPsJL+e+oTUuepxDA3aJcKfiUMwrd7Zn23WrA9sbCJ3
+	FZA1GgLKAGPQr5/E2yTpFEMKpFnRqVUDKLCdFtXEKIJMQ7i5kyhgrS3nzO7Benj3BO50YAYMdHl
+	V3jF1Ku30TBl2Hk7nA9RqgfSgUsOr1n9it2PkgbcUUYm+Hl99uLY4=
+X-Gm-Gg: ATEYQzwYDkQKCikQY0/qBeCDjuAeZNgp1Muut4ol7fGVWEYVQBp4GG0kdfaQ3afGsVo
+	DOn63vBIU1Y5sOcZsZB4J24QOPc/SloVCsd3VIUUBG1K6ySbZN3khTiOPFDTsexiewLNLrb7frz
+	uZWSfxFNQrh4U6wNucdEs+KKGpUwg0Zs7BpJ0bWZWEXbKxS32OLnjRrrJEGsUVO9bRBocCkZW6T
+	pfWJzFhlwJKiRDknusMS1cvkyGN6ZJM0CBx3zwki0HrA40D3n+KYl2yyJLo1ME0zoo=
+X-Received: by 2002:a53:b743:0:b0:64c:9b84:92ee with SMTP id 956f58d0204a3-64cb6f438a9mr3821239d50.31.1772210830763;
+        Fri, 27 Feb 2026 08:47:10 -0800 (PST)
+X-Received: by 2002:a53:b743:0:b0:64c:9b84:92ee with SMTP id
+ 956f58d0204a3-64cb6f438a9mr3821130d50.31.1772210830102; Fri, 27 Feb 2026
+ 08:47:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	rrrOEe27GGw/szGLs/fX4JfTy+2165qf0QWSidXW2fdqK6XD4BF3XoDvNcJrGuK1AX/hCaGARyFkNuMUCScHMb/NZuRTJ+xbZEnw/wm7F4DgSXia72bL1hxuG8iFbkeFAwmYdvwl71od9xJaipKYoKgjcqfXyNmBAXNyC/2oObTe+Ehg4KcazPwbMOqF88bzAFAKaJ1qk0FDcSfSlbukwetIfjzP+V30NoAlet5fuzhs3OxgSEBYFg3YFGsCdz0gkh9dZW4i9/LOzs+HFxsdUsFafEX+uCHnd15nSK7cGZXfY379c7uNZZtbEqIqgt7F7AV9zzBhr3rwPPuvn3E56E7yqUSP8dOAgDvCf23BTVqyhbSxEjJsxvg9O67AlfkJhBY+VBff4PR8QiNxapklA4NIp8U+5/oKj4U8RF/WD+QWF/gkN7FE6nKqOrjVK/q0daJeb/Ro5WbsP2DOa2OCTSKdn3KO9YtByZHvTnT5W220JQ7+z47QkaP1m2XNErbPKJIt1yCXRvY5tLbld8UBWy7mPV+k/6mqZua+HIVXZETkoTHXC9s0w0mr0C2uHMxHgrdLjgZ8sh3aEhCwhYywTG1uAcu77sinHXF2V3T6SDh7w5jzDuDPLDXV62Fq+Ual
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LV8PR04MB8984.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 394e6759-8bb7-4159-879e-08de75f7283b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Feb 2026 11:55:52.5114
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: KYQlQ0PF9XtiYohUxrmDxATY+NWUukb7FUUKvorL7lfe1ItIj5xwQSppqHZNV7I0KMqEwDaV1HKH9qcxAiGVOCH5Hfrh5Z4ZFdBx0E30Tm0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR04MB7088
+References: <20260226-iino-u64-v1-0-ccceff366db9@kernel.org> <20260226-iino-u64-v1-51-ccceff366db9@kernel.org>
+In-Reply-To: <20260226-iino-u64-v1-51-ccceff366db9@kernel.org>
+From: Ryan Lee <ryan.lee@canonical.com>
+Date: Fri, 27 Feb 2026 08:46:58 -0800
+X-Gm-Features: AaiRm50sr0j0-BwzNnmwGRvH8jyB1wNkHgZo3vdp3K_4YIT1mBOH-BzuS2c5S3A
+Message-ID: <CAKCV-6ujQK3yj8sB2eHafaw4pvrJUeK18Hu4vzvNSjH48RVgYg@mail.gmail.com>
+Subject: Re: [PATCH 51/61] security: update audit format strings for u64 i_ino
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Dan Williams <dan.j.williams@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Eric Biggers <ebiggers@kernel.org>, 
+	"Theodore Y. Ts'o" <tytso@mit.edu>, Muchun Song <muchun.song@linux.dev>, 
+	Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>, 
+	David Howells <dhowells@redhat.com>, Paulo Alcantara <pc@manguebit.org>, 
+	Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>, 
+	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, 
+	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
+	Chuck Lever <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>, 
+	Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
+	Steve French <sfrench@samba.org>, Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
+	Shyam Prasad N <sprasad@microsoft.com>, Bharath SM <bharathsm@microsoft.com>, 
+	Alexander Aring <alex.aring@gmail.com>, Ryusuke Konishi <konishi.ryusuke@gmail.com>, 
+	Viacheslav Dubeyko <slava@dubeyko.com>, Eric Van Hensbergen <ericvh@kernel.org>, 
+	Latchesar Ionkov <lucho@ionkov.net>, Dominique Martinet <asmadeus@codewreck.org>, 
+	Christian Schoenebeck <linux_oss@crudebyte.com>, David Sterba <dsterba@suse.com>, 
+	Marc Dionne <marc.dionne@auristor.com>, Ian Kent <raven@themaw.net>, 
+	Luis de Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>, 
+	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>, Ilya Dryomov <idryomov@gmail.com>, 
+	Alex Markuze <amarkuze@redhat.com>, Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, 
+	Nicolas Pitre <nico@fluxnic.net>, Tyler Hicks <code@tyhicks.com>, Amir Goldstein <amir73il@gmail.com>, 
+	Christoph Hellwig <hch@infradead.org>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Yangtao Li <frank.li@vivo.com>, 
+	Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>, David Woodhouse <dwmw2@infradead.org>, 
+	Richard Weinberger <richard@nod.at>, Dave Kleikamp <shaggy@kernel.org>, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Mark Fasheh <mark@fasheh.com>, 
+	Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>, 
+	Mike Marshall <hubcap@omnibond.com>, Martin Brandenburg <martin@omnibond.com>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Anders Larsen <al@alarsen.net>, 
+	Zhihao Cheng <chengzhihao1@huawei.com>, Damien Le Moal <dlemoal@kernel.org>, 
+	Naohiro Aota <naohiro.aota@wdc.com>, Johannes Thumshirn <jth@kernel.org>, 
+	John Johansen <john.johansen@canonical.com>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+	Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
+	Casey Schaufler <casey@schaufler-ca.com>, Alex Deucher <alexander.deucher@amd.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Eric Dumazet <edumazet@google.com>, 
+	Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+	Willem de Bruijn <willemb@google.com>, "David S. Miller" <davem@davemloft.net>, 
+	Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
+	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
+	James Clark <james.clark@linaro.org>, "Darrick J. Wong" <djwong@kernel.org>, 
+	Martin Schiller <ms@dev.tdt.de>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
+	fsverity@lists.linux.dev, linux-mm@kvack.org, netfs@lists.linux.dev, 
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
+	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
+	samba-technical@lists.samba.org, linux-nilfs@vger.kernel.org, 
+	v9fs@lists.linux.dev, linux-afs@lists.infradead.org, autofs@vger.kernel.org, 
+	ceph-devel@vger.kernel.org, codalist@coda.cs.cmu.edu, 
+	ecryptfs@vger.kernel.org, linux-mtd@lists.infradead.org, 
+	jfs-discussion@lists.sourceforge.net, ntfs3@lists.linux.dev, 
+	ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org, 
+	linux-unionfs@vger.kernel.org, apparmor@lists.ubuntu.com, 
+	linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org, 
+	selinux@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
+	linaro-mm-sig@lists.linaro.org, netdev@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-fscrypt@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, linux-hams@vger.kernel.org, 
+	linux-x25@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [2.44 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MIME_BASE64_TEXT_BOGUS(1.00)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[wdc.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[wdc.com:s=dkim.wdc.com,sharedspace.onmicrosoft.com:s=selector2-sharedspace-onmicrosoft-com];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[canonical.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[canonical.com:s=20251003];
 	MAILLIST(-0.15)[generic];
-	MIME_BASE64_TEXT(0.10)[];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-886-lists,ecryptfs=lfdr.de];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,zeniv.linux.org.uk,suse.cz,goodmis.org,efficios.com,intel.com,infradead.org,mit.edu,linux.dev,suse.de,redhat.com,manguebit.org,dilger.ca,suse.com,oracle.com,brown.name,talpey.com,samba.org,gmail.com,microsoft.com,dubeyko.com,ionkov.net,codewreck.org,crudebyte.com,auristor.com,themaw.net,cs.cmu.edu,fluxnic.net,tyhicks.com,physik.fu-berlin.de,vivo.com,artax.karlin.mff.cuni.cz,nod.at,paragon-software.com,fasheh.com,evilplan.org,linux.alibaba.com,omnibond.com,szeredi.hu,alarsen.net,huawei.com,wdc.com,canonical.com,paul-moore.com,namei.org,hallyn.com,linux.ibm.com,schaufler-ca.com,amd.com,ffwll.ch,linaro.org,google.com,davemloft.net,arm.com,linux.intel.com,dev.tdt.de];
-	RCVD_TLS_LAST(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,goodmis.org,efficios.com,intel.com,infradead.org,mit.edu,linux.dev,suse.de,redhat.com,manguebit.org,dilger.ca,suse.com,oracle.com,brown.name,talpey.com,samba.org,gmail.com,microsoft.com,dubeyko.com,ionkov.net,codewreck.org,crudebyte.com,auristor.com,themaw.net,cs.cmu.edu,fluxnic.net,tyhicks.com,physik.fu-berlin.de,vivo.com,artax.karlin.mff.cuni.cz,nod.at,paragon-software.com,fasheh.com,evilplan.org,linux.alibaba.com,omnibond.com,szeredi.hu,alarsen.net,huawei.com,wdc.com,canonical.com,paul-moore.com,namei.org,hallyn.com,linux.ibm.com,schaufler-ca.com,amd.com,ffwll.ch,linaro.org,google.com,davemloft.net,arm.com,linux.intel.com,dev.tdt.de,vger.kernel.org,lists.linux.dev,kvack.org,lists.sourceforge.net,lists.samba.org,lists.infradead.org,coda.cs.cmu.edu,lists.orangefs.org,lists.ubuntu.com,lists.freedesktop.org,lists.linaro.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[wdc.com:+,sharedspace.onmicrosoft.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Johannes.Thumshirn@wdc.com,ecryptfs@vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-887-lists,ecryptfs=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[canonical.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ryan.lee@canonical.com,ecryptfs@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCPT_COUNT_GT_50(0.00)[146];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[ecryptfs];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,wdc.com:mid,wdc.com:dkim,wdc.com:email]
-X-Rspamd-Queue-Id: A25311B6D26
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[canonical.com:email,canonical.com:dkim,mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 736631BAFB5
 X-Rspamd-Action: no action
 
-TG9va3MgZ29vZCwNCg0KUmV2aWV3ZWQtYnk6IEpvaGFubmVzIFRodW1zaGlybiA8am9oYW5uZXMu
-dGh1bXNoaXJuQHdkYy5jb20+DQoNCg==
+On Thu, Feb 26, 2026 at 9:13=E2=80=AFAM Jeff Layton <jlayton@kernel.org> wr=
+ote:
+>
+> Update %lu/%ld to %llu/%lld in security audit logging functions that
+> print inode->i_ino, since i_ino is now u64.
+>
+> Files updated: apparmor/apparmorfs.c, integrity/integrity_audit.c,
+> ipe/audit.c, lsm_audit.c.
+>
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> ---
+>  security/apparmor/apparmorfs.c       |  4 ++--
+>  security/integrity/integrity_audit.c |  2 +-
+>  security/ipe/audit.c                 |  2 +-
+>  security/lsm_audit.c                 | 10 +++++-----
+>  security/selinux/hooks.c             |  4 ++--
+>  security/smack/smack_lsm.c           | 12 ++++++------
+>  6 files changed, 17 insertions(+), 17 deletions(-)
+>
+> diff --git a/security/apparmor/apparmorfs.c b/security/apparmor/apparmorf=
+s.c
+> index 2f84bd23edb69e7e69cb097e554091df0132816d..7b645f40e71c956f216fa6a7d=
+69c3ecd4e2a5ff4 100644
+> --- a/security/apparmor/apparmorfs.c
+> +++ b/security/apparmor/apparmorfs.c
+> @@ -149,7 +149,7 @@ static int aafs_count;
+>
+>  static int aafs_show_path(struct seq_file *seq, struct dentry *dentry)
+>  {
+> -       seq_printf(seq, "%s:[%lu]", AAFS_NAME, d_inode(dentry)->i_ino);
+> +       seq_printf(seq, "%s:[%llu]", AAFS_NAME, d_inode(dentry)->i_ino);
+>         return 0;
+>  }
+>
+> @@ -2644,7 +2644,7 @@ static int policy_readlink(struct dentry *dentry, c=
+har __user *buffer,
+>         char name[32];
+
+I have confirmed that the buffer is still big enough for a 64-bit inode num=
+ber.
+
+>         int res;
+>
+> -       res =3D snprintf(name, sizeof(name), "%s:[%lu]", AAFS_NAME,
+> +       res =3D snprintf(name, sizeof(name), "%s:[%llu]", AAFS_NAME,
+>                        d_inode(dentry)->i_ino);
+>         if (res > 0 && res < sizeof(name))
+>                 res =3D readlink_copy(buffer, buflen, name, strlen(name))=
+;
+
+For the AppArmor portion:
+
+Reviewed-By: Ryan Lee <ryan.lee@canonical.com>
+
+> diff --git a/security/integrity/integrity_audit.c b/security/integrity/in=
+tegrity_audit.c
+> index 0ec5e4c22cb2a1066c2b897776ead6d3db72635c..d8d9e5ff1cd22b091f462d1e8=
+3d28d2d6bd983e9 100644
+> --- a/security/integrity/integrity_audit.c
+> +++ b/security/integrity/integrity_audit.c
+> @@ -62,7 +62,7 @@ void integrity_audit_message(int audit_msgno, struct in=
+ode *inode,
+>         if (inode) {
+>                 audit_log_format(ab, " dev=3D");
+>                 audit_log_untrustedstring(ab, inode->i_sb->s_id);
+> -               audit_log_format(ab, " ino=3D%lu", inode->i_ino);
+> +               audit_log_format(ab, " ino=3D%llu", inode->i_ino);
+>         }
+>         audit_log_format(ab, " res=3D%d errno=3D%d", !result, errno);
+>         audit_log_end(ab);
+> diff --git a/security/ipe/audit.c b/security/ipe/audit.c
+> index 3f0deeb54912730d9acf5e021a4a0cb29a34e982..93fb59fbddd60b56c0b22be2a=
+38b809ef9e18b76 100644
+> --- a/security/ipe/audit.c
+> +++ b/security/ipe/audit.c
+> @@ -153,7 +153,7 @@ void ipe_audit_match(const struct ipe_eval_ctx *const=
+ ctx,
+>                 if (inode) {
+>                         audit_log_format(ab, " dev=3D");
+>                         audit_log_untrustedstring(ab, inode->i_sb->s_id);
+> -                       audit_log_format(ab, " ino=3D%lu", inode->i_ino);
+> +                       audit_log_format(ab, " ino=3D%llu", inode->i_ino)=
+;
+>                 } else {
+>                         audit_log_format(ab, " dev=3D? ino=3D?");
+>                 }
+> diff --git a/security/lsm_audit.c b/security/lsm_audit.c
+> index 7d623b00495c14b079e10e963c21a9f949c11f07..737f5a263a8f79416133315ed=
+f363ece3d79c722 100644
+> --- a/security/lsm_audit.c
+> +++ b/security/lsm_audit.c
+> @@ -202,7 +202,7 @@ void audit_log_lsm_data(struct audit_buffer *ab,
+>                 if (inode) {
+>                         audit_log_format(ab, " dev=3D");
+>                         audit_log_untrustedstring(ab, inode->i_sb->s_id);
+> -                       audit_log_format(ab, " ino=3D%lu", inode->i_ino);
+> +                       audit_log_format(ab, " ino=3D%llu", inode->i_ino)=
+;
+>                 }
+>                 break;
+>         }
+> @@ -215,7 +215,7 @@ void audit_log_lsm_data(struct audit_buffer *ab,
+>                 if (inode) {
+>                         audit_log_format(ab, " dev=3D");
+>                         audit_log_untrustedstring(ab, inode->i_sb->s_id);
+> -                       audit_log_format(ab, " ino=3D%lu", inode->i_ino);
+> +                       audit_log_format(ab, " ino=3D%llu", inode->i_ino)=
+;
+>                 }
+>                 break;
+>         }
+> @@ -228,7 +228,7 @@ void audit_log_lsm_data(struct audit_buffer *ab,
+>                 if (inode) {
+>                         audit_log_format(ab, " dev=3D");
+>                         audit_log_untrustedstring(ab, inode->i_sb->s_id);
+> -                       audit_log_format(ab, " ino=3D%lu", inode->i_ino);
+> +                       audit_log_format(ab, " ino=3D%llu", inode->i_ino)=
+;
+>                 }
+>
+>                 audit_log_format(ab, " ioctlcmd=3D0x%hx", a->u.op->cmd);
+> @@ -246,7 +246,7 @@ void audit_log_lsm_data(struct audit_buffer *ab,
+>                 if (inode) {
+>                         audit_log_format(ab, " dev=3D");
+>                         audit_log_untrustedstring(ab, inode->i_sb->s_id);
+> -                       audit_log_format(ab, " ino=3D%lu", inode->i_ino);
+> +                       audit_log_format(ab, " ino=3D%llu", inode->i_ino)=
+;
+>                 }
+>                 break;
+>         }
+> @@ -265,7 +265,7 @@ void audit_log_lsm_data(struct audit_buffer *ab,
+>                 }
+>                 audit_log_format(ab, " dev=3D");
+>                 audit_log_untrustedstring(ab, inode->i_sb->s_id);
+> -               audit_log_format(ab, " ino=3D%lu", inode->i_ino);
+> +               audit_log_format(ab, " ino=3D%llu", inode->i_ino);
+>                 rcu_read_unlock();
+>                 break;
+>         }
+> diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
+> index d8224ea113d1ac273aac1fb52324f00b3301ae75..150ea86ebc1f7c7f8391af410=
+9a3da82b12d00d2 100644
+> --- a/security/selinux/hooks.c
+> +++ b/security/selinux/hooks.c
+> @@ -1400,7 +1400,7 @@ static int inode_doinit_use_xattr(struct inode *ino=
+de, struct dentry *dentry,
+>         if (rc < 0) {
+>                 kfree(context);
+>                 if (rc !=3D -ENODATA) {
+> -                       pr_warn("SELinux: %s:  getxattr returned %d for d=
+ev=3D%s ino=3D%ld\n",
+> +                       pr_warn("SELinux: %s:  getxattr returned %d for d=
+ev=3D%s ino=3D%lld\n",
+>                                 __func__, -rc, inode->i_sb->s_id, inode->=
+i_ino);
+>                         return rc;
+>                 }
+> @@ -3477,7 +3477,7 @@ static void selinux_inode_post_setxattr(struct dent=
+ry *dentry, const char *name,
+>                                            &newsid);
+>         if (rc) {
+>                 pr_err("SELinux:  unable to map context to SID"
+> -                      "for (%s, %lu), rc=3D%d\n",
+> +                      "for (%s, %llu), rc=3D%d\n",
+>                        inode->i_sb->s_id, inode->i_ino, -rc);
+>                 return;
+>         }
+> diff --git a/security/smack/smack_lsm.c b/security/smack/smack_lsm.c
+> index 98af9d7b943469d0ddd344fc78c0b87ca40c16c4..7e2f54c17a5d5c70740bbfa92=
+ba4d4f1aca2cf22 100644
+> --- a/security/smack/smack_lsm.c
+> +++ b/security/smack/smack_lsm.c
+> @@ -182,7 +182,7 @@ static int smk_bu_inode(struct inode *inode, int mode=
+, int rc)
+>         char acc[SMK_NUM_ACCESS_TYPE + 1];
+>
+>         if (isp->smk_flags & SMK_INODE_IMPURE)
+> -               pr_info("Smack Unconfined Corruption: inode=3D(%s %ld) %s=
+\n",
+> +               pr_info("Smack Unconfined Corruption: inode=3D(%s %lld) %=
+s\n",
+>                         inode->i_sb->s_id, inode->i_ino, current->comm);
+>
+>         if (rc <=3D 0)
+> @@ -195,7 +195,7 @@ static int smk_bu_inode(struct inode *inode, int mode=
+, int rc)
+>
+>         smk_bu_mode(mode, acc);
+>
+> -       pr_info("Smack %s: (%s %s %s) inode=3D(%s %ld) %s\n", smk_bu_mess=
+[rc],
+> +       pr_info("Smack %s: (%s %s %s) inode=3D(%s %lld) %s\n", smk_bu_mes=
+s[rc],
+>                 tsp->smk_task->smk_known, isp->smk_inode->smk_known, acc,
+>                 inode->i_sb->s_id, inode->i_ino, current->comm);
+>         return 0;
+> @@ -214,7 +214,7 @@ static int smk_bu_file(struct file *file, int mode, i=
+nt rc)
+>         char acc[SMK_NUM_ACCESS_TYPE + 1];
+>
+>         if (isp->smk_flags & SMK_INODE_IMPURE)
+> -               pr_info("Smack Unconfined Corruption: inode=3D(%s %ld) %s=
+\n",
+> +               pr_info("Smack Unconfined Corruption: inode=3D(%s %lld) %=
+s\n",
+>                         inode->i_sb->s_id, inode->i_ino, current->comm);
+>
+>         if (rc <=3D 0)
+> @@ -223,7 +223,7 @@ static int smk_bu_file(struct file *file, int mode, i=
+nt rc)
+>                 rc =3D 0;
+>
+>         smk_bu_mode(mode, acc);
+> -       pr_info("Smack %s: (%s %s %s) file=3D(%s %ld %pD) %s\n", smk_bu_m=
+ess[rc],
+> +       pr_info("Smack %s: (%s %s %s) file=3D(%s %lld %pD) %s\n", smk_bu_=
+mess[rc],
+>                 sskp->smk_known, smk_of_inode(inode)->smk_known, acc,
+>                 inode->i_sb->s_id, inode->i_ino, file,
+>                 current->comm);
+> @@ -244,7 +244,7 @@ static int smk_bu_credfile(const struct cred *cred, s=
+truct file *file,
+>         char acc[SMK_NUM_ACCESS_TYPE + 1];
+>
+>         if (isp->smk_flags & SMK_INODE_IMPURE)
+> -               pr_info("Smack Unconfined Corruption: inode=3D(%s %ld) %s=
+\n",
+> +               pr_info("Smack Unconfined Corruption: inode=3D(%s %lld) %=
+s\n",
+>                         inode->i_sb->s_id, inode->i_ino, current->comm);
+>
+>         if (rc <=3D 0)
+> @@ -253,7 +253,7 @@ static int smk_bu_credfile(const struct cred *cred, s=
+truct file *file,
+>                 rc =3D 0;
+>
+>         smk_bu_mode(mode, acc);
+> -       pr_info("Smack %s: (%s %s %s) file=3D(%s %ld %pD) %s\n", smk_bu_m=
+ess[rc],
+> +       pr_info("Smack %s: (%s %s %s) file=3D(%s %lld %pD) %s\n", smk_bu_=
+mess[rc],
+>                 sskp->smk_known, smk_of_inode(inode)->smk_known, acc,
+>                 inode->i_sb->s_id, inode->i_ino, file,
+>                 current->comm);
+>
+> --
+> 2.53.0
+>
+>
 
