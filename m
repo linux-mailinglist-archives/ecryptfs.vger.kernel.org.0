@@ -1,111 +1,111 @@
-Return-Path: <ecryptfs+bounces-1014-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-1015-lists+ecryptfs=lfdr.de@vger.kernel.org>
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AMWeN3ZHpmkkNgAAu9opvQ
-	(envelope-from <ecryptfs+bounces-1014-lists+ecryptfs=lfdr.de@vger.kernel.org>)
-	for <lists+ecryptfs@lfdr.de>; Tue, 03 Mar 2026 03:29:10 +0100
+	id 2FTIBc9HpmlyNQAAu9opvQ
+	(envelope-from <ecryptfs+bounces-1015-lists+ecryptfs=lfdr.de@vger.kernel.org>)
+	for <lists+ecryptfs@lfdr.de>; Tue, 03 Mar 2026 03:30:39 +0100
 X-Original-To: lists+ecryptfs@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4E661E8020
-	for <lists+ecryptfs@lfdr.de>; Tue, 03 Mar 2026 03:29:09 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE5B21E80C0
+	for <lists+ecryptfs@lfdr.de>; Tue, 03 Mar 2026 03:30:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id EF4D73099801
-	for <lists+ecryptfs@lfdr.de>; Tue,  3 Mar 2026 02:28:35 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 8D4F5303B5F0
+	for <lists+ecryptfs@lfdr.de>; Tue,  3 Mar 2026 02:30:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 160F8375F78;
-	Tue,  3 Mar 2026 02:28:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39A8D375F88;
+	Tue,  3 Mar 2026 02:30:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="EsJG3vBa"
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="JfPMs15Z"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F84E375AC1
-	for <ecryptfs@vger.kernel.org>; Tue,  3 Mar 2026 02:28:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536E81A6804
+	for <ecryptfs@vger.kernel.org>; Tue,  3 Mar 2026 02:30:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.171
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772504913; cv=pass; b=X+g0RFFH9HBR0ADk2UuMGFN/OHPRbC94MLrEmDctugSJJHzIz3wz72AvZTXBVLwX7kU4VUT5Z4DWDjaFeBLeCQIRbYtenRd9ugqflANsPMvodPPDY7Y4ACWyBU92mXyHsQE0GXZWBT+A4uBvNTblBX0k3OmGZYLucgDhFZP80hk=
+	t=1772505026; cv=pass; b=ke1Vpd+Ytj1WpC4Va9XJhAutiVcwvxVLnbAc21GwaU7ygTTWYiCygtYDfphK8vBcc0NNty+hz2EEjW/nQRLlqrnyDJttDW+O/zmtBdEH5CkWtNTQCXTCcS+y4OOOM7A1ShODvJBm6MEGbHvvJ5k0K7sOpMA5m4KD7HZmUR+Sbrs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772504913; c=relaxed/simple;
-	bh=CmpPLTDLjoziZGQueGxnmQI7O2xObKPRhPekUhrY70I=;
+	s=arc-20240116; t=1772505026; c=relaxed/simple;
+	bh=dpQSmzkUM5eywQT8MkIz9dqIAPHwbz822026FlJmJ4U=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=STE+ipd7K+CVqkt4i829f4vBKqskmsA5Qiddp5Vc6HMiJUDAX0K1CKaMrKT0FO458M5yHOg1YUBPYRGXBEeFo8KR4uWRriCuM2c7+NwqTi7lpODSjb8ZWvdsMh54B1uTAsG8cb0asek0tzEyNNcRNKqssz1OZTFgCG6ije0t2Y8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=EsJG3vBa; arc=pass smtp.client-ip=209.85.216.48
+	 To:Cc:Content-Type; b=JcdxTW5Eqb+UO+EFVP/S3OczjO/pI8W/pg6FiTFYhFrv3wY5huJFCINSM+84XJoWDIu0XzxKafjwmsBQBoYsdrujB6YmhGc1bDikQkTeZyIa3ZyY1/BLcCR6O0Vs/m8ueKCCqsUvsnkYa9jA14PrBdROfwZbO1zkDjwKq6Qoobw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=JfPMs15Z; arc=pass smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-3597e40e82dso1517132a91.3
-        for <ecryptfs@vger.kernel.org>; Mon, 02 Mar 2026 18:28:29 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772504909; cv=none;
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2ad9a9be502so35386665ad.0
+        for <ecryptfs@vger.kernel.org>; Mon, 02 Mar 2026 18:30:24 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772505024; cv=none;
         d=google.com; s=arc-20240605;
-        b=SFTqpl77hf8EvOXsBzo/ni4xbySDZRfCYb7VVoYn32g0rIAMFyakOGFUQrc6zpJ8os
-         AF7ytIHD6SxmONIwaB1IZTSxkd6zrrRl+HeX8CH38AcWNEp0uEumyOjxD/x+tVBRi0SJ
-         NONdmXEpQQ0+eXEAB+TigvXfoti3r1xorYnWMWLpDFTWX4FQkf9F86mft0+qjlADw+D9
-         K9HVW5ly1KQiBEFAWdBMx7RDVaTPzDSW3ka9ufvPfNvBPIydlWv4bgHF5nxx9FqDGgo4
-         NKe8BBtPEq5R95Pkg/MtSaPnIbsZxeSpp2rV1JpnR2Zz6B1RCfir64AjkIu8eWBBruH1
-         mw0g==
+        b=aQtDWCbt6q8GH20xsbK/Cg1Sih2uc73/qZqdYi5zsrp+HgulbQWPSE1H5Vr78h9+ix
+         RmTe1MY5NApw2ol1xiNb7r5LIrIj8m6fkjtFaCML1U9EToNOwP2SuRkxanocil1Z37Gk
+         QFwoRhIgRSI/BwdvQseSCzvUUeVjWXp1SJY3gJgzGR38IgmBRSj1fPuQRP1amz59ksm8
+         0midlrMY9MmUzkSRZSEvE593rSQA1U9OfQ+LY/A9i2qxPWHHHi/A139AUoTTtNiQfb8r
+         sK8CZhoZLSaIjVo0M2BdiZPKEW7jzx86LSoyHJs90PHtOo4omBXLa72YMeKVlVq7zzx0
+         M+vw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=C1bg6xiI4y6+7k2tjKhPvGRGK3TFDQKnfwBJ+EjIYKA=;
-        fh=dh4xd8Cj6iwJi7l27YUcXp5hbZbfrL8e+ykYkZE9e6Q=;
-        b=V+DgGzPMmNedfrAtAmUt8sexqoCufzcWghaSzhL8vsv6CBErmILW1lx1DrYkzP19kb
-         4HAV1DGbcAACZ8/8O+iVE+uWuZzaruz5cx8b20oLXJxJSIf3VUKbwQ9e0aVvJrR7HxmX
-         m+ioY8+ySJ568QVzS5UkjMCApf6hA8xfGGFaWXvH0w2zQoDxVqkU3MpEke5S7NTiNpaU
-         +GIdV6i1GKI66JcoAg8NWKC9JNKFsyo/fi+Xh/Z7tyDYmH5ZwdDueNMaLekVyha/rHT1
-         LeDfCUD2Y1ahUF9UKUJjc1ppD4eWgKQDkeB8a5z3MA10GeIUdQsN3O8aFxjRvqw7Fok3
-         KdeA==;
+        bh=VKlMqpEd7YBdXym1IpYpN4BFku3eaQLOirqfkrIT+SY=;
+        fh=OmOARrwSKUClkkp7Yxd/3z16yoI08D3HPQR569jdsos=;
+        b=aUpb5uaU/H0CaDg16ChSS4IiTrYgYq93OtCwLN5wHB05fLwITjirJfovjTa9B5jjwL
+         dlKDcuR1gC/6y+tDOGnIYKx8Xay5GV/mu8DFHAIdD7qNjYg5UJDjULooGWFM7BjlYNHx
+         rENp7XhJlbaSL03gFVtbD7kP/fiwrHH8zHDXAcmOAMBHH6zR+DtAnAN/wxQg3nkmC0WC
+         Xb/epThuj53UTldky4KavKS1vk8aEXZmUanUfXXJLFCILuo/uKVKDG700zJN5EK33m2I
+         vVvZyuqxuY4TK97l6MCntKzm+UE+d7FZZyNFZVmALCgMMt4mUcvzILVq9Xw56KZL2FLG
+         sRfA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1772504909; x=1773109709; darn=vger.kernel.org;
+        d=paul-moore.com; s=google; t=1772505024; x=1773109824; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=C1bg6xiI4y6+7k2tjKhPvGRGK3TFDQKnfwBJ+EjIYKA=;
-        b=EsJG3vBaS1KZW5Izsw4OaIpH7hRkswp/BBxxAkmDxitc8w8FFOEbGPrwFIDKDTkfvb
-         el6P57HEQuZcFjAaRfBrYvppssqd1ruzRuX4K9GMbWsv/a+0UdV/wy91N0ItQt8JMY7a
-         +fTlI8uCMeBUtsXgkY9VG3mNkYMrQZASXK6Fb2eeSI0EWs+Ecp3RZWF2axg/KRySCujq
-         H9Rf6OiWSGLlOnujavHZFxxri5nzMcAFcuYI1rUxw9EWfymRbiJfLVMfJoPIduuGJW6o
-         TvrrzCiZ3L0CbmubL55JgO7BYzgGIbyf7FMN2fyQN+DOU1GKA/JOwazVjT7OHeGtXVR4
-         LdXA==
+        bh=VKlMqpEd7YBdXym1IpYpN4BFku3eaQLOirqfkrIT+SY=;
+        b=JfPMs15ZCu5uQlmdqQusmBhN/hCtjzE2ILqtdhvnIFAYHSV1FHjmSyA1arRjcsqd4i
+         Z4zhEf/tJOotLdNVozbOOjxhBlRwJk71hprzA2SYVvUIKNvz8c/GjcFp3BL7vDklngvO
+         zl4V4Vp916TZAWDuaMm3M9LB/UUzTTI4PNa8ZN0UQKnn5dtnNA/PDX+I+seNTfdQA7FQ
+         eAeF4P/7MyBqU3rFB/xabPpQJ0tZLgdAdrccAFYA5DSO631fAvLOUoY97xGiqrBBqUXo
+         Z1tmyiODc/zF//4CcHZRtYJNPYA1OChITkK1DJK96ljrZqSQHtTgNfr5zJ5nJo1M7dd7
+         ac4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772504909; x=1773109709;
+        d=1e100.net; s=20230601; t=1772505024; x=1773109824;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=C1bg6xiI4y6+7k2tjKhPvGRGK3TFDQKnfwBJ+EjIYKA=;
-        b=NgjwYd2UBtexbd26a4ovRKcjLgE1vbugHxM2j+L9FcM3V2rHHpOriCHAvSnFcLLNE0
-         b38Rc/wG3bpQ5c8qQQJR3iAq/Gr+sFY+7hajU82bBnGQXkrc5Mg/p7Idhlqa1vrkd1m8
-         m7cNoPukp9U6IQk3QmL34ueaC2cuciEq+jnOag9cKxbOE/5wp8UacqNJ/5RjNJRL2TZL
-         4WHgiav1XBZDc0Ce5ox7zi/lLZN1Ddox2+LBT8Xum9hPSHzeczrNO/sJpEcvGY2pIIkh
-         sRoEehlB3EpMCmJaQqBzEaH4ctPyrQE8/pUnn/BEMLvydzQoP6dD2bxKmg5BRlihF24g
-         pFtg==
-X-Forwarded-Encrypted: i=1; AJvYcCWsGVG8g2Fg30V5sx6bXrb7FHb2FjCKxvhc7AAXPQ+8BXsKPp5czNUU8LvQXa/VSigP4lABBm2Mug==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxQ3XvtCnGEgRZiUklKD9DHy6UfFoVdpGVuzchQYcfy9HifZRc
-	O8vGHzbQ4zqFjh7K++ehm0BH4nacTl8xVJNb4CJBz7lg5MJQbD8XkucWDUS/4yegmZyxJJ9lMZM
-	nuPPDwxgkQUcukrJmJCYQTGLi8kF35ed6FS2mqH6s
-X-Gm-Gg: ATEYQzzoZTAre7WGhP69M2bt07qbr44wvVc/zdMqtZkdB/TKLmaHJIpl+ZHXr2yrtwN
-	GeMkopmD9Y0AQ4HwoSRZBziV2yFd1WbjVxW4u2mv2/86a5Nceohlm8MtpeSiUtY5sHl9cpyhLNH
-	DPr5uOUkmQfVCGiXHxe32d/ZsVLeez9lhakENpSvBSS0xVM00cyix7QTRJLSnuYKPcjHxhdhG7n
-	y6zcBhOO3GHsfgjz+cvfG8fpBKZmsZY0wQf4A1sUAKBMaClTptJ2o3z0ZAU17B1tHY24sAE21w6
-	9HgWl0U=
-X-Received: by 2002:a17:90a:7f93:b0:356:1db4:8fe5 with SMTP id
- 98e67ed59e1d1-35965cc714fmr9453563a91.29.1772504909127; Mon, 02 Mar 2026
- 18:28:29 -0800 (PST)
+        bh=VKlMqpEd7YBdXym1IpYpN4BFku3eaQLOirqfkrIT+SY=;
+        b=qhSgDNrHegIY+D7Mzc9VmSwoDM2CW/AdJ7bCEZ5Td5R1h0krTziBefaqS3g8bE/bOk
+         leNchzyEHK1cdklURuVxowCcApa5C2TryVIkl7kQmRMwkvunEFIzN7kMiezgfmY9BEA+
+         TFbcSRg0DcNnM5uCxL9ry3Un5mtvI4LPvlCxzLCwjBewaOEyp1gWf6maY9J3uFWIGYHE
+         lNR8Hm+vhLoEh85LMccxiH6ZzR8DOSD+7DlUQ7FdWxu/8Shi8DR3hH+E27Pp3hgIkZNy
+         ot/cTs7u+RGToWc5PWJ7s3JQX36aenjW/KAS+i5GQXUZBIB7dkg+M9IiIA1kl9wKvEbK
+         4BbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXilILIkG6XMNWpruoYB3PcHoqwc9Su4l2xJp0eAOBbzfqklYy0iCTohGNk9zZdWt1obeZcw0Fvjw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+LUpcbSVRSYMKCH3sEjKCBvYqX7SvdMFzqcTF6JBmLla8Jxbt
+	kHh29uF4bOp/QWYMzzJKZr/tZ8dJINmwi2W0jSlEuTk7SMaSRrqoP3op4E6aGfFj5/8hdyKwK9Q
+	LnpMF+K9wMZUHXvs1wNncufBbOIjeKTpivFLc542K
+X-Gm-Gg: ATEYQzw+UCb44/dEQfGyRI3w7w2++D5ari+8c+DfDvMgNhGpLa1BUniRZLDAtdx0T3L
+	s9hM08OSpr8cw+gvUhp5c+AlEpE1VR8Hktz7iBVAOfBU7VGA4yldmLXYfNk5CNsXgPY7842OyCC
+	pjFb24J9W5Ge98ctUETJgIy8wOINRQ/NxcvLNtakxBO9PkLwnMcJpF7EztrzXx4HNCQBJ2Teipz
+	VXPgXSMYC4Elz470F80NfZbHtNkrsuP0NV0F/6MShxk0Il0LGuRNj5eFQqb7yO3LngmiZsiDuSb
+	yoZKPlzUxon9+VDo1A==
+X-Received: by 2002:a17:903:244a:b0:2ae:56f8:747b with SMTP id
+ d9443c01a7336-2ae56f8786cmr37920855ad.57.1772505023451; Mon, 02 Mar 2026
+ 18:30:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260302-iino-u64-v2-0-e5388800dae0@kernel.org> <20260302-iino-u64-v2-49-e5388800dae0@kernel.org>
-In-Reply-To: <20260302-iino-u64-v2-49-e5388800dae0@kernel.org>
+References: <20260302-iino-u64-v2-0-e5388800dae0@kernel.org> <20260302-iino-u64-v2-105-e5388800dae0@kernel.org>
+In-Reply-To: <20260302-iino-u64-v2-105-e5388800dae0@kernel.org>
 From: Paul Moore <paul@paul-moore.com>
-Date: Mon, 2 Mar 2026 21:28:17 -0500
-X-Gm-Features: AaiRm53ToDAKLnqMzF7h_Rr5obeE3dnKPI4TQkaY52RSs5vb8oGyabc3Zmeif9I
-Message-ID: <CAHC9VhRLAhMYL1ax3+LCeLLhnK0XGnvs0kGPGgHaptTaDynroA@mail.gmail.com>
-Subject: Re: [PATCH v2 049/110] security: use PRIino format for i_ino
+Date: Mon, 2 Mar 2026 21:30:10 -0500
+X-Gm-Features: AaiRm53tOqTCLn9NgvLgqwCOFo4xSyksjolr8ucn59RQ44Ck0r7mzGeRmSI5U0c
+Message-ID: <CAHC9VhSHj7qc-tKxEN45bkfr+Dha59ihzOGiCO2WDYTYoB-LeA@mail.gmail.com>
+Subject: Re: [PATCH v2 105/110] security: replace PRIino with %llu/%llx format strings
 To: Jeff Layton <jlayton@kernel.org>
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
 	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
@@ -192,13 +192,13 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.
 	linux-sctp@vger.kernel.org, bpf@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: E4E661E8020
+X-Rspamd-Queue-Id: BE5B21E80C0
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[paul-moore.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[paul-moore.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -206,7 +206,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,goodmis.org,efficios.com,intel.com,infradead.org,mit.edu,linux.dev,suse.de,redhat.com,manguebit.org,dilger.ca,suse.com,oracle.com,brown.name,talpey.com,samba.org,gmail.com,microsoft.com,dubeyko.com,ionkov.net,codewreck.org,crudebyte.com,auristor.com,themaw.net,cs.cmu.edu,fluxnic.net,tyhicks.com,physik.fu-berlin.de,vivo.com,artax.karlin.mff.cuni.cz,nod.at,paragon-software.com,fasheh.com,evilplan.org,linux.alibaba.com,omnibond.com,szeredi.hu,alarsen.net,huawei.com,wdc.com,canonical.com,namei.org,hallyn.com,linux.ibm.com,schaufler-ca.com,amd.com,ffwll.ch,linaro.org,google.com,davemloft.net,arm.com,linux.intel.com,dev.tdt.de,yaina.de,holtmann.org,hartkopp.net,pengutronix.de,secunet.com,gondor.apana.org.au,fomichev.me,iogearbox.net,vger.kernel.org,lists.linux.dev,kvack.org,lists.sourceforge.net,lists.samba.org,lists.infradead.org,coda.cs.cmu.edu,lists.orangefs.org,lists.ubuntu.com,lists.freedesktop.org,lists.linaro.org];
-	TAGGED_FROM(0.00)[bounces-1014-lists,ecryptfs=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-1015-lists,ecryptfs=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -217,20 +217,17 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[paul@paul-moore.com,ecryptfs@vger.kernel.org];
 	DKIM_TRACE(0.00)[paul-moore.com:+];
 	NEURAL_HAM(-0.00)[-0.997];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TAGGED_RCPT(0.00)[ecryptfs];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,paul-moore.com:dkim,paul-moore.com:email,paul-moore.com:url]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,mail.gmail.com:mid,paul-moore.com:dkim,paul-moore.com:email,paul-moore.com:url]
 X-Rspamd-Action: no action
 
-On Mon, Mar 2, 2026 at 3:36=E2=80=AFPM Jeff Layton <jlayton@kernel.org> wro=
+On Mon, Mar 2, 2026 at 3:50=E2=80=AFPM Jeff Layton <jlayton@kernel.org> wro=
 te:
 >
-> Convert security i_ino format strings to use the PRIino format
-> macro in preparation for the widening of i_ino via kino_t.
->
-> Also correct signed format specifiers to unsigned, since inode
-> numbers are unsigned values.
+> Now that i_ino is u64 and the PRIino format macro has been removed,
+> replace all uses in security with the concrete format strings.
 >
 > Signed-off-by: Jeff Layton <jlayton@kernel.org>
 > ---
@@ -242,8 +239,7 @@ te:
 >  security/smack/smack_lsm.c           | 12 ++++++------
 >  6 files changed, 20 insertions(+), 20 deletions(-)
 
-No comment on the PRIino specifier, but the LSM framework and SELinux
-changes seem complete.
+For the LSM framework and SELinux changes ...
 
 Acked-by: Paul Moore <paul@paul-moore.com> (LSM/SELinux)
 
