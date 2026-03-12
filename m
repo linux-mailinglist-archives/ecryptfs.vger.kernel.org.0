@@ -1,146 +1,174 @@
-Return-Path: <ecryptfs+bounces-1137-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-1138-lists+ecryptfs=lfdr.de@vger.kernel.org>
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cRrdF5BOs2mNUgAAu9opvQ
-	(envelope-from <ecryptfs+bounces-1137-lists+ecryptfs=lfdr.de@vger.kernel.org>)
-	for <lists+ecryptfs@lfdr.de>; Fri, 13 Mar 2026 00:38:56 +0100
+	id ADogALZRs2l8UwAAu9opvQ
+	(envelope-from <ecryptfs+bounces-1138-lists+ecryptfs=lfdr.de@vger.kernel.org>)
+	for <lists+ecryptfs@lfdr.de>; Fri, 13 Mar 2026 00:52:22 +0100
 X-Original-To: lists+ecryptfs@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id A286E27B49E
-	for <lists+ecryptfs@lfdr.de>; Fri, 13 Mar 2026 00:38:55 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id F17E727B59B
+	for <lists+ecryptfs@lfdr.de>; Fri, 13 Mar 2026 00:52:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 69E8B301DC15
-	for <lists+ecryptfs@lfdr.de>; Thu, 12 Mar 2026 23:38:54 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 713DF301EBED
+	for <lists+ecryptfs@lfdr.de>; Thu, 12 Mar 2026 23:52:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77231401493;
-	Thu, 12 Mar 2026 23:38:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 985723D9DAF;
+	Thu, 12 Mar 2026 23:52:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="cjWhhyzr"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16D043D0921;
-	Thu, 12 Mar 2026 23:38:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CE544014B3
+	for <ecryptfs@vger.kernel.org>; Thu, 12 Mar 2026 23:52:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773358733; cv=none; b=gNc7QzVANDcghrzlXK9ogXcKcIQ4CL6h7lL1fp0b6P+dcjGMjADiI7+bw02kwq92U/AkKRPyEnI4UpvBO+z+SxSt78lul8514e8qJlo4fkaKvStQDIukEwckiRrBT5SuQmTAxG7XRL5oL0w/6h7m2iV9zXK2XuM1n9lV3/LwIVg=
+	t=1773359534; cv=none; b=FZ8AIx7fmNjUzwsT22PVNHVsQED2fCO+OZGfSn08yo+nJuabTG4rxfZdMOaQW4qGPIkPSqhY4vTnq15kUSjH94FjQwY7kKabQUx6cL/JMVSIRlFc8l52V8517xOxZy+XFCRBLRSaFof7wwUkV/RK0Q/qKax4QxubDfMe0jJucvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773358733; c=relaxed/simple;
-	bh=PjQnm7PdIi0z/ruBJQNhneZVuQrhBMEPnKL7b5RdF4s=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mHOn912MrD9Mv4A7skBR0PKUAd2YQONvoGuwmegZk+aLI9xDD64Nugvzp0iJt4bxlkIkoSwd5wWoP6lhbKURLpIEvFTAfF8iFVn0f6tUGppkidhOO0VZp2fruKxRiTKt/8m8dYiPUK2EujsuU6cB8wBkEbJ+7EAzu6l1zAKT4i0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf04.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay04.hostedemail.com (Postfix) with ESMTP id 75BA61A0463;
-	Thu, 12 Mar 2026 23:38:47 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf04.hostedemail.com (Postfix) with ESMTPA id 437DE20024;
-	Thu, 12 Mar 2026 23:38:32 +0000 (UTC)
-Date: Thu, 12 Mar 2026 19:38:47 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: NeilBrown <neilb@ownmail.net>
-Cc: NeilBrown <neil@brown.name>, Linus Torvalds
- <torvalds@linux-foundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Jeff
- Layton <jlayton@kernel.org>, Trond Myklebust <trondmy@kernel.org>, Anna
- Schumaker <anna@kernel.org>, Carlos Maiolino <cem@kernel.org>, Miklos
- Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, Jan
- Harkes <jaharkes@cs.cmu.edu>, Hugh Dickins <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, David Howells <dhowells@redhat.com>, Marc
- Dionne <marc.dionne@auristor.com>, Steve French <sfrench@samba.org>, Namjae
- Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>,
- Yuezhang Mo <yuezhang.mo@sony.com>, Andreas Hindborg
- <a.hindborg@kernel.org>, Breno Leitao <leitao@debian.org>, "Theodore Ts'o"
- <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, Masami
- Hiramatsu <mhiramat@kernel.org>, Ilya Dryomov <idryomov@gmail.com>, Alex
- Markuze <amarkuze@redhat.com>, Viacheslav Dubeyko <slava@dubeyko.com>,
- Tyler Hicks <code@tyhicks.com>, Andreas Gruenbacher <agruenba@redhat.com>,
- Richard Weinberger <richard@nod.at>, Anton Ivanov
- <anton.ivanov@cambridgegreys.com>, Johannes Berg
- <johannes@sipsolutions.net>, Jeremy Kerr <jk@ozlabs.org>, Ard Biesheuvel
- <ardb@kernel.org>, linux-fsdevel@vger.kernel.org,
- linux-nfs@vger.kernel.org, linux-xfs@vger.kernel.org,
- linux-unionfs@vger.kernel.org, coda@cs.cmu.edu, linux-mm@kvack.org,
- linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org,
- linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, ceph-devel@vger.kernel.org,
- ecryptfs@vger.kernel.org, gfs2@lists.linux.dev,
- linux-um@lists.infradead.org, linux-efi@vger.kernel.org
-Subject: Re: [PATCH RFC 00/53] lift lookup out of exclive lock for dir ops
-Message-ID: <20260312193847.28c32a2c@gandalf.local.home>
-In-Reply-To: <20260312214330.3885211-1-neilb@ownmail.net>
-References: <20260312214330.3885211-1-neilb@ownmail.net>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1773359534; c=relaxed/simple;
+	bh=wOUC16WI4/reo5GvoZO5ESmt8rfD7PE3++Xf9novjKE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MJ6CZKVyN7lhkcQYIH9zoCNnEUiDAibQZe5MuNm22z9+FGpRJ6SyPTaNGUtKEh75hv+5GZZ+FLeCdUbyzov2hkJ7JXWCYIiJk9b2buQ7xXq+B7XCVIW/cVQCRzVrWH01CqRtmC1jk2UcNxrgb0rDmAWapI6hBPI5LuIofWhwBT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=cjWhhyzr; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b976e181895so2617366b.1
+        for <ecryptfs@vger.kernel.org>; Thu, 12 Mar 2026 16:52:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1773359531; x=1773964331; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=pkgvHL0resGmXTqRBi16uC1NxLEncxIx9i+VLjGIXAo=;
+        b=cjWhhyzrfC3vsfTTKNaQQpksX/hrrdTeN3iqO8Qxb92T9wdcUFk5Rrc32cDo9qkwPa
+         +4OWEaPqCAdyCx70+iycglKH8PRIRHes8IhZUwBYN/W/yV+M4r8xZE8N+J61iWFWGMa5
+         0GalMJEzuq8kzQJInluNLFCRlvb3Y+58VfFv4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773359531; x=1773964331;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pkgvHL0resGmXTqRBi16uC1NxLEncxIx9i+VLjGIXAo=;
+        b=ZjQUb+/vvLlniT4Kor0ZzJ0/DIq8R9aUKOWmIRhxZiCnUjuYxrWrSTaHOfQDhTnexm
+         ULrL25x6HID4iciyJSYZzacMQyjRne7bvgiKOpVxzQw4At3f5Y0adlun8do/k6knPJrF
+         cPFhZOhimxX4Dvas5jelrKniSdTuKBmYsUnxeyzk4bg2cxCu/HwmFbiZe1Mk0FYiouVP
+         ErmtI9ETrlfRtgZn2vpbllThINXM4QWo0q/x2ylymWM4KkuqKs4sA2mZMXawnXikLccF
+         M8xik+IYzOx2lJ8JiKKNTXmNiLEOATIijXZSR8CDkasGHttG5OKbY3EyFe9ixj7QSqcN
+         ks6w==
+X-Forwarded-Encrypted: i=1; AJvYcCWaHdKczCmCFMAjwgwPUaMb8IF12HH5TdbtE6Wzrmt8xbwfGw1S23N2gpdXJf5YoGmIiMEk2oumhw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyWsI+L695SK2HCTbPqlHpbyLnDnO73i8w4BDh0j9OerAeYtpJX
+	TMwUF2eZ6SLikaxExe+xL5xw9Aup14JZH1iSGp/csYQ1HW89y35AEoPKinvIpjCL/FeczECbxXN
+	umfqwtjI=
+X-Gm-Gg: ATEYQzw/e7VEcuiYnY+1M8yMnAH4mtEqbA9NHHhVQjuT7yXt6pc3QXtB3jWaVa0pHGR
+	ge4fClmJqndeh19ZNJ1XEKvGIYFc+fwBdsKP10pILhJ0xzPBf2YjVKRoEqpUE8GrY88s5GcAPzn
+	8x8rNC83A6tYJRbWWPpfw5NG6wQQ/8jEd8MaHzUt6OA81AVjys//wEOCoOGDLLhHsznFWSSSutb
+	Iq0rzV/XOpB4IpKIf2P6nGPCglMEhB/ulnRusOqqR4/2PuMBM3USqmWhZ9oQGhPI9uEX4jIc0DQ
+	kLBP+W3uqXmkp6/tC6Jpjdr3r9uk++HrK9e8Hssr1wGfe95C+EM5roz5kuDQDpvLiPbZKzTKIBu
+	f/MBWcdKR9hj/S4ViKLrFctBVNDcE6kZo/1WzUTLpb5qfI05GaRH+ZDYrKaObQHLxHmZTi8wF/i
+	FhWU9MHivwELr+EFq2GDAiM1cpj7K5xhltN2KrhfL99gKyJtJZkhBFIg1boBmjwPCTbtipsiy1
+X-Received: by 2002:a17:907:86a1:b0:b94:a1d4:ceff with SMTP id a640c23a62f3a-b9765392525mr67886166b.35.1773359530888;
+        Thu, 12 Mar 2026 16:52:10 -0700 (PDT)
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com. [209.85.218.54])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b976cc220basm3370066b.28.2026.03.12.16.52.10
+        for <ecryptfs@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Mar 2026 16:52:10 -0700 (PDT)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b96f02b4329so272413066b.2
+        for <ecryptfs@vger.kernel.org>; Thu, 12 Mar 2026 16:52:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXeMmHN4gfpEcENEwkCKyKnkDAwsS3YRApKFMC4keRs/5VQb5lbPx6NNBp7OvOSeCWdMQbm3N/3PQ==@vger.kernel.org
+X-Received: by 2002:a17:907:c5c9:b0:b96:d802:8b41 with SMTP id
+ a640c23a62f3a-b9764fd8722mr66207066b.15.1773359215961; Thu, 12 Mar 2026
+ 16:46:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: uw6f48jbt5c7m69ogen7zm3qrgdgnged
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX188/YrC5TApof6JUD5+VNztl2shXsvgY5o=
-X-HE-Tag: 1773358712-902307
-X-HE-Meta: U2FsdGVkX1+OxQ2+Isx7vF4UixzzITSWoLGanhQdmOUQzHc1ErHaC2HhfFr20UjnVfuApzdY0CnNI9X2EzaFzoxWkp+inh8h89+ue9tsCje/WXI2p8TViZKD1rgZ9aRmWPzAaOFt9AR3SlccruGvmKX1nd3X2qcHF/Qj4v2Ic2F2kBtdL+HvK1KWscULRrzA7ZXclvIVR+DpEPprYwt/KKB72qtNEyxLFZN/ZdoFOmgI0OmUW9WSqFmPDtGp6NNUkGL68vmGr0d1dJsWkcANTfDGT58FCBs3Q3TWI/CNur9ihaDpBPfKeDQH86AL8k3ONIIfeCwhZyBEr7FfTAOuyi2fOWNNYZopJrxvZi0zu3x2dKf/Woo8mIogKoo/MSw6
-X-Spamd-Result: default: False [0.14 / 15.00];
+References: <20260312214330.3885211-1-neilb@ownmail.net>
+In-Reply-To: <20260312214330.3885211-1-neilb@ownmail.net>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 12 Mar 2026 16:46:39 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wh92deXvH5iXCo9mThXCBYt-jRcVu=z4kiH-f3+wZQOHA@mail.gmail.com>
+X-Gm-Features: AaiRm503fTaccEgKNbxF9h_dDHM9fUsSr52XJuxzTwCI0G9L03uDq8g5di1zchk
+Message-ID: <CAHk-=wh92deXvH5iXCo9mThXCBYt-jRcVu=z4kiH-f3+wZQOHA@mail.gmail.com>
+Subject: Re: [PATCH RFC 00/53] lift lookup out of exclive lock for dir ops
+To: NeilBrown <neil@brown.name>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Jeff Layton <jlayton@kernel.org>, Trond Myklebust <trondmy@kernel.org>, 
+	Anna Schumaker <anna@kernel.org>, Carlos Maiolino <cem@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Amir Goldstein <amir73il@gmail.com>, Jan Harkes <jaharkes@cs.cmu.edu>, 
+	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
+	Steve French <sfrench@samba.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Breno Leitao <leitao@debian.org>, "Theodore Ts'o" <tytso@mit.edu>, 
+	Andreas Dilger <adilger.kernel@dilger.ca>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Ilya Dryomov <idryomov@gmail.com>, 
+	Alex Markuze <amarkuze@redhat.com>, Viacheslav Dubeyko <slava@dubeyko.com>, Tyler Hicks <code@tyhicks.com>, 
+	Andreas Gruenbacher <agruenba@redhat.com>, Richard Weinberger <richard@nod.at>, 
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes Berg <johannes@sipsolutions.net>, 
+	Jeremy Kerr <jk@ozlabs.org>, Ard Biesheuvel <ardb@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-nfs@vger.kernel.org, linux-xfs@vger.kernel.org, 
+	linux-unionfs@vger.kernel.org, coda@cs.cmu.edu, linux-mm@kvack.org, 
+	linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, ceph-devel@vger.kernel.org, 
+	ecryptfs@vger.kernel.org, gfs2@lists.linux.dev, linux-um@lists.infradead.org, 
+	linux-efi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[linux-foundation.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[goodmis.org : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[brown.name,linux-foundation.org,zeniv.linux.org.uk,kernel.org,suse.cz,szeredi.hu,gmail.com,cs.cmu.edu,google.com,linux.alibaba.com,redhat.com,auristor.com,samba.org,samsung.com,sony.com,debian.org,mit.edu,dilger.ca,dubeyko.com,tyhicks.com,nod.at,cambridgegreys.com,sipsolutions.net,ozlabs.org,vger.kernel.org,kvack.org,lists.infradead.org,lists.linux.dev];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-1137-lists,ecryptfs=lfdr.de];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,szeredi.hu,gmail.com,cs.cmu.edu,google.com,linux.alibaba.com,redhat.com,auristor.com,samba.org,samsung.com,sony.com,debian.org,mit.edu,dilger.ca,goodmis.org,dubeyko.com,tyhicks.com,nod.at,cambridgegreys.com,sipsolutions.net,ozlabs.org,vger.kernel.org,kvack.org,lists.infradead.org,lists.linux.dev];
+	DKIM_TRACE(0.00)[linux-foundation.org:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[ownmail.net];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[ecryptfs];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rostedt@goodmis.org,ecryptfs@vger.kernel.org];
+	DMARC_NA(0.00)[linux-foundation.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-1138-lists,ecryptfs=lfdr.de];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	NEURAL_HAM(-0.00)[-0.991];
-	RCPT_COUNT_GT_50(0.00)[52];
-	R_DKIM_NA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[torvalds@linux-foundation.org,ecryptfs@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	RCPT_COUNT_GT_50(0.00)[51];
+	TAGGED_RCPT(0.00)[ecryptfs];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: A286E27B49E
+X-Rspamd-Queue-Id: F17E727B59B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, 13 Mar 2026 08:11:47 +1100
-NeilBrown <neilb@ownmail.net> wrote:
+On Thu, 12 Mar 2026 at 14:44, NeilBrown <neilb@ownmail.net> wrote:
+>
+> This patch set progresses my effort to improve concurrency of
+> directory operations and specifically to allow concurrent updates
+> in a given directory.
 
-> *[PATCH 26/53] smb/client: don't unhashed and rehash to prevent new
-> *[PATCH 27/53] smb/client: use d_splice_alias() in atomic_open
->  [PATCH 28/53] smb/client: Use d_alloc_noblock() in
-> *[PATCH 29/53] exfat: simplify exfat_lookup()
-> *[PATCH 30/53] configfs: remove d_add() calls before
->  [PATCH 31/53] configfs: stop using d_add().
-> *[PATCH 32/53] ext4: move dcache modifying code out of __ext4_link()
-> *[PATCH 33/53] ext4: use on-stack dentries in
+I only got about half the patches, but the ones I did get didn't raise
+my hackles.
 
->  [PATCH 34/53] tracefs: stop using d_add().
+HOWEVER.
 
-Hmm, another reason I hate being Cc'd on every patch of a patch bomb where
-I only need to look at one (and maybe the first) patch.
+This is very much a "absolutely requires ACKs from Al" series. Al?
 
-For some reason, I'm missing several patches, and this is one of them :-p
+Also, because I only got about half the patches, and there's 53 of
+them total, I'd really like to see a git branch for something like
+this. It makes it easier to review for me, and I suspect it makes it
+easier for some of the test robots too.
 
--- Steve
+But again - this needs Al to look at it. Iirc he had some fundamental
+concern with the last version - hopefully now fixed, but ...
 
-
->  [PATCH 35/53] cephfs: stop using d_add().
-> *[PATCH 36/53] cephfs: remove d_alloc from CEPH_MDS_OP_LOOKUPNAME
->  [PATCH 37/53] cephfs: Use d_alloc_noblock() in
->  [PATCH 38/53] cephfs: Don't d_drop() before d_splice_alias()
->  [PATCH 39/53] ecryptfs: stop using d_add().
->  [PATCH 40/53] gfs2: stop using d_add().
+                 Linus
 
