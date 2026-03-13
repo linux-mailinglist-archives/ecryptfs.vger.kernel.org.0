@@ -1,101 +1,101 @@
-Return-Path: <ecryptfs+bounces-1139-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-1140-lists+ecryptfs=lfdr.de@vger.kernel.org>
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QFKxKr5Vs2mzVAAAu9opvQ
-	(envelope-from <ecryptfs+bounces-1139-lists+ecryptfs=lfdr.de@vger.kernel.org>)
-	for <lists+ecryptfs@lfdr.de>; Fri, 13 Mar 2026 01:09:34 +0100
+	id AAP1IANYs2kRVQAAu9opvQ
+	(envelope-from <ecryptfs+bounces-1140-lists+ecryptfs=lfdr.de@vger.kernel.org>)
+	for <lists+ecryptfs@lfdr.de>; Fri, 13 Mar 2026 01:19:15 +0100
 X-Original-To: lists+ecryptfs@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDFDD27B6A1
-	for <lists+ecryptfs@lfdr.de>; Fri, 13 Mar 2026 01:09:33 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91A2F27B870
+	for <lists+ecryptfs@lfdr.de>; Fri, 13 Mar 2026 01:19:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A4F603024512
-	for <lists+ecryptfs@lfdr.de>; Fri, 13 Mar 2026 00:09:32 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id CDD3130298BE
+	for <lists+ecryptfs@lfdr.de>; Fri, 13 Mar 2026 00:19:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B86B3182D0;
-	Fri, 13 Mar 2026 00:09:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9A8F1E7C12;
+	Fri, 13 Mar 2026 00:19:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="nmFe2jtL";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="G5Cai4kt"
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="gHD+X8LZ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="cCdkekOP"
 X-Original-To: ecryptfs@vger.kernel.org
 Received: from flow-b3-smtp.messagingengine.com (flow-b3-smtp.messagingengine.com [202.12.124.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5962AD10;
-	Fri, 13 Mar 2026 00:09:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93875191;
+	Fri, 13 Mar 2026 00:19:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773360571; cv=none; b=I1DFiZ/OLj0KL9rLbsLgoJFkHMp/9lBHdDNOJBIrDYoiQhqD6/9L9b8pPjQkz171Gqgr1Qe+A3nGI5ND0VwSK/9EcdsHn3pytXPEj1+C11OfOmDu86LSGTDDWS68oxzaG2vPWsOai1QLJJ7zyfjpCv4na3rTzr9r15WrxCnu4a0=
+	t=1773361147; cv=none; b=AzsiR7Wkyaex8qDknmU3dNmJejChFfrbPhR6bCWiBjY15UsdYm+59Z7MjRQnPo3Gmr6QJ9taLhsy6EMxgFyjiPLTbV6P3hXHiI1Mcjkn+n0bteYwhp88GwYcTrqX/gekV18KdkkSdgt4V7Ajte0qo9TDRjYWHq6AXRIvkhbDySQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773360571; c=relaxed/simple;
-	bh=5WyyyzalVTsOFqKBoq2Ui24NLNW5bx4BjtZMs2Kh5tw=;
+	s=arc-20240116; t=1773361147; c=relaxed/simple;
+	bh=KDownSrJa5S3EqGFi/GZy1HPESB/36MNwmQwJTfITNs=;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=dujyKcht/XrBAUYE9c9wFBCNQFpvY078J69alGAOV1wKYHx7FQ4F5bISt4nOaIF5V6UYz2EP0r7s0CGNcULsZZgS9pf0mrLKzMM6UMm2p4D1Gmayt3GdJyPsfrab58sJ47/DVA2O9ssBidZlLsri0YGYFelrKyB6wqp1wrc1OLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=nmFe2jtL; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=G5Cai4kt; arc=none smtp.client-ip=202.12.124.138
+	 References:Date:Message-id; b=LXOJLgK2hIr46xWJEMJLAapItWGFd9kRKjO7S676rr7rLFynCxJ/vH0dpCvvesB225rs0KpTLnpk9mYOF9W6VOpKm55aMhHnntub3ECUO5VI7LJgZa2DnrbbxU8QCoorKuq7bKGidQWKeKlvwXz26Eyfb+Sp0Ou48pfmce6YWQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=gHD+X8LZ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=cCdkekOP; arc=none smtp.client-ip=202.12.124.138
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailflow.stl.internal (Postfix) with ESMTP id 453521300F4D;
-	Thu, 12 Mar 2026 20:09:25 -0400 (EDT)
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailflow.stl.internal (Postfix) with ESMTP id 8CEA61301B20;
+	Thu, 12 Mar 2026 20:19:04 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Thu, 12 Mar 2026 20:09:27 -0400
+  by phl-compute-02.internal (MEProxy); Thu, 12 Mar 2026 20:19:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
-	1773360565; x=1773367765; bh=KgAiLbof0iO8cGF8i0bS3fRoWLrp1RkGsUr
-	3z87f+QY=; b=nmFe2jtLyLr+7u8+TDKRncwnQQgfmtMxU9rW2fcZXcAX5N/O+oK
-	mkTcvLt2tGqnfh0yQZ9VxfeJXHOmQK3xmRCh0WkZO8z+9EbGkHt1EK+1v9oEDQFk
-	yjK2H4B7GbHLcXZXF6XJNsP5Q5oExxA0/3HptDHC4Yo7bGMxV66pr3UW7B9oRSB4
-	vuiTbATRXYBbLXhvd6Op9YEKWgq8ir7OPi6JV+oRhKZvn8t8u83ENmYYrl/BoZV0
-	FrCRFffyXHlTGaGOZ5VUzpnpHtLR7Cp1SV1LfUlzqP/nSXhBI3LJq0G6aafkvcXQ
-	H921q+OqQ7yY81EaudsM9yPaG6U2Be50mTg==
+	1773361144; x=1773368344; bh=mVG8eebTQIYrNSCfz5AoYNPWvAP9zOmA/oS
+	XBEUNMDg=; b=gHD+X8LZJV5BmcTxyVzSi4eOH+f9NWdLk6voSZ3Dk2TmtFtrTPT
+	n0z2oXB44COIaMxym9EotuPwl3zhBchA17LQD1aiXLP0HZVx+1sB2rDvs+59CClN
+	HQKjtkq+MLlefiP50e3G0ZUzDRVImhJt8LXC5Gk+3LL4kz0dWCTiZEgkORI83H3g
+	IYzMIhIFS+pW8u+iq3O1fDK+eB6xv0w3oEKr75CQKG3ENMDVGe/ATK98/l7Dvx/P
+	8BZhP/BMTsa8A8nINOCn4yT0evPyJ+NeT9UVxbDjMi1RnmCTf2Vmbpsgbeb+2prd
+	AnO6/VSTlvk8uuzd90K874TkKVJWxfC+iOg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1773360565; x=
-	1773367765; bh=KgAiLbof0iO8cGF8i0bS3fRoWLrp1RkGsUr3z87f+QY=; b=G
-	5Cai4ktm8ZYp5XyzSdEJarMpSfeXDzWAL8MTxUvYBQ2hpUgY3TIWYBA9NiTzGeNa
-	5E83ul9G/GPuOexqHFwoNmE5Bf87gj016HXSgb9HA2ajcfY5cLlR/6Scnq1+bMSy
-	L/Puu8DC52gTGANh4qz45QluS+yFcFx8cBkqURrLJFH5bOAyWf/oR6Uo1r93DRwO
-	ChU+IBist6Pp1G8vs9yINCx1pw7Dl8SVJBTw/u/RobXjWABJlCOcI6SzK3FmMqVv
-	JWB6ykQWBhykIIJXXf4XNnPkhW+lXc0X5IwRHItIgUJymc4RMF52UynxsiryvgQn
-	Ohgl8jSg52zXQ1Ht0jvEQ==
-X-ME-Sender: <xms:slWzaeXV7qa1u6neLd6Q1-cVt0VMASr8cnqysAFQocSTAtEfKc0JvQ>
-    <xme:slWzaeSKlwNXuQd-ytFXXY0mVc_-Zjwa4_mmoEgCEIxrE6aOdvb3p8liU_ELdbDzk
-    UaaJ6Rv9sIirpntfCZ3ed2iOF6DIF4YVBR0WyA36tWvjzE7914>
-X-ME-Received: <xmr:slWzadcI0WZE_K5ZNf3p0KQMTKhUmZqGQsTQWME1TwSj7PSSkE9RCFBWyBYhQ55dSIow75rJ91K6-dY7EINULxs6lGnfRrWsj3AxXRa0e5UN>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvkeekudekucetufdoteggodetrf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1773361144; x=
+	1773368344; bh=mVG8eebTQIYrNSCfz5AoYNPWvAP9zOmA/oSXBEUNMDg=; b=c
+	CdkekOPdZGeTHq9Q9fn6kwRHxICBqhAbEe7Mbn8RL0/ghUTZud8i2luiteEmp2Ir
+	nIdMJTy2arC7PIdd3QUxuvFoTPxCOMLV9z6Gm7Dry2+55WAsz8/lpUpp6KLCvOb5
+	vppTuCMIOaaruvILxo7wGqRgbVRfmvszAtPJWbhzUWIoBUdJz8+7BU3zgxJSlbc3
+	fpGHsm7gMQ5BqZ2Qbs1zxa7FgNneoKrfT70cZbcDqlzmSr5Rt1Zdfq8ZqH/0hCpG
+	u4ztiIjqn7BZ94m/pkzsJPqZlNum+Fn4NWKv3hqcNWG2BtBRflNBWi/TcF8QJ+Eo
+	3H4DqYmdO0Ph/KIpM2FGA==
+X-ME-Sender: <xms:9lezaf2biEH_YUoVtaJ788TBctRMYMGJjfZ2DGR5uanh1iY0Bnn1tg>
+    <xme:9lezaRxzKm32RjDuV_b2LpuNVPPb6Y2SpMCDjskankSuVyTtPWjSsFcMWwjNHIFU7
+    GLRMDp98i1zC2yMmBsdKulbM_AH2YMuIt5X8wc4fPQA-OpC2Q>
+X-ME-Received: <xmr:9lezaa84oPqo9JeTHF-KiyHUZaJt4h0JSykKqUiirLVobFQ0qtPIFeYYpGFOGnN83U9sO87B36Hyg9vaeC9k5oIsMjNlS0OCsh5IMJauHcVf>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvkeekvddtucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurheptgfgggfhvfevufgjfhffkfhrsehtjeertddttdejnecuhfhrohhmpefpvghilheu
+    gurheptgfgggfhvfevufgjfhffkfhrsehtqhertddttdejnecuhfhrohhmpefpvghilheu
     rhhofihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnh
-    epgfeikeetueehudeigfefkeekleegheehueeifffhieefvdegueetgfekuddukeevnecu
-    ffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurf
-    grrhgrmhepmhgrihhlfhhrohhmpehnvghilhgssehofihnmhgrihhlrdhnvghtpdhnsggp
-    rhgtphhtthhopeehuddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepvhhirhhose
-    iivghnihhvrdhlihhnuhigrdhorhhgrdhukhdprhgtphhtthhopehlihhnuhigqdigfhhs
-    sehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidquhhnihhonh
-    hfshesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhtrhgr
-    tggvqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlih
-    hnuhigqdhnfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhu
-    gidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinh
-    hugidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehl
-    ihhnuhigqdgvgihtgeesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlih
-    hnuhigqdgvfhhisehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:slWzaSzNnugwYNYtiVWYHc4qaDBmXyQ51PSSBJ1uiNVJapnS6gluPA>
-    <xmx:slWzaeEAu6gvMjez-LKBYzOhXf5W2TUuXYdFq9RYM3BZ9DviPSnwQA>
-    <xmx:slWzaW4NCFWB-i4WBv0KYxfPr8CoLpfQ8pVU8lId_PRL8FTgtUuCaQ>
-    <xmx:slWzaVHk7pykGSmnnTVs6z84wbljsuc816F1d1tD0LoUWms4qvgBoQ>
-    <xmx:tVWzaRho-xmNtiFafDRGXsj1bH7ybmYtyFLigxgHrazcCccpxnyLB6O->
+    epffevjeeljeehueejgeehleelueevudehjeekgeevueffteevhfefvedtueeugfejnecu
+    ffhomhgrihhnpehgihhthhhusgdrtghomhdpkhgvrhhnvghlrdhorhhgnecuvehluhhsth
+    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhgvihhlsgesohifnhhm
+    rghilhdrnhgvthdpnhgspghrtghpthhtohephedupdhmohguvgepshhmthhpohhuthdprh
+    gtphhtthhopehvihhrohesiigvnhhivhdrlhhinhhugidrohhrghdruhhkpdhrtghpthht
+    oheplhhinhhugidqgihfshesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhope
+    hlihhnuhigqdhunhhiohhnfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthht
+    oheplhhinhhugidqthhrrggtvgdqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorh
+    hgpdhrtghpthhtoheplhhinhhugidqnhhfshesvhhgvghrrdhkvghrnhgvlhdrohhrghdp
+    rhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+    dprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdho
+    rhhgpdhrtghpthhtoheplhhinhhugidqvgigthegsehvghgvrhdrkhgvrhhnvghlrdhorh
+    hgpdhrtghpthhtoheplhhinhhugidqvghfihesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:9lezaSQ88me8CYxNCjygrSQBmtG4cdv1lL3aUTLRRuM52pJKUU1ccw>
+    <xmx:9lezaXkQlDHP4UxMpnGEVP1brRONq1oRM3xyFBblzX9245pjYr4Vpw>
+    <xmx:9lezaSZBls0VHhctSLEpvUTcq6jJd_Fbrs8I5U1SyxvxEE-JGS1Fuw>
+    <xmx:9lezaak5kvHNn-TYlzGIxM5qxPwoE_QzIk7oFu49dZPa1Fp3mUUnVA>
+    <xmx:-FezaRCDWnLXkmnc85hbOjTGKD_omhp2YPsIbC_7rVSfPvFCo06RTGxC>
 Feedback-ID: i9d664b8f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 12 Mar 2026 20:09:09 -0400 (EDT)
+ 12 Mar 2026 20:18:49 -0400 (EDT)
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
@@ -103,8 +103,9 @@ List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 From: NeilBrown <neilb@ownmail.net>
-To: "Linus Torvalds" <torvalds@linux-foundation.org>
-Cc: "Alexander Viro" <viro@zeniv.linux.org.uk>,
+To: "Steven Rostedt" <rostedt@goodmis.org>
+Cc: "Linus Torvalds" <torvalds@linux-foundation.org>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
  "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
  "Jeff Layton" <jlayton@kernel.org>,
  "Trond Myklebust" <trondmy@kernel.org>,
@@ -122,7 +123,6 @@ Cc: "Alexander Viro" <viro@zeniv.linux.org.uk>,
  "Andreas Hindborg" <a.hindborg@kernel.org>,
  "Breno Leitao" <leitao@debian.org>, "Theodore Ts'o" <tytso@mit.edu>,
  "Andreas Dilger" <adilger.kernel@dilger.ca>,
- "Steven Rostedt" <rostedt@goodmis.org>,
  "Masami Hiramatsu" <mhiramat@kernel.org>,
  "Ilya Dryomov" <idryomov@gmail.com>,
  "Alex Markuze" <amarkuze@redhat.com>,
@@ -142,26 +142,25 @@ Cc: "Alexander Viro" <viro@zeniv.linux.org.uk>,
  gfs2@lists.linux.dev, linux-um@lists.infradead.org,
  linux-efi@vger.kernel.org
 Subject: Re: [PATCH RFC 00/53] lift lookup out of exclive lock for dir ops
-In-reply-to:
- <CAHk-=wh92deXvH5iXCo9mThXCBYt-jRcVu=z4kiH-f3+wZQOHA@mail.gmail.com>
+In-reply-to: <20260312193847.28c32a2c@gandalf.local.home>
 References: <20260312214330.3885211-1-neilb@ownmail.net>,
- <CAHk-=wh92deXvH5iXCo9mThXCBYt-jRcVu=z4kiH-f3+wZQOHA@mail.gmail.com>
-Date: Fri, 13 Mar 2026 11:09:04 +1100
-Message-id: <177336054496.5556.4842794610845842132@noble.neil.brown.name>
+ <20260312193847.28c32a2c@gandalf.local.home>
+Date: Fri, 13 Mar 2026 11:18:47 +1100
+Message-id: <177336112755.5556.2850267364383380917@noble.neil.brown.name>
 Reply-To: NeilBrown <neil@brown.name>
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[ownmail.net,none];
 	R_DKIM_ALLOW(-0.20)[ownmail.net:s=fm1,messagingengine.com:s=fm1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-1139-lists,ecryptfs=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-1140-lists,ecryptfs=lfdr.de];
 	REPLYTO_DN_EQ_FROM_DN(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,szeredi.hu,gmail.com,cs.cmu.edu,google.com,linux.alibaba.com,redhat.com,auristor.com,samba.org,samsung.com,sony.com,debian.org,mit.edu,dilger.ca,goodmis.org,dubeyko.com,tyhicks.com,nod.at,cambridgegreys.com,sipsolutions.net,ozlabs.org,vger.kernel.org,kvack.org,lists.infradead.org,lists.linux.dev];
+	FREEMAIL_CC(0.00)[linux-foundation.org,zeniv.linux.org.uk,kernel.org,suse.cz,szeredi.hu,gmail.com,cs.cmu.edu,google.com,linux.alibaba.com,redhat.com,auristor.com,samba.org,samsung.com,sony.com,debian.org,mit.edu,dilger.ca,dubeyko.com,tyhicks.com,nod.at,cambridgegreys.com,sipsolutions.net,ozlabs.org,vger.kernel.org,kvack.org,lists.infradead.org,lists.linux.dev];
 	FREEMAIL_FROM(0.00)[ownmail.net];
 	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
@@ -180,47 +179,64 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	HAS_REPLYTO(0.00)[neil@brown.name];
 	TAGGED_RCPT(0.00)[ecryptfs];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ownmail.net:dkim,ownmail.net:email,messagingengine.com:dkim,brown.name:replyto]
-X-Rspamd-Queue-Id: EDFDD27B6A1
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ownmail.net:dkim,ownmail.net:email,messagingengine.com:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,noble.neil.brown.name:mid,brown.name:replyto]
+X-Rspamd-Queue-Id: 91A2F27B870
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, 13 Mar 2026, Linus Torvalds wrote:
-> On Thu, 12 Mar 2026 at 14:44, NeilBrown <neilb@ownmail.net> wrote:
-> >
-> > This patch set progresses my effort to improve concurrency of
-> > directory operations and specifically to allow concurrent updates
-> > in a given directory.
-> 
-> I only got about half the patches, but the ones I did get didn't raise
-> my hackles.
-> 
-> HOWEVER.
-> 
-> This is very much a "absolutely requires ACKs from Al" series. Al?
+On Fri, 13 Mar 2026, Steven Rostedt wrote:
+> On Fri, 13 Mar 2026 08:11:47 +1100
+> NeilBrown <neilb@ownmail.net> wrote:
+>=20
+> > *[PATCH 26/53] smb/client: don't unhashed and rehash to prevent new
+> > *[PATCH 27/53] smb/client: use d_splice_alias() in atomic_open
+> >  [PATCH 28/53] smb/client: Use d_alloc_noblock() in
+> > *[PATCH 29/53] exfat: simplify exfat_lookup()
+> > *[PATCH 30/53] configfs: remove d_add() calls before
+> >  [PATCH 31/53] configfs: stop using d_add().
+> > *[PATCH 32/53] ext4: move dcache modifying code out of __ext4_link()
+> > *[PATCH 33/53] ext4: use on-stack dentries in
+>=20
+> >  [PATCH 34/53] tracefs: stop using d_add().
+>=20
+> Hmm, another reason I hate being Cc'd on every patch of a patch bomb where
+> I only need to look at one (and maybe the first) patch.
 
-Yes, I'm looking forward to Al's thoughts
+I could try to refine my tooling, but you can't please all the people
+all the time...  I wonder how many people would be bothered if only the
+cover-letter was sent to everyone, and the patches only went to lkml -
+to be fetched from lore if not subscribed.
 
-> 
-> Also, because I only got about half the patches, and there's 53 of
-> them total, I'd really like to see a git branch for something like
-> this. It makes it easier to review for me, and I suspect it makes it
-> easier for some of the test robots too.
+You would probably need to look at 02/53
 
-github.com/neilbrown/linux.git branch pdirops
+https://github.com/neilbrown/linux/commit/aebdc6545eb18e5b6a7d41320f30d752996=
+b3c6c
 
-But if you have only time for one patch, 52/53 is the one to look at.
+to have the context to understand 34/53
+
+>=20
+> For some reason, I'm missing several patches, and this is one of them :-p
+
+They don't seem to have made it to lore.kernel.org either.  Maybe I'm
+being rate-limited somewhere.
+
+https://github.com/neilbrown/linux/commit/77074c04a94176d6b2b2caf44dd84f0788a=
+420c4
 
 Thanks,
 NeilBrown
 
-> 
-> But again - this needs Al to look at it. Iirc he had some fundamental
-> concern with the last version - hopefully now fixed, but ...
-> 
->                  Linus
-> 
-> 
+>=20
+> -- Steve
+>=20
+>=20
+> >  [PATCH 35/53] cephfs: stop using d_add().
+> > *[PATCH 36/53] cephfs: remove d_alloc from CEPH_MDS_OP_LOOKUPNAME
+> >  [PATCH 37/53] cephfs: Use d_alloc_noblock() in
+> >  [PATCH 38/53] cephfs: Don't d_drop() before d_splice_alias()
+> >  [PATCH 39/53] ecryptfs: stop using d_add().
+> >  [PATCH 40/53] gfs2: stop using d_add().
+>=20
 
 
