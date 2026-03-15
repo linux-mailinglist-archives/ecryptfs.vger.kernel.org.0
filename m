@@ -1,242 +1,342 @@
-Return-Path: <ecryptfs+bounces-1140-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-1160-lists+ecryptfs=lfdr.de@vger.kernel.org>
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AAP1IANYs2kRVQAAu9opvQ
-	(envelope-from <ecryptfs+bounces-1140-lists+ecryptfs=lfdr.de@vger.kernel.org>)
-	for <lists+ecryptfs@lfdr.de>; Fri, 13 Mar 2026 01:19:15 +0100
+	id 3z2TCHK5tmmVGgEAu9opvQ
+	(envelope-from <ecryptfs+bounces-1160-lists+ecryptfs=lfdr.de@vger.kernel.org>)
+	for <lists+ecryptfs@lfdr.de>; Sun, 15 Mar 2026 14:51:46 +0100
 X-Original-To: lists+ecryptfs@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91A2F27B870
-	for <lists+ecryptfs@lfdr.de>; Fri, 13 Mar 2026 01:19:14 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2FA9290CC7
+	for <lists+ecryptfs@lfdr.de>; Sun, 15 Mar 2026 14:51:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id CDD3130298BE
-	for <lists+ecryptfs@lfdr.de>; Fri, 13 Mar 2026 00:19:11 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 943F230054FB
+	for <lists+ecryptfs@lfdr.de>; Sun, 15 Mar 2026 13:51:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9A8F1E7C12;
-	Fri, 13 Mar 2026 00:19:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 856C035FF6E;
+	Sun, 15 Mar 2026 13:51:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="gHD+X8LZ";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="cCdkekOP"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="niOi+68t"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from flow-b3-smtp.messagingengine.com (flow-b3-smtp.messagingengine.com [202.12.124.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93875191;
-	Fri, 13 Mar 2026 00:19:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.138
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773361147; cv=none; b=AzsiR7Wkyaex8qDknmU3dNmJejChFfrbPhR6bCWiBjY15UsdYm+59Z7MjRQnPo3Gmr6QJ9taLhsy6EMxgFyjiPLTbV6P3hXHiI1Mcjkn+n0bteYwhp88GwYcTrqX/gekV18KdkkSdgt4V7Ajte0qo9TDRjYWHq6AXRIvkhbDySQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773361147; c=relaxed/simple;
-	bh=KDownSrJa5S3EqGFi/GZy1HPESB/36MNwmQwJTfITNs=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=LXOJLgK2hIr46xWJEMJLAapItWGFd9kRKjO7S676rr7rLFynCxJ/vH0dpCvvesB225rs0KpTLnpk9mYOF9W6VOpKm55aMhHnntub3ECUO5VI7LJgZa2DnrbbxU8QCoorKuq7bKGidQWKeKlvwXz26Eyfb+Sp0Ou48pfmce6YWQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=gHD+X8LZ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=cCdkekOP; arc=none smtp.client-ip=202.12.124.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailflow.stl.internal (Postfix) with ESMTP id 8CEA61301B20;
-	Thu, 12 Mar 2026 20:19:04 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Thu, 12 Mar 2026 20:19:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
-	1773361144; x=1773368344; bh=mVG8eebTQIYrNSCfz5AoYNPWvAP9zOmA/oS
-	XBEUNMDg=; b=gHD+X8LZJV5BmcTxyVzSi4eOH+f9NWdLk6voSZ3Dk2TmtFtrTPT
-	n0z2oXB44COIaMxym9EotuPwl3zhBchA17LQD1aiXLP0HZVx+1sB2rDvs+59CClN
-	HQKjtkq+MLlefiP50e3G0ZUzDRVImhJt8LXC5Gk+3LL4kz0dWCTiZEgkORI83H3g
-	IYzMIhIFS+pW8u+iq3O1fDK+eB6xv0w3oEKr75CQKG3ENMDVGe/ATK98/l7Dvx/P
-	8BZhP/BMTsa8A8nINOCn4yT0evPyJ+NeT9UVxbDjMi1RnmCTf2Vmbpsgbeb+2prd
-	AnO6/VSTlvk8uuzd90K874TkKVJWxfC+iOg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1773361144; x=
-	1773368344; bh=mVG8eebTQIYrNSCfz5AoYNPWvAP9zOmA/oSXBEUNMDg=; b=c
-	CdkekOPdZGeTHq9Q9fn6kwRHxICBqhAbEe7Mbn8RL0/ghUTZud8i2luiteEmp2Ir
-	nIdMJTy2arC7PIdd3QUxuvFoTPxCOMLV9z6Gm7Dry2+55WAsz8/lpUpp6KLCvOb5
-	vppTuCMIOaaruvILxo7wGqRgbVRfmvszAtPJWbhzUWIoBUdJz8+7BU3zgxJSlbc3
-	fpGHsm7gMQ5BqZ2Qbs1zxa7FgNneoKrfT70cZbcDqlzmSr5Rt1Zdfq8ZqH/0hCpG
-	u4ztiIjqn7BZ94m/pkzsJPqZlNum+Fn4NWKv3hqcNWG2BtBRflNBWi/TcF8QJ+Eo
-	3H4DqYmdO0Ph/KIpM2FGA==
-X-ME-Sender: <xms:9lezaf2biEH_YUoVtaJ788TBctRMYMGJjfZ2DGR5uanh1iY0Bnn1tg>
-    <xme:9lezaRxzKm32RjDuV_b2LpuNVPPb6Y2SpMCDjskankSuVyTtPWjSsFcMWwjNHIFU7
-    GLRMDp98i1zC2yMmBsdKulbM_AH2YMuIt5X8wc4fPQA-OpC2Q>
-X-ME-Received: <xmr:9lezaa84oPqo9JeTHF-KiyHUZaJt4h0JSykKqUiirLVobFQ0qtPIFeYYpGFOGnN83U9sO87B36Hyg9vaeC9k5oIsMjNlS0OCsh5IMJauHcVf>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvkeekvddtucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurheptgfgggfhvfevufgjfhffkfhrsehtqhertddttdejnecuhfhrohhmpefpvghilheu
-    rhhofihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnh
-    epffevjeeljeehueejgeehleelueevudehjeekgeevueffteevhfefvedtueeugfejnecu
-    ffhomhgrihhnpehgihhthhhusgdrtghomhdpkhgvrhhnvghlrdhorhhgnecuvehluhhsth
-    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhgvihhlsgesohifnhhm
-    rghilhdrnhgvthdpnhgspghrtghpthhtohephedupdhmohguvgepshhmthhpohhuthdprh
-    gtphhtthhopehvihhrohesiigvnhhivhdrlhhinhhugidrohhrghdruhhkpdhrtghpthht
-    oheplhhinhhugidqgihfshesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhope
-    hlihhnuhigqdhunhhiohhnfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthht
-    oheplhhinhhugidqthhrrggtvgdqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorh
-    hgpdhrtghpthhtoheplhhinhhugidqnhhfshesvhhgvghrrdhkvghrnhgvlhdrohhrghdp
-    rhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-    dprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdho
-    rhhgpdhrtghpthhtoheplhhinhhugidqvgigthegsehvghgvrhdrkhgvrhhnvghlrdhorh
-    hgpdhrtghpthhtoheplhhinhhugidqvghfihesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:9lezaSQ88me8CYxNCjygrSQBmtG4cdv1lL3aUTLRRuM52pJKUU1ccw>
-    <xmx:9lezaXkQlDHP4UxMpnGEVP1brRONq1oRM3xyFBblzX9245pjYr4Vpw>
-    <xmx:9lezaSZBls0VHhctSLEpvUTcq6jJd_Fbrs8I5U1SyxvxEE-JGS1Fuw>
-    <xmx:9lezaak5kvHNn-TYlzGIxM5qxPwoE_QzIk7oFu49dZPa1Fp3mUUnVA>
-    <xmx:-FezaRCDWnLXkmnc85hbOjTGKD_omhp2YPsIbC_7rVSfPvFCo06RTGxC>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 12 Mar 2026 20:18:49 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D46FF33A9CB
+	for <ecryptfs@vger.kernel.org>; Sun, 15 Mar 2026 13:51:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773582703; cv=pass; b=rADLYzoysUf5DJSquo09OWv+uzjl72n+6sR8dLflzivKjufdF/28vQcm8M9gPPe1mCqwrLExWLU/WHzAD2xYn9CmgFuZ//X/Kr4Kj/KI8/MYQyctL21oA/+7bAlMFWF59PpbOOaXabIYwEMJ7WCU/+Z2v76L6fgAjfljQQAqEok=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773582703; c=relaxed/simple;
+	bh=Vs01mlsWygXmaXPS3h5z1k3Hf3KZR9yElATURfIfNww=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bDaaqF19suhNrprom3Q5zmFWI/n8dTWxjqIzX2rv/fwx0b7+xAAsWBhmdYYTBOrmsbCW1X5EprkHag33QSz7hlHMh3zdLBzuJMeEc5ePyIGAgjyN2MXMbwalByvJNiQHhM8kZewo5keqM0tPxLx2O0LHogCEouPa6XoOMXkZ+KI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=niOi+68t; arc=pass smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b97bca3797dso6689566b.0
+        for <ecryptfs@vger.kernel.org>; Sun, 15 Mar 2026 06:51:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773582700; cv=none;
+        d=google.com; s=arc-20240605;
+        b=J7zn0Pz9k2HHm0sXrcSrZ4kn78FeK3YRoE/gIsrcsXsMZLqHgQqkeuRc2txq9DYkQG
+         +BFvlnoBbZjqinF2+FhMjohGPSF1NLVEL2SIqck83JsJFrNnXXby1f4jeiOwyzqWlIqP
+         Y54hmOgoOILG8723ehfrsqMN57ZvcgG/cqnEAzPnBPoI1H3pw2hDSL2T29Dss0VeULj9
+         fRTKhcQq/MzWUlgj0KuNYt+CMKMz++1VswsVI9PdIj8m9MC9mGcloOk+5bu/7uiaHzoS
+         qgcRKLswgVJKvoro5fhAZZdFo0l0Ho5vynb2v9iZmTveINyRzW8S8i18YZPGrsjTBVA8
+         GEcQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=LD1Y/Z+QIVaxjTqqF6DEde0TPCIZAs/xYcpmNl5+JUA=;
+        fh=ZjBe3cYmjM2Qq5niLyCtw7Jo8cMAG9m0lAqe7gxgVj8=;
+        b=O/58raHQZjPpcbZeJH7v8NOkR1+lFmygThWrXbd+NTgACZl1YQ37X4ZUkAFQvx3hZn
+         a/4wkhWT0r+N8Cc1y35YpfjKPMijQRY4kwBX/QxxW6teULvOXD3Y4UEaOlCyp0jMM/Dl
+         +Piknc5eHLJZgObOMHuOp912lT8KbQbKu/vbNEEXfGXThxiwgKMrZWTGSXmPOmAE1rJ2
+         fSgf4dCFQnjJeloEHnAsjWdHIBba/cvroPy4/4ixyC4TlK8jzverI3bA/QJEY1DO2CvV
+         s6NqidPugQhclW0g6JKiQcjM3FXVwGLPhb7yz0BezEd34T76o+pUcTwSEKbWJSYXkaqP
+         LHTw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773582700; x=1774187500; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LD1Y/Z+QIVaxjTqqF6DEde0TPCIZAs/xYcpmNl5+JUA=;
+        b=niOi+68t+4ftQYvaTzVsRIkap5gRXpAugLlwQHpWZCH0WvCYllQe1U7gpK6TQ746LN
+         sNb6+5qFVJvATOEcP8S1YSgpJuP99izxvfE9uv+ymv5s8v7mpmYBgjxzgmmrMIO20ol5
+         XRphCrEl9BexTpEgwv+wQSN4mImqSAHd9JsJo3w0NsYQAB6tOh/4qcvYp8Jff3IdmD2I
+         4tSEzLy6dzy72soZcqjVHMHgUtghx14Tou/mIE3WQ2HWt4arTCyksDfNfZAyf2iOSfXz
+         lwavfOdGwvHNzVdTXiKTbMW4WZkF9yE9MfkZ1gT2J9g25fenbgVIVPyGiFfk/1mzFyNE
+         UBEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773582700; x=1774187500;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=LD1Y/Z+QIVaxjTqqF6DEde0TPCIZAs/xYcpmNl5+JUA=;
+        b=lnXnpxiqIiv2zF7Fq53to64FO8AmF3t8wuA3blJcrXBfvlW7Bo+/AUJ8SDZ6W4bAx1
+         cKYayavTVBCFtd7W9i22nngqAhD/9ALgEdpt3zXFAuQ7aAKM4A+xKXqxuqj2SftbW9Oy
+         YKg4wvgdudrdv4m6kAnCig+SWQKbsIhT30S31F0GUe5fI+VX67kXDG171/viDmkSMYhT
+         c7FnX38OS/sTQ7Zg3C7Nwo+0UXE238tBi3i7bcKgtbkYEdxrMCswREdgouAsg7FwKrO2
+         czKK0GPijVQdom5007x4ctRSin89nENA4zStqISm0HUtmayRuk0q6hXiizDAPAwcQEay
+         qZcw==
+X-Forwarded-Encrypted: i=1; AJvYcCVw84VKede6W0pRosahz/I/cbPiQ2fbP6kfEuoGVDxUHc2eBKaPIwlNO8fu7jc82WAf/XOzLHCMxw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwkJgjQrKOvnv5SywVFSuqmoD7tMW7BQX17K2J0mJEUnvlQQm32
+	3vaYxAfUPHf9O4UlLBbYMEIwcI9vX/gCryRvjFqN0PFF4NmRMbkKSCkAXx7dSQRchjzBkhtmlDA
+	vAdXl9XasGNz5U31j0+KxHyzFRNS7vBw=
+X-Gm-Gg: ATEYQzyjT1BbgvHKBbHa17A8UFFqFDLQHrHBbYRtSyByMOc5YcmUMoPoevNan10YjnX
+	IJTQnk3f+Vv+bvav9B6GkSaR7ylRZ9TGefHqLUtQ93JYpH4/dOB0mmafM04dFEL3dHoGje2WJ3T
+	JABg6k6BP3zXu1T29rpcM2YIuJiuHMrgvqc+UgFR6YZ14ySNEQRbddLhpj2Bsm3CsddDozVTge3
+	hlcS2qJMvcEbuidTGUs7HCRDY47dWc7zBGP8uZaX8Od2uw6eP51UJE+iWZiPLA10wfSLSdkWahw
+	iAXTt5y+oDLhdaiWgvSkqQwtXCQzlBa89RGA9Y61aw==
+X-Received: by 2002:a17:907:8dcd:b0:b93:c5a9:a5e6 with SMTP id
+ a640c23a62f3a-b976507af92mr500109966b.2.1773582699724; Sun, 15 Mar 2026
+ 06:51:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Steven Rostedt" <rostedt@goodmis.org>
-Cc: "Linus Torvalds" <torvalds@linux-foundation.org>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
- "Jeff Layton" <jlayton@kernel.org>,
- "Trond Myklebust" <trondmy@kernel.org>,
- "Anna Schumaker" <anna@kernel.org>, "Carlos Maiolino" <cem@kernel.org>,
- "Miklos Szeredi" <miklos@szeredi.hu>,
- "Amir Goldstein" <amir73il@gmail.com>,
- "Jan Harkes" <jaharkes@cs.cmu.edu>, "Hugh Dickins" <hughd@google.com>,
- "Baolin Wang" <baolin.wang@linux.alibaba.com>,
- "David Howells" <dhowells@redhat.com>,
- "Marc Dionne" <marc.dionne@auristor.com>,
- "Steve French" <sfrench@samba.org>,
- "Namjae Jeon" <linkinjeon@kernel.org>,
- "Sungjong Seo" <sj1557.seo@samsung.com>,
- "Yuezhang Mo" <yuezhang.mo@sony.com>,
- "Andreas Hindborg" <a.hindborg@kernel.org>,
- "Breno Leitao" <leitao@debian.org>, "Theodore Ts'o" <tytso@mit.edu>,
- "Andreas Dilger" <adilger.kernel@dilger.ca>,
- "Masami Hiramatsu" <mhiramat@kernel.org>,
- "Ilya Dryomov" <idryomov@gmail.com>,
- "Alex Markuze" <amarkuze@redhat.com>,
- "Viacheslav Dubeyko" <slava@dubeyko.com>,
- "Tyler Hicks" <code@tyhicks.com>,
- "Andreas Gruenbacher" <agruenba@redhat.com>,
- "Richard Weinberger" <richard@nod.at>,
- "Anton Ivanov" <anton.ivanov@cambridgegreys.com>,
- "Johannes Berg" <johannes@sipsolutions.net>,
- "Jeremy Kerr" <jk@ozlabs.org>, "Ard Biesheuvel" <ardb@kernel.org>,
- linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
- linux-xfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
- coda@cs.cmu.edu, linux-mm@kvack.org, linux-afs@lists.infradead.org,
- linux-cifs@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- ceph-devel@vger.kernel.org, ecryptfs@vger.kernel.org,
- gfs2@lists.linux.dev, linux-um@lists.infradead.org,
- linux-efi@vger.kernel.org
-Subject: Re: [PATCH RFC 00/53] lift lookup out of exclive lock for dir ops
-In-reply-to: <20260312193847.28c32a2c@gandalf.local.home>
-References: <20260312214330.3885211-1-neilb@ownmail.net>,
- <20260312193847.28c32a2c@gandalf.local.home>
-Date: Fri, 13 Mar 2026 11:18:47 +1100
-Message-id: <177336112755.5556.2850267364383380917@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+References: <20260312214330.3885211-1-neilb@ownmail.net> <20260312214330.3885211-17-neilb@ownmail.net>
+In-Reply-To: <20260312214330.3885211-17-neilb@ownmail.net>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Sun, 15 Mar 2026 14:51:27 +0100
+X-Gm-Features: AaiRm50yYPhN2uA9nBAPVNuAVUOhGIEBVS5rPtx5ZlpdDP1j4SB9NhEOC_7KNWo
+Message-ID: <CAOQ4uxjmcNxsCmDSVgkTns=3BAuQcT3pVvsQzza+u3iqXqrz5g@mail.gmail.com>
+Subject: Re: [PATCH 16/53] ovl: drop dir lock for lookups in impure readdir
+To: NeilBrown <neil@brown.name>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Jeff Layton <jlayton@kernel.org>, 
+	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, Carlos Maiolino <cem@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Jan Harkes <jaharkes@cs.cmu.edu>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, David Howells <dhowells@redhat.com>, 
+	Marc Dionne <marc.dionne@auristor.com>, Steve French <sfrench@samba.org>, 
+	Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>, 
+	Yuezhang Mo <yuezhang.mo@sony.com>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Breno Leitao <leitao@debian.org>, "Theodore Ts'o" <tytso@mit.edu>, 
+	Andreas Dilger <adilger.kernel@dilger.ca>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Ilya Dryomov <idryomov@gmail.com>, 
+	Alex Markuze <amarkuze@redhat.com>, Viacheslav Dubeyko <slava@dubeyko.com>, Tyler Hicks <code@tyhicks.com>, 
+	Andreas Gruenbacher <agruenba@redhat.com>, Richard Weinberger <richard@nod.at>, 
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes Berg <johannes@sipsolutions.net>, 
+	Jeremy Kerr <jk@ozlabs.org>, Ard Biesheuvel <ardb@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-nfs@vger.kernel.org, linux-xfs@vger.kernel.org, 
+	linux-unionfs@vger.kernel.org, coda@cs.cmu.edu, linux-mm@kvack.org, 
+	linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, ceph-devel@vger.kernel.org, 
+	ecryptfs@vger.kernel.org, gfs2@lists.linux.dev, linux-um@lists.infradead.org, 
+	linux-efi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ownmail.net,none];
-	R_DKIM_ALLOW(-0.20)[ownmail.net:s=fm1,messagingengine.com:s=fm1];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-1140-lists,ecryptfs=lfdr.de];
-	REPLYTO_DN_EQ_FROM_DN(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,zeniv.linux.org.uk,kernel.org,suse.cz,szeredi.hu,gmail.com,cs.cmu.edu,google.com,linux.alibaba.com,redhat.com,auristor.com,samba.org,samsung.com,sony.com,debian.org,mit.edu,dilger.ca,dubeyko.com,tyhicks.com,nod.at,cambridgegreys.com,sipsolutions.net,ozlabs.org,vger.kernel.org,kvack.org,lists.infradead.org,lists.linux.dev];
-	FREEMAIL_FROM(0.00)[ownmail.net];
+	TAGGED_FROM(0.00)[bounces-1160-lists,ecryptfs=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[linux-foundation.org,zeniv.linux.org.uk,kernel.org,suse.cz,szeredi.hu,cs.cmu.edu,google.com,linux.alibaba.com,redhat.com,auristor.com,samba.org,samsung.com,sony.com,debian.org,mit.edu,dilger.ca,goodmis.org,gmail.com,dubeyko.com,tyhicks.com,nod.at,cambridgegreys.com,sipsolutions.net,ozlabs.org,vger.kernel.org,kvack.org,lists.infradead.org,lists.linux.dev];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
 	RCPT_COUNT_GT_50(0.00)[51];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[neilb@ownmail.net,ecryptfs@vger.kernel.org];
-	DKIM_TRACE(0.00)[ownmail.net:+,messagingengine.com:+];
+	FROM_NEQ_ENVFROM(0.00)[amir73il@gmail.com,ecryptfs@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	HAS_REPLYTO(0.00)[neil@brown.name];
 	TAGGED_RCPT(0.00)[ecryptfs];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ownmail.net:dkim,ownmail.net:email,messagingengine.com:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,noble.neil.brown.name:mid,brown.name:replyto]
-X-Rspamd-Queue-Id: 91A2F27B870
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[brown.name:email,ownmail.net:email]
+X-Rspamd-Queue-Id: A2FA9290CC7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, 13 Mar 2026, Steven Rostedt wrote:
-> On Fri, 13 Mar 2026 08:11:47 +1100
-> NeilBrown <neilb@ownmail.net> wrote:
->=20
-> > *[PATCH 26/53] smb/client: don't unhashed and rehash to prevent new
-> > *[PATCH 27/53] smb/client: use d_splice_alias() in atomic_open
-> >  [PATCH 28/53] smb/client: Use d_alloc_noblock() in
-> > *[PATCH 29/53] exfat: simplify exfat_lookup()
-> > *[PATCH 30/53] configfs: remove d_add() calls before
-> >  [PATCH 31/53] configfs: stop using d_add().
-> > *[PATCH 32/53] ext4: move dcache modifying code out of __ext4_link()
-> > *[PATCH 33/53] ext4: use on-stack dentries in
->=20
-> >  [PATCH 34/53] tracefs: stop using d_add().
->=20
-> Hmm, another reason I hate being Cc'd on every patch of a patch bomb where
-> I only need to look at one (and maybe the first) patch.
+On Thu, Mar 12, 2026 at 10:49=E2=80=AFPM NeilBrown <neilb@ownmail.net> wrot=
+e:
+>
+> From: NeilBrown <neil@brown.name>
+>
+> When performing an "impure" readdir, ovl needs to perform a lookup on som=
+e
+> of the names that it found.
+> With proposed locking changes it will not be possible to perform this
+> lookup (in particular, not safe to wait for d_alloc_parallel()) while
+> holding a lock on the directory.
+>
+> ovl doesn't really need the lock at this point.
 
-I could try to refine my tooling, but you can't please all the people
-all the time...  I wonder how many people would be bothered if only the
-cover-letter was sent to everyone, and the patches only went to lkml -
-to be fetched from lore if not subscribed.
+Not exactly. see below.
 
-You would probably need to look at 02/53
+> It has already iterated
+> the directory and has cached a list of the contents.  It now needs to
+> gather extra information about some contents.  It can do this without
+> the lock.
+>
+> After gathering that info it needs to retake the lock for API
+> correctness.  After doing this it must check IS_DEADDIR() again to
+> ensure readdir always returns -ENOENT on a removed directory.
+>
+> Note that while ->iterate_shared is called with a shared lock, ovl uses
+> WRAP_DIR_ITER() so an exclusive lock is held and so we drop and retake
+> that exclusive lock.
+>
+> As the directory is no longer locked in ovl_cache_update() we need
+> dget_parent() to get a reference to the parent.
+>
+> Signed-off-by: NeilBrown <neil@brown.name>
+> ---
+>  fs/overlayfs/readdir.c | 19 ++++++++++++-------
+>  1 file changed, 12 insertions(+), 7 deletions(-)
+>
+> diff --git a/fs/overlayfs/readdir.c b/fs/overlayfs/readdir.c
+> index 1dcc75b3a90f..d5123b37921c 100644
+> --- a/fs/overlayfs/readdir.c
+> +++ b/fs/overlayfs/readdir.c
+> @@ -568,13 +568,12 @@ static int ovl_cache_update(const struct path *path=
+, struct ovl_cache_entry *p,
+>                         goto get;
+>                 }
+>                 if (p->len =3D=3D 2) {
+> -                       /* we shall not be moved */
+> -                       this =3D dget(dir->d_parent);
+> +                       this =3D dget_parent(dir);
+>                         goto get;
+>                 }
+>         }
+>         /* This checks also for xwhiteouts */
+> -       this =3D lookup_one(mnt_idmap(path->mnt), &QSTR_LEN(p->name, p->l=
+en), dir);
+> +       this =3D lookup_one_unlocked(mnt_idmap(path->mnt), &QSTR_LEN(p->n=
+ame, p->len), dir);
 
-https://github.com/neilbrown/linux/commit/aebdc6545eb18e5b6a7d41320f30d752996=
-b3c6c
+ovl_cache_update() is also called from ovl_iterate_merged() where inode
+is locked.
 
-to have the context to understand 34/53
+>         if (IS_ERR_OR_NULL(this) || !this->d_inode) {
+>                 /* Mark a stale entry */
+>                 p->is_whiteout =3D true;
+> @@ -666,11 +665,12 @@ static int ovl_dir_read_impure(const struct path *p=
+ath,  struct list_head *list,
+>         if (err)
+>                 return err;
+>
+> +       inode_unlock(path->dentry->d_inode);
+>         list_for_each_entry_safe(p, n, list, l_node) {
+>                 if (!name_is_dot_dotdot(p->name, p->len)) {
+>                         err =3D ovl_cache_update(path, p, true);
+>                         if (err)
+> -                               return err;
+> +                               break;
+>                 }
+>                 if (p->ino =3D=3D p->real_ino) {
+>                         list_del(&p->l_node);
+> @@ -680,14 +680,19 @@ static int ovl_dir_read_impure(const struct path *p=
+ath,  struct list_head *list,
+>                         struct rb_node *parent =3D NULL;
+>
+>                         if (WARN_ON(ovl_cache_entry_find_link(p->name, p-=
+>len,
+> -                                                             &newp, &par=
+ent)))
+> -                               return -EIO;
+> +                                                             &newp, &par=
+ent))) {
+> +                               err =3D -EIO;
+> +                               break;
+> +                       }
+>
+>                         rb_link_node(&p->node, parent, newp);
+>                         rb_insert_color(&p->node, root);
+>                 }
+>         }
+> -       return 0;
+> +       inode_lock(path->dentry->d_inode);
+> +       if (IS_DEADDIR(path->dentry->d_inode))
+> +               err =3D -ENOENT;
+> +       return err;
+>  }
+>
+>  static struct ovl_dir_cache *ovl_cache_get_impure(const struct path *pat=
+h)
+> --
 
->=20
-> For some reason, I'm missing several patches, and this is one of them :-p
+You missed the fact that overlayfs uses the dir inode lock
+to protect the readdir inode cache, so your patch introduces
+a risk for storing a stale readdir cache when dir modify operations
+invalidate the readdir cache version while lock is dropped
+and also introduces memory leak when cache is stomped
+without freeing cache created by a competing thread.
+I think something like the untested patch below should fix this.
 
-They don't seem to have made it to lore.kernel.org either.  Maybe I'm
-being rate-limited somewhere.
-
-https://github.com/neilbrown/linux/commit/77074c04a94176d6b2b2caf44dd84f0788a=
-420c4
+I did not look into ovl_iterate_merged() to see if it has a simple
+fix and I am not 100% sure that this fix for impure dir is enough.
 
 Thanks,
-NeilBrown
+Amir.
 
->=20
-> -- Steve
->=20
->=20
-> >  [PATCH 35/53] cephfs: stop using d_add().
-> > *[PATCH 36/53] cephfs: remove d_alloc from CEPH_MDS_OP_LOOKUPNAME
-> >  [PATCH 37/53] cephfs: Use d_alloc_noblock() in
-> >  [PATCH 38/53] cephfs: Don't d_drop() before d_splice_alias()
-> >  [PATCH 39/53] ecryptfs: stop using d_add().
-> >  [PATCH 40/53] gfs2: stop using d_add().
->=20
+diff --git a/fs/overlayfs/readdir.c b/fs/overlayfs/readdir.c
+index d5123b37921c8..9e90064b252ce 100644
+--- a/fs/overlayfs/readdir.c
++++ b/fs/overlayfs/readdir.c
+@@ -702,15 +702,13 @@ static struct ovl_dir_cache
+*ovl_cache_get_impure(const struct path *path)
+        struct inode *inode =3D d_inode(dentry);
+        struct ovl_fs *ofs =3D OVL_FS(dentry->d_sb);
+        struct ovl_dir_cache *cache;
++       /* Snapshot version before ovl_dir_read_impure() drops i_rwsem */
++       u64 version =3D ovl_inode_version_get(inode);
 
+        cache =3D ovl_dir_cache(inode);
+-       if (cache && ovl_inode_version_get(inode) =3D=3D cache->version)
++       if (cache && version =3D=3D cache->version)
+                return cache;
+
+-       /* Impure cache is not refcounted, free it here */
+-       ovl_dir_cache_free(inode);
+-       ovl_set_dir_cache(inode, NULL);
+-
+        cache =3D kzalloc_obj(struct ovl_dir_cache);
+        if (!cache)
+                return ERR_PTR(-ENOMEM);
+@@ -721,6 +719,14 @@ static struct ovl_dir_cache
+*ovl_cache_get_impure(const struct path *path)
+                kfree(cache);
+                return ERR_PTR(res);
+        }
++
++       /*
++        * Impure cache is not refcounted, free it here.
++        * Also frees cache stored by concurrent readdir during i_rwsem dro=
+p.
++        */
++       ovl_dir_cache_free(inode);
++       ovl_set_dir_cache(inode, NULL);
++
+        if (list_empty(&cache->entries)) {
+                /*
+                 * A good opportunity to get rid of an unneeded "impure" fl=
+ag.
+@@ -736,7 +742,7 @@ static struct ovl_dir_cache
+*ovl_cache_get_impure(const struct path *path)
+                return NULL;
+        }
+
+-       cache->version =3D ovl_inode_version_get(inode);
++       cache->version =3D version;
+        ovl_set_dir_cache(inode, cache);
+
+        return cache;
 
