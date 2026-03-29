@@ -1,191 +1,149 @@
-Return-Path: <ecryptfs+bounces-1168-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-1169-lists+ecryptfs=lfdr.de@vger.kernel.org>
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kHviNGbAxGnp3AQAu9opvQ
-	(envelope-from <ecryptfs+bounces-1168-lists+ecryptfs=lfdr.de@vger.kernel.org>)
-	for <lists+ecryptfs@lfdr.de>; Thu, 26 Mar 2026 06:13:10 +0100
+	id mKUeOniYyWn8zgUAu9opvQ
+	(envelope-from <ecryptfs+bounces-1169-lists+ecryptfs=lfdr.de@vger.kernel.org>)
+	for <lists+ecryptfs@lfdr.de>; Sun, 29 Mar 2026 23:24:08 +0200
 X-Original-To: lists+ecryptfs@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EAAF32F46C
-	for <lists+ecryptfs@lfdr.de>; Thu, 26 Mar 2026 06:13:10 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DC7E354241
+	for <lists+ecryptfs@lfdr.de>; Sun, 29 Mar 2026 23:24:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5491430580A1
-	for <lists+ecryptfs@lfdr.de>; Thu, 26 Mar 2026 05:10:58 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C577730078F5
+	for <lists+ecryptfs@lfdr.de>; Sun, 29 Mar 2026 21:24:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BBBF351C3E;
-	Thu, 26 Mar 2026 05:10:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CDE921CA0D;
+	Sun, 29 Mar 2026 21:24:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b="YulCcggx";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="r099N2HK"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="goVqdvqZ"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECE8D35F19F
-	for <ecryptfs@vger.kernel.org>; Thu, 26 Mar 2026 05:10:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 219B619CD0A
+	for <ecryptfs@vger.kernel.org>; Sun, 29 Mar 2026 21:24:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774501857; cv=none; b=CxwaakLNv0fuWYdPck92bTN/SKJaiVpXWrCCqsZKA6ujcVVNGWJuCdCVRZIGhsY+iDJFMRmydhz7QXB8gaKRJuSjY64wiYw5uI0XZsJoYQ3kWCnYkQy1yV0q+a3eO09lexQusvRrUSvT9EpBsR6k6IZowRne1iMbNsaxp/jTf1s=
+	t=1774819446; cv=none; b=GNjp7eFWwGm53QLdUMZ9mpoODO2fojEYwKQaM1Wl3NP7v1LNb/1CSVmPcVHHEyzAgcVCwJh9MXVrHfNfvzbTyFjYshh1GfgNOXlYq0iERMs1CfWtFPM3ZVEG5ObgXe/GRisfRptPyoYBZzQXXau5fOUg9VxWHmkwdprN7rlYe8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774501857; c=relaxed/simple;
-	bh=NuDHFbhzxR2+hgv1tYoBM/Ut4nzjg2sZcDRrukVfGj4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HOgiKcB8ofbypPHg1YcOmd5ew9ExUOTkuGciAIvPILBduF/WKzQ6dYGaOLXnyVrBECwJl+DHPCjZz9FYjlmoG/MfoNfLeCM6n0wNAphyOiVd1ZMNaoi2vS6l3ETRWJcnH+mh841atbedIERLa+CjdlTEGwyedPJepF6jeRtpIAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com; spf=pass smtp.mailfrom=tyhicks.com; dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b=YulCcggx; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=r099N2HK; arc=none smtp.client-ip=202.12.124.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tyhicks.com
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.stl.internal (Postfix) with ESMTP id 515971D0020D;
-	Thu, 26 Mar 2026 01:10:55 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Thu, 26 Mar 2026 01:10:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tyhicks.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1774501855;
-	 x=1774588255; bh=a9Me7hDBDffj7QEml1Q6SDJ35lZewss4V+rimWB1qLA=; b=
-	YulCcggxLljhVGiwSjvlPU7UVESV5G2xUQmJDqmBks46ahM00bQ5BKNtbEDF1c8n
-	z8mub4eiPCCCPNbxeOYJnJfjtpM+uWdTz8dsAN0yR3KIat2jVFNzWimzGlAWHPmB
-	HilVQkuFFNa9V6qwil2wr/xEo9sLL2dmYmEQUVnKIKVDabKsFHwprUIq5eEOIpm2
-	v1j5vZdhryFz9yw2P/oKPpxkNyUIfUleh6MdM41YEEkLdm0fR2+uDXvj/oC2G7/f
-	tmhly0Z/td4kz0vE4ZvLJyZiqJKhWf50VebQSqac/4Ew5YpncZHuopRAFxUxD7U9
-	L7mR5RnZx/NfeKIzRcFnyw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774501855; x=
-	1774588255; bh=a9Me7hDBDffj7QEml1Q6SDJ35lZewss4V+rimWB1qLA=; b=r
-	099N2HKX5v75bfal5sj4/6KztGuZOslDOAV664kRSF1/OXSFGKxpomXJpyfguEg8
-	KDn2Rxrzhbk1ob4aqg1lJkSHlY1+oPcOnAU+sXUwOG9okIBK3i5BmgOJmiHk+v7H
-	TiiayU2Yd3SmP+j++pvPFivWHXja124wzf4PfbrOMkJjtSqoWYBjxkQXff1hActl
-	fRw6LJeb8vsITyWOpogrFTX2RGG7yRHeB2LcQA5LvuHZiyncIpXZzUzWlyNvQpzu
-	jGQ4vKZDX/D0ZZkH7ErTE9ElLLEb0AgK168KvpDWVW5z4kXHjftjGDgFIdpUfG6Q
-	XR+aoyrPMVLbR9bAalYxQ==
-X-ME-Sender: <xms:3r_EaUOo8KqM3vB_4dazqqCo3WUla4jbI3wleXO6x5mjGuv7pv0oSA>
-    <xme:3r_EaSbOOelwVmbGLo36CiwxKNxH-odqhqsfqYD5BUJq10eB22nboBOpzknm4akdP
-    ozvQG-eOjE3sv29O1bb5LTkRXaVJ4Ky0dPZaE33FRhDkcsBQmuV_Lk>
-X-ME-Received: <xmr:3r_EaYryWHBUCh4vIiQAGDFTGeWXrEOsEv3xAKCpizXot1JnsGZBO8Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefvdeigeelucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefvhihlvghr
-    ucfjihgtkhhsuceotghouggvsehthihhihgtkhhsrdgtohhmqeenucggtffrrghtthgvrh
-    hnpeejieegveejfeegfeehteejueelhffgheeijedtjeekjeeklefggfdugffhheelteen
-    ucffohhmrghinheplhgruhhntghhphgrugdrnhgvthdpkhgvrhhnvghlrdhorhhgnecuve
-    hluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheptghouggvseht
-    hihhihgtkhhsrdgtohhmpdhnsggprhgtphhtthhopeefpdhmohguvgepshhmthhpohhuth
-    dprhgtphhtthhopehfrhgrnhhkhhhsihgrohesqhhnrghprdgtohhmpdhrtghpthhtohep
-    sggvrhhtrdifvghsrghrghesghhoohhglhgvmhgrihhlrdgtohhmpdhrtghpthhtohepvg
-    gtrhihphhtfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:3r_EaWbEyevG3txQB8wZlKKZrj1wBzUNztcczDRkEQSEmT4WuwQ7AA>
-    <xmx:3r_EaQS_xZfrZg19HLNc_iC5Kd2JspsXnPMozqVq_AMtNt-WZGpv8w>
-    <xmx:3r_Ead5tEePQ8IzGqkQ-8zNUpsODuwASNDKSCsoOvFPVgDQHZZivMw>
-    <xmx:3r_EaVxFnJGdqfvFXFXfzIdBnnb3nXwNFvRzXUC3nzDpfbeCp7rGOQ>
-    <xmx:37_EacOtZOm9PAoeDbP82j_zRJBYfIqEatSq8KWQx_0HXe4vbC2hcmkL>
-Feedback-ID: i78e14604:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 26 Mar 2026 01:10:54 -0400 (EDT)
-Date: Thu, 26 Mar 2026 00:10:46 -0500
-From: Tyler Hicks <code@tyhicks.com>
-To: Frank Hsiao =?utf-8?B?6JWt5rOV5a6j?= <frankhsiao@qnap.com>,
-	Bert Wesarg <bert.wesarg@googlemail.com>
-Cc: "ecryptfs@vger.kernel.org" <ecryptfs@vger.kernel.org>
-Subject: Re: [PATCH] ecryptfs: set s_time_gran to get correct time granularity
-Message-ID: <acS_1gS8HmnUFZ4A@yaupon>
-References: <SEZPR04MB6972A94B302FC6AC528823FAB7EE2@SEZPR04MB6972.apcprd04.prod.outlook.com>
+	s=arc-20240116; t=1774819446; c=relaxed/simple;
+	bh=jSGl1sGoYsfcH2zmeHuwrsDSl0JGHJ0IsyXrLNq+r+I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p5P7etozJmxwnNpCRKQ4OOwaThNBgl7phuxWcvFg/GedSPI/uNgWlu3Pmp3yqekGMNrG9zol9J1FZC4y12s8jyiqsyqYAUtlMaq0WAOv59aSza3ACqChIeC1Sk5YA8CHGHhrbE6ct9LtvZRH5pDh/F3d8XH+jHFaLsaMEntELUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=goVqdvqZ; arc=none smtp.client-ip=91.218.175.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1774819442;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=fiYUZRIhPHRfpLy+X1L5rQAd5Zyjsl3Oxk/LrORbXdo=;
+	b=goVqdvqZsWZkm+gFLAwe+6Tx45jLevInpYgEc3wVJ4Xq9VPtODC8EJ/bS9tY6T2JwUUiFa
+	QgioJnOriO6xEBPJvoFTbHP5UDlWvYq0gByPGf4rZ/eT0Vr7afR1fbkjA/+w51LHh73odQ
+	rRtpCQNAAYq2OH8o157A/WK/1hM09Z0=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Tyler Hicks <code@tyhicks.com>,
+	Thorsten Blum <thorsten.blum@linux.dev>,
+	Christian Brauner <brauner@kernel.org>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Kees Cook <kees@kernel.org>,
+	Zipeng Zhang <zhangzipeng0@foxmail.com>
+Cc: Chuck Lever <chuck.lever@oracle.com>,
+	ecryptfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ecryptfs: streamline offset formatting in ecryptfs_derive_iv
+Date: Sun, 29 Mar 2026 23:23:25 +0200
+Message-ID: <20260329212325.371720-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1904; i=thorsten.blum@linux.dev; h=from:subject; bh=jSGl1sGoYsfcH2zmeHuwrsDSl0JGHJ0IsyXrLNq+r+I=; b=owGbwMvMwCUWt7pQ4caZUj3G02pJDJknZ/hahd3cru/Kw5XScH1f/NOW8xcEf9tlNj3883ee9 jrGntWfOkpYGMS4GGTFFFkezPoxw7e0pnKTScROmDmsTCBDGLg4BWAia/4z/Di2xGdm8iyrboOe NZ1RtVs/i9V1/5ilW26mNevMxLlKHIwMLdyHergeqP6pnMa0fd52D1v/iSeT3j3Oz5y+8rXMf00 ndgA=
+X-Developer-Key: i=thorsten.blum@linux.dev; a=openpgp; fpr=1D60735E8AEF3BE473B69D84733678FD8DFEEAD4
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <SEZPR04MB6972A94B302FC6AC528823FAB7EE2@SEZPR04MB6972.apcprd04.prod.outlook.com>
-X-Spamd-Result: default: False [-1.16 / 15.00];
+X-Migadu-Flow: FLOW_OUT
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[tyhicks.com:s=fm3,messagingengine.com:s=fm1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
+	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-1169-lists,ecryptfs=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[tyhicks.com,linux.dev,kernel.org,gmail.com,foxmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[qnap.com,googlemail.com];
-	TAGGED_FROM(0.00)[bounces-1168-lists,ecryptfs=lfdr.de];
-	TO_DN_SOME(0.00)[];
-	DMARC_NA(0.00)[tyhicks.com];
 	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[code@tyhicks.com,ecryptfs@vger.kernel.org];
-	DKIM_TRACE(0.00)[tyhicks.com:+,messagingengine.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[ecryptfs];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,tyhicks.com:dkim,tyhicks.com:email,launchpad.net:url,messagingengine.com:dkim,qnap.com:email]
-X-Rspamd-Queue-Id: 4EAAF32F46C
+	DKIM_TRACE(0.00)[linux.dev:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[thorsten.blum@linux.dev,ecryptfs@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[ecryptfs];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:dkim,linux.dev:email,linux.dev:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 3DC7E354241
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 2024-05-17 10:09:55, Frank Hsiao 蕭法宣 wrote:
-> related to: https://bugs.launchpad.net/ecryptfs/+bug/1890486
-> 
-> This bug happens in the two following situations:
-> cp -p: copy a file and preserve its atime and mtime
-> touch -r: touch a file and use a ref file's time instead of current time
-> 
-> In fs/attr.c notify_change(), atime and mtime is truncated by timestamp_truncate(),
-> ecryptfs gets wrong s_time_gran (10^9 instead of original fs time granularity) and
-> truncates a/mtime to whole second. Setting s_time_gran when mounting ecryptfs
->  solves the issue. 
+Use the number of characters written by scnprintf() to zero-pad the
+remaining bytes, instead of clearing the buffer first and then writing
+the offset.
 
-Thank you! This has been applied to the next branch of the
-tyhicks/ecryptfs.git tree.
+Fix a typo in the kernel-doc and remove the TODO from 2006 while at it.
 
-I apologize that this fix was forgotten for so long. Thanks to Bert for
-raising it back up to my attention.
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+---
+ fs/ecryptfs/crypto.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-Given the long delay since you've sent this patch, I went ahead and
-slightly modified the commit message to make it follow the guidelines
-documented in the Documentation/process/submitting-patches.rst file. Let
-me know if you have any objections:
-
-===
-ecryptfs: Set s_time_gran to get correct time granularity
-
-Set the eCryptfs superblock time granularity, using the lower
-filesystem's s_time_gran value, to prevent unnecessary inode timestamp
-truncation to the granularity of a full second.
-
-The use of utimensat(2) to set a timestamp with nanosecond precision
-would trigger this bug. That occurred when using the following utilities
-to update timestamps of a file:
-  * cp -p: copy a file and preserve its atime and mtime
-  * touch -r: touch a file and use a reference file's timestamps
-
-Closes: https://bugs.launchpad.net/ecryptfs/+bug/1890486
-Signed-off-by: Frank Hsiao 蕭法宣 <frankhsiao@qnap.com>
-[tyhicks: Partially rewrite the commit message]
-Signed-off-by: Tyler Hicks <code@tyhicks.com>
-===
-
-You can find a direct link below but please be aware that the commit hash is
-unstable and, therefore, the URL may not be valid in the future.
-
-[1/1] ecryptfs: Set s_time_gran to get correct time granularity
-      https://git.kernel.org/tyhicks/ecryptfs/c/7d9ebf33d85317f3f258c627de51701e2bf7642d
-
-Tyler
+diff --git a/fs/ecryptfs/crypto.c b/fs/ecryptfs/crypto.c
+index 3b59346d68c5..7fac3ec1a8cd 100644
+--- a/fs/ecryptfs/crypto.c
++++ b/fs/ecryptfs/crypto.c
+@@ -72,7 +72,7 @@ static int ecryptfs_crypto_api_algify_cipher_name(char **algified_name,
+ 
+ /**
+  * ecryptfs_derive_iv
+- * @iv: destination for the derived iv vale
++ * @iv: destination for the derived iv value
+  * @crypt_stat: Pointer to crypt_stat struct for the current inode
+  * @offset: Offset of the extent whose IV we are to derive
+  *
+@@ -84,18 +84,15 @@ void ecryptfs_derive_iv(char *iv, struct ecryptfs_crypt_stat *crypt_stat,
+ {
+ 	char dst[MD5_DIGEST_SIZE];
+ 	char src[ECRYPTFS_MAX_IV_BYTES + 16];
++	size_t len;
+ 
+ 	if (unlikely(ecryptfs_verbosity > 0)) {
+ 		ecryptfs_printk(KERN_DEBUG, "root iv:\n");
+ 		ecryptfs_dump_hex(crypt_stat->root_iv, crypt_stat->iv_bytes);
+ 	}
+-	/* TODO: It is probably secure to just cast the least
+-	 * significant bits of the root IV into an unsigned long and
+-	 * add the offset to that rather than go through all this
+-	 * hashing business. -Halcrow */
+ 	memcpy(src, crypt_stat->root_iv, crypt_stat->iv_bytes);
+-	memset((src + crypt_stat->iv_bytes), 0, 16);
+-	snprintf((src + crypt_stat->iv_bytes), 16, "%lld", offset);
++	len = scnprintf(src + crypt_stat->iv_bytes, 16, "%lld", offset) + 1;
++	memset(src + crypt_stat->iv_bytes + len, 0, 16 - len);
+ 	if (unlikely(ecryptfs_verbosity > 0)) {
+ 		ecryptfs_printk(KERN_DEBUG, "source:\n");
+ 		ecryptfs_dump_hex(src, (crypt_stat->iv_bytes + 16));
 
