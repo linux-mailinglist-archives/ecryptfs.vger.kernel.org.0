@@ -1,149 +1,125 @@
-Return-Path: <ecryptfs+bounces-1169-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-1170-lists+ecryptfs=lfdr.de@vger.kernel.org>
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mKUeOniYyWn8zgUAu9opvQ
-	(envelope-from <ecryptfs+bounces-1169-lists+ecryptfs=lfdr.de@vger.kernel.org>)
-	for <lists+ecryptfs@lfdr.de>; Sun, 29 Mar 2026 23:24:08 +0200
+	id UJJdHxaiyWlD0QUAu9opvQ
+	(envelope-from <ecryptfs+bounces-1170-lists+ecryptfs=lfdr.de@vger.kernel.org>)
+	for <lists+ecryptfs@lfdr.de>; Mon, 30 Mar 2026 00:05:10 +0200
 X-Original-To: lists+ecryptfs@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DC7E354241
-	for <lists+ecryptfs@lfdr.de>; Sun, 29 Mar 2026 23:24:08 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FDFD3543EC
+	for <lists+ecryptfs@lfdr.de>; Mon, 30 Mar 2026 00:05:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C577730078F5
-	for <lists+ecryptfs@lfdr.de>; Sun, 29 Mar 2026 21:24:06 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 4612830022F1
+	for <lists+ecryptfs@lfdr.de>; Sun, 29 Mar 2026 22:05:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CDE921CA0D;
-	Sun, 29 Mar 2026 21:24:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01442279DB6;
+	Sun, 29 Mar 2026 22:05:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="goVqdvqZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dLxu+WFl"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 219B619CD0A
-	for <ecryptfs@vger.kernel.org>; Sun, 29 Mar 2026 21:24:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D19A6184540;
+	Sun, 29 Mar 2026 22:05:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774819446; cv=none; b=GNjp7eFWwGm53QLdUMZ9mpoODO2fojEYwKQaM1Wl3NP7v1LNb/1CSVmPcVHHEyzAgcVCwJh9MXVrHfNfvzbTyFjYshh1GfgNOXlYq0iERMs1CfWtFPM3ZVEG5ObgXe/GRisfRptPyoYBZzQXXau5fOUg9VxWHmkwdprN7rlYe8Q=
+	t=1774821907; cv=none; b=YPk3L6Jpa0tFB66cAGswCz5h746qOgpQZ6BmI40dzeT6ScpgPfI254FmSc9qCBQJA7X/Q4cNXwJIS4/Kx4lGM7AMvkOJagbhD3HU9njsVl7H8ISQQJEPC6EC4wT/4NEjKjzzg/8V4qTHydNnVaarUGiX5pYFCB9saHv63Uo6Ph4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774819446; c=relaxed/simple;
-	bh=jSGl1sGoYsfcH2zmeHuwrsDSl0JGHJ0IsyXrLNq+r+I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p5P7etozJmxwnNpCRKQ4OOwaThNBgl7phuxWcvFg/GedSPI/uNgWlu3Pmp3yqekGMNrG9zol9J1FZC4y12s8jyiqsyqYAUtlMaq0WAOv59aSza3ACqChIeC1Sk5YA8CHGHhrbE6ct9LtvZRH5pDh/F3d8XH+jHFaLsaMEntELUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=goVqdvqZ; arc=none smtp.client-ip=91.218.175.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1774819442;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=fiYUZRIhPHRfpLy+X1L5rQAd5Zyjsl3Oxk/LrORbXdo=;
-	b=goVqdvqZsWZkm+gFLAwe+6Tx45jLevInpYgEc3wVJ4Xq9VPtODC8EJ/bS9tY6T2JwUUiFa
-	QgioJnOriO6xEBPJvoFTbHP5UDlWvYq0gByPGf4rZ/eT0Vr7afR1fbkjA/+w51LHh73odQ
-	rRtpCQNAAYq2OH8o157A/WK/1hM09Z0=
-From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Tyler Hicks <code@tyhicks.com>,
-	Thorsten Blum <thorsten.blum@linux.dev>,
-	Christian Brauner <brauner@kernel.org>,
-	Eric Biggers <ebiggers@kernel.org>,
+	s=arc-20240116; t=1774821907; c=relaxed/simple;
+	bh=UQgLvwsH0vhiiz6F1IM4aXHaQ/G/BgNyHwZku1v+6vk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lIkmU7v6cpYfY6CyZVGkcwo6rlszj+vuOcUnvcYaLHdH/DM7nMU6E+oc7flp/IYIZdhpmg0BKOT4hYEMUb01ae3nTGZ69extkuRQtlW+3cMPj5o9fsp/mbmzSrxcNqf7F+IxP8/TTrimfPkNHKfrX/Vg4oa4BRt0Zbj3yS3RlEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dLxu+WFl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9003C116C6;
+	Sun, 29 Mar 2026 22:05:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774821907;
+	bh=UQgLvwsH0vhiiz6F1IM4aXHaQ/G/BgNyHwZku1v+6vk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dLxu+WFlul5HjtRj/SX23sIk7Qn6iXAJDjmtLMExrpzOrNkIjAfkmF2zwY+1tuVzk
+	 1uHHQ4W+ahwz1rZAR+3P2lTqKEYu7wO6Xcd2DrnsnUt2C7CXckkzEitbDw+uq8oYZv
+	 Wb1Jr1/HqD/BnovAdPJTHhSpqn5Zl/QIfmJX226x8FvpfRFce0HmkcRSGBorxuCiby
+	 BkEnVyyK1hrCaO7TTN4jDsqFYC1l+79ErU3AjOHYSfbbr61aaaaJVrrIcnokaY5EET
+	 UCH+T0Ih9zD0p76E3HbyX1Hn/V8556avVlv6Ond2C4FSp/qiHAXtupeIJ8qkOoNcxY
+	 wnMLf8ZlW+2kg==
+Date: Sun, 29 Mar 2026 15:05:05 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Thorsten Blum <thorsten.blum@linux.dev>
+Cc: Tyler Hicks <code@tyhicks.com>, Christian Brauner <brauner@kernel.org>,
 	Jeff Layton <jlayton@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Kees Cook <kees@kernel.org>,
-	Zipeng Zhang <zhangzipeng0@foxmail.com>
-Cc: Chuck Lever <chuck.lever@oracle.com>,
-	ecryptfs@vger.kernel.org,
+	Amir Goldstein <amir73il@gmail.com>, Kees Cook <kees@kernel.org>,
+	Zipeng Zhang <zhangzipeng0@foxmail.com>,
+	Chuck Lever <chuck.lever@oracle.com>, ecryptfs@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] ecryptfs: streamline offset formatting in ecryptfs_derive_iv
-Date: Sun, 29 Mar 2026 23:23:25 +0200
-Message-ID: <20260329212325.371720-2-thorsten.blum@linux.dev>
+Subject: Re: [PATCH] ecryptfs: streamline offset formatting in
+ ecryptfs_derive_iv
+Message-ID: <20260329220505.GB2106@quark>
+References: <20260329212325.371720-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1904; i=thorsten.blum@linux.dev; h=from:subject; bh=jSGl1sGoYsfcH2zmeHuwrsDSl0JGHJ0IsyXrLNq+r+I=; b=owGbwMvMwCUWt7pQ4caZUj3G02pJDJknZ/hahd3cru/Kw5XScH1f/NOW8xcEf9tlNj3883ee9 jrGntWfOkpYGMS4GGTFFFkezPoxw7e0pnKTScROmDmsTCBDGLg4BWAia/4z/Di2xGdm8iyrboOe NZ1RtVs/i9V1/5ilW26mNevMxLlKHIwMLdyHergeqP6pnMa0fd52D1v/iSeT3j3Oz5y+8rXMf00 ndgA=
-X-Developer-Key: i=thorsten.blum@linux.dev; a=openpgp; fpr=1D60735E8AEF3BE473B69D84733678FD8DFEEAD4
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260329212325.371720-2-thorsten.blum@linux.dev>
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
-	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-1169-lists,ecryptfs=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[tyhicks.com,linux.dev,kernel.org,gmail.com,foxmail.com];
+	FREEMAIL_CC(0.00)[tyhicks.com,kernel.org,gmail.com,foxmail.com,oracle.com,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-1170-lists,ecryptfs=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[linux.dev:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[thorsten.blum@linux.dev,ecryptfs@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ebiggers@kernel.org,ecryptfs@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[ecryptfs];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:dkim,linux.dev:email,linux.dev:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 3DC7E354241
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 0FDFD3543EC
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Use the number of characters written by scnprintf() to zero-pad the
-remaining bytes, instead of clearing the buffer first and then writing
-the offset.
+On Sun, Mar 29, 2026 at 11:23:25PM +0200, Thorsten Blum wrote:
+> Use the number of characters written by scnprintf() to zero-pad the
+> remaining bytes, instead of clearing the buffer first and then writing
+> the offset.
+[...]
+> +	size_t len;
+[...]
+>  	memcpy(src, crypt_stat->root_iv, crypt_stat->iv_bytes);
+> -	memset((src + crypt_stat->iv_bytes), 0, 16);
+> -	snprintf((src + crypt_stat->iv_bytes), 16, "%lld", offset);
+> +	len = scnprintf(src + crypt_stat->iv_bytes, 16, "%lld", offset) + 1;
+> +	memset(src + crypt_stat->iv_bytes + len, 0, 16 - len);
 
-Fix a typo in the kernel-doc and remove the TODO from 2006 while at it.
+This isn't exactly "streamlining" the code.  memset(p, 0, 16) tends to
+get compiled into just two instructions.  In contrast, a variable-length
+memset tends to be several instructions to set up, plus a call
+instruction, and the instructions inside memset() itself.  scnprintf()
+is also a few more instructions than snprintf().
 
-Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
----
- fs/ecryptfs/crypto.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+So I'd say the old version is more "streamlined", actually.  Granted,
+the difference is probably only a few cycles, but it sounds like the
+motivation for this patch is that you assumed the new version is faster?
 
-diff --git a/fs/ecryptfs/crypto.c b/fs/ecryptfs/crypto.c
-index 3b59346d68c5..7fac3ec1a8cd 100644
---- a/fs/ecryptfs/crypto.c
-+++ b/fs/ecryptfs/crypto.c
-@@ -72,7 +72,7 @@ static int ecryptfs_crypto_api_algify_cipher_name(char **algified_name,
- 
- /**
-  * ecryptfs_derive_iv
-- * @iv: destination for the derived iv vale
-+ * @iv: destination for the derived iv value
-  * @crypt_stat: Pointer to crypt_stat struct for the current inode
-  * @offset: Offset of the extent whose IV we are to derive
-  *
-@@ -84,18 +84,15 @@ void ecryptfs_derive_iv(char *iv, struct ecryptfs_crypt_stat *crypt_stat,
- {
- 	char dst[MD5_DIGEST_SIZE];
- 	char src[ECRYPTFS_MAX_IV_BYTES + 16];
-+	size_t len;
- 
- 	if (unlikely(ecryptfs_verbosity > 0)) {
- 		ecryptfs_printk(KERN_DEBUG, "root iv:\n");
- 		ecryptfs_dump_hex(crypt_stat->root_iv, crypt_stat->iv_bytes);
- 	}
--	/* TODO: It is probably secure to just cast the least
--	 * significant bits of the root IV into an unsigned long and
--	 * add the offset to that rather than go through all this
--	 * hashing business. -Halcrow */
- 	memcpy(src, crypt_stat->root_iv, crypt_stat->iv_bytes);
--	memset((src + crypt_stat->iv_bytes), 0, 16);
--	snprintf((src + crypt_stat->iv_bytes), 16, "%lld", offset);
-+	len = scnprintf(src + crypt_stat->iv_bytes, 16, "%lld", offset) + 1;
-+	memset(src + crypt_stat->iv_bytes + len, 0, 16 - len);
- 	if (unlikely(ecryptfs_verbosity > 0)) {
- 		ecryptfs_printk(KERN_DEBUG, "source:\n");
- 		ecryptfs_dump_hex(src, (crypt_stat->iv_bytes + 16));
+- Eric
 
