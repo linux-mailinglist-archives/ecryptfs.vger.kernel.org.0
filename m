@@ -1,123 +1,124 @@
-Return-Path: <ecryptfs+bounces-1172-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-1173-lists+ecryptfs=lfdr.de@vger.kernel.org>
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AORRAZ0uymkA6AUAu9opvQ
-	(envelope-from <ecryptfs+bounces-1172-lists+ecryptfs=lfdr.de@vger.kernel.org>)
-	for <lists+ecryptfs@lfdr.de>; Mon, 30 Mar 2026 10:04:45 +0200
+	id GHENBdFSymn27gUAu9opvQ
+	(envelope-from <ecryptfs+bounces-1173-lists+ecryptfs=lfdr.de@vger.kernel.org>)
+	for <lists+ecryptfs@lfdr.de>; Mon, 30 Mar 2026 12:39:13 +0200
 X-Original-To: lists+ecryptfs@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2733A356D86
-	for <lists+ecryptfs@lfdr.de>; Mon, 30 Mar 2026 10:04:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C116359819
+	for <lists+ecryptfs@lfdr.de>; Mon, 30 Mar 2026 12:39:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 20E77304DEB6
-	for <lists+ecryptfs@lfdr.de>; Mon, 30 Mar 2026 07:56:52 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 52FFA3045C29
+	for <lists+ecryptfs@lfdr.de>; Mon, 30 Mar 2026 10:35:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DE8E3A875C;
-	Mon, 30 Mar 2026 07:56:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDE543AA51E;
+	Mon, 30 Mar 2026 10:35:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="sYb0Pcsz"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qUKm9N0O"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D487D3A9D94
-	for <ecryptfs@vger.kernel.org>; Mon, 30 Mar 2026 07:56:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B40B33BADBA
+	for <ecryptfs@vger.kernel.org>; Mon, 30 Mar 2026 10:35:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774857397; cv=none; b=kQyD720Pkt7e6+VqClt+M/cdb7ZHKaO01HYn0crEwvkbkqQx3gb+Olj3PRhQtvoYlBA51a8ERRbjo8YUgJmR4XcE1/4RQ86Tej1qgi+ZPc0hfnJ3GvKAjkHBJF/z4jNQjWog0ZwIloLWeU+AyN7SRPKaJU3TiYbG1Ub5+3xEFaI=
+	t=1774866943; cv=none; b=fhTicb3R66vhUo0AoXqRB/RL9sXsZZiBjv6kq9Gd6r3q6oJYErVriI0mHGRM5etIdXS/e+UZSM6tHJVXGFMzXmkQq8HjeJjkJHvzXJpupmsAcDpMSgCb31bMBhgm8MFWEvmwtAA7aIhVH0i0l/hfbKSlKAU4Zc3P/Y0UJnTmAWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774857397; c=relaxed/simple;
-	bh=Gr6aSxugTR3lddgRXaJ/z/ROWYGJDoeZlg6NTSpFCxM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c8OTGcJ8kwabjNMNGgvR7GF2YTE8C4viTN6h3HZCg7YXmq4FbySRIi9UTQzypOxh5n/dNHbs6GAaNvum0gu0+/qibyKRWWU4f+5kuxl3J3UXRuFKR2iPVhVtYRmZLXwHuRfCf+W1tbJBljNpMWYQJQ+4JHjy9aVFLymF0T4xE7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=sYb0Pcsz; arc=none smtp.client-ip=91.218.175.184
+	s=arc-20240116; t=1774866943; c=relaxed/simple;
+	bh=kvLi/kSD0fId3zDk3U8cYaDP8yKJbUfhGWMEhpWw1ZA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SdpEXZ1Bw2nqTPI6Df8eTm0pyna8a+QzYW/5mIxNXUOiZ8+ahntWAvMEwv1/L99Lb/NUP0qApp7j+N5r9Yc4SFCeTYPF3jGaBTUFjjZFXVtiI2MLph+9l3C5GC+3y/dyaUJDL62Bn+5WSN0lG4Mia6B4Z7g7+k002X5zcSwWOYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=qUKm9N0O; arc=none smtp.client-ip=95.215.58.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Date: Mon, 30 Mar 2026 09:56:19 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1774857384;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DHHhT2qfpXE70nk4sipcypcMRxnmCnaq9Kmr0k9T/0M=;
-	b=sYb0Pcszm9LdFsgRxiKUqYuUwFYqZGG0lc8XQwy1hiz4xmb8VIDLFlvjwH+ayWbnZNcAM1
-	TLLS+LtffKeJ9ljHjgFGcIhWe+W/mGNjblKql6mTut1cTAtD+asoCNss8tyLIoRBDQT6Sz
-	z0alrwiWTvf0WlPKX6EGHNPgwg/ISs0=
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1774866939;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=uiq7lYrJ56/ZU4crmRRn5AG/pG6F28e+zWcU32cvjx4=;
+	b=qUKm9N0ONr2wg+++ELLSvvtnMqWNvNSUZZZB5X9378kQS1qpteFpFYhGxB3Z6/G6aa/d++
+	0rLJBmVBc7wwnYyFhdQawT9k0EqdJQcBY72yERKuI8DtpV7vuWXpl9aF9SbCC5eempCnND
+	HhsMTotUCMAqJyOEm/9uZFbP6cLSrwY=
 From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Tyler Hicks <code@tyhicks.com>, Christian Brauner <brauner@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>, Kees Cook <kees@kernel.org>,
+To: Tyler Hicks <code@tyhicks.com>,
+	Thorsten Blum <thorsten.blum@linux.dev>,
+	Christian Brauner <brauner@kernel.org>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
 	Zipeng Zhang <zhangzipeng0@foxmail.com>,
-	Chuck Lever <chuck.lever@oracle.com>, ecryptfs@vger.kernel.org,
+	Jeff Layton <jlayton@kernel.org>,
+	Kees Cook <kees@kernel.org>
+Cc: Amir Goldstein <amir73il@gmail.com>,
+	ecryptfs@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ecryptfs: streamline offset formatting in
- ecryptfs_derive_iv
-Message-ID: <acoso_G9DyM03xMy@linux.dev>
-References: <20260329212325.371720-2-thorsten.blum@linux.dev>
- <20260329220505.GB2106@quark>
- <acnLDxr4UF1dULrm@linux.dev>
+Subject: [PATCH 1/2] ecryptfs: Fix typo in ecryptfs_derive_iv function comment
+Date: Mon, 30 Mar 2026 12:35:15 +0200
+Message-ID: <20260330103515.389346-4-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <acnLDxr4UF1dULrm@linux.dev>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=665; i=thorsten.blum@linux.dev; h=from:subject; bh=kvLi/kSD0fId3zDk3U8cYaDP8yKJbUfhGWMEhpWw1ZA=; b=owGbwMvMwCUWt7pQ4caZUj3G02pJDJmnAh+77LNIPTD366+6S6dnsZ5oaGe5ILIhQkZ/al9T5 /aJdVJuHaUsDGJcDLJiiiwPZv2Y4VtaU7nJJGInzBxWJpAhDFycAjARtV6G/y5vp7rk/8675fjT +8HdFSu0Ukof7NxZKnLj4AQ5U6bzaT8Z/im0HtWK/dGWUnLsWkECb7ar8v5Luxc57/E7MfWbR4z rM24A
+X-Developer-Key: i=thorsten.blum@linux.dev; a=openpgp; fpr=1D60735E8AEF3BE473B69D84733678FD8DFEEAD4
+Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
-	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[tyhicks.com,kernel.org,gmail.com,foxmail.com,oracle.com,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-1172-lists,ecryptfs=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-1173-lists,ecryptfs=lfdr.de];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[linux.dev:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FREEMAIL_TO(0.00)[tyhicks.com,linux.dev,kernel.org,foxmail.com];
+	RCVD_COUNT_THREE(0.00)[3];
 	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[thorsten.blum@linux.dev,ecryptfs@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[linux.dev:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[ecryptfs];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:dkim,linux.dev:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 2733A356D86
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:dkim,linux.dev:email,linux.dev:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 6C116359819
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, Mar 30, 2026 at 03:00:04AM +0200, Thorsten Blum wrote:
-> On Sun, Mar 29, 2026 at 03:05:05PM -0700, Eric Biggers wrote:
-> > This isn't exactly "streamlining" the code.  memset(p, 0, 16) tends to
-> > get compiled into just two instructions.  In contrast, a variable-length
-> > memset tends to be several instructions to set up, plus a call
-> > instruction, and the instructions inside memset() itself.  scnprintf()
-> > is also a few more instructions than snprintf().
-> > 
-> > So I'd say the old version is more "streamlined", actually.  Granted,
-> > the difference is probably only a few cycles, but it sounds like the
-> > motivation for this patch is that you assumed the new version is faster?
-> 
-> I meant "streamline" as in write bytes once.
-> 
-> Maybe we should just zero-initialize the 32 bytes in 'src' instead and
-> keep snprintf(). That removes the need to keep track of 'len' and also
-> gets rid of the explicit memset(0).
+s/vale/value/
 
-Let's drop this patch and I'll send a new one to fix the typo and remove
-the TODO. Keeping the explicit memset(0) is probably best here. Thanks!
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+---
+ fs/ecryptfs/crypto.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/ecryptfs/crypto.c b/fs/ecryptfs/crypto.c
+index 3b59346d68c5..585bad6577ed 100644
+--- a/fs/ecryptfs/crypto.c
++++ b/fs/ecryptfs/crypto.c
+@@ -72,7 +72,7 @@ static int ecryptfs_crypto_api_algify_cipher_name(char **algified_name,
+ 
+ /**
+  * ecryptfs_derive_iv
+- * @iv: destination for the derived iv vale
++ * @iv: destination for the derived iv value
+  * @crypt_stat: Pointer to crypt_stat struct for the current inode
+  * @offset: Offset of the extent whose IV we are to derive
+  *
 
