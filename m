@@ -1,131 +1,108 @@
-Return-Path: <ecryptfs+bounces-1174-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-1175-lists+ecryptfs=lfdr.de@vger.kernel.org>
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iFhoDCNTymn27gUAu9opvQ
-	(envelope-from <ecryptfs+bounces-1174-lists+ecryptfs=lfdr.de@vger.kernel.org>)
-	for <lists+ecryptfs@lfdr.de>; Mon, 30 Mar 2026 12:40:35 +0200
+	id YK+4Hsfsy2mlMgYAu9opvQ
+	(envelope-from <ecryptfs+bounces-1175-lists+ecryptfs=lfdr.de@vger.kernel.org>)
+	for <lists+ecryptfs@lfdr.de>; Tue, 31 Mar 2026 17:48:23 +0200
 X-Original-To: lists+ecryptfs@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83A1B359895
-	for <lists+ecryptfs@lfdr.de>; Mon, 30 Mar 2026 12:40:34 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BCFA36C0C0
+	for <lists+ecryptfs@lfdr.de>; Tue, 31 Mar 2026 17:48:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 81780305DA75
-	for <lists+ecryptfs@lfdr.de>; Mon, 30 Mar 2026 10:35:57 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id D6766309C48C
+	for <lists+ecryptfs@lfdr.de>; Tue, 31 Mar 2026 15:39:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 324023BC661;
-	Mon, 30 Mar 2026 10:35:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EDAD421889;
+	Tue, 31 Mar 2026 15:37:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="XGfAqmBe"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="csoYo84E"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5E0D3BBA0D
-	for <ecryptfs@vger.kernel.org>; Mon, 30 Mar 2026 10:35:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F58E421A06;
+	Tue, 31 Mar 2026 15:37:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774866957; cv=none; b=tDVpX/mCYHp73gRcgZ1ZXD9bnnBXM0u/R+48aF18qPkz3Mw4PXZRut0TlFI2Mo6Wbz4YRoNd63rukusVoTQB2ieEsybvnFvhCVADp9vUyif5Wgk0XuJBnJXRCZOrTLl8j7Ci83VFJBEBzLtw5jpR0tUu1fqqwzz8/x8tVMZDVgo=
+	t=1774971476; cv=none; b=lCL41BX/bTYfIN+iyL3spZ1XVg4ALNeH/6kIh2d5l3AytZDk/ZrwrR4oL1WtArvdcU7DYTfzAOfv1EwEWPRgcYgvGXh9eGWXsTFRfZFgeLZll924Wj9R5v86Wf97krUGK351sx7TaEVlOU7Iq18zEsHl3BOJxIqtXFB+dWCcXGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774866957; c=relaxed/simple;
-	bh=i6Yuwo4RTk2gB2RMasRmLtxpxX83S/slTd/WcePBHP4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GbXlBMXi0tvVBvuZxOJBwwIP7tusSvCX60LJmdqZ9rOpTPxpvPl8ZOsPa5UMj/+4RN8Digu6VDONLEhCSDjvBLPp7y6IleANHved6TUd686swaicxUDOizL0g+iyecehz+nFhloK9ufPeg0BA8cESh6g7eL2SIfxRM+8+odjVHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=XGfAqmBe; arc=none smtp.client-ip=95.215.58.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1774866953;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nQnDJppw4Lt1MmEwTXnpkr/2Fa3d5p5uRIHkXoRQKqc=;
-	b=XGfAqmBedw/LZGap5xyaRcME+aTiP7GEktaqwhm6B8mmj7SFtYsav4REfQ2wuLsVyP33D8
-	b4mzDDnQlTZsoHNQlP0wKrpTgiSMEc7O6P2QrnX6XbzWPoAsqzpXnifcU6IYbNZ1Wa89Z1
-	NKB1je4u1MWw2WPuAt1S30jelNxcE4s=
-From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Tyler Hicks <code@tyhicks.com>,
-	Thorsten Blum <thorsten.blum@linux.dev>,
-	Christian Brauner <brauner@kernel.org>,
-	Eric Biggers <ebiggers@kernel.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Jeff Layton <jlayton@kernel.org>
-Cc: Damien Le Moal <dlemoal@kernel.org>,
-	Zipeng Zhang <zhangzipeng0@foxmail.com>,
-	ecryptfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] ecryptfs: Drop TODO comment in ecryptfs_derive_iv
-Date: Mon, 30 Mar 2026 12:35:17 +0200
-Message-ID: <20260330103515.389346-6-thorsten.blum@linux.dev>
-In-Reply-To: <20260330103515.389346-4-thorsten.blum@linux.dev>
-References: <20260330103515.389346-4-thorsten.blum@linux.dev>
+	s=arc-20240116; t=1774971476; c=relaxed/simple;
+	bh=8gCMWE2Qd8IwmVsRTMeWtcJdfWvq3SeUTDnOV07VGEY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Mo0+CS3IgQt97HQL1Yp8zjaKy9kGT9PMb/HOqgJdlpyWaeERYZl1tk5U480fZ08mj1K5gDc8pQnqk8rxy1LF/aBLkSiES96g/kU8VyTn0Gop27c1FHHto3xjhguuo9932FzDVmPkn4zortijtAYT6eRZk4ZHfynpd06FWEEZQIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=csoYo84E; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=2gbIziB0ZugjBYtni8dyMz1eYZivclVeo4kCTPpshjM=; b=csoYo84E4OcmnBmGePem23o0rc
+	K7uSzuHUFOJMROjZZgpExYFr/bEiRB3rH5UbkZHI3R+ZJ7jwUzSRdOVm1QfsHsYQy15Kg7EmMeAHn
+	mmX/0Y8pD8lnCzffVn74FBKv51pN8NegdF2gJsnKL1aPs3IfhZtWLxX5MxyIjkC9z9IJKBVJXpvVm
+	bUjRI6EP1uNPpPKt9CHIgo6+0hUH7SSZSq8ovWnrY49UbFHuI273XW5r9XvHh5UGlbBU2749z5LBh
+	dNYMY2cmmJkjVLbD/DlgBRYSj1OTePxDqrPEfnUkKMxXnslrN/9noo8WF5RMcKdxIWqix/DxY7zf0
+	sxllAOaQ==;
+Received: from [2a02:1210:321a:af00:3fa:89ae:5c22:a910] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w7bAA-0000000DC9Q-2wDc;
+	Tue, 31 Mar 2026 15:37:55 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Tyler Hicks <code@tyhicks.com>
+Cc: ecryptfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: cleanup truncate handling in ecryptfs
+Date: Tue, 31 Mar 2026 17:37:21 +0200
+Message-ID: <20260331153752.4049454-1-hch@lst.de>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=913; i=thorsten.blum@linux.dev; h=from:subject; bh=i6Yuwo4RTk2gB2RMasRmLtxpxX83S/slTd/WcePBHP4=; b=owGbwMvMwCUWt7pQ4caZUj3G02pJDJmnAl8mTwszm3Mz6u+emolWsrtPifbc3zP1dPDOMmWDt TEtaiw8HaUsDGJcDLJiiiwPZv2Y4VtaU7nJJGInzBxWJpAhDFycAjARpr8M/5P1Q9J4ZJb3O/7Z JxCYonA+rF5hkRLH9rdRm29xG6w65cnIsMb+TPl+pUlVm0UEmTyaN8Y6t3HeuHvkTdnzxZJrAh2 7GAE=
-X-Developer-Key: i=thorsten.blum@linux.dev; a=openpgp; fpr=1D60735E8AEF3BE473B69D84733678FD8DFEEAD4
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+X-Spamd-Result: default: False [-0.06 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[infradead.org:s=bombadil.20210309];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[lst.de : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-1174-lists,ecryptfs=lfdr.de];
-	FREEMAIL_CC(0.00)[kernel.org,foxmail.com,vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[tyhicks.com,linux.dev,kernel.org,gmail.com];
-	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-1175-lists,ecryptfs=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	RCPT_COUNT_THREE(0.00)[3];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[thorsten.blum@linux.dev,ecryptfs@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[hch@lst.de,ecryptfs@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[linux.dev:+];
+	DKIM_TRACE(0.00)[infradead.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[ecryptfs];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:dkim,linux.dev:email,linux.dev:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 83A1B359895
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lst.de:mid,infradead.org:dkim,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 5BCFA36C0C0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Remove the TODO from 2006.
+Hi Tyler,
 
-Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
----
- fs/ecryptfs/crypto.c | 4 ----
- 1 file changed, 4 deletions(-)
+this series cleans up the truncate handling in ecryptfs.  I did
+it as preparation for some changes into size changing truncate
+VFS interfaces I'm looking into in the moment.  The changes have
+passed the regression test suite in the userspace ecryptfs
+repository and against the ecryptfs next branch.
 
-diff --git a/fs/ecryptfs/crypto.c b/fs/ecryptfs/crypto.c
-index 585bad6577ed..92fbd28e9178 100644
---- a/fs/ecryptfs/crypto.c
-+++ b/fs/ecryptfs/crypto.c
-@@ -89,10 +89,6 @@ void ecryptfs_derive_iv(char *iv, struct ecryptfs_crypt_stat *crypt_stat,
- 		ecryptfs_printk(KERN_DEBUG, "root iv:\n");
- 		ecryptfs_dump_hex(crypt_stat->root_iv, crypt_stat->iv_bytes);
- 	}
--	/* TODO: It is probably secure to just cast the least
--	 * significant bits of the root IV into an unsigned long and
--	 * add the offset to that rather than go through all this
--	 * hashing business. -Halcrow */
- 	memcpy(src, crypt_stat->root_iv, crypt_stat->iv_bytes);
- 	memset((src + crypt_stat->iv_bytes), 0, 16);
- 	snprintf((src + crypt_stat->iv_bytes), 16, "%lld", offset);
+Diffstat:
+ inode.c |  228 +++++++++++++++++++++++++++-------------------------------------
+ 1 file changed, 98 insertions(+), 130 deletions(-)
 
