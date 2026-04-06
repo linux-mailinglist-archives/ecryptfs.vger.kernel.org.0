@@ -1,109 +1,98 @@
-Return-Path: <ecryptfs+bounces-1183-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-1184-lists+ecryptfs=lfdr.de@vger.kernel.org>
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SDaPENruzmktsAYAu9opvQ
-	(envelope-from <ecryptfs+bounces-1183-lists+ecryptfs=lfdr.de@vger.kernel.org>)
-	for <lists+ecryptfs@lfdr.de>; Fri, 03 Apr 2026 00:34:02 +0200
+	id MGYnLiJK02legwcAu9opvQ
+	(envelope-from <ecryptfs+bounces-1184-lists+ecryptfs=lfdr.de@vger.kernel.org>)
+	for <lists+ecryptfs@lfdr.de>; Mon, 06 Apr 2026 07:52:34 +0200
 X-Original-To: lists+ecryptfs@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 900E238ED18
-	for <lists+ecryptfs@lfdr.de>; Fri, 03 Apr 2026 00:34:01 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CCC23A1AAB
+	for <lists+ecryptfs@lfdr.de>; Mon, 06 Apr 2026 07:52:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D67D3301DCCE
-	for <lists+ecryptfs@lfdr.de>; Thu,  2 Apr 2026 22:32:23 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id DBD35300F14F
+	for <lists+ecryptfs@lfdr.de>; Mon,  6 Apr 2026 05:52:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6674B1DC198;
-	Thu,  2 Apr 2026 22:32:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4E1A3382C9;
+	Mon,  6 Apr 2026 05:52:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b="b2WtBiOf";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="u5TeBOIM"
+	dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b="j2R1mifb";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="qVyahMET"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
+Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA2323594A;
-	Thu,  2 Apr 2026 22:32:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F27113090D7;
+	Mon,  6 Apr 2026 05:52:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775169143; cv=none; b=W60oOeQmk3ZZ7r95AUfL47xx8LnI++0qW8jMWesclCfX7MLR1UbKrHosi3jbj8r9PAlBTQAgKZbX30w549aOey6IZ4lkC0uRUAxJY21nkLVZsb6tWCx9g8dU2W/M4kCBp4a8FmVse/2J8hfehLNY1HTVNVMYjo51FlQzQkIhtkU=
+	t=1775454750; cv=none; b=hV+2zeKV8kjH3/YOENuQELwZizeju1VRHeFmPmAFDwW+6WHEa+CrSV7G37FvlcXKpTvoJjeVKsOWiyv4ovD6NdW10u4IpnKp5Z95TOlW08g3aVKYgor4aE3MnU+5VChTbbisVI/HINt9MxJVORUw9m4wr+ve8h2d931gqA8PvhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775169143; c=relaxed/simple;
-	bh=nbnLW3snGpL5Vs8vYGojj8g8Qvq25S7ke+/89RV9a/I=;
+	s=arc-20240116; t=1775454750; c=relaxed/simple;
+	bh=StyoTtiFauK1NiIHx2nmnaY/PWfJuf/+KfywM5p8fFw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LTRdmulc8S2/KrPVOfgtW2MAVbUWheiSN2vHTCtpbE2RUjeDnYXN0tG1xK7l2/wee8FKRpiBDJUWF3r62kzGWTpXOYLpLkl9TPnIMEaW2NsODCGJFcT8+KjRAcUgcbkBweuDB9ql2Bz1X9OWD9jM7GlcJfgnSO1CwPLV/L88mr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com; spf=pass smtp.mailfrom=tyhicks.com; dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b=b2WtBiOf; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=u5TeBOIM; arc=none smtp.client-ip=103.168.172.144
+	 Content-Type:Content-Disposition:In-Reply-To; b=XOjTJ6iyvonRiZPoGICzIsWRyLbX1rFmvxeD2lMtlHjEFwsCEUGykFIhRRc/yBqyo2xhkyyQo0qowleYoCKZOfdN0Fd9GyYZJIbIzSUCA6CPt/WY/qeb/IdHNqJm/6q94t0OkLt3svgnKBEb5QZo1mn0DvZLthdV37YHGHHlc0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com; spf=pass smtp.mailfrom=tyhicks.com; dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b=j2R1mifb; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=qVyahMET; arc=none smtp.client-ip=202.12.124.149
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tyhicks.com
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.phl.internal (Postfix) with ESMTP id 16D2BEC01F2;
-	Thu,  2 Apr 2026 18:32:21 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Thu, 02 Apr 2026 18:32:21 -0400
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.stl.internal (Postfix) with ESMTP id 236951D00060;
+	Mon,  6 Apr 2026 01:52:28 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Mon, 06 Apr 2026 01:52:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tyhicks.com; h=
 	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1775169141; x=1775255541; bh=J9UYts3CLn
-	xn6JKrtp0DZdSGuXzSuCfxGpxBFFj9RhU=; b=b2WtBiOf3X3ETwhCEFhvRv/nyT
-	sFpFO3rXyy8PwhNaxg6NO51anv8VvtkSHGhnAFPlD69ESnJ5HeRzj+FK6uU4tpVl
-	12p/POcn/hxBdcgQYXivFTtzn8sUAuuKt+y3qeiFFygy6EvWO0Zu5vqFbUWC8tqK
-	lIrUZlL/F/K6xuAqbJljZ3CnIB2hJ2NRL6GfORoNew5vuyOn43juad16vspis6c0
-	2LHfU4ZwWe2JJMhl1ehu3GhZQUD/MrGfvMssE8LXTdnPIzCX88ZoSw8Zwe5biTXg
-	arZsp19nZ1IFlVajj+I4Y1g79mnPVrFLUXwsjVvkN8WhGnRfCG903TusYQ9w==
+	:subject:to:to; s=fm1; t=1775454747; x=1775541147; bh=Hcq4NYCmJB
+	JQ46frfHk7PYTcI6CUok84E6cFHjFP7fw=; b=j2R1mifbFJTWpZkcvS5Ykl3wJF
+	1mcpSucTkJMqpGgmlI9Ld6RCrIHDPzIC1LbI1BQiXQmQMPWIvBrrh332jAbL27oo
+	+0WRX8sD18funGAqvixE9i99czLMIfVR1H0jnFpkpyDLa5yJhQWboWRaBh9n2wHx
+	2e5RCvuAvBzN+HeprRf8I1UH5tu7vzUtt4AkADshM4Qhwji4vHR1fheIX+LFgPbJ
+	XbpE00JTmTcfP8m3ogACxCFQsVy7eJhe4bv1mVgeY+N9PSmR+eBo3NN+YXebXl6g
+	L+Dq11vY1ePrGIEfGsBXtrcbB/YK50wGll2vCYq0pg//9KSLseB4Xfb4urDw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1775169141; x=1775255541; bh=J9UYts3CLnxn6JKrtp0DZdSGuXzSuCfxGpx
-	BFFj9RhU=; b=u5TeBOIMQPx4EJu+AIr/39D0DUV+P+F1ijWMzl4JHG0RIin+/zf
-	lqeVVC/0uz5ccHqAv+/ogOS1tQaDMKnmoiNE0UT7RbEVfYPCUCFD6DMQkGEUMNOl
-	rVFQXAW7DAj5rs26jybXVQWyLtCLggb3UyN5pOHNaAxNUfnHdISjJ40WMyyQQJYs
-	l19W9feS0D10dSwCh4SoTzbpkyN6Zb9ZHRDHrFXxlzpu+s1WKHqwdwj1kOY8XaEq
-	hyWWUVg2lvyPH3r+VECsig/2i75ns/IEZuZVzObi1cfY6ixS7UY3iwEt2L/nmCcX
-	eJOxqxA7+Rrd4RBdy2ztVOACqy8Ki+wY+Gw==
-X-ME-Sender: <xms:dO7OaWSS7AAYSeBLmYfpZws2LZiSr1cLnqxhbLf6MkVh64yFpbxKdA>
-    <xme:dO7OaRykcnWX9kKbF3S8zInFX_0B3QhqsiJ6tWdmDK2RNAHT3JoM5NxLpFhGPmd3H
-    47bL9k084VqHT584YffaWpogCKewr14Y_7bRKEajI-quDO_tHINbcBi>
-X-ME-Received: <xmr:dO7Oaepw0SbAaldc5m1Lzj0-I4SKqibzfIPlxFzgNsvpguKo6763qoM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdejvdegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
-    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
-    epfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepvfihlhgvrhcujfhi
-    tghkshcuoegtohguvgesthihhhhitghkshdrtghomheqnecuggftrfgrthhtvghrnhepgf
-    egkeeiffethefgteffudfhfeejhedvjefhjeekudelffdulefhfeekieeludejnecuffho
-    mhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
-    grmhepmhgrihhlfhhrohhmpegtohguvgesthihhhhitghkshdrtghomhdpnhgspghrtghp
-    thhtohepuddtpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehthhhorhhsthgvnh
-    drsghluhhmsehlihhnuhigrdguvghvpdhrtghpthhtohepsghrrghunhgvrheskhgvrhhn
-    vghlrdhorhhgpdhrtghpthhtohepvggsihhgghgvrhhssehkvghrnhgvlhdrohhrghdprh
-    gtphhtthhopegrrhgusgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepiihhrghnghii
-    ihhpvghnghdtsehfohigmhgrihhlrdgtohhmpdhrtghpthhtohepjhhlrgihthhonheskh
-    gvrhhnvghlrdhorhhgpdhrtghpthhtohepkhgvvghssehkvghrnhgvlhdrohhrghdprhgt
-    phhtthhopegrmhhirhejfehilhesghhmrghilhdrtghomhdprhgtphhtthhopegvtghrhi
-    hpthhfshesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:dO7OaU1gyXjxHOS0hCL5r1xkv1OiUy4ji-nEvyoT2QxCz01utA_rwg>
-    <xmx:dO7OaezwuXClfh76VvCjBtPxC1gSx78-R-SrY95qQ0m4_CIxKFmhSg>
-    <xmx:dO7OaYgiqDG77S4vW1l4SLQq1_7R2V-ghpz2QjS95wP2darVM1wI2w>
-    <xmx:dO7OaZonS_Cl27jtjjq8uypgGg_37HdXV3fl6hBqBv7Y1mLjIludfA>
-    <xmx:de7OacRIMaGmZV7j4i1N56wdcWv4Hlx-Hhue2K2KWzBX3X8KosAGkHll>
+	1775454747; x=1775541147; bh=Hcq4NYCmJBJQ46frfHk7PYTcI6CUok84E6c
+	FHjFP7fw=; b=qVyahMET2Z569JWdszrlBQlEpb9uABMjS6eyWNcRoZiy1Og77lG
+	ecATPFYNd2SwIXFwx5xJnfrkgNXZ/NRJgm95EBknrFaefzCI5OKgxiW67cHXKvb6
+	0tqe9LpnrqP0INc+TG4oU+7m4pLq3d4q8bxRwrWxxYOVryspCrTO4i1AxM1Miy7I
+	u8AY4rLBMP+ctxD9R5lM2EgGy1l/UMal+lRrOCfzVyDUIWnpnqL1mwOSxkRm9INY
+	8252aW5cKpDXn8D1yM18CMQLyeqVQaeIgKh4LA60zTQs6X20OYPfk+1SKwmEMXjq
+	cjdEvnvYokD4JfBc0eMO2deMWj2PgH/knBg==
+X-ME-Sender: <xms:G0rTaWYZ3c5B_o218_OEC1j5usEDxX9YOVe2rGPgNUK4vNZUH68j9A>
+    <xme:G0rTaRL4x38rTsX6Gu_uJobpTDlaxROHSYQEIFmOsZUQh1E-887_OgH1YQR8EIFBX
+    vPdJLrZ-wyHJH-H6DrocpdGdYt-F1YUgi0U6wunf8YEed1hpdEkSyg>
+X-ME-Received: <xmr:G0rTaUBH_sdAFIcp0ZtAYzecPXRBWKtHUjbm39MP0iHnXSDYzbhlnPM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduieeklecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtuggjsehttdortddttddvnecuhfhrohhmpefvhihlvghrucfj
+    ihgtkhhsuceotghouggvsehthihhihgtkhhsrdgtohhmqeenucggtffrrghtthgvrhhnpe
+    ffudfhuddvheeuffeuffeftddukeeukeefgeevffdvgedvteffhfeigeeiheefvdenucev
+    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegtohguvgesth
+    ihhhhitghkshdrtghomhdpnhgspghrtghpthhtohepfedpmhhouggvpehsmhhtphhouhht
+    pdhrtghpthhtohephhgthheslhhsthdruggvpdhrtghpthhtohepvggtrhihphhtfhhsse
+    hvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqfhhsuggvvhgv
+    lhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:G0rTaWpX2dQzbE5hMk9SysH4M33TtEKDxogVd1YEKf26AbWE-thvvg>
+    <xmx:G0rTafh9ntQR18nDNZql2tVxAd-8ng9pdezaLwwLbPSy1U7CnYPMEA>
+    <xmx:G0rTaTAzd4C4L5j4tbhTWuIWKfZMggFaSZMhYVwkiK2UQF9HZR6o0Q>
+    <xmx:G0rTaUH55wg-1SC9mxSC58UJsrkD1E26IhISRvytui4LVXl6P95MMQ>
+    <xmx:G0rTaVtjsHpLic-fHTKDcrxFvvu6xBLCbc9pL5s47FLQhQYxwx9wMr2K>
 Feedback-ID: i78e14604:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 2 Apr 2026 18:32:20 -0400 (EDT)
-Date: Thu, 2 Apr 2026 17:32:05 -0500
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 6 Apr 2026 01:52:26 -0400 (EDT)
+Date: Mon, 6 Apr 2026 00:52:05 -0500
 From: Tyler Hicks <code@tyhicks.com>
-To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Eric Biggers <ebiggers@kernel.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Zipeng Zhang <zhangzipeng0@foxmail.com>,
-	Jeff Layton <jlayton@kernel.org>, Kees Cook <kees@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>, ecryptfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] ecryptfs: Fix typo in ecryptfs_derive_iv function
- comment
-Message-ID: <177516904164.1945072.18035208218429192718.b4-ty@b4>
-References: <20260330103515.389346-4-thorsten.blum@linux.dev>
+To: Christoph Hellwig <hch@lst.de>
+Cc: ecryptfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 1/7] ecryptfs: streamline truncate_upper
+Message-ID: <adNKBUZrbBzZGCpf@yaupon>
+References: <20260331153752.4049454-1-hch@lst.de>
+ <20260331153752.4049454-2-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
@@ -112,51 +101,212 @@ List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260330103515.389346-4-thorsten.blum@linux.dev>
+In-Reply-To: <20260331153752.4049454-2-hch@lst.de>
 X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	R_DKIM_ALLOW(-0.20)[tyhicks.com:s=fm1,messagingengine.com:s=fm2];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,foxmail.com,gmail.com,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-1183-lists,ecryptfs=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DMARC_NA(0.00)[tyhicks.com];
 	DKIM_TRACE(0.00)[tyhicks.com:+,messagingengine.com:+];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-1184-lists,ecryptfs=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	DMARC_NA(0.00)[tyhicks.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	MIME_TRACE(0.00)[0:+];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[code@tyhicks.com,ecryptfs@vger.kernel.org];
 	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[ecryptfs];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,messagingengine.com:dkim,tyhicks.com:dkim]
-X-Rspamd-Queue-Id: 900E238ED18
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 1CCC23A1AAB
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, 30 Mar 2026 12:35:15 +0200, Thorsten Blum wrote:
-> s/vale/value/
+On 2026-03-31 17:37:22, Christoph Hellwig wrote:
+> Use a few strategic gotos to keep reduce indentation and keep the
+> main reduce size flow outside of branches.  Switch all touched comments
 
-Thank you! Both patches have been applied to the next branch of the tyhicks/ecryptfs.git tree.
+I think that first sentence was supposed to say, "Use a few strategic
+gotos to reduce indentation and keep the main flow outside of branches."
+Could you confirm?
 
-You can find a direct link below but please be aware that the commit hash is
-unstable and, therefore, the URL may not be valid in the future.
+> to normal kernel style and avoid breaks in printed strings for all
+> the code touched.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  fs/ecryptfs/inode.c | 115 +++++++++++++++++++++++---------------------
+>  1 file changed, 60 insertions(+), 55 deletions(-)
+> 
+> diff --git a/fs/ecryptfs/inode.c b/fs/ecryptfs/inode.c
+> index 8ab014db3e03..cf20873a9cc4 100644
+> --- a/fs/ecryptfs/inode.c
+> +++ b/fs/ecryptfs/inode.c
+> @@ -725,83 +725,88 @@ upper_size_to_lower_size(struct ecryptfs_crypt_stat *crypt_stat,
+>  static int truncate_upper(struct dentry *dentry, struct iattr *ia,
+>  			  struct iattr *lower_ia)
+>  {
+> -	int rc = 0;
+>  	struct inode *inode = d_inode(dentry);
+>  	struct ecryptfs_crypt_stat *crypt_stat;
+>  	loff_t i_size = i_size_read(inode);
+>  	loff_t lower_size_before_truncate;
+>  	loff_t lower_size_after_truncate;
+> +	size_t num_zeros;
+> +	int rc;
+>  
+>  	if (unlikely((ia->ia_size == i_size))) {
+>  		lower_ia->ia_valid &= ~ATTR_SIZE;
+>  		return 0;
+>  	}
+> +
+>  	rc = ecryptfs_get_lower_file(dentry, inode);
+>  	if (rc)
+>  		return rc;
+> -	crypt_stat = &ecryptfs_inode_to_private(d_inode(dentry))->crypt_stat;
+> -	/* Switch on growing or shrinking file */
+> +
+>  	if (ia->ia_size > i_size) {
+>  		char zero[] = { 0x00 };
+>  
+> +		/*
+> +		 * Write a single 0 at the last position of the file; this
+> +		 * triggers code that will fill in 0's throughout the
+> +		 * intermediate portion of the previous end of the file and the
+> +		 * new and of the file.
 
-[1/2] ecryptfs: Fix typo in ecryptfs_derive_iv function comment
-      https://git.kernel.org/tyhicks/ecryptfs/c/c8717a7fa5d2ea9048f398c16ab61d8e4c8f83b8
-[2/2] ecryptfs: Drop TODO comment in ecryptfs_derive_iv
-      https://git.kernel.org/tyhicks/ecryptfs/c/cd3b3094df0ee0f147957e7a7a1103990fdd6641
+Since we're touching this comment, we might as well fix the typo:
+
+ s/new and of the file/new end of the file/
+
+I can do both of these small changes when merging, if we don't have a
+better reason to respin this series.
 
 Tyler
+
+> +		 */
+> +		rc = ecryptfs_write(inode, zero, ia->ia_size - 1, 1);
+>  		lower_ia->ia_valid &= ~ATTR_SIZE;
+> -		/* Write a single 0 at the last position of the file;
+> -		 * this triggers code that will fill in 0's throughout
+> -		 * the intermediate portion of the previous end of the
+> -		 * file and the new and of the file */
+> -		rc = ecryptfs_write(inode, zero,
+> -				    (ia->ia_size - 1), 1);
+> -	} else { /* ia->ia_size < i_size_read(inode) */
+> -		/* We're chopping off all the pages down to the page
+> -		 * in which ia->ia_size is located. Fill in the end of
+> -		 * that page from (ia->ia_size & ~PAGE_MASK) to
+> -		 * PAGE_SIZE with zeros. */
+> -		size_t num_zeros = (PAGE_SIZE
+> -				    - (ia->ia_size & ~PAGE_MASK));
+> -
+> -		if (!(crypt_stat->flags & ECRYPTFS_ENCRYPTED)) {
+> -			truncate_setsize(inode, ia->ia_size);
+> -			lower_ia->ia_size = ia->ia_size;
+> -			lower_ia->ia_valid |= ATTR_SIZE;
+> -			goto out;
+> -		}
+> -		if (num_zeros) {
+> -			char *zeros_virt;
+> +		goto out;
+> +	}
+>  
+> -			zeros_virt = kzalloc(num_zeros, GFP_KERNEL);
+> -			if (!zeros_virt) {
+> -				rc = -ENOMEM;
+> -				goto out;
+> -			}
+> -			rc = ecryptfs_write(inode, zeros_virt,
+> -					    ia->ia_size, num_zeros);
+> -			kfree(zeros_virt);
+> -			if (rc) {
+> -				printk(KERN_ERR "Error attempting to zero out "
+> -				       "the remainder of the end page on "
+> -				       "reducing truncate; rc = [%d]\n", rc);
+> -				goto out;
+> -			}
+> -		}
+> +	crypt_stat = &ecryptfs_inode_to_private(d_inode(dentry))->crypt_stat;
+> +	if (!(crypt_stat->flags & ECRYPTFS_ENCRYPTED)) {
+>  		truncate_setsize(inode, ia->ia_size);
+> -		rc = ecryptfs_write_inode_size_to_metadata(inode);
+> +		lower_ia->ia_size = ia->ia_size;
+> +		lower_ia->ia_valid |= ATTR_SIZE;
+> +		goto out;
+> +	}
+> +
+> +	/*
+> +	 * We're chopping off all the pages down to the page in which
+> +	 * ia->ia_size is located. Fill in the end of that page from
+> +	 * (ia->ia_size & ~PAGE_MASK) to PAGE_SIZE with zeros.
+> +	 */
+> +	num_zeros = PAGE_SIZE - (ia->ia_size & ~PAGE_MASK);
+> +	if (num_zeros) {
+> +		char *zeros_virt;
+> +
+> +		zeros_virt = kzalloc(num_zeros, GFP_KERNEL);
+> +		if (!zeros_virt) {
+> +			rc = -ENOMEM;
+> +			goto out;
+> +		}
+> +		rc = ecryptfs_write(inode, zeros_virt, ia->ia_size, num_zeros);
+> +		kfree(zeros_virt);
+>  		if (rc) {
+> -			printk(KERN_ERR	"Problem with "
+> -			       "ecryptfs_write_inode_size_to_metadata; "
+> -			       "rc = [%d]\n", rc);
+> +			pr_err("Error attempting to zero out the remainder of the end page on reducing truncate; rc = [%d]\n",
+> +				rc);
+>  			goto out;
+>  		}
+> -		/* We are reducing the size of the ecryptfs file, and need to
+> -		 * know if we need to reduce the size of the lower file. */
+> -		lower_size_before_truncate =
+> -		    upper_size_to_lower_size(crypt_stat, i_size);
+> -		lower_size_after_truncate =
+> -		    upper_size_to_lower_size(crypt_stat, ia->ia_size);
+> -		if (lower_size_after_truncate < lower_size_before_truncate) {
+> -			lower_ia->ia_size = lower_size_after_truncate;
+> -			lower_ia->ia_valid |= ATTR_SIZE;
+> -		} else
+> -			lower_ia->ia_valid &= ~ATTR_SIZE;
+> +	}
+> +	truncate_setsize(inode, ia->ia_size);
+> +	rc = ecryptfs_write_inode_size_to_metadata(inode);
+> +	if (rc) {
+> +		pr_err("Problem with ecryptfs_write_inode_size_to_metadata; rc = [%d]\n",
+> +			rc);
+> +		goto out;
+> +	}
+> +
+> +	/*
+> +	 * We are reducing the size of the ecryptfs file, and need to know if we
+> +	 * need to reduce the size of the lower file.
+> +	 */
+> +	lower_size_before_truncate =
+> +		upper_size_to_lower_size(crypt_stat, i_size);
+> +	lower_size_after_truncate =
+> +		upper_size_to_lower_size(crypt_stat, ia->ia_size);
+> +	if (lower_size_after_truncate < lower_size_before_truncate) {
+> +		lower_ia->ia_size = lower_size_after_truncate;
+> +		lower_ia->ia_valid |= ATTR_SIZE;
+> +	} else {
+> +		lower_ia->ia_valid &= ~ATTR_SIZE;
+>  	}
+>  out:
+>  	ecryptfs_put_lower_file(inode);
+> -- 
+> 2.47.3
+> 
 
