@@ -1,60 +1,60 @@
-Return-Path: <ecryptfs+bounces-1208-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-1209-lists+ecryptfs=lfdr.de@vger.kernel.org>
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sGNgDrjw1WmL/gcAu9opvQ
-	(envelope-from <ecryptfs+bounces-1208-lists+ecryptfs=lfdr.de@vger.kernel.org>)
-	for <lists+ecryptfs@lfdr.de>; Wed, 08 Apr 2026 08:07:52 +0200
+	id ED+EE8Tw1WmL/gcAu9opvQ
+	(envelope-from <ecryptfs+bounces-1209-lists+ecryptfs=lfdr.de@vger.kernel.org>)
+	for <lists+ecryptfs@lfdr.de>; Wed, 08 Apr 2026 08:08:04 +0200
 X-Original-To: lists+ecryptfs@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4959F3B7724
-	for <lists+ecryptfs@lfdr.de>; Wed, 08 Apr 2026 08:07:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C604C3B7742
+	for <lists+ecryptfs@lfdr.de>; Wed, 08 Apr 2026 08:07:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 33342301CFAE
-	for <lists+ecryptfs@lfdr.de>; Wed,  8 Apr 2026 06:07:36 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id EF4A030221D2
+	for <lists+ecryptfs@lfdr.de>; Wed,  8 Apr 2026 06:07:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4B4B35E940;
-	Wed,  8 Apr 2026 06:07:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71A8C34DB59;
+	Wed,  8 Apr 2026 06:07:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WVKJvVlQ"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Cuezb69E"
 X-Original-To: ecryptfs@vger.kernel.org
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACBC434DB59;
-	Wed,  8 Apr 2026 06:07:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A12F35CB8B;
+	Wed,  8 Apr 2026 06:07:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775628455; cv=none; b=aks5+35/IFXUpZYT+2LYZuL+bdReYzZGTY/WnMrTMCe7jlkkobzIydMMf2vP5e+sYbGDgQyCGZ8HKlZtyh+kLZI3536wBJuNTbWsSTx9pQUrc3sZL2dar43+bKLeVN0qZRDxdPKXCB6UxCakFd6PQQgkUPVqIBKg3mq0gOg+sX4=
+	t=1775628459; cv=none; b=QCFwE8NFEv0jL2uojxK4Ri7+xFsAickn1Pgl8NeT6iVn3qtIS8FIY6qzsBo+0cI9LgJfnvt+8lgqVl6FrZ82BzzAsMN/4MBXZsnf1/Sbnt+OIU7jYu3YKMU0UzWc924wlJ3JQ8KMxLBwQwIJcu3vNdsJQbP6YUeq2B7uuZJuUdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775628455; c=relaxed/simple;
-	bh=SzuhLG65FeCfSADNPY6sE7RMoVsiHkL6EfznsDyFJJI=;
+	s=arc-20240116; t=1775628459; c=relaxed/simple;
+	bh=DpLR+JYR7iEftVwaO1mTLNukv4rP/pYTY8B4qA9kOyI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IbM96QkLsEaNagaTkMyMTwCZjn3pzJs5U/bQs+8n+BGfg+M04PglDXmz/XM0DzIDupl+izmQPmGL1BZEsOI+J5Q1aRpxUX+mYfn4ytAIwv0MIKsuhPLhRScYw5M/DemmB4m+jD8NfilQYuV50bWqd9p1xATKvZ5Al8fWL2xxjeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WVKJvVlQ; arc=none smtp.client-ip=198.137.202.133
+	 MIME-Version; b=dDqzegB88BCAhohwE0vuPBdDBYGaBq8kPJPUG4SmRdgG6JQ4a2i14uWIv8AW2CShpUA5nQ05hF2WMAksACENAnJhNKXLldwNIVSQtECJ1CHHaAmomj9m5PP0kJCc/STVgrLXHU9z7w1JqfwH8IOlqKDwntsD185f7pLUkPZqpfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Cuezb69E; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=uop5iib8V28wb5Rw5iMutCNVJf64/gxfx9aa2uF3lpU=; b=WVKJvVlQNOgHnMKN0HbaWlMsdK
-	qOsngjJhetHUcubJXBniyk7DQ1REAVWkUP/tJCx0QNyi4Rky/qA/XXnTMKloln0nBCj3g5BofHalt
-	muqgRRtKBEkYyos/p+tc1SF1SWFmTb0uFhJZDkN1BT/d9TcV24MTNWBZuW0uXNeK5+d7cluTw3jXh
-	+boqVKQ+4tq9iFcUVDjKCrCibMFYNuLVj9kyEEWgNv9Yczolrp4fKl4Fwkk8L7ISw133z7GV1kXNM
-	MFfHrK42QP8RFc4aEpIgIgR62iLFvG8kD/dFmWLwlO39i1Vg21VwNtpG5HBT/3HaVnzoNh9W6QpiV
-	OgzlNHTA==;
+	bh=x8wHx/06Nif4EID+jlc04LMDvl7rXMKGmefrgkj3IYc=; b=Cuezb69EkLuw5WYLxnNbkdZdHz
+	LXNjL/HAjcxW7Qbe4WiQPQm45TU7VSPlLEG8fpIOV4ijI3rz6H9+rTq1P/6/yqJMKHyKaTqJOTW/D
+	dBJ4dgCsJ8+V1XAwF9P0rnxDI9aLOancC8UgRJ/+keCugyctOsA0Fq0XRQSNVjh2WxWQCK4TKRG4W
+	NtnW8oeCZvqXaQckjaGe0XO8a4HRRz772MH/eAJCwRJz0nQdrrEGPkJt7remqpIewLiNZQvmjxN5h
+	37bD6sxLyA7ZyU5yJsBgkdXfAi5kVQxzWnTCRCcBuT5GVcibsDfO7zfJzTug44taEyvr5dCVnFPBt
+	lAv3/JGw==;
 Received: from [2001:4bb8:2d1:6f42:152:6810:a349:3502] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wAM4c-00000008JyJ-00Br;
-	Wed, 08 Apr 2026 06:07:34 +0000
+	id 1wAM4f-00000008JyQ-2c7F;
+	Wed, 08 Apr 2026 06:07:38 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Tyler Hicks <code@tyhicks.com>
 Cc: ecryptfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 3/7] ecryptfs: use ZERO_PAGE instead of allocating zeroed memory in truncate_upper
-Date: Wed,  8 Apr 2026 08:06:38 +0200
-Message-ID: <20260408060719.714317-4-hch@lst.de>
+Subject: [PATCH 4/7] ecryptfs: combine the two ATTR_SIZE blocks in ecryptfs_setattr
+Date: Wed,  8 Apr 2026 08:06:39 +0200
+Message-ID: <20260408060719.714317-5-hch@lst.de>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260408060719.714317-1-hch@lst.de>
 References: <20260408060719.714317-1-hch@lst.de>
@@ -77,7 +77,7 @@ X-Spamd-Result: default: False [-0.06 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-1208-lists,ecryptfs=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-1209-lists,ecryptfs=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -93,39 +93,44 @@ X-Spamd-Result: default: False [-0.06 / 15.00];
 	TAGGED_RCPT(0.00)[ecryptfs];
 	TO_DN_SOME(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[lst.de:email,lst.de:mid,infradead.org:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 4959F3B7724
+X-Rspamd-Queue-Id: C604C3B7742
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Use the existing pre-zeroed memory instead of allocating a new chunk.
+Simplify the logic in ecryptfs_setattr by combining the two ATTR_SIZE
+blocks.  This initializes lower_ia before the size check, which is
+obviously correct as the size check doesn't look at it.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/ecryptfs/inode.c | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
+ fs/ecryptfs/inode.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
 diff --git a/fs/ecryptfs/inode.c b/fs/ecryptfs/inode.c
-index 695573850569..daa63b7dd015 100644
+index daa63b7dd015..ec6aae5af1f8 100644
 --- a/fs/ecryptfs/inode.c
 +++ b/fs/ecryptfs/inode.c
-@@ -771,15 +771,8 @@ static int truncate_upper(struct dentry *dentry, struct iattr *ia,
- 	 */
- 	num_zeros = PAGE_SIZE - (ia->ia_size & ~PAGE_MASK);
- 	if (num_zeros) {
--		char *zeros_virt;
--
--		zeros_virt = kzalloc(num_zeros, GFP_KERNEL);
--		if (!zeros_virt) {
--			rc = -ENOMEM;
+@@ -934,16 +934,15 @@ static int ecryptfs_setattr(struct mnt_idmap *idmap,
+ 	rc = setattr_prepare(&nop_mnt_idmap, dentry, ia);
+ 	if (rc)
+ 		goto out;
+-	if (ia->ia_valid & ATTR_SIZE) {
+-		rc = ecryptfs_inode_newsize_ok(inode, ia->ia_size);
+-		if (rc)
 -			goto out;
--		}
--		rc = ecryptfs_write(inode, zeros_virt, ia->ia_size, num_zeros);
--		kfree(zeros_virt);
-+		rc = ecryptfs_write(inode, page_address(ZERO_PAGE(0)),
-+				ia->ia_size, num_zeros);
- 		if (rc) {
- 			pr_err("Error attempting to zero out the remainder of the end page on reducing truncate; rc = [%d]\n",
- 				rc);
+-	}
+ 
+ 	memcpy(&lower_ia, ia, sizeof(lower_ia));
+ 	if (ia->ia_valid & ATTR_FILE)
+ 		lower_ia.ia_file = ecryptfs_file_to_lower(ia->ia_file);
+ 	if (ia->ia_valid & ATTR_SIZE) {
++		rc = ecryptfs_inode_newsize_ok(inode, ia->ia_size);
++		if (rc)
++			goto out;
++
+ 		rc = truncate_upper(dentry, ia, &lower_ia);
+ 		if (rc < 0)
+ 			goto out;
 -- 
 2.47.3
 
