@@ -1,171 +1,421 @@
-Return-Path: <ecryptfs+bounces-1214-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-1215-lists+ecryptfs=lfdr.de@vger.kernel.org>
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uEO/KzXu1mlYJwgAu9opvQ
-	(envelope-from <ecryptfs+bounces-1214-lists+ecryptfs=lfdr.de@vger.kernel.org>)
-	for <lists+ecryptfs@lfdr.de>; Thu, 09 Apr 2026 02:09:25 +0200
+	id SAZOMT5v12k5OAgAu9opvQ
+	(envelope-from <ecryptfs+bounces-1215-lists+ecryptfs=lfdr.de@vger.kernel.org>)
+	for <lists+ecryptfs@lfdr.de>; Thu, 09 Apr 2026 11:19:58 +0200
 X-Original-To: lists+ecryptfs@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D5373C4E62
-	for <lists+ecryptfs@lfdr.de>; Thu, 09 Apr 2026 02:09:24 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94E113C85F0
+	for <lists+ecryptfs@lfdr.de>; Thu, 09 Apr 2026 11:19:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4259D30014B3
-	for <lists+ecryptfs@lfdr.de>; Thu,  9 Apr 2026 00:08:36 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 467B53015530
+	for <lists+ecryptfs@lfdr.de>; Thu,  9 Apr 2026 09:05:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E5B1F9D9;
-	Thu,  9 Apr 2026 00:08:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EC713AC0F2;
+	Thu,  9 Apr 2026 09:04:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b="qfkl7ylb";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="aIQ7vJEG"
+	dkim=pass (1024-bit key) header.d=manufacture.adhesive-solutions.ltd header.i=@manufacture.adhesive-solutions.ltd header.b="MW0w+aIr"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ptr-hk-43-163-128-75.qcloudmail.com (ptr-hk-43-163-128-75.qcloudmail.com [43.163.128.75])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55BED9443;
-	Thu,  9 Apr 2026 00:08:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE2743A961F
+	for <ecryptfs@vger.kernel.org>; Thu,  9 Apr 2026 09:04:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=43.163.128.75
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775693315; cv=none; b=GF34Pw0a2e5wF+yRzZZhgBCmfh/rAc4iDCpctbluWk/MjksegN7UVy0x76Rb9Bdm8bD3KzXCzNyuo5oAxSDV0c8mELjx/Beu7HXnhrsFFMLcrdaZXP+HOLcGWY+C0g498aijIxgoXzwrfm3wB3yw63WEB+tjGEIHrqEcXGCMmvg=
+	t=1775725495; cv=none; b=bVwprdtk1n7hmmrffEWNsaSpGRi8Tw3GgUAhkaXgise1Kqzp+1fotjbQIwIknVGORVf8Wid1MUR4bfao2sVXFN1++7zOwAl86A2fYwPbjgyRpPHWE6a3qwyEuceyl38T6sql90mPpx9mC5TO/KaOOigJMgSTLWEiIS2dnh5mHcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775693315; c=relaxed/simple;
-	bh=N0Cps7UntECLGaAVGiQMr8gGUdV8Rv8ZspYaDdWb/dU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OHSMbNDVm0nFnzWgZqtKqsRO8uFPgZWzzUaEZS4NtjFhIuglNqz9a1QMR1CRN2JfR1W+51beft6l2OOiibKjprtGMghTJq3KnwkNn1o8DMXrOo/9TJ9AN/2/AUxrsJdjJ+9GXSNRpltP5RRoQi+CAzKRKTl9U9wU1Aj8Ld7fu2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com; spf=pass smtp.mailfrom=tyhicks.com; dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b=qfkl7ylb; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=aIQ7vJEG; arc=none smtp.client-ip=202.12.124.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tyhicks.com
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 755F37A0096;
-	Wed,  8 Apr 2026 20:08:33 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Wed, 08 Apr 2026 20:08:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tyhicks.com; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1775693313; x=1775779713; bh=/lD/53cfRi
-	BLzUCJk3u1mN5tnby4897Uo/MAXFDzg80=; b=qfkl7ylbZskKyxeaPdJApzS3g1
-	dpJK/vZcTnXgUIQJLQ0K20ienSHQFSOTyH7MS6JABBHcysV1dtGm9VZeZsPRC5+s
-	nY2V24vmx7WHQyQlqu4QRYhhjuPaj4NfU60aE6Km6E5PwFdg83GJjLGJl/K07nVE
-	8RFQF09o0evOozmLmP8PhkHzhiZJ1uRevsVP3Et29U6wKool8V/uhWKt3bfzckf3
-	o5wfiY+NFUYFr+wvMLw3ob7O9iZ74LwP4WWlCjrtHU+BDFkRkpbtcMaWQIs8b7NM
-	XbI2CyA+WNTAz11EQypsGU+t9iXFwJjHNvAnIcUMykK1cjcSD8ScvlppkgiQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1775693313; x=1775779713; bh=/lD/53cfRiBLzUCJk3u1mN5tnby4897Uo/M
-	AXFDzg80=; b=aIQ7vJEGG8v4MbXxCeR0NipAjM2u3JOFImZ7Mef9X3OJ5s7PSaf
-	PNo5+11Y5mrPyxQp4p957rs75SWzPwSw39z4PvWwXIU5DnGRwNij07fRHAN8lzam
-	DT63HjFI+DKWcyi56HP+osswLiL0Qht+DUg0mo5WMHK6D82iOYBdrYD78mlsZoSf
-	rI2sQJH9lLYii50tVBb6oB5RJqEoajlKfWyfhppr0iqyMgI3tmyL95lmiPQUsJz2
-	6wInZ36DovxDPun8xQ3szfgz4ZOGRIFfxJpzOXDWNlW9QJ5O5czS1kuUGZvHC6nm
-	a2HqgDkjcJ1JIbaWP6J10578V3zAGd3mo9Q==
-X-ME-Sender: <xms:Ae7WaQjMKP7qgtayQZ3GK_7jrC9RiDG3xguFcUMB3LwwdKb6pTyYlA>
-    <xme:Ae7WaQyT2M7rsIkfNTx1HnzcUx9sNd12azujVcbD68uf1R-AyX-njn-vYE3zdo8wj
-    xuep4pZClCLNpA367M2xmmxe8M5ZJuisyvcdjFbFl3clMsKSvJ3-uUn>
-X-ME-Received: <xmr:Ae7WabLfxAfqtBe4NMiNuujFlp4Loo-ny15qNtRjmwU-6W8QJXeuIgA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddvgeelkecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefvhihlvghrucfj
-    ihgtkhhsuceotghouggvsehthihhihgtkhhsrdgtohhmqeenucggtffrrghtthgvrhhnpe
-    fggeekieffteehgfetffduhfefjeehvdejhfejkeduleffudelhfefkeeiledujeenucff
-    ohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
-    hrrghmpehmrghilhhfrhhomheptghouggvsehthihhihgtkhhsrdgtohhmpdhnsggprhgt
-    phhtthhopeefpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehhtghhsehlshhtrd
-    guvgdprhgtphhtthhopegvtghrhihpthhfshesvhhgvghrrdhkvghrnhgvlhdrohhrghdp
-    rhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorh
-    hg
-X-ME-Proxy: <xmx:Ae7WafSrds5XMlS4X6XXsCPOF_VxobJzkTPyX31lJI8v22aZMh_G0A>
-    <xmx:Ae7Wabp4xxFvROi0DSLtLc8jnGqz4PppQadh6aTBd9svMgcVCT9Zrg>
-    <xmx:Ae7WacpDDMO7VaoE0W1kSdAbp6cCdU9m2MIweqzFEwCD52qBA434Ng>
-    <xmx:Ae7WadNmQimb5Oht24c_3-sMeekoLq0S8nCoUlv-Zmo2JnLyDMdrPg>
-    <xmx:Ae7WaVUDnFviTFadG1zNNa21qZZg85go5nOtSv8caBeISA5_psbRuTDl>
-Feedback-ID: i78e14604:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 8 Apr 2026 20:08:32 -0400 (EDT)
-Date: Wed, 8 Apr 2026 19:08:18 -0500
-From: Tyler Hicks <code@tyhicks.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: ecryptfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: cleanup truncate handling in ecryptfs v3
-Message-ID: <177569313058.651226.4527748422361374416.b4-ty@b4>
-References: <20260408060719.714317-1-hch@lst.de>
+	s=arc-20240116; t=1775725495; c=relaxed/simple;
+	bh=7fUQ5OKRVuQ49NfKvTD3Z4AqK+fNFD4UY81gKfaDyoE=;
+	h=Mime-Version:Date:Message-Id:To:From:Subject:Content-Type; b=iADJ6MAY3HRS/LV331cWLT3rolUn5uy6TSfR7hQ1WUoK/Y/+Nqm7TVJX8riHtYEXp/NM4PZU29QC49PlLPvM9UDDIN8YR2TiXhExUNyrWyHTNSt4tAn5/R6fxXxWUMVHxnhaGExMLjM2tJDizPI9Zm8z7Nc7y4qcrIfLz3qayGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=manufacture.adhesive-solutions.ltd; spf=pass smtp.mailfrom=manufacture.adhesive-solutions.ltd; dkim=pass (1024-bit key) header.d=manufacture.adhesive-solutions.ltd header.i=@manufacture.adhesive-solutions.ltd header.b=MW0w+aIr; arc=none smtp.client-ip=43.163.128.75
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=manufacture.adhesive-solutions.ltd
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manufacture.adhesive-solutions.ltd
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=qcloud; d=manufacture.adhesive-solutions.ltd; t=1775725471;
+  h=from:to:subject:content-type:content-transfer-encoding;
+ bh=z2ZEjaplk0CTf5LzAze/2d/L85YqfPlux/5HBtZnJoQ=;
+ b=MW0w+aIrgF1XoTPWhXnX7NrdE+qM83S8Y5gj8EoRYworXw08Hbgnc3aZe8HOBI7qvF/8RH
+ ROcDLrW0HA0L7nDLldCGg0AFr0515nTbbnN+KDGVA2nPlVNUqkhkAoisuA+03HwksOzz5c
+ KyYrF3QV9mXHRZZWUUh6XxMhPOXjEY8=
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260408060719.714317-1-hch@lst.de>
-X-Spamd-Result: default: False [-1.16 / 15.00];
+Mime-Version: 1.0
+Date: Thu, 09 Apr 2026 17:04:31 +0800
+Message-Id: <20260409170426598.LeoMax@manufacture.adhesive-solutions.ltd>
+To: Ecryptfs <ecryptfs@vger.kernel.org>
+Reply-To: sale07@epoxyresinfactory.com
+From: Mia Chen <LeoMax@manufacture.adhesive-solutions.ltd>
+Subject: Heavy-Duty PU Mortar Flooring: 58MPa Strength for Food/Pharma Facilities
+Content-Type: multipart/mixed;
+ boundary=87c0ba79db00b21e19d8b628d231376f2fd979cca22d80623268a2ed2f36
+X-Spamd-Result: default: False [7.34 / 15.00];
+	R_SUSPICIOUS_URL(5.00)[www.epoxyresinfactory.com,zdschemical.com];
+	PHISHING(2.00)[epoxyresinfactory.com->com,zdschemical.com];
+	CTYPE_MIXED_BOGUS(1.00)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[tyhicks.com:s=fm1,messagingengine.com:s=fm2];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MV_CASE(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[manufacture.adhesive-solutions.ltd,none];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[manufacture.adhesive-solutions.ltd:s=qcloud];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
+	MIME_GOOD(-0.10)[multipart/mixed,multipart/alternative,text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-1214-lists,ecryptfs=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-1215-lists,ecryptfs=lfdr.de];
+	TO_DN_ALL(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DMARC_NA(0.00)[tyhicks.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	GREYLIST(0.00)[pass,body];
+	RCPT_COUNT_ONE(0.00)[1];
+	RCVD_COUNT_THREE(0.00)[3];
+	MIME_TRACE(0.00)[0:+,1:+,2:+,3:~];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[tyhicks.com:+,messagingengine.com:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[manufacture.adhesive-solutions.ltd:+];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[code@tyhicks.com,ecryptfs@vger.kernel.org];
-	RCPT_COUNT_THREE(0.00)[3];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	NEURAL_HAM(-0.00)[-0.124];
+	FROM_NEQ_ENVFROM(0.00)[LeoMax@manufacture.adhesive-solutions.ltd,ecryptfs@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
 	TAGGED_RCPT(0.00)[ecryptfs];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,messagingengine.com:dkim,tyhicks.com:dkim]
-X-Rspamd-Queue-Id: 0D5373C4E62
-X-Rspamd-Action: no action
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	HAS_REPLYTO(0.00)[sale07@epoxyresinfactory.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,epoxyresinfactory.com:replyto,epoxyresinfactory.com:url,manufacture.adhesive-solutions.ltd:dkim,manufacture.adhesive-solutions.ltd:mid]
+X-Rspamd-Queue-Id: 94E113C85F0
+X-Rspamd-Action: add header
 X-Rspamd-Server: lfdr
+X-Spam: Yes
 
-On Wed, 08 Apr 2026 08:06:35 +0200, Christoph Hellwig wrote:
-> this series cleans up the truncate handling in ecryptfs.  I did
-> it as preparation for some changes into size changing truncate
-> VFS interfaces I'm looking into in the moment.  The changes have
-> passed the regression test suite in the userspace ecryptfs
-> repository and against the ecryptfs next branch.
-> 
-> Changes since v2:
->  - change the calling convention to only pass the upper ia to
->    __ecryptfs_truncate
-> 
-> [...]
+--87c0ba79db00b21e19d8b628d231376f2fd979cca22d80623268a2ed2f36
+Content-Type: multipart/alternative;
+ boundary=c80ec79a5148ca0e76fb4d774a6c34d0d9ad8ed47935ebb9f000e0e62fa3
 
-Thank you! This has been applied to the next branch of the tyhicks/ecryptfs.git tree.
+--c80ec79a5148ca0e76fb4d774a6c34d0d9ad8ed47935ebb9f000e0e62fa3
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-You can find a direct link below but please be aware that the commit hash is
-unstable and, therefore, the URL may not be valid in the future.
+=0D
+HiEcryptfs=0D
+I hope this email finds you well.=0D
+=0D
+I'mMiaChen from ZDS, a specialist in high-performance flooring solutions fo=
+r demanding sectors like food &amp; beverage, pharmaceutical, and chemical =
+industries.=0D
+In these environments, flooring must withstand heavy loads, chemical exposu=
+re, thermal shock, and meet high hygiene standards. OurZDS Heavy-Duty Slip-=
+Resistant Polyurethane Mortar Flooringis specifically engineered to meet th=
+ese challenges.=0D
+Key benefits include:=0D
+=0D
+=E2=9C=85Exceptional chemical resistance: Withstands acids, alkalis, and cl=
+eaning agents.=0D
+=E2=9C=85Superior impact strength: Endures high-impact from forklifts and h=
+eavy equipment.=0D
+=E2=9C=85Excellent slip resistance: Ensures safety in wet or greasy conditi=
+ons.=0D
+=E2=9C=85Rapid return to service: Open to foot traffic in just 24 hours, mi=
+nimizing downtime.=0D
+We have a proven track record of providing reliable flooring solutions for =
+many similar companies. I would be happy to share our experience and discus=
+s how ZDS can help optimize your operations and enhance safety.=0D
+Would you be available for a brief 15-minute call sometime next week, perha=
+ps on [Specific Date, e.g., Wednesday morning], so I can elaborate further =
+and address any questions you might have?=0D
+=0D
+=0D
+=0D
+Best regards,=0D
+=0D
+=0D
+Mia Chen=0D
+=0D
+Sales Engineer=0D
+=0D
+=0D
+Shenzhen Zhengdasheng Chemical Co.Ltd.Whatapp/WeChat: +86 17301929923=0D
+Tel: 86-755-84875752Fax: 86-755-84875750Web:www.epoxyresinfactory.com,zdsch=
+emical.comAdd:4th floor , Longyuntong Building, No. 164-5 Pengda Road, Long=
+gang District, Shenzhen,China.=
 
-[1/7] ecryptfs: cleanup ecryptfs_setattr
-      https://git.kernel.org/tyhicks/ecryptfs/c/8f61364322a07ff6c35691b575d6fbda8e71e29d
-[2/7] ecryptfs: streamline truncate_upper
-      https://git.kernel.org/tyhicks/ecryptfs/c/b109187378615e683d8d8a24f4bc246bd3fb7b26
-[3/7] ecryptfs: use ZERO_PAGE instead of allocating zeroed memory in truncate_upper
-      https://git.kernel.org/tyhicks/ecryptfs/c/b19fe74e0fc970cef90bb78ddb473ae0356bce94
-[4/7] ecryptfs: combine the two ATTR_SIZE blocks in ecryptfs_setattr
-      https://git.kernel.org/tyhicks/ecryptfs/c/472dea1d2235439c0c25850d53deffc517cc8c61
-[5/7] ecryptfs: merge ecryptfs_inode_newsize_ok into truncate_upper
-      https://git.kernel.org/tyhicks/ecryptfs/c/081447ecfc255cb63b6e392cd01d9f684d4df5b8
-[6/7] ecryptfs: factor out a ecryptfs_iattr_to_lower helper
-      https://git.kernel.org/tyhicks/ecryptfs/c/5d1f0e8cd9482ddb5318f765f7ca508ce707cf83
-[7/7] ecryptfs: keep the lower iattr contained in truncate_upper
-      https://git.kernel.org/tyhicks/ecryptfs/c/e836ec1819b0cc50e0b45a53b0bdce6c596f0207
+--c80ec79a5148ca0e76fb4d774a6c34d0d9ad8ed47935ebb9f000e0e62fa3
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset=UTF-8
 
-Tyler
+<!DOCTYPE html><html><head><meta http-equiv=3D"Content-Type" content=3D"tex=
+t/html; charset=3DUTF-8"/>
+                                      <title>Heavy-Duty PU Mortar Flooring:=
+ 58MPa Strength for Food/Pharma Facilities</title></head><body><font size=
+=3D"4">
+<div class=3D"Y3BBE" style=3D"FONT-SIZE: 16px; FONT-FAMILY: Arial, sans-ser=
+if; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIG=
+HT: 400; COLOR: rgb(10,10,10); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; L=
+ETTER-SPACING: normal; LINE-HEIGHT: 24px; BACKGROUND-COLOR: rgb(255,255,255=
+); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: nor=
+mal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-d=
+ecoration-color: initial; overflow-wrap: break-word; margin-block: 12px 16p=
+x; text-decoration-thickness: initial" data-sfc-cp=3D"" jsaction=3D"rcuQ6b:=
+&amp;zwewec_1k|npT2md" jscontroller=3D"zcfIf" jsuid=3D"zwewec_1k" data-hvei=
+d=3D"CBIQAA" data-processed=3D"true" data-complete=3D"true">HiEcryptfs<br/>=
+=C2=A0</div>
+<div class=3D"Y3BBE" style=3D"FONT-SIZE: 16px; FONT-FAMILY: Arial, sans-ser=
+if; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIG=
+HT: 400; COLOR: rgb(10,10,10); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; L=
+ETTER-SPACING: normal; LINE-HEIGHT: 24px; BACKGROUND-COLOR: rgb(255,255,255=
+); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: nor=
+mal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-d=
+ecoration-color: initial; overflow-wrap: break-word; margin-block: 12px 16p=
+x; text-decoration-thickness: initial" data-sfc-cp=3D"" jsaction=3D"rcuQ6b:=
+&amp;zwewec_1l|npT2md" jscontroller=3D"zcfIf" jsuid=3D"zwewec_1l" data-hvei=
+d=3D"CBMQAA" data-processed=3D"true" data-complete=3D"true">I hope this ema=
+il finds you well.</div>
+<div class=3D"Y3BBE" style=3D"FONT-SIZE: 16px; FONT-FAMILY: Arial, sans-ser=
+if; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIG=
+HT: 400; COLOR: rgb(10,10,10); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; L=
+ETTER-SPACING: normal; LINE-HEIGHT: 24px; BACKGROUND-COLOR: rgb(255,255,255=
+); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: nor=
+mal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-d=
+ecoration-color: initial; overflow-wrap: break-word; margin-block: 12px 16p=
+x; text-decoration-thickness: initial" data-sfc-cp=3D"" jsaction=3D"rcuQ6b:=
+&amp;zwewec_1m|npT2md" jscontroller=3D"zcfIf" jsuid=3D"zwewec_1m" data-hvei=
+d=3D"CBQQAA" data-processed=3D"true" data-complete=3D"true"><br/>=C2=A0</di=
+v>
+<div class=3D"Y3BBE" style=3D"FONT-SIZE: 16px; FONT-FAMILY: Arial, sans-ser=
+if; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIG=
+HT: 400; COLOR: rgb(10,10,10); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; L=
+ETTER-SPACING: normal; LINE-HEIGHT: 24px; BACKGROUND-COLOR: rgb(255,255,255=
+); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: nor=
+mal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-d=
+ecoration-color: initial; overflow-wrap: break-word; margin-block: 12px 16p=
+x; text-decoration-thickness: initial" data-sfc-cp=3D"" jsaction=3D"rcuQ6b:=
+&amp;zwewec_1m|npT2md" jscontroller=3D"zcfIf" jsuid=3D"zwewec_1m" data-hvei=
+d=3D"CBQQAA" data-processed=3D"true" data-complete=3D"true">I'm=C2=A0MiaChe=
+n =C2=A0from ZDS, a specialist in high-performance flooring solutions for d=
+emanding sectors like food &amp; beverage, pharmaceutical, and chemical ind=
+ustries.</div>
+<div class=3D"Y3BBE" style=3D"FONT-SIZE: 16px; FONT-FAMILY: Arial, sans-ser=
+if; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIG=
+HT: 400; COLOR: rgb(10,10,10); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; L=
+ETTER-SPACING: normal; LINE-HEIGHT: 24px; BACKGROUND-COLOR: rgb(255,255,255=
+); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: nor=
+mal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-d=
+ecoration-color: initial; overflow-wrap: break-word; margin-block: 12px 16p=
+x; text-decoration-thickness: initial" data-sfc-cp=3D"" jsaction=3D"rcuQ6b:=
+&amp;zwewec_1n|npT2md" jscontroller=3D"zcfIf" jsuid=3D"zwewec_1n" data-hvei=
+d=3D"CBUQAA" data-processed=3D"true" data-complete=3D"true">In these enviro=
+nments, flooring must withstand heavy loads, chemical exposure, thermal sho=
+ck, and meet high hygiene standards. Our<span>=C2=A0</span><strong class=3D=
+"Yjhzub" style=3D"FONT-WEIGHT: 700" jscontroller=3D"zYmgkd" jsuid=3D"zwewec=
+_1o" data-processed=3D"true" data-complete=3D"true">ZDS Heavy-Duty Slip-Res=
+istant Polyurethane Mortar Flooring</strong><span>=C2=A0</span>is specifica=
+lly engineered to meet these challenges.</div>
+<div class=3D"Y3BBE" style=3D"FONT-SIZE: 16px; FONT-FAMILY: Arial, sans-ser=
+if; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIG=
+HT: 400; COLOR: rgb(10,10,10); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; L=
+ETTER-SPACING: normal; LINE-HEIGHT: 24px; BACKGROUND-COLOR: rgb(255,255,255=
+); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: nor=
+mal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-d=
+ecoration-color: initial; overflow-wrap: break-word; margin-block: 12px 16p=
+x; text-decoration-thickness: initial" data-sfc-cp=3D"" jsaction=3D"rcuQ6b:=
+&amp;zwewec_1p|npT2md" jscontroller=3D"zcfIf" jsuid=3D"zwewec_1p" data-hvei=
+d=3D"CBYQAA" data-processed=3D"true" data-complete=3D"true">Key benefits in=
+clude:</div>
+<ul class=3D"KsbFXc U6u95" style=3D"FONT-SIZE: 16px; FONT-FAMILY: Arial, sa=
+ns-serif; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FON=
+T-WEIGHT: 400; COLOR: rgb(10,10,10); PADDING-BOTTOM: 0px; FONT-STYLE: norma=
+l; PADDING-TOP: 0px; PADDING-LEFT: 0px; ORPHANS: 2; WIDOWS: 2; MARGIN: 0px;=
+ LETTER-SPACING: normal; LINE-HEIGHT: 24px; PADDING-RIGHT: 0px; BACKGROUND-=
+COLOR: rgb(255,255,255); TEXT-INDENT: 0px; font-variant-ligatures: normal; =
+font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-=
+style: initial; text-decoration-color: initial; margin-block: 12px 16px; te=
+xt-decoration-thickness: initial; padding-inline-start: 16px" jscontroller=
+=3D"mPWODf" jsuid=3D"zwewec_1q" data-processed=3D"true" data-complete=3D"tr=
+ue">
+<li style=3D"LIST-STYLE-TYPE: disc; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; =
+PADDING-LEFT: 0px; MARGIN: 0px 0px 12px; PADDING-RIGHT: 0px; padding-inline=
+-start: 4px" jscontroller=3D"vsuOFb" jsuid=3D"zwewec_1r" data-hveid=3D"CBcQ=
+AA" data-complete=3D"true" data-sae=3D""><span class=3D"T286Pc" style=3D"ov=
+erflow-wrap: break-word" data-sfc-cp=3D"" jscontroller=3D"fly6D" jsuid=3D"z=
+wewec_1s" data-complete=3D"true">=E2=9C=85<strong>Exceptional chemical resi=
+stance</strong>: Withstands acids, alkalis, and cleaning agents.</span></li=
+>
+<li style=3D"LIST-STYLE-TYPE: disc; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; =
+PADDING-LEFT: 0px; MARGIN: 0px 0px 12px; PADDING-RIGHT: 0px; padding-inline=
+-start: 4px" jscontroller=3D"vsuOFb" jsuid=3D"zwewec_1u" data-hveid=3D"CBcQ=
+AQ" data-complete=3D"true" data-sae=3D""><span class=3D"T286Pc" style=3D"ov=
+erflow-wrap: break-word" data-sfc-cp=3D"" jscontroller=3D"fly6D" jsuid=3D"z=
+wewec_1v" data-complete=3D"true">=E2=9C=85<strong>Superior impact strength<=
+/strong>: Endures high-impact from forklifts and heavy equipment.</span></l=
+i>
+<li style=3D"LIST-STYLE-TYPE: disc; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; =
+PADDING-LEFT: 0px; MARGIN: 0px 0px 12px; PADDING-RIGHT: 0px; padding-inline=
+-start: 4px" jscontroller=3D"vsuOFb" jsuid=3D"zwewec_1x" data-hveid=3D"CBcQ=
+Ag" data-complete=3D"true" data-sae=3D""><span class=3D"T286Pc" style=3D"ov=
+erflow-wrap: break-word" data-sfc-cp=3D"" jscontroller=3D"fly6D" jsuid=3D"z=
+wewec_1y" data-complete=3D"true">=E2=9C=85<strong>Excellent slip resistance=
+</strong>: Ensures safety in wet or greasy conditions.</span></li>
+<li style=3D"LIST-STYLE-TYPE: disc; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; =
+PADDING-LEFT: 0px; MARGIN: 0px 0px 12px; PADDING-RIGHT: 0px; padding-inline=
+-start: 4px" jscontroller=3D"vsuOFb" jsuid=3D"zwewec_20" data-hveid=3D"CBcQ=
+Aw" data-complete=3D"true" data-sae=3D""><span class=3D"T286Pc" style=3D"ov=
+erflow-wrap: break-word" data-sfc-cp=3D"" jscontroller=3D"fly6D" jsuid=3D"z=
+wewec_21" data-complete=3D"true">=E2=9C=85<strong>Rapid return to service</=
+strong>: Open to foot traffic in just 24 hours, minimizing downtime.</span>=
+</li></ul>
+<div class=3D"Y3BBE" style=3D"FONT-SIZE: 16px; FONT-FAMILY: Arial, sans-ser=
+if; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIG=
+HT: 400; COLOR: rgb(10,10,10); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; L=
+ETTER-SPACING: normal; LINE-HEIGHT: 24px; BACKGROUND-COLOR: rgb(255,255,255=
+); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: nor=
+mal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-d=
+ecoration-color: initial; overflow-wrap: break-word; margin-block: 12px 16p=
+x; text-decoration-thickness: initial" data-sfc-cp=3D"" jsaction=3D"rcuQ6b:=
+&amp;zwewec_23|npT2md" jscontroller=3D"zcfIf" jsuid=3D"zwewec_23" data-hvei=
+d=3D"CBgQAA" data-processed=3D"true" data-complete=3D"true">We have a prove=
+n track record of providing reliable flooring solutions for many similar co=
+mpanies. I would be happy to share our experience and discuss how ZDS can h=
+elp optimize your operations and enhance safety.</div>
+<div class=3D"Y3BBE" style=3D"FONT-SIZE: 16px; FONT-FAMILY: Arial, sans-ser=
+if; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIG=
+HT: 400; COLOR: rgb(10,10,10); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; L=
+ETTER-SPACING: normal; LINE-HEIGHT: 24px; BACKGROUND-COLOR: rgb(255,255,255=
+); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: nor=
+mal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-d=
+ecoration-color: initial; overflow-wrap: break-word; margin-block: 12px 16p=
+x; text-decoration-thickness: initial" data-sfc-cp=3D"" jsaction=3D"rcuQ6b:=
+&amp;zwewec_24|npT2md" jscontroller=3D"zcfIf" jsuid=3D"zwewec_24" data-hvei=
+d=3D"CBkQAA" data-processed=3D"true" data-complete=3D"true">Would you be av=
+ailable for a brief 15-minute call sometime next week, perhaps on [Specific=
+ Date, e.g., Wednesday morning], so I can elaborate further and address any=
+ questions you might have?<br/></div>
+<div class=3D"Y3BBE" style=3D"FONT-SIZE: 16px; FONT-FAMILY: Arial, sans-ser=
+if; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIG=
+HT: 400; COLOR: rgb(10,10,10); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; L=
+ETTER-SPACING: normal; LINE-HEIGHT: 24px; BACKGROUND-COLOR: rgb(255,255,255=
+); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: nor=
+mal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-d=
+ecoration-color: initial; overflow-wrap: break-word; margin-block: 12px 16p=
+x; text-decoration-thickness: initial" data-sfc-cp=3D"" jsaction=3D"rcuQ6b:=
+&amp;zwewec_24|npT2md" jscontroller=3D"zcfIf" jsuid=3D"zwewec_24" data-hvei=
+d=3D"CBkQAA" data-processed=3D"true" data-complete=3D"true"><br/>=C2=A0</di=
+v>
+<div class=3D"Y3BBE" style=3D"FONT-SIZE: 16px; FONT-FAMILY: Arial, sans-ser=
+if; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIG=
+HT: 400; COLOR: rgb(10,10,10); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; L=
+ETTER-SPACING: normal; LINE-HEIGHT: 24px; BACKGROUND-COLOR: rgb(255,255,255=
+); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: nor=
+mal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-d=
+ecoration-color: initial; overflow-wrap: break-word; margin-block: 12px 16p=
+x; text-decoration-thickness: initial" data-sfc-cp=3D"" jsaction=3D"rcuQ6b:=
+&amp;zwewec_24|npT2md" jscontroller=3D"zcfIf" jsuid=3D"zwewec_24" data-hvei=
+d=3D"CBkQAA" data-processed=3D"true" data-complete=3D"true"><br/>=C2=A0</di=
+v>
+<div class=3D"Y3BBE" style=3D"FONT-SIZE: 16px; FONT-FAMILY: Arial, sans-ser=
+if; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIG=
+HT: 400; COLOR: rgb(10,10,10); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; L=
+ETTER-SPACING: normal; LINE-HEIGHT: 24px; BACKGROUND-COLOR: rgb(255,255,255=
+); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: nor=
+mal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-d=
+ecoration-color: initial; overflow-wrap: break-word; margin-block: 12px 16p=
+x; text-decoration-thickness: initial" data-sfc-cp=3D"" jsaction=3D"rcuQ6b:=
+&amp;zwewec_24|npT2md" jscontroller=3D"zcfIf" jsuid=3D"zwewec_24" data-hvei=
+d=3D"CBkQAA" data-processed=3D"true" data-complete=3D"true">
+<div style=3D"BACKGROUND: none transparent scroll repeat 0% 0%; WHITE-SPACE=
+: normal; COLOR: rgb(0,0,0); PADDING-BOTTOM: 0px; PADDING-TOP: 0px; FONT: 4=
+00 16px/24px ui-sans-serif, system-ui, sans-serif, &#34;Apple Color Emoji&#=
+34;, &#34;Segoe UI Emoji&#34;, &#34;Segoe UI Symbol&#34;, &#34;Noto Color E=
+moji&#34;; PADDING-LEFT: 0px; MARGIN: 0px; DISPLAY: block; PADDING-RIGHT: 0=
+px; flex: 0 1 auto; flex-direction: row; justify-content: normal; align-ite=
+ms: normal">Best regards,</div>
+<div style=3D"BACKGROUND: none transparent scroll repeat 0% 0%; WHITE-SPACE=
+: normal; COLOR: rgb(0,0,0); PADDING-BOTTOM: 0px; PADDING-TOP: 0px; FONT: 4=
+00 16px/24px ui-sans-serif, system-ui, sans-serif, &#34;Apple Color Emoji&#=
+34;, &#34;Segoe UI Emoji&#34;, &#34;Segoe UI Symbol&#34;, &#34;Noto Color E=
+moji&#34;; PADDING-LEFT: 0px; MARGIN: 0px; DISPLAY: block; PADDING-RIGHT: 0=
+px; flex: 0 1 auto; flex-direction: row; justify-content: normal; align-ite=
+ms: normal"></div>
+<div style=3D"BACKGROUND: none transparent scroll repeat 0% 0%; WHITE-SPACE=
+: normal; COLOR: rgb(0,0,0); PADDING-BOTTOM: 0px; PADDING-TOP: 0px; FONT: 4=
+00 16px/24px ui-sans-serif, system-ui, sans-serif, &#34;Apple Color Emoji&#=
+34;, &#34;Segoe UI Emoji&#34;, &#34;Segoe UI Symbol&#34;, &#34;Noto Color E=
+moji&#34;; PADDING-LEFT: 0px; MARGIN: 0px; DISPLAY: block; PADDING-RIGHT: 0=
+px; flex: 0 1 auto; flex-direction: row; justify-content: normal; align-ite=
+ms: normal"><br/>=C2=A0</div>
+<div style=3D"BACKGROUND: none transparent scroll repeat 0% 0%; WHITE-SPACE=
+: normal; COLOR: rgb(0,0,0); PADDING-BOTTOM: 0px; PADDING-TOP: 0px; FONT: 4=
+00 16px/24px ui-sans-serif, system-ui, sans-serif, &#34;Apple Color Emoji&#=
+34;, &#34;Segoe UI Emoji&#34;, &#34;Segoe UI Symbol&#34;, &#34;Noto Color E=
+moji&#34;; PADDING-LEFT: 0px; MARGIN: 0px; DISPLAY: block; PADDING-RIGHT: 0=
+px; flex: 0 1 auto; flex-direction: row; justify-content: normal; align-ite=
+ms: normal">Mia Chen</div>
+<div style=3D"BACKGROUND: none transparent scroll repeat 0% 0%; WHITE-SPACE=
+: normal; COLOR: rgb(0,0,0); PADDING-BOTTOM: 0px; PADDING-TOP: 0px; FONT: 4=
+00 16px/24px ui-sans-serif, system-ui, sans-serif, &#34;Apple Color Emoji&#=
+34;, &#34;Segoe UI Emoji&#34;, &#34;Segoe UI Symbol&#34;, &#34;Noto Color E=
+moji&#34;; PADDING-LEFT: 0px; MARGIN: 0px; DISPLAY: block; PADDING-RIGHT: 0=
+px; flex: 0 1 auto; flex-direction: row; justify-content: normal; align-ite=
+ms: normal"></div>
+<div style=3D"BACKGROUND: none transparent scroll repeat 0% 0%; WHITE-SPACE=
+: normal; COLOR: rgb(0,0,0); PADDING-BOTTOM: 0px; PADDING-TOP: 0px; FONT: 4=
+00 16px/24px ui-sans-serif, system-ui, sans-serif, &#34;Apple Color Emoji&#=
+34;, &#34;Segoe UI Emoji&#34;, &#34;Segoe UI Symbol&#34;, &#34;Noto Color E=
+moji&#34;; PADDING-LEFT: 0px; MARGIN: 0px; DISPLAY: block; PADDING-RIGHT: 0=
+px; flex: 0 1 auto; flex-direction: row; justify-content: normal; align-ite=
+ms: normal">Sales Engineer</div>
+<div style=3D"BACKGROUND: none transparent scroll repeat 0% 0%; WHITE-SPACE=
+: normal; COLOR: rgb(0,0,0); PADDING-BOTTOM: 0px; PADDING-TOP: 0px; FONT: 4=
+00 16px/24px ui-sans-serif, system-ui, sans-serif, &#34;Apple Color Emoji&#=
+34;, &#34;Segoe UI Emoji&#34;, &#34;Segoe UI Symbol&#34;, &#34;Noto Color E=
+moji&#34;; PADDING-LEFT: 0px; MARGIN: 0px; DISPLAY: block; PADDING-RIGHT: 0=
+px; flex: 0 1 auto; flex-direction: row; justify-content: normal; align-ite=
+ms: normal"></div>
+<div style=3D"BACKGROUND: none transparent scroll repeat 0% 0%; WHITE-SPACE=
+: normal; COLOR: rgb(0,0,0); PADDING-BOTTOM: 0px; PADDING-TOP: 0px; FONT: 4=
+00 16px/24px ui-sans-serif, system-ui, sans-serif, &#34;Apple Color Emoji&#=
+34;, &#34;Segoe UI Emoji&#34;, &#34;Segoe UI Symbol&#34;, &#34;Noto Color E=
+moji&#34;; PADDING-LEFT: 0px; MARGIN: 0px; DISPLAY: block; PADDING-RIGHT: 0=
+px; flex: 0 1 auto; flex-direction: row; justify-content: normal; align-ite=
+ms: normal"><br/>=C2=A0</div>
+<div style=3D"BACKGROUND: none transparent scroll repeat 0% 0%; WHITE-SPACE=
+: normal; COLOR: rgb(0,0,0); PADDING-BOTTOM: 0px; PADDING-TOP: 0px; FONT: 4=
+00 16px/24px ui-sans-serif, system-ui, sans-serif, &#34;Apple Color Emoji&#=
+34;, &#34;Segoe UI Emoji&#34;, &#34;Segoe UI Symbol&#34;, &#34;Noto Color E=
+moji&#34;; PADDING-LEFT: 0px; MARGIN: 0px; DISPLAY: block; PADDING-RIGHT: 0=
+px; flex: 0 1 auto; flex-direction: row; justify-content: normal; align-ite=
+ms: normal">Shenzhen Zhengdasheng Chemical Co.Ltd.<br/>Whatapp/WeChat: +86 =
+17301929923<br/></div>
+<div style=3D"BACKGROUND: none transparent scroll repeat 0% 0%; WHITE-SPACE=
+: normal; COLOR: rgb(0,0,0); PADDING-BOTTOM: 0px; PADDING-TOP: 0px; FONT: 4=
+00 16px/24px ui-sans-serif, system-ui, sans-serif, &#34;Apple Color Emoji&#=
+34;, &#34;Segoe UI Emoji&#34;, &#34;Segoe UI Symbol&#34;, &#34;Noto Color E=
+moji&#34;; PADDING-LEFT: 0px; MARGIN: 0px; DISPLAY: block; PADDING-RIGHT: 0=
+px; flex: 0 1 auto; flex-direction: row; justify-content: normal; align-ite=
+ms: normal">Tel: 86-755-84875752<br/>Fax: 86-755-84875750<br/>Web:=C2=A0<a =
+href=3D"http://www.epoxyresinfactory.com,zdschemical.com">www.epoxyresinfac=
+tory.com,zdschemical.com</a><br/>Add:4th floor , Longyuntong Building, No. =
+164-5 Pengda Road, Longgang District, Shenzhen,China.</div></div></font><im=
+g src=3D"https://1251899231-gz.callback.cloudses.com/api/webhook?upn=3D7f5f=
+c2d81bf99757e3e56e8e756f73cbf8005f7ce416b82068d85383ea4588e9968132028deff30=
+fec462fc79b8fc8372878a125d688a7aaf03b3e2f15372a8206d1c016467cf397d6e59165a4=
+fc4a4939d29a1f957bf042f123d83cf4dbe771d3dd864baa16b260743773e24b48d3e60f568=
+85b7e62f64befd41723df5d31e650b78483359002fbb265ecb3f234760bf23b41cb2b0e0065=
+d62739be61a88c4c8084ccfc0c969309e4e16f7de46fa162abd2e3327e65152af221c9a39b5=
+87a9d14ec26db93caed90d8b3f01d319fcc07fad4478797e5bb8f59c4e0b9bc6c9cb74b97c1=
+fb3301843951c51b5d24236de8575ddd598501b68dec8c24b3694f3b83ec536c8b3e3e0b090=
+898748e2eed5f970268c650973ee2fb2a61129eb7c773b5133d51277df375eca708b4aa4968=
+a6aa" alt=3D"" height=3D"1" width=3D"1" border=3D"0" style=3D"height:1px !i=
+mportant;width:1px !important;border-width:0 !important;margin-top:0 !impor=
+tant;margin-bottom:0 !important;margin-right:0 !important;margin-left:0 !im=
+portant;padding-top:0 !important;padding-bottom:0 !important;padding-right:=
+0 !important;padding-left:0 !important;"/></body></html>=
+
+--c80ec79a5148ca0e76fb4d774a6c34d0d9ad8ed47935ebb9f000e0e62fa3--
+
+--87c0ba79db00b21e19d8b628d231376f2fd979cca22d80623268a2ed2f36--
 
