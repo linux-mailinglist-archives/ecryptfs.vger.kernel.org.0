@@ -1,154 +1,203 @@
-Return-Path: <ecryptfs+bounces-1216-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-1217-lists+ecryptfs=lfdr.de@vger.kernel.org>
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6ACiLpaj22k6EgkAu9opvQ
-	(envelope-from <ecryptfs+bounces-1216-lists+ecryptfs=lfdr.de@vger.kernel.org>)
-	for <lists+ecryptfs@lfdr.de>; Sun, 12 Apr 2026 15:52:22 +0200
+	id 0Mt5F8jF5WkGoAEAu9opvQ
+	(envelope-from <ecryptfs+bounces-1217-lists+ecryptfs=lfdr.de@vger.kernel.org>)
+	for <lists+ecryptfs@lfdr.de>; Mon, 20 Apr 2026 08:20:56 +0200
 X-Original-To: lists+ecryptfs@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B3E13E4110
-	for <lists+ecryptfs@lfdr.de>; Sun, 12 Apr 2026 15:52:21 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C97BC42725C
+	for <lists+ecryptfs@lfdr.de>; Mon, 20 Apr 2026 08:20:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4429A3010399
-	for <lists+ecryptfs@lfdr.de>; Sun, 12 Apr 2026 13:51:01 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 129FC3000B28
+	for <lists+ecryptfs@lfdr.de>; Mon, 20 Apr 2026 06:20:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E53319E7F7;
-	Sun, 12 Apr 2026 13:51:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF4AC2C027A;
+	Mon, 20 Apr 2026 06:20:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b="NRhVomvn"
+	dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b="TUostUzk";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="rEiiuo6x"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E1D2D8793;
-	Sun, 12 Apr 2026 13:50:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.149.199.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA143815E2;
+	Mon, 20 Apr 2026 06:20:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776001860; cv=none; b=SF9RBZOPamZo0EgGzZEEfI31d5H1E6tV3Z9P2QtFRq/6Rh277AWMSJOADZX22ZVjOcW5tj1Ec7P6EN8z/mYmc+6bHY6VjdPmAXsOLjh5WJ5+XfxGAqtZcnhL2FuP/8pkzxoicJcMiBp+WFOBcBVO9vPVuPmBAptCnnrqeJcXym0=
+	t=1776666051; cv=none; b=MiAcF/YKGW4IK43HrSkrRdBFh6wbDrMn0f6bNw0GXlNamrcLv/dYjCrU5JiO9aVWTRw+5XSqBMxff4RecAVTGpuIm6k0ai+UtTakJbhCGjHCq6M6+X0h8eMi4K4IS3ncE2R5da0cG4c9wzFm6wJIwAdKWMjzbr0unMvrRB3vdQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776001860; c=relaxed/simple;
-	bh=BYwu7QtiDVDQ858XjI038y7KhYs6tSMQQC58HjgMsaM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rP/5Owk5ozUgfEn8IVp5Y/tZ/YgSZxWRpfVODGbDPwf6BKHwk95vBLrGenvvJdv+/3YY8Dz7rJVzZVIUO9DiNg5Rtmyl8uSTSJBS/NcFoKr0qg4cY3u9EsbJ3eXgz1O04KGrJEGZZcDh7VepLanv+lQ3wUeapPAOQ6Ttuv0+SRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru; spf=pass smtp.mailfrom=ispras.ru; dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b=NRhVomvn; arc=none smtp.client-ip=83.149.199.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ispras.ru
-Received: from VelichayshiyPC.Dlink (unknown [176.65.115.160])
-	by mail.ispras.ru (Postfix) with ESMTPSA id 3699B4077934;
-	Sun, 12 Apr 2026 13:50:47 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 3699B4077934
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
-	s=default; t=1776001847;
-	bh=8PEZCnxQHVwk6ty35JPy7MV+BGkzURZvhHOMVaDGwk8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=NRhVomvn6lKMZl8pKA1dP54IOEBVXnxEFRGzeghaD07MlXnlXDwXSTuL+XOJgrvgV
-	 6lEPHOrFPJym4LJpdDiu5mDN1uF36N7RGxorfF6Yo9xEa8mW5yPkjGhT5XkyUdFI8I
-	 8WmqqIW6IGvCJ4IImkxEhG/+os3Gw93Zdg68mDpE=
-From: Alexey Velichayshiy <a.velichayshiy@ispras.ru>
-To: Tyler Hicks <code@tyhicks.com>
-Cc: Alexey Velichayshiy <a.velichayshiy@ispras.ru>,
-	ecryptfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org
-Subject: [PATCH] ecryptfs: remove redundant variable found_auth_tok
-Date: Sun, 12 Apr 2026 16:50:08 +0300
-Message-ID: <20260412135010.321286-1-a.velichayshiy@ispras.ru>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1776666051; c=relaxed/simple;
+	bh=q7O3nlu3rcGAX7c5jHgWM4Ze4bZ1IaNAo5fYfi/5s4w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qttkTDkEZljiMRWMRZ69IX2AnPvQ/m0mbFfl7JU22Howh9HjAJTvcFX2xUtgGpBcx+uGFhewDHV4CMqmRgE450dEEpmQ4l9/qgVUdwUjMaVnO46zPM3VWmnRtRuNMccr996suSNbwUeYzcEfAnMAWDYq4+wxAlHsoMgZE9G/UrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com; spf=pass smtp.mailfrom=tyhicks.com; dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b=TUostUzk; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=rEiiuo6x; arc=none smtp.client-ip=202.12.124.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tyhicks.com
+Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
+	by mailfout.stl.internal (Postfix) with ESMTP id CDFD91D0018A;
+	Mon, 20 Apr 2026 02:20:48 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-08.internal (MEProxy); Mon, 20 Apr 2026 02:20:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tyhicks.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm1; t=1776666048; x=1776752448; bh=Gd
+	sKqPfaiYiY028VNZKIzibV3ksDn4TUub4xUVEh7qw=; b=TUostUzkN+e7g1cvys
+	Vkb75CtU6iIxeGCjRLRwCz5tnDJj+/2P769d+UKzBiNgvGyh8tuWcAVZRjeNE2Va
+	SSmYzQq8hMFMo2YRCDRdoJ3TYg3ctRcDqC0v8ISztKz0jluPeWaj+00zLuC4N95y
+	jSgDpCJtXNVUFWRLrwQgjzvf9fdRCXt8anK/XrRkmsPknxgQIXux81yqGriOvK8g
+	Qr9ZSfNkOsNoikA3t6ni8DJlkK9CCXs0juejw7m0wmSzOuFruM3d3AgTYhGkrFJX
+	ZesjS9eWzFLFGX371sDUlcoFkbhJGg6jx9Dc3UaSOfAO/XG7c5xV9O+AlU2Ae594
+	CqWg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1776666048; x=1776752448; bh=GdsKqPfaiYiY028VNZKIzibV3ksD
+	n4TUub4xUVEh7qw=; b=rEiiuo6xDOSiiYrA0ujh0vRV88XVWPwNCya78DOLRfMw
+	c5ZWYzzKbHDtB+6KoPPbUo3H1FYkwBa59gV9U3NIZP9TyQ0Ecnc8s1EcJwetll5G
+	V82UgzRFD1x/8hJ8VxvXBNozQkHq/ahxoBxjCWOy5R9FptpFXmLlyrUoVcL/e9xX
+	mkCAe6xB0LM1YHfoxPn4rMYNUGmiPvAyxQ9IFY7GVFZbAL7mDo+VtYBqfCmkRvMj
+	cgxrGB46kEwPVw0OG6aQcYuFhiwiILCdj7I7/CqWiWA7Br5HvFsJ8iXRizaHenEj
+	ydka7rbRzotllrYuMsqj5RqbUg2EEQvcaLM06BqlGQ==
+X-ME-Sender: <xms:wMXlaT0mV6OysXaJXoRP9Fb-jnqcr6DyZqlS1iTIU_iT7Jyou1Qcow>
+    <xme:wMXlaSyEYY0KKMggoUb74EwPFMuoZVIWWLkLg7b2EcqOx4AjZhspTi0KQbQxCKc9Z
+    xD31q1vce2LKu-nU4zdgyp0xwi6ywR5kAz3IBzhTB-ila0gLPtI_ZU>
+X-ME-Received: <xmr:wMXlaSGjiRdYWOkBQcKfnulYgN-Hy5EuMbl3tQFh1XZHHIVAP214jxs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdehjeejlecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfggtggugfesthekredttddtjeenucfhrhhomhepvfihlhgvrhcujfhi
+    tghkshcuoegtohguvgesthihhhhitghkshdrtghomheqnecuggftrfgrthhtvghrnhepge
+    ffteffveefjeefieeujeeuhfejffekieehtdeutdevhfdtudffteffgfffiedunecuffho
+    mhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+    grmhepmhgrihhlfhhrohhmpegtohguvgesthihhhhitghkshdrtghomhdpnhgspghrtghp
+    thhtohepjedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepthhorhhvrghlughsse
+    hlihhnuhigqdhfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopegsrhgruhhnvghr
+    sehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvg
+    hrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegvtghrhihpthhfshesvhhgvghrrdhk
+    vghrnhgvlhdrohhrghdprhgtphhtthhopehhtghhsehlshhtrdguvgdprhgtphhtthhope
+    hthhhorhhsthgvnhdrsghluhhmsehlihhnuhigrdguvghvpdhrtghpthhtohepfhhrrghn
+    khhhshhirghosehqnhgrphdrtghomh
+X-ME-Proxy: <xmx:wMXladZ64wCrVwAyP5KjvjwItBqwZ-VykJFod0Zl-pbCo1rRPm0b6A>
+    <xmx:wMXlacDsWQZQdMSaETyuK9NsmWr0HRshba56-o2DoOlVOF8lQW2fTw>
+    <xmx:wMXladlIZ87hENTr62zGS-91_F5M87dXfr403KrgIDCsmHDFbxm-oA>
+    <xmx:wMXlaVy4BZf9DTYStbUdUICXaMfRYQc0-Kx_3OaqlUBFfEKwVa5hJA>
+    <xmx:wMXlafWZZdcXMEDLQFG4en-k2RS7K8prgt4n3zmRpZ2CyUvJLwYdmuYC>
+Feedback-ID: i78e14604:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 20 Apr 2026 02:20:46 -0400 (EDT)
+Date: Mon, 20 Apr 2026 01:20:27 -0500
+From: Tyler Hicks <code@tyhicks.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Christian Brauner <brauner@kernel.org>, linux-kernel@vger.kernel.org,
+	ecryptfs@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
+	Thorsten Blum <thorsten.blum@linux.dev>,
+	Frank Hsiao =?utf-8?B?6JWt5rOV5a6j?= <frankhsiao@qnap.com>
+Subject: [GIT PULL] eCryptfs changes for 7.1-rc1
+Message-ID: <aeXFbJRyKkVM9onr@yaupon>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ispras.ru,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[ispras.ru:s=default];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[tyhicks.com:s=fm1,messagingengine.com:s=fm2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-1216-lists,ecryptfs=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[tyhicks.com:+,messagingengine.com:+];
+	TAGGED_FROM(0.00)[bounces-1217-lists,ecryptfs=lfdr.de];
+	DMARC_NA(0.00)[tyhicks.com];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[a.velichayshiy@ispras.ru,ecryptfs@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[ispras.ru:+];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[code@tyhicks.com,ecryptfs@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[ecryptfs];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linuxtesting.org:url]
-X-Rspamd-Queue-Id: 0B3E13E4110
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: C97BC42725C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The found_auth_tok variable is no longer needed, as the fact of finding
-a token is determined directly by jumping to the found_matching_auth_tok
-label inside the loop.
+Hi Linus,
 
-Remove found_auth_tok, simplifying the function logic.
+The following changes since commit c369299895a591d96745d6492d4888259b004a9e:
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+  Linux 7.0-rc5 (2026-03-22 14:42:17 -0700)
 
-Signed-off-by: Alexey Velichayshiy <a.velichayshiy@ispras.ru>
----
- fs/ecryptfs/keystore.c | 16 +++++-----------
- 1 file changed, 5 insertions(+), 11 deletions(-)
+are available in the Git repository at:
 
-diff --git a/fs/ecryptfs/keystore.c b/fs/ecryptfs/keystore.c
-index e8494903bb42..0757531df5f9 100644
---- a/fs/ecryptfs/keystore.c
-+++ b/fs/ecryptfs/keystore.c
-@@ -1718,7 +1718,6 @@ int ecryptfs_parse_packet_set(struct ecryptfs_crypt_stat *crypt_stat,
- 			      struct dentry *ecryptfs_dentry)
- {
- 	size_t i = 0;
--	size_t found_auth_tok;
- 	size_t next_packet_is_auth_tok_packet;
- 	LIST_HEAD(auth_tok_list);
- 	struct ecryptfs_auth_tok *matching_auth_tok;
-@@ -1822,7 +1821,6 @@ int ecryptfs_parse_packet_set(struct ecryptfs_crypt_stat *crypt_stat,
- 	 * the metadata. There may be several potential matches, but
- 	 * just one will be sufficient to decrypt to get the FEK. */
- find_next_matching_auth_tok:
--	found_auth_tok = 0;
- 	list_for_each_entry(auth_tok_list_item, &auth_tok_list, list) {
- 		candidate_auth_tok = &auth_tok_list_item->auth_tok;
- 		if (unlikely(ecryptfs_verbosity > 0)) {
-@@ -1843,17 +1841,13 @@ int ecryptfs_parse_packet_set(struct ecryptfs_crypt_stat *crypt_stat,
- 					       &matching_auth_tok,
- 					       crypt_stat->mount_crypt_stat,
- 					       candidate_auth_tok_sig);
--		if (!rc) {
--			found_auth_tok = 1;
-+		if (!rc)
- 			goto found_matching_auth_tok;
--		}
--	}
--	if (!found_auth_tok) {
--		ecryptfs_printk(KERN_ERR, "Could not find a usable "
--				"authentication token\n");
--		rc = -EIO;
--		goto out_wipe_list;
- 	}
-+	ecryptfs_printk(KERN_ERR, "Could not find a usable "
-+			"authentication token\n");
-+	rc = -EIO;
-+	goto out_wipe_list;
- found_matching_auth_tok:
- 	if (candidate_auth_tok->token_type == ECRYPTFS_PRIVATE_KEY) {
- 		memcpy(&(candidate_auth_tok->token.private_key),
--- 
-2.43.0
+  git://git.kernel.org/pub/scm/linux/kernel/git/tyhicks/ecryptfs.git tags/ecryptfs-7.1-rc1
 
+for you to fetch changes up to e836ec1819b0cc50e0b45a53b0bdce6c596f0207:
+
+  ecryptfs: keep the lower iattr contained in truncate_upper (2026-04-08 18:54:03 -0500)
+
+----------------------------------------------------------------
+eCryptfs changes for 7.1-rc1
+
+The set of eCryptfs changes for the 7.1-rc1 merge window consists of:
+- A fix to avoid unnecessary eCryptfs inode timestamp truncation by
+  re-using the lower filesystem's time granularity
+- Various small code cleanups
+- Reorganization of the setattr hook's handling of inode resizing to
+  improve style and readability, remove an unnecessary memory allocation
+  when shrinking, and to support an upcoming rework of the VFS
+  interfaces involved in truncation
+
+The patches have all spent time in linux-next and they do not regress
+the tests in the ecryptfs-utils tree. The inode timestamp fix returns
+the "setattr-flush-dirty" test to passing state.
+
+Signed-off-by: Tyler Hicks <code@tyhicks.com>
+
+----------------------------------------------------------------
+Christoph Hellwig (7):
+      ecryptfs: cleanup ecryptfs_setattr
+      ecryptfs: streamline truncate_upper
+      ecryptfs: use ZERO_PAGE instead of allocating zeroed memory in truncate_upper
+      ecryptfs: combine the two ATTR_SIZE blocks in ecryptfs_setattr
+      ecryptfs: merge ecryptfs_inode_newsize_ok into truncate_upper
+      ecryptfs: factor out a ecryptfs_iattr_to_lower helper
+      ecryptfs: keep the lower iattr contained in truncate_upper
+
+Frank Hsiao 蕭法宣 (1):
+      ecryptfs: Set s_time_gran to get correct time granularity
+
+Thorsten Blum (7):
+      ecryptfs: Replace memcpy + manual NUL termination with strscpy
+      ecryptfs: Use struct_size to improve process_response + send_miscdev
+      ecryptfs: Fix tag number in encrypt_filename() error message
+      ecryptfs: Remove redundant if checks in encrypt_and_encode_filename
+      ecryptfs: Log function name only once in decode_and_decrypt_filename
+      ecryptfs: Fix typo in ecryptfs_derive_iv function comment
+      ecryptfs: Drop TODO comment in ecryptfs_derive_iv
+
+ fs/ecryptfs/crypto.c    |  36 +++----
+ fs/ecryptfs/debug.c     |   5 +-
+ fs/ecryptfs/inode.c     | 257 ++++++++++++++++++++++--------------------------
+ fs/ecryptfs/keystore.c  |   6 +-
+ fs/ecryptfs/main.c      |   1 +
+ fs/ecryptfs/messaging.c |   3 +-
+ fs/ecryptfs/miscdev.c   |   7 +-
+ 7 files changed, 142 insertions(+), 173 deletions(-)
 
