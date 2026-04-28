@@ -1,167 +1,445 @@
-Return-Path: <ecryptfs+bounces-1220-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-1221-lists+ecryptfs=lfdr.de@vger.kernel.org>
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0AYIF87m5mkl1wEAu9opvQ
-	(envelope-from <ecryptfs+bounces-1220-lists+ecryptfs=lfdr.de@vger.kernel.org>)
-	for <lists+ecryptfs@lfdr.de>; Tue, 21 Apr 2026 04:54:06 +0200
+	id iM/HJriS8GlvVAEAu9opvQ
+	(envelope-from <ecryptfs+bounces-1221-lists+ecryptfs=lfdr.de@vger.kernel.org>)
+	for <lists+ecryptfs@lfdr.de>; Tue, 28 Apr 2026 12:58:00 +0200
 X-Original-To: lists+ecryptfs@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2996435A13
-	for <lists+ecryptfs@lfdr.de>; Tue, 21 Apr 2026 04:54:05 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 921154831DB
+	for <lists+ecryptfs@lfdr.de>; Tue, 28 Apr 2026 12:57:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 90F40300F157
-	for <lists+ecryptfs@lfdr.de>; Tue, 21 Apr 2026 02:54:04 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 259B03092643
+	for <lists+ecryptfs@lfdr.de>; Tue, 28 Apr 2026 10:45:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D15A02459C6;
-	Tue, 21 Apr 2026 02:54:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A84C23FCB17;
+	Tue, 28 Apr 2026 10:42:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b="egcC/YZx";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="CVvQU1Di"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dw8BrzbB"
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81F4D1E0E14;
-	Tue, 21 Apr 2026 02:54:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E8513FCB13;
+	Tue, 28 Apr 2026 10:42:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776740043; cv=none; b=R2NJWwlpcJxo+LSaKmM95HsC7znWRtq6XDZSwraBTIICPFVEt5MmZ0zSjAG+LyMDFqfxwTzaplz8tsEfi/iOZUg/1/BymvvXGVjZ4MWUzidHwYZVIfq+xO8U9+pIuIbt6xYkR2WHg4U426oVwD78Ki8zZpX7Q3ING5LbWrQPlgc=
+	t=1777372929; cv=none; b=nDLCsDKw/Ix+pPA9/e0Dzzi7aPzHFkZd7AQN0MoufmGLeL3oylB2rLUuGKguYEzbtl92kbjKx+tJO9y3cI49o7V2W57fyB/7ixtOKNnlj5T9MVAtpv7fVtf5rdQl8moDlxVm+UfVNxGTqLSywpBJPMwlpKs1e2xSxQv9src2120=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776740043; c=relaxed/simple;
-	bh=rnwbfAA/XAEugGY1A5pJ9dXEzFZxvM9igqA4nK+l6Bs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TNuiWFXar1sRneMvYKXx1MI6QW3uGT3AGOqqVYQ4qVFw/Pt9D3vpVz8h4aBDcnu8sQsxPaTlRtXsZDdKLwVmIUW7IJ9AyndXSyUbaaYaxJfGtyTa3ZNVf9+fSwfbWvq9IY4hdzLcOarwHDyWUsP/K92b/d05Z+v4GkEBqfTnLqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com; spf=pass smtp.mailfrom=tyhicks.com; dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b=egcC/YZx; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=CVvQU1Di; arc=none smtp.client-ip=103.168.172.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tyhicks.com
-Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 799A0140009B;
-	Mon, 20 Apr 2026 22:54:01 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-07.internal (MEProxy); Mon, 20 Apr 2026 22:54:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tyhicks.com; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1776740041; x=1776826441; bh=YIa7MCJncf
-	EOyftnAwsnn+6QcRATsKcErP1cicmqM9o=; b=egcC/YZx3zQ4KUkTFq3FtIqrwZ
-	7Kd9QCz3AHaYpiBUkE+QSEdcH4oBll+ZEmekjwAiRBn2dJzcrGnXCFfi83NrpvOH
-	I44dcusg9C86azn1nubaAybU+eNGTxIQZvniFc1L+GGQJep5pCL5zDR9Gz2K+wZV
-	xe3rXNRy2qQsSli/kNVEvm80+bJ37RucbsepQrWk2I+THDurGriNpsvqGzY2mu8O
-	KyOs4sr38oyj9vCjJDdDpcwYDujEJyZcPMZ6bzYeGIOA2p0ARQisNvvUe4u3xnzz
-	9QgQtaMHe0XxVVvVUv37IAilNlAeEAf48knETHIH2mh2oP0ylpykq0qe3/6w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1776740041; x=1776826441; bh=YIa7MCJncfEOyftnAwsnn+6QcRATsKcErP1
-	cicmqM9o=; b=CVvQU1Di9S/qsiGx6PfHqlR59P5ZJrvr+CZ2L7xUoOFQkxXkEX8
-	syYkaeX0EW1P/DtYwOKffQngnOyaexM6MyWSnyKeudBUyz1bAd/yz77JavkSRvBk
-	uPGmeMTkziTi2qzE8kfR5tp4uWWOt3yfIciOJa6iQKpAEzU3D7V6EAxJQhOzFLru
-	hZw3fPJ01UQysppt/Erj8i6KHcbMz847A67IBIGa+nSzPpak38EoAc/y1kjQ1mbY
-	3w9FkPx3+YdAF87tPwG7iA23o7ZWJRfPu439YGtc5cmTuSo+UXzeEWEfaXZ+j9W4
-	K/f6nAzeBYkEBYhd0rCv2MDC80NDks9Sf9g==
-X-ME-Sender: <xms:yebmaQZ8jIiy9d04h0D8Bps4WkMYWJTeWXMea5C70M5pKHDVnHLeIg>
-    <xme:yebmaZNA5r0Fn4SC7BQu0UdmeJbEnbLjP44lcReWLl9nYLJGhoXxOFQ2HkTs0g0E8
-    vxVKVe-awxWi9Qu7TWN3oBKdQyMW7tzixF3EyhLABm_jOsRtDbm>
-X-ME-Received: <xmr:yebmaVbG0mdeKBCLzvHnOgG_z62pmQEEahn1lECmwCds3glPDfKfhQg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeitddvhecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefvhihlvghrucfj
-    ihgtkhhsuceotghouggvsehthihhihgtkhhsrdgtohhmqeenucggtffrrghtthgvrhhnpe
-    fggeekieffteehgfetffduhfefjeehvdejhfejkeduleffudelhfefkeeiledujeenucff
-    ohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
-    hrrghmpehmrghilhhfrhhomheptghouggvsehthihhihgtkhhsrdgtohhmpdhnsggprhgt
-    phhtthhopeegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegrrdhvvghlihgthh
-    grhihshhhihiesihhsphhrrghsrdhruhdprhgtphhtthhopegvtghrhihpthhfshesvhhg
-    vghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvh
-    hgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlvhgtqdhprhhojhgvtghtsehl
-    ihhnuhigthgvshhtihhnghdrohhrgh
-X-ME-Proxy: <xmx:yebmaX0EzkwI9lOE_fiWVJDWpfa5V4UvYnxngo9vlOnCpWeaiuIGJQ>
-    <xmx:yebmabdK59xm04XjvEhab2WkWQ35p3dRdwTNJcB-QZuZlSQpyRrLSg>
-    <xmx:yebmaYEgfIkwVv7yOTNA9FY6XDivDSHmsLe03c4TlsnPspGuD1ajYA>
-    <xmx:yebmac1PDIcOpnLyS08BC9xEpe_iH6-NGAUhxhU0IeRftVR3ZrdFFw>
-    <xmx:yebmaRV0TUc3vPcSJBp5yPJsztxPZb_UfipQbXilXviH8IWCOogCYtBV>
-Feedback-ID: i78e14604:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 20 Apr 2026 22:54:00 -0400 (EDT)
-Date: Mon, 20 Apr 2026 21:53:52 -0500
-From: Tyler Hicks <code@tyhicks.com>
-To: Alexey Velichayshiy <a.velichayshiy@ispras.ru>
-Cc: ecryptfs@vger.kernel.org, linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org
-Subject: Re: [PATCH] ecryptfs: remove redundant variable found_auth_tok
-Message-ID: <aebmwDc5nTFJpWyX@yaupon>
-References: <20260412135010.321286-1-a.velichayshiy@ispras.ru>
- <177673965982.2803793.17321023234031184810.b4-ty@b4>
+	s=arc-20240116; t=1777372929; c=relaxed/simple;
+	bh=m7hbplM/0Zg40fqwDSGu12h0MMvtrRfSGZuNkF5d9mw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bmewPIt+sJZZThaK+ScZmUa7BuVH4PJeVGdO9Rn63+E3PGqD2chKtkquN09USnuPKj0tyKnFS3x0tFprx7k38oGcmP8NqxrCqGFllFgWBIPCeAEMkHPhVyncY+dlQdkfNqYVkQimUKWpN2+P9F1lStTbhsk5Mv8K1wghKuUJn/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dw8BrzbB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7237EC2BCB7;
+	Tue, 28 Apr 2026 10:42:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777372929;
+	bh=m7hbplM/0Zg40fqwDSGu12h0MMvtrRfSGZuNkF5d9mw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Dw8BrzbBhByXMwuTfBlYpcdI+luthnuBgt4GyOHhoGs4YUUdovOHaf4/1c7Fy2q4J
+	 71iiRD8a8xoNV3Kah12uolS2nQslypfAcu57lQ3btcJFxGXPSGWqneaiP9xeHlMPO1
+	 JdvzkjrSfLZMeX1XP0KmhZzp0cTG7c95tmm6/O6uBiWF/ijlClMexvxjAMes++/oCw
+	 8gfHvR/olKhiR31wXpD2tamnaCxGd/5FNZCcsSp4iZJo2cDnjg7sv27TU0YJ62TPn+
+	 FdfDPM6qs8iwCNAPaJjjTih8JlDLjSd3QwM+4Huv2NSN5PPuvn1llIw1EoEDFNq0qu
+	 A83CeBh1ueOrQ==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: =?UTF-8?q?Frank=20Hsiao=20=E8=95=AD=E6=B3=95=E5=AE=A3?= <frankhsiao@qnap.com>,
+	Tyler Hicks <code@tyhicks.com>,
+	Sasha Levin <sashal@kernel.org>,
+	ecryptfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 7.0-5.10] ecryptfs: Set s_time_gran to get correct time granularity
+Date: Tue, 28 Apr 2026 06:40:36 -0400
+Message-ID: <20260428104133.2858589-25-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260428104133.2858589-1-sashal@kernel.org>
+References: <20260428104133.2858589-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <177673965982.2803793.17321023234031184810.b4-ty@b4>
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 7.0.2
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 921154831DB
+X-Rspamd-Action: no action
+X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.16 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[tyhicks.com:s=fm1,messagingengine.com:s=fm2];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-1220-lists,ecryptfs=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-1221-lists,ecryptfs=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DMARC_NA(0.00)[tyhicks.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[tyhicks.com:+,messagingengine.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[code@tyhicks.com,ecryptfs@vger.kernel.org];
-	RCPT_COUNT_THREE(0.00)[4];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[ecryptfs];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,messagingengine.com:dkim,tyhicks.com:dkim]
-X-Rspamd-Queue-Id: A2996435A13
-X-Rspamd-Action: no action
-X-Rspamd-Server: lfdr
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,ecryptfs@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[ecryptfs];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ble.sh:url,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,launchpad.net:url,tyhicks.com:email,qnap.com:email]
 
-On 2026-04-20 21:50:58, Tyler Hicks wrote:
-> On Sun, 12 Apr 2026 16:50:08 +0300, Alexey Velichayshiy wrote:
-> > The found_auth_tok variable is no longer needed, as the fact of finding
-> > a token is determined directly by jumping to the found_matching_auth_tok
-> > label inside the loop.
-> > 
-> > Remove found_auth_tok, simplifying the function logic.
-> > 
-> > Found by Linux Verification Center (linuxtesting.org) with SVACE.
-> > 
-> > [...]
-> 
-> Thank you! This has been applied to the next branch of the tyhicks/ecryptfs.git tree.
-> 
-> Note that I made a small change by unsplitting the error message that is passed
-> to ecryptfs_printk().
-> 
-> You can find a direct link below but please be aware that the commit hash is
-> unstable and, therefore, the URL may not be valid in the future.
-> 
-> [1/1] ecryptfs: remove redundant variable found_auth_tok
->       https://git.kernel.org/tyhicks/ecryptfs/c/0be6d8f0e111deb765c0bc01c1fe5d9920fe2fcd
+From: Frank Hsiao 蕭法宣 <frankhsiao@qnap.com>
 
-That link is not correct. The correct link is here:
+[ Upstream commit 7d9ebf33d85317f3f258c627de51701e2bf7642d ]
 
- https://git.kernel.org/tyhicks/ecryptfs/c/eb5e768eaf7c5f6274319e2894ceebf0f3cb5750
+Set the eCryptfs superblock time granularity, using the lower
+filesystem's s_time_gran value, to prevent unnecessary inode timestamp
+truncation to the granularity of a full second.
 
-Tyler
+The use of utimensat(2) to set a timestamp with nanosecond precision
+would trigger this bug. That occurred when using the following utilities
+to update timestamps of a file:
+  * cp -p: copy a file and preserve its atime and mtime
+  * touch -r: touch a file and use a reference file's timestamps
+
+Closes: https://bugs.launchpad.net/ecryptfs/+bug/1890486
+Signed-off-by: Frank Hsiao 蕭法宣 <frankhsiao@qnap.com>
+[tyhicks: Partially rewrite the commit message]
+Signed-off-by: Tyler Hicks <code@tyhicks.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+
+LLM Generated explanations, may be completely bogus:
+
+## Analysis: ecryptfs s_time_gran Fix
+
+### PHASE 1: COMMIT MESSAGE FORENSICS
+
+**Step 1.1: Subject line parsing**
+- Subsystem: `ecryptfs:` (fs/ecryptfs)
+- Verb: "Set" (describes a missing initialization -> classic hidden bug
+  fix)
+- Record: **ecryptfs** - **Set** - initialize superblock time
+  granularity from the lower filesystem to avoid second-granularity
+  timestamp truncation.
+
+**Step 1.2: Tags**
+- Signed-off-by: Frank Hsiao (author, QNAP)
+- [tyhicks: Partially rewrite the commit message]
+- Signed-off-by: Tyler Hicks (ecryptfs maintainer)
+- `Closes:` https://bugs.launchpad.net/ecryptfs/+bug/1890486 (6-year-old
+  user bug report with 3 affected users)
+- No Fixes: tag, no Cc: stable (expected for candidates)
+- Record: Closes launchpad bug #1890486; accepted by the subsystem
+  maintainer.
+
+**Step 1.3: Commit body**
+- Bug: eCryptfs superblock `s_time_gran` is never set, so it keeps the
+  VFS default of 1 second (`NSEC_PER_SEC` = 10^9 ns). When
+  `utimensat(2)` (via `cp -p`, `touch -r`, etc.) sets nanosecond
+  timestamps, VFS `timestamp_truncate()` rounds them to the second
+  before passing the change down to the lower fs.
+- Symptom: sub-second timestamps lost when updated through eCryptfs.
+- Fix: propagate `s_time_gran` from the lower superblock, mirroring the
+  value the underlying fs actually supports.
+
+**Step 1.4: Hidden bug fix?**
+- Yes — "Set X" describes a missing initialization. Functionally this IS
+  a bug fix (data-integrity for timestamps).
+
+### PHASE 2: DIFF ANALYSIS
+
+**Step 2.1: Inventory**
+- Files: `fs/ecryptfs/main.c` (+1/-0).
+- Function: `ecryptfs_get_tree()` (the new fs_context-based mount
+  helper; pre-6.13 equivalent is `ecryptfs_mount()`).
+- Scope: single-line surgical fix.
+
+**Step 2.2: Code flow**
+- Before: superblock allocated by VFS (default `s_time_gran =
+  1000000000`, see `fs/super.c:376`). eCryptfs copies several fields
+  (`s_maxbytes`, `s_blocksize`, `s_magic`, `s_stack_depth`) from the
+  lower sb but NOT `s_time_gran`.
+- After: `s_time_gran` is copied along with the siblings.
+- Path: mount-time initialization only.
+
+**Step 2.3: Bug mechanism**
+- Category: Logic/correctness (missing initialization) leading to data
+  loss of sub-second timestamp precision.
+- Root cause: `fs/attr.c` `setattr_prepare()` calls
+  `timestamp_truncate()` using `inode->i_sb->s_time_gran`. With eCryptfs
+  using the default (1 s), `timestamp_truncate()` zeroes the nanosecond
+  portion (see `fs/inode.c:2805-2806`) before the change is forwarded
+  via `notify_change()` to the lower filesystem. The fix makes
+  eCryptfs's granularity match the lower fs — exactly what overlayfs
+  does (`fs/overlayfs/super.c:1461: sb->s_time_gran =
+  upper_sb->s_time_gran;`) and similarly FUSE's submount
+  (`fs/fuse/inode.c:1736`).
+
+**Step 2.4: Fix quality**
+- Obviously correct: copies a value guaranteed to be valid (`0 <
+  s_time_gran <= NSEC_PER_SEC`) from the already-mounted lower sb.
+- Minimal/surgical, mount-path only, no runtime hot paths touched.
+- Regression risk: effectively zero — timestamps gain precision they
+  should always have had. The matching pattern is already proven in
+  overlayfs.
+
+### PHASE 3: GIT HISTORY
+
+**Step 3.1: Blame**
+- The surrounding lines (`s_maxbytes`, `s_blocksize`, `s_magic`,
+  `s_stack_depth`) have been there since eCryptfs's initial merge.
+  `s_time_gran` was simply never added. The VFS default of 1 second
+  became problematic when v5.4 introduced timestamp clamping via
+  `s_time_gran`/`s_time_min`/`s_time_max`; the launchpad report is dated
+  2020-08-05 against 5.4 for exactly that reason.
+
+**Step 3.2: Fixes: tag**
+- None present. Root cause is a pre-existing missing init, not a
+  regression from a specific commit.
+
+**Step 3.3: File history**
+- `92f3da0d9276f` (Nov 2024) converted eCryptfs to the new mount API,
+  renaming `ecryptfs_mount` -> `ecryptfs_get_tree`. The commit under
+  review is the first to touch the new `ecryptfs_get_tree` body; nothing
+  else in the recent series is a prerequisite for this fix.
+- Earlier ecryptfs changes in fs-next (`bf4afc53b77ae`, `69050f8d6d075`,
+  `0529a804095b2`, etc.) are unrelated.
+
+**Step 3.4: Author**
+- Frank Hsiao (QNAP, first-time fix contributor here); shepherded by
+  Tyler Hicks, the eCryptfs maintainer — he personally rewrote the
+  message and applied it to his `next` branch. Authoritative for the
+  subsystem.
+
+**Step 3.5: Dependencies**
+- Standalone. Nothing in the diff depends on other pending patches. For
+  pre-6.13 stable trees the only adjustment needed is targeting
+  `ecryptfs_mount()` instead of `ecryptfs_get_tree()`; the surrounding
+  context (below `s_stack_depth = ... + 1;`) is verbatim identical in
+  5.4/5.10/5.15/6.1/6.6/6.12.
+
+### PHASE 4: MAILING LIST RESEARCH
+
+**Step 4.1: Original submission**
+- `b4 dig` could not match the patch-id (the committed version differs
+  from the submission due to the mount-API rebase and message rewrite),
+  but it did locate the thread via author+subject: lore message-id `SEZP
+  R04MB6972A94B302FC6AC528823FAB7EE2@SEZPR04MB6972.apcprd04.prod.outlook
+  .com`.
+- Thread timeline (from downloaded mbox):
+  - 2024-05-17 — Frank Hsiao: original patch.
+  - 2024-12-06 — Bert Wesarg: "I came to the same conclusion," no
+    objections.
+  - 2026-02-23 — Bert: requests that the patch be applied "for a next
+    cycle."
+  - 2026-03-26 — Tyler Hicks: applies it to `tyhicks/ecryptfs.git#next`,
+    rewrites the message, keeps Frank's authorship.
+- No NAKs, no objections, only encouragement. Only one version of the
+  fix; applied as-is semantically.
+
+**Step 4.2: Recipients**
+- The patch was sent to the ecryptfs list and the maintainer; it was
+  reviewed/acked in substance by a second developer (Bert Wesarg) and
+  applied by the maintainer.
+
+**Step 4.3: Bug report**
+- Launchpad #1890486 (2020-08-05 by Stephan Wacker). Explicitly "affects
+  3 people"; additional breakage reports cite: `rclone` sync, Rust
+  `cargo` rebuild detection (rust-lang/cargo#7775), and ble.sh
+  (akinomyoga/ble.sh#347). Users see silent breakage of mtime-based
+  incremental tools.
+
+**Step 4.4: Related patches**
+- None — single-patch submission, standalone.
+
+**Step 4.5: Stable-list discussion**
+- No separate stable nomination found. Not raised to stable@
+  historically because the patch languished for two years.
+
+### PHASE 5: CODE SEMANTIC ANALYSIS
+
+**Step 5.1/5.2/5.3: Functions**
+- Only `ecryptfs_get_tree()` is changed. It runs once per mount(2) call
+  for eCryptfs. Not in any hot path.
+
+**Step 5.4: Reachability**
+- Triggered on every `mount -t ecryptfs …`. Any subsequent
+  `utimensat(2)`/`cp -p`/`touch -r`/`rsync -a`/`rclone` on the mounted
+  tree then benefits. Reachable from unprivileged userspace
+  (CAP_SYS_ADMIN needed for the mount, but the benefit is for
+  unprivileged users of the mounted filesystem).
+
+**Step 5.5: Similar patterns**
+- `fs/overlayfs/super.c:1461: sb->s_time_gran = upper_sb->s_time_gran;`
+  — identical pattern in the other major Linux stacked filesystem.
+- `fs/fuse/inode.c:1736: sb->s_time_gran = parent_sb->s_time_gran;` —
+  submount case.
+- These precedents strengthen the "obviously correct" claim.
+
+### PHASE 6: CROSS-REFERENCING STABLE TREES
+
+**Step 6.1: Bug presence in stable**
+- Verified in 5.4, 5.10, 5.15, 6.1, 6.6, and 6.12: none of those
+  branches sets `s_time_gran`; the surrounding lines match verbatim. Bug
+  present in every active LTS.
+
+**Step 6.2: Backport difficulty**
+- 6.13+ stable trees (once they exist) and fs-next: clean apply.
+- Older stable trees (≤6.12): one-line change needs to be placed in
+  `ecryptfs_mount()` rather than `ecryptfs_get_tree()`. The insertion
+  anchor (`s->s_stack_depth = path.dentry->d_sb->s_stack_depth + 1;`) is
+  identical, so this is a trivial mechanical rebase, not a re-
+  engineering.
+
+**Step 6.3: Prior related fixes**
+- None. No partial fix already shipped.
+
+### PHASE 7: SUBSYSTEM CONTEXT
+
+**Step 7.1: Subsystem**
+- `fs/ecryptfs` — stacked encrypted filesystem. Still actively used on
+  older Ubuntu LTS systems (ecryptfs-home) and by QNAP NAS firmware.
+  Criticality: IMPORTANT for affected users (no universal impact;
+  filesystem-specific).
+
+**Step 7.2: Activity**
+- Low but nonzero; maintainer is re-engaging. Many of the historical
+  fixes are themselves tiny one-liners, consistent with stable-friendly
+  maintenance.
+
+### PHASE 8: IMPACT AND RISK
+
+**Step 8.1: Affected users**
+- Anyone using eCryptfs (Ubuntu encrypted-home users, NAS appliances,
+  legacy deployments).
+
+**Step 8.2: Trigger**
+- Any tool that sets a non-current timestamp: `cp -p`, `cp -a`, `touch
+  -r`, `rsync -a`, `rclone`, `cargo`. Extremely common workflows.
+
+**Step 8.3: Failure mode**
+- Silent timestamp loss of nanosecond fraction -> broken mtime-based
+  sync/build tools. Severity: MEDIUM (data-integrity issue, not a
+  crash/security/corruption beyond timestamps). Not CRITICAL, but
+  clearly user-visible and persistent.
+
+**Step 8.4: Risk/benefit**
+- Benefit: fixes a known, long-reported bug impacting many real tools.
+- Risk: 1 line, mirrors existing behavior of overlayfs/FUSE, copies a
+  VFS-guaranteed valid value. As close to zero as patches get.
+- Ratio: high benefit / very low risk — classic stable material.
+
+### PHASE 9: FINAL SYNTHESIS
+
+**Evidence FOR**: real bug with multiple reporters across 6 years;
+affects common userspace tools; fix is a 1-line mount-time init; pattern
+already proven in overlayfs/FUSE; maintainer-applied; no review
+objections; bug present in all active stable trees; clean or trivially-
+rebased apply.
+
+**Evidence AGAINST**: not a crash/security/data-corruption issue; no
+explicit Cc: stable; commit is currently only in fs-next, not yet in
+Linus's tree (pipeline normally requires mainline before stable).
+
+**Stable rules checklist**:
+1. Obviously correct & tested: YES (trivial; reporters confirm fix
+   works).
+2. Real bug affecting users: YES (documented since 2020).
+3. Important: MEDIUM (data integrity for timestamps, user-facing tool
+   breakage).
+4. Small & contained: YES (1 line).
+5. No new features/APIs: YES.
+6. Applies to stable: YES (clean on 6.13+; trivial target-function
+   rename for ≤6.12).
+
+**Exception category**: none required — straightforward bug fix.
+
+**Decision**: The fix is exactly the kind of small, obviously-correct,
+long-pending user-visible fix that belongs in stable once it reaches
+mainline. Any concern about mainline status is procedural, not
+technical; the technical merits are strong.
+
+---
+
+### Verification
+- [Phase 1] Parsed tags via `git show
+  7d9ebf33d85317f3f258c627de51701e2bf7642d` — confirmed two SoBs and the
+  `Closes:` launchpad link; no Fixes:/Cc: stable.
+- [Phase 2] Diff confirms single added line `s->s_time_gran =
+  path.dentry->d_sb->s_time_gran;` in `ecryptfs_get_tree()`.
+- [Phase 2] VFS default verified: `fs/super.c:376: s->s_time_gran =
+  1000000000;`.
+- [Phase 2] Truncation mechanism verified: `fs/inode.c:2793-2811
+  timestamp_truncate()`; `fs/attr.c:465-478` applies it to
+  ATTR_ATIME/CTIME/MTIME_SET; so utimensat-with-nsec -> ecryptfs inode
+  -> truncated to 1 s before `notify_change()` to lower fs.
+- [Phase 3] `git show 92f3da0d9276f` — mount API conversion dated
+  2024-11-15; pre-6.13 stable trees still use `ecryptfs_mount`.
+- [Phase 3] `git show <stable-branch>:fs/ecryptfs/main.c` confirmed no
+  `s_time_gran` set in 5.4.y, 5.10.y, 5.15.y, 6.1.y, 6.6.y, 6.12.y, and
+  that anchor lines are identical.
+- [Phase 4] `b4 am` downloaded the original patch
+  (`/tmp/20240517_frankhsiao_…mbx`); mbox thread fetched from lore and
+  read: confirmed no NAKs, confirmed Tyler Hicks applied it, confirmed
+  Bert Wesarg independently agreed.
+- [Phase 4] WebFetch of launchpad 1890486 — confirmed 3-person impact,
+  2020 origin, and real-world breakage of `touch -r`, `cp -a`, `rsync
+  -a`, `rclone`, `cargo`.
+- [Phase 5] Grep of `s_time_gran =` across `fs/` — confirmed overlayfs
+  (`fs/overlayfs/super.c:1461`) and FUSE (`fs/fuse/inode.c:1736`) do the
+  same thing for stacking.
+- [Phase 6] `git merge-base --is-ancestor` — confirmed commit is in `fs-
+  next` and `crypto-next` only; NOT in `master` or `stable/linux-7.0.y`
+  yet.
+- [Phase 7] Maintainer identity confirmed via `git show` committer
+  metadata (Tyler Hicks, eCryptfs maintainer).
+- [Phase 8] Failure-mode assessment grounded in the verified VFS
+  truncation path; severity is MEDIUM (silent data loss of timestamp
+  precision), not CRITICAL.
+- UNVERIFIED: the exact first kernel version where the bug became user-
+  visible (the launchpad bug attributes it to 5.4 VFS timestamp
+  clamping, which is consistent with the code reading but I did not
+  bisect mainline to confirm). This does not affect the decision.
+- UNVERIFIED: whether lore's scraping protection hid any later reviewer
+  replies not present in the `t.mbox.gz` I downloaded. The downloaded
+  mbox contained 5 messages and a complete-looking exchange ending with
+  the maintainer applying the patch.
+
+The commit fixes a long-standing, reproducible, user-visible data-
+integrity bug with a one-line change that mirrors established VFS
+stacking patterns; risk is negligible, benefit is real, backport is
+trivial.
+
+**YES**
+
+ fs/ecryptfs/main.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/fs/ecryptfs/main.c b/fs/ecryptfs/main.c
+index f4ab387eb4ed2..5f37cddb956fb 100644
+--- a/fs/ecryptfs/main.c
++++ b/fs/ecryptfs/main.c
+@@ -531,6 +531,7 @@ static int ecryptfs_get_tree(struct fs_context *fc)
+ 	s->s_blocksize = path.dentry->d_sb->s_blocksize;
+ 	s->s_magic = ECRYPTFS_SUPER_MAGIC;
+ 	s->s_stack_depth = path.dentry->d_sb->s_stack_depth + 1;
++	s->s_time_gran = path.dentry->d_sb->s_time_gran;
+ 
+ 	rc = -EINVAL;
+ 	if (s->s_stack_depth > FILESYSTEM_MAX_STACK_DEPTH) {
+-- 
+2.53.0
+
 
