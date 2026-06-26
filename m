@@ -1,170 +1,121 @@
-Return-Path: <ecryptfs+bounces-1225-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-1226-lists+ecryptfs=lfdr.de@vger.kernel.org>
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 14VrHgbqPWoJ8QgAu9opvQ
-	(envelope-from <ecryptfs+bounces-1225-lists+ecryptfs=lfdr.de@vger.kernel.org>)
-	for <lists+ecryptfs@lfdr.de>; Fri, 26 Jun 2026 04:55:02 +0200
+	id S0mSAmigPmpMJQkAu9opvQ
+	(envelope-from <ecryptfs+bounces-1226-lists+ecryptfs=lfdr.de@vger.kernel.org>)
+	for <lists+ecryptfs@lfdr.de>; Fri, 26 Jun 2026 17:53:12 +0200
 X-Original-To: lists+ecryptfs@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8CF36C9DFA
-	for <lists+ecryptfs@lfdr.de>; Fri, 26 Jun 2026 04:55:01 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C4B96CEB02
+	for <lists+ecryptfs@lfdr.de>; Fri, 26 Jun 2026 17:53:11 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=tyhicks.com header.s=fm3 header.b=fv8rXrln;
-	dkim=pass header.d=messagingengine.com header.s=fm1 header.b="S ySzQYh";
-	spf=pass (mail.lfdr.de: domain of "ecryptfs+bounces-1225-lists+ecryptfs=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="ecryptfs+bounces-1225-lists+ecryptfs=lfdr.de@vger.kernel.org";
-	dmarc=none;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=NsRCvcpT;
+	spf=pass (mail.lfdr.de: domain of "ecryptfs+bounces-1226-lists+ecryptfs=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="ecryptfs+bounces-1226-lists+ecryptfs=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 0BC80301ABB9
-	for <lists+ecryptfs@lfdr.de>; Fri, 26 Jun 2026 02:55:01 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 825A2307EA04
+	for <lists+ecryptfs@lfdr.de>; Fri, 26 Jun 2026 15:46:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45C1B3955CD;
-	Fri, 26 Jun 2026 02:54:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86BDC3FB7E0;
+	Fri, 26 Jun 2026 15:45:56 +0000 (UTC)
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E87E23BB4A;
-	Fri, 26 Jun 2026 02:54:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8E2C72617;
+	Fri, 26 Jun 2026 15:45:51 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782442498; cv=none; b=iEcOfZ1CoM0YgCZX89Aog9CCGgVOfaZnaaP2PtqMk+Ln7Z1ySdUkLMvig14yWJ8F2QeGPoaUoubv1+/mVVXTbMRq+/evNplUiqP7vIYjcD7ThnkoyaV63IAHgk5vzWJvH4nhQw/W+cd1XwxSk/T+aUeEVUWUXO7TCmOEuXoxgpE=
+	t=1782488756; cv=none; b=l05++obeKrZ789mgZS5/AzjP9/s4XJv9T+boO4jAwKd2agf2ULS1z5WjC0UzpAqpsMDf/qyZNqUvygkqAI2lSfNf6+YjL/3ENLYZB8+bWvlq+nQUBM14FrDLEqEI9iNLOw4HPE1VK0xlZk7a4yZulwA2qE9jy2kAOi2HNj7joTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782442498; c=relaxed/simple;
-	bh=+5LYcV+uxiQHLIKhqpgZ3FFZptqbmmii1hZbm0m4dI8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sJ/48VcL0/3Xt7Af36gH0Ev1C8Rv8G6GW3PDGunNZ3dzAhF766giF3Cf3uZ5z1EvbAxFK0FXG4n1942ZDICY1Z+fjf9ycgxykV3WTgIlq6lWpD/qRW8gBZwc1QEekq4557ljeXFpxQ9+LExyaxDA6ku1gGRd+hrxTmra1ZRQzrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com; spf=pass smtp.mailfrom=tyhicks.com; dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b=fv8rXrln; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=SySzQYhS; arc=none smtp.client-ip=202.12.124.152
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 289B57A0077;
-	Thu, 25 Jun 2026 22:54:56 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Thu, 25 Jun 2026 22:54:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tyhicks.com; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:subject:subject:to:to; s=fm3;
-	 t=1782442496; x=1782528896; bh=a4100AqBkfM4NkqufhBZMK2qnqbKKyHp
-	NEbh6AYutfw=; b=fv8rXrlnXr0s9VS8fRwXPn8YYado6bZCpF6fryE878lYnA2A
-	jM9M5drXFq5uTgdepGknMFFGwSCFWJgfQS6xFGAHmia0BHO08GEUNlLDVfMmZ5KS
-	QjpcG/mpDFHdUI/elYCJltUrCFm1bTkTDdaRnKBRQ57gfbZg0esmk5o2nMCN/sOs
-	S8AQAScTz0P5Ok3FN4+Tk1geMp/VtVeznxPtnIw53ERGxObojhgYFBb5jt6by1T6
-	bTBoUjeV7LbRefxyt6G7uU2anIQLeWrsKSW1FEV7zkLfvDFRghiCa9UsxhClxYCp
-	KKRucd7RV1fA//oUc7WD5GHmvPVDcg9nEv0fVQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1782442496; x=
-	1782528896; bh=a4100AqBkfM4NkqufhBZMK2qnqbKKyHpNEbh6AYutfw=; b=S
-	ySzQYhS4rYsVpWls5QGDP/OLMFRwT8aHK/SXM2vt8LYliBkKoezba74LIGkhebJi
-	NnUXUiygK9hQUwOzAVqk1s0N534Ed9Whq6Hz9ZE9wIlqUvoVGqsS2eB6JQt2tWWA
-	U4GbTpQ3T2rulbOOASgFC/Hru+e2xzPK7G+5s8nHDGxtx3ONsfXTjULR8A16vEq2
-	tRoJsUV/eh+xkqQu5XI78OCDxlncS1HzxkAR37ZpYNlQQ6hVMljkRrb8G/lS/p7y
-	bm4n4d9KJVQ0s4x6hOQ/6dNgxkNLMmJojVC0K4FK17JscIrAenQFd7tX779Lr01b
-	7Qw3PDScH8YRdbverrTVw==
-X-ME-Sender: <xms:_-k9ahwcRXjL_X7LvAJAz1dOmU_oAvOc34YOiCPim0HggJQnojlM_A>
-    <xme:_-k9avEtnleFPDS2_pKwrEOXBIPgWhOQm_Vs3sp1gJ4TG2QCItAmcev_zJEqbMNfY
-    isKduM0jF5bvC6NJbcxuV3SFTqyuR2iLDrFaCjc8_xPDCUOVv_Fedk>
-X-ME-Received: <xmr:_-k9alxLDXE-xvcytmSDdEFT70s_fx3u8jWtX7ZDRFvC5ocWrRWvDBs>
-X-ME-Proxy-Cause: dmFkZTGdOY7NylxR3JpThjUTuofDKxaPmjRL/Pa3zrCF1fS9jDei07e7tCcQ61gYVSAaCe
-    YHtUX1uLQHtw6OmyI8kGFQDEQP1AoesmhK5RQDhnFZxibYK6Cdn/jj48nndm2/8IQhVf6S
-    6Ys7VX/dc584lFX6cL6SvajjP7LLWqq1sZblQwSOKh7x4upySRuSrDTjTLs1h5I/m5CAjA
-    bpCW0iKhyY1zE4Xu9p00hdRqZBGDYZaef7jQM+CSmDtDXcTTi4k/kxikL8T1HvzzNZQ5hj
-    tfNsodWiqYJ0EjEymF8vOsuiqjQdlE4H+0edueDxUTphvovQRTNi1BeBdT3NB3PCSwW7GI
-    ToOobTduIMlhD5KNsh6hFy2pVDwK4dN9E03W0iDiD2C0YmkGE4bXhyLQBh9+2A3yM/7opr
-    Px115qeQeBUVLlWGVPHlHWcUkv1zUqwKzBfkZNb+Aw/nPhk3iGsvnjDzDHgfPwB4FXp6Z3
-    RPkcEbQR20cFMpUNJYhTFXwBa/w+jBreFDJ3oSj5oeg2K+FMNJ3DjtXN5hgQGf+ZZfGkX1
-    TMl8Vmn3Kay3qlrwoGwTl+BHU6Qod3JUBsk2Nu+py7sBVAG0iHCQ8suiQ61CawYoo0xQxC
-    1ia2+EOEtPS0Gxk+tui79RQQqT0WaGaXgBB2yY8EjgS5Wc/kksKlSSxuLStA
-X-ME-Proxy: <xmx:_-k9agsMxKNpBnAuiQw7pm7voNbYAt7gxT-DK99AvLx1EDi66PIZcw>
-    <xmx:_-k9ai0WWgmDbzfriypTVJj-zVVflifgbc9xuHwiax9cTAK7pWVCAw>
-    <xmx:_-k9ar_F8H2_ExA3KmfwEsOHcqY0yADI1m1McHaY4c9lXTtxbF5aIA>
-    <xmx:_-k9ajNfVIKwfY2rZ1SikkE1oCBzg4X6fRp-v5lWv79ffr88k_k5mg>
-    <xmx:AOo9attF1yJjnNb1lKdZDvkplqugEMB2bGj7KdG9T1RReMNkkF4OuILK>
-Feedback-ID: i78e14604:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 25 Jun 2026 22:54:55 -0400 (EDT)
-Date: Thu, 25 Jun 2026 21:54:42 -0500
-From: Tyler Hicks <code@tyhicks.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Christian Brauner <brauner@kernel.org>, linux-kernel@vger.kernel.org,
-	ecryptfs@vger.kernel.org
-Subject: [GIT PULL] eCryptfs updates for 7.2-rc1
-Message-ID: <aj3p8nYWZPTbkUWW@yaupon>
+	s=arc-20240116; t=1782488756; c=relaxed/simple;
+	bh=lZ0qGT8ycdrerRQQyPFM2rLjJgpkPORXxs5kFP0mVyE=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=EFx0IFX3A4Wb69MOFJh5rbz863r1cZHDzlmq73ktgJJSG3mB2T/NfYMifDjUcgXKg8t6ulsMkbyU1YFQwkNIRORQNIitgc1QDE4QusyLoS8qxaknPI+wH26kINJLVCpHBwJG74NMwriFpKUdwsoWAJ8bhE/zcqoOjTSzbOEsOKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NsRCvcpT; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 167211F00A3A;
+	Fri, 26 Jun 2026 15:45:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782488751;
+	bh=8hSbtc28PUOiQrnJlOpaCH8H9EVFwcp777PmMYdmODk=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc;
+	b=NsRCvcpTH/7goJl91Mo1ZQKeDYEBE+Jws7KYMZls5efl0LHMgRA0c98g5uSaFmG3w
+	 osxJP2dD74VLb8ytJ2G+Sv3kCHLaDIQ9YA077Bh9bqNmoHkeGKKNLoR61/u7VTEHhx
+	 glTcLPXMYrdmG4IESsOTrYJq2AFHTOiqdYnsKPqZZFc1QCHXG2Fk1Ld2LIRVHWQdxn
+	 5YnBEDX9EOAuq04JDKZhbZg10SEhjOwUVZUBWL3PwilhhcT2UF5F52MbqnjHXdBSmC
+	 /Qn2zmboZ9pjCGlyL+CJzJi16gCiN6htxB1J0VGnCYGCjuiWqWTgQ/J0rLwrJE6rUt
+	 SOVAGxFMZN5cA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 198603938C49;
+	Fri, 26 Jun 2026 15:45:39 +0000 (UTC)
+Subject: Re: [GIT PULL] eCryptfs updates for 7.2-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <aj3p8nYWZPTbkUWW@yaupon>
+References: <aj3p8nYWZPTbkUWW@yaupon>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <aj3p8nYWZPTbkUWW@yaupon>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tyhicks/ecryptfs.git tags/ecryptfs-7.2-rc1-updates
+X-PR-Tracked-Commit-Id: 95ce5ffd54cf66098f91892f98606c3bd33846fe
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: c292ea294dde77ae442d3d764f53c251d2d6df90
+Message-Id: <178248873773.1001923.6407573170334196525.pr-tracker-bot@kernel.org>
+Date: Fri, 26 Jun 2026 15:45:37 +0000
+To: Tyler Hicks <code@tyhicks.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Christian Brauner <brauner@kernel.org>, linux-kernel@vger.kernel.org, ecryptfs@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.16 / 15.00];
+X-Spamd-Result: default: False [-3.66 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[tyhicks.com:s=fm3,messagingengine.com:s=fm1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-1225-lists,ecryptfs=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:torvalds@linux-foundation.org,m:brauner@kernel.org,m:linux-kernel@vger.kernel.org,m:ecryptfs@vger.kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	DMARC_NA(0.00)[tyhicks.com];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[code@tyhicks.com,ecryptfs@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[tyhicks.com:+,messagingengine.com:+];
-	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:code@tyhicks.com,m:torvalds@linux-foundation.org,m:brauner@kernel.org,m:linux-kernel@vger.kernel.org,m:ecryptfs@vger.kernel.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-1226-lists,ecryptfs=lfdr.de];
 	TO_DN_SOME(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER(0.00)[pr-tracker-bot@kernel.org,ecryptfs@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[code@tyhicks.com,ecryptfs@vger.kernel.org];
-	RCPT_COUNT_THREE(0.00)[4];
+	FROM_NEQ_ENVFROM(0.00)[pr-tracker-bot@kernel.org,ecryptfs@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[ecryptfs];
+	FROM_NO_DN(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,messagingengine.com:dkim,tyhicks.com:dkim,tyhicks.com:from_mime,yaupon:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: B8CF36C9DFA
+X-Rspamd-Queue-Id: 4C4B96CEB02
 
-Hi Linus,
+The pull request you sent on Thu, 25 Jun 2026 21:54:42 -0500:
 
-The following changes since commit 5d6919055dec134de3c40167a490f33c74c12581:
+> git://git.kernel.org/pub/scm/linux/kernel/git/tyhicks/ecryptfs.git tags/ecryptfs-7.2-rc1-updates
 
-  Linux 7.1-rc3 (2026-05-10 14:08:09 -0700)
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/c292ea294dde77ae442d3d764f53c251d2d6df90
 
-are available in the Git repository at:
+Thank you!
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tyhicks/ecryptfs.git tags/ecryptfs-7.2-rc1-updates
-
-for you to fetch changes up to 95ce5ffd54cf66098f91892f98606c3bd33846fe:
-
-  ecryptfs: use kasprintf in ecryptfs_crypto_api_algify_cipher_name (2026-06-04 14:15:08 -0500)
-
-----------------------------------------------------------------
-The set of eCryptfs changes for the 7.2-rc1 merge window consists of:
-- Code cleanup to replace kmalloc()/snprintf() with kasprintf()
-- Code cleanup to simplify code flow by removing an unnecessary variable
-
-There should be no functional changes. The patches have all spent time
-in linux-next and they pass all tests in the ecryptfs-utils tree.
-
-----------------------------------------------------------------
-Alexey Velichayshiy (1):
-      ecryptfs: remove redundant variable found_auth_tok
-
-Thorsten Blum (1):
-      ecryptfs: use kasprintf in ecryptfs_crypto_api_algify_cipher_name
-
- fs/ecryptfs/crypto.c   | 24 +++++++-----------------
- fs/ecryptfs/keystore.c | 16 +++++-----------
- 2 files changed, 12 insertions(+), 28 deletions(-)
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
 
