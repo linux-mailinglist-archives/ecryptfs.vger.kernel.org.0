@@ -1,172 +1,194 @@
-Return-Path: <ecryptfs+bounces-1230-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-1231-lists+ecryptfs=lfdr.de@vger.kernel.org>
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Ce8AFE8zQ2qFUgoAu9opvQ
-	(envelope-from <ecryptfs+bounces-1230-lists+ecryptfs=lfdr.de@vger.kernel.org>)
-	for <lists+ecryptfs@lfdr.de>; Tue, 30 Jun 2026 05:09:03 +0200
+	id vRYPIXqNRGpfwwoAu9opvQ
+	(envelope-from <ecryptfs+bounces-1231-lists+ecryptfs=lfdr.de@vger.kernel.org>)
+	for <lists+ecryptfs@lfdr.de>; Wed, 01 Jul 2026 05:46:02 +0200
 X-Original-To: lists+ecryptfs@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 303566DFF7F
-	for <lists+ecryptfs@lfdr.de>; Tue, 30 Jun 2026 05:09:02 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A777A6E988B
+	for <lists+ecryptfs@lfdr.de>; Wed, 01 Jul 2026 05:46:01 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=uniontech.com header.s=onoh2408 header.b=SJKJIsTN;
-	spf=pass (mail.lfdr.de: domain of "ecryptfs+bounces-1230-lists+ecryptfs=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="ecryptfs+bounces-1230-lists+ecryptfs=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=uniontech.com;
+	dkim=pass header.d=tyhicks.com header.s=fm1 header.b="+cB/uZg5";
+	dkim=pass header.d=messagingengine.com header.s=fm1 header.b=ZADKGo6U;
+	spf=pass (mail.lfdr.de: domain of "ecryptfs+bounces-1231-lists+ecryptfs=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="ecryptfs+bounces-1231-lists+ecryptfs=lfdr.de@vger.kernel.org";
+	dmarc=none;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 865F9300AB38
-	for <lists+ecryptfs@lfdr.de>; Tue, 30 Jun 2026 03:09:01 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id AAAE1301D311
+	for <lists+ecryptfs@lfdr.de>; Wed,  1 Jul 2026 03:46:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35B1F219A8A;
-	Tue, 30 Jun 2026 03:08:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B9BD286D70;
+	Wed,  1 Jul 2026 03:46:00 +0000 (UTC)
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.58.6])
+Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90A14335BA;
-	Tue, 30 Jun 2026 03:08:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A4F718DB1F;
+	Wed,  1 Jul 2026 03:45:58 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782788938; cv=none; b=VoRbVDXKSam4Yw3CbBc0X0c9OEQeXx0ncUZb8bkSb86ZXbGdmXU6oZNWPyQMTYa6sqCxi++4S7mNkNZBVCtrrB2BL1G1gtcxyNmR812qjFMbXqxJGK4315BoovEDHaszF+heSDYKn4sOIOWMeHpn0/L25OKRbY2PCwP1bUotkk8=
+	t=1782877560; cv=none; b=QOwzynNMrnjGn9o/FGpAQhvpZX78O0iFfmYbMEhvEtLu88etVlWcss9tTdLgUxRcUiY2i8VH2uMgsMYURpEE8YKIVRVg6bANUYN6lmkJtJsVeFqGXyO+xwUWNluafjdSQCs3NOFARIZcLjf7roOQ3JVfUTizKhzSKwYYZbr09yo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782788938; c=relaxed/simple;
-	bh=slw3+1d1AUDEXSMeU6dphnINjshHjWO/4nxCGNQli8o=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=gtqDLlOt7cg2AIzdMt+lMqd5UXWeuBhmZNW8jhNlxaY1YUuZm1OVg+dpx6nlWbd71sHJ+Ap67gupWCgWZFVG4IcAYMzLzPQM1fel+OU2FM3WrYWe4PBl2x2b5tASd6V6Et9bOSMnV9imZv3wMqDXdrqB/I/mCN2bmGIr3FPnSyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=SJKJIsTN; arc=none smtp.client-ip=114.132.58.6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1782788889;
-	bh=KPb/2h0Xk8U80S/tAGQc0KcuYDHPodzeTMQLWtU3Sa8=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=SJKJIsTN7/RiMW+oxD06TKGgXF7JxzfKBGZ10LjQ0BmMJVTzSJhN0kWbMYsp3+3jY
-	 vbxD/0FioJpxBOODJ7k2vHnmxyv782b0tVovqhe3jI3k9VStJcp3vYnXcCF7PCih0v
-	 PLNBCDWS5WWoR9vrGKwn7CnNL9tDavjiyzL9NS+A=
-X-QQ-mid: zesmtpgz6t1782788884t6581a756
-X-QQ-Originating-IP: MiLW8mVajUG1dJRfoCvQsErk4ilnrVA3NmRMM1maNzw=
-Received: from uniontech.com ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 30 Jun 2026 11:08:02 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 9253823417470678511
-EX-QQ-RecipientCnt: 6
-From: Yichong Chen <chenyichong@uniontech.com>
-To: Tyler Hicks <code@tyhicks.com>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Taotao Chen <chentaotao@didiglobal.com>,
-	Yichong Chen <chenyichong@uniontech.com>,
-	ecryptfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ecryptfs: avoid heap allocation for inode size write
-Date: Tue, 30 Jun 2026 11:08:00 +0800
-Message-Id: <20260630030800.191457-1-chenyichong@uniontech.com>
-X-Mailer: git-send-email 2.20.1
+	s=arc-20240116; t=1782877560; c=relaxed/simple;
+	bh=eaPBH/6sdGIqblv7TIlSP66nbTGsiuwEXH8L4y0Onow=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pkTEgKEy82ezGQ+8YPjSF3MPt6ogE2krJxeVXUBsaaav92fDjioWiseR0bZurx6slsC/eyEYu8sV28g0Hc795Vf7aiBse8H3NDzvz3pewuH0xOvgQDrj/AComN3WqGxDRaViocenYu4HQsnFTI79w0YMyhItsVhSdnVDo+76IHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com; spf=pass smtp.mailfrom=tyhicks.com; dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b=+cB/uZg5; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ZADKGo6U; arc=none smtp.client-ip=202.12.124.151
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfout.stl.internal (Postfix) with ESMTP id 5AEB11D0011E;
+	Tue, 30 Jun 2026 23:45:57 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Tue, 30 Jun 2026 23:45:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tyhicks.com; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1782877557; x=1782963957; bh=bAuxncmnHq
+	mUQ7YU8kZ0VntL/R0qZmlPNJTnrZed/GE=; b=+cB/uZg5pJgL2vBqacfSkAuSj4
+	jJIReiHE0nPeoYlR5++T5OtI3PAtnwQBu6QsVzXfjoMqVUJIOGaILw8JcextACF/
+	rqNMOr/L94Uckt6I0fYPryGFxw4twzZLkETeVgmfqR4Jexx+Gl00KWtOmRqmQ4Kx
+	Iy5BBf+9SmBa+9P6pOqpc5DX5QagJSeqO0TzgBsM98RKhD9Vg4WCktKZxY0czhjV
+	/d0wolkqJLTrx+0eUBoLq+Rn9Lsvdxuay8uYsvCxcy51T6SNpgOzgkiLzd3/oUxB
+	4ErLyrZRcApo5YhTRMf2bfZGpRu9kvCCkg2P8WMqZOeB+GOnmiMFovlA/4fg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1782877557; x=1782963957; bh=bAuxncmnHqmUQ7YU8kZ0VntL/R0qZmlPNJT
+	nrZed/GE=; b=ZADKGo6UqWzOXg4avdWhr8qZz4Nf7jHgqKTl2hM3cMvfuxvrEGM
+	95D5dru7uWjJmU0dlaVsWd1c1huIgyFVgw1vhIj+GIrj8eVLtxjNKhU3mWTA59Ej
+	TDC1CSxLXcIziOYmg9dW8OCLFZ+hc3ERlnmNquBpr9jp0ZamKlfUO5WjHOASjl5D
+	N0vF7Q9QQJ9sY5RmkMKks8l1sdgvJJQ1orC32Hs0VbcUMMzMyXqKkavxl1ksRuQY
+	Oi4UtZGtcAmFiTrigCiNgynbDkaeUhSwxnKMOCp9ZvZqm2mstbhoG0WBYTrfXCQP
+	ZjyPx3JG1BeTqDMFY6jUwQnADXc73YzGs3w==
+X-ME-Sender: <xms:dI1Eaqz6GaIpX553wctDyhk5VLIeTJHvjd5dv5iZKjD3UoJ_NJkH6w>
+    <xme:dI1EanxtdyB3Z7AekNAAZIV2Fj9OaERfmt9WSHj_J11dl9ZPr9rPX4eqNP8cs_Et5
+    rJCHW48Kh7XHz0YB-Yazrft2MlA8JuAXZ3Kw1ne_q6hh4Yp7Nvdx4Po>
+X-ME-Received: <xmr:dI1EasbCnMpBeGvtOPms183rJWRJlrvAz5GmY0pNyco15B_wPTnN50U>
+X-ME-Proxy-Cause: dmFkZTFqXvXPjdywYh6eNJ2k9qv6UonLtrcRwhCxN7q7nY/sDQZ06gg9vG63yU/E7sXnxh
+    pxLC/OL51vz4GtYiiF7lvhW/gVPXsBqA6BqJVPVW33EN1LypfZZK4m/V3UJHs2DFRm/epb
+    I7oIk8qnpuq5h3IwbQiTJLk7AcrRCbK1h+RFaH6ThtSfhP6Z8I/YmD3he5oR1CUs8h8665
+    rYCTz/UAyL7BqVLT3+ARVoSgr1OBXI4c37LihQcKClOqyRfsaEHzlpnteZnKBm6X2P0+KX
+    mYSm4+L9jR6aviY2a/1r2AMkFx/v1d2ey5FwHGDMTPxhNlZDmuhnOr0dMOYD8qPJdLjMSh
+    4tVm4vAVLVbAA6TEUQymyM/zRBDK3q4g0kZIWQ0UnX77S9C+I9PEaTXkUKkC+/YzMi1H0r
+    uBgifz8DwjrWFDQFDSFESDL07hI/v/KGDSVlfAx+1PKsi1P3EOshY/YkvGAd2rdvSPNdhG
+    VPnwI+SyZYDz0ejmyQLyfV5BliLsR6xKxLxPZgVuIUSbiXZlMWzQ0hJV5y1qnC6Ygfwwn7
+    71kMtCeckJeL6nXTlaV4KbJ9IHQU8Oud+fSM36zTgxFanaNfzMHPfMmPcMu3PxOscXM0Ri
+    7+j3U3QdBOBkdZGsxKBCll6eye4vZo5ZIF3vXSaBXYNl0cqb6uEEVdIPStFA
+X-ME-Proxy: <xmx:dI1EagUsQWJXvx47HbgoI8zJB-XI8DNXQ6rlT_mjo3DKQpHZ7VFiYQ>
+    <xmx:dI1EaiiEIaQai9Nv32X-FeQoQFONyKxzudx7WajBThxys6x9eA8jpQ>
+    <xmx:dI1Eamt2Uns6-PHDiNJceJFOpId3oLpo3sxYPluSZ0kZuN4wXboRkg>
+    <xmx:dI1Eaj7o59VMG0Rszl7MUPogRh2IhEjlnJ_iqgnGdYT1EoRj_i8J5w>
+    <xmx:dY1EanvZzPN00SNtEiyDJJbz8dlUcIOhoKeFq_tDSfNnt-ZMCgkPsRdI>
+Feedback-ID: i78e14604:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 30 Jun 2026 23:45:56 -0400 (EDT)
+Date: Tue, 30 Jun 2026 22:45:38 -0500
+From: Tyler Hicks <code@tyhicks.com>
+To: Yichong Chen <chenyichong@uniontech.com>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>, Kees Cook <kees@kernel.org>,
+	ecryptfs@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ecryptfs: release message context on send failure
+Message-ID: <akSNYl2MglViekHR@yaupon>
+References: <20260627090126.27607-1-chenyichong@uniontech.com>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
 List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: Mft0p/jwYreVjCK34gg7Fq6EzK/J/0dRRgOR3nKNChJeEd8JW/vKuQiV
-	ORvJ6nyTZPgDLAyy7h0BOyP/D5GFWEtJqPbj2Yubbk+gQ0RP92Rj841gYq85//nsLCMC7Hp
-	dICN5Vk6is4LQg2PosHOm74BnKsRtdIN992XHwkoKbnBeILftx5mcR3rGS1b+SwFwi4P8jG
-	bDC/TG0gvdW3uKgabGsvl2hIPJQ+Ckshp1NXb4Dj7chRVqZCwGhZgUFy7jujxTn7RINieK8
-	FV1PxNfEt/He20HZacpE0+ABS1uBJWdO1OE0T3PMcg/K03dN6n0fJmfTu/PpbaoIdm1C60O
-	Lh0ath5aTBrUeQLowORIzQoiS+uAoUHHcGX19PGchhRz3dvSfhQH5FvkWZbYQ0wrdNNnYuD
-	fuTmwrnjnj4f4dvv9FpTQZIP8QnpEsVSmDJ3/jCDUsTibOR7PuVh1XYw2H00/DiCmWEbEkj
-	sYQSdg0uWczJsytGSRWrAHAaZYziG6WC/rZH3TQz2vjiRlOeNLnJtMuVPPl401yxZs64uru
-	ezPvMVKDDSU4wsrTtzAq8GSGjkej7bG0klcLtwkdBtucgQlAC4ZZ6rqIXu7q8tr/uV/SJFR
-	6+cwUSb8cb22tbEzsrGFsONksR2KPnCBDLlwdwUwZ1l1kRL0RkRJOML6O36PF2PP3EHaP1H
-	JMQDhF7F9G+RybvfOsTMvIhvMkvrRr7uHd9dn8vi3W9iZD8M8PASH1KbJfiMdD3Osl5Kkun
-	rnLJ22vKGusZKKw0nNSnpiruIkx08cmGnMF+HXDtqjstiJRS1x3fGQuQQk/JLs7EbqfuYNV
-	qtNjt6OiQOLtyDURzEVL7PasPm+YsmOajhmNLLA/8VC6KJMORbsy+PBGY2Zt5nyQbyD22DA
-	Uuc3obvasrM/+4sml7JIjDzJrrRMJigPp+Cw6YJyjyyURaEzkZhk6N6bHPBNltFPqnb2fjc
-	FqIiDMIr4Gdl5hIu6ppka6M+HE5zeZksEs5vngFncQYQ0Rhx0YpBJhq9/IsQduxBPujR+Xh
-	zBUvN0E+pcRAdMIz3P6S7HEyPEjC8=
-X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260627090126.27607-1-chenyichong@uniontech.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[uniontech.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[uniontech.com:s=onoh2408];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[tyhicks.com:s=fm1,messagingengine.com:s=fm1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:chenyichong@uniontech.com,m:thorsten.blum@linux.dev,m:kees@kernel.org,m:ecryptfs@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-1230-lists,ecryptfs=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:code@tyhicks.com,m:brauner@kernel.org,m:chentaotao@didiglobal.com,m:chenyichong@uniontech.com,m:ecryptfs@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[chenyichong@uniontech.com,ecryptfs@vger.kernel.org];
+	DMARC_NA(0.00)[tyhicks.com];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[code@tyhicks.com,ecryptfs@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-1231-lists,ecryptfs=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[chenyichong@uniontech.com,ecryptfs@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[uniontech.com:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	DKIM_TRACE(0.00)[tyhicks.com:+,messagingengine.com:+];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[code@tyhicks.com,ecryptfs@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	TAGGED_RCPT(0.00)[ecryptfs];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,uniontech.com:dkim,uniontech.com:email,uniontech.com:mid,uniontech.com:from_mime,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tyhicks.com:dkim,tyhicks.com:from_mime,messagingengine.com:dkim,yaupon:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 303566DFF7F
+X-Rspamd-Queue-Id: A777A6E988B
 
-ecryptfs_write_inode_size_to_header() allocates an 8-byte buffer only
-to write the encoded inode size to the lower file header.
+On 2026-06-27 17:01:26, Yichong Chen wrote:
+> ecryptfs_send_message_locked() moves a message context from the free
+> list to the allocated list before sending the request to the userspace
+> daemon.
+> 
+> If ecryptfs_send_miscdev() fails, the context is left on the
+> allocated list and cannot be reused. Move it back to the free list on
+> failure and clear the caller's pointer.
 
-Use a stack __be64 value instead. This avoids an unnecessary allocation
-and removes a failure path without changing the data written to disk.
+Hi - Thanks for the fix!
 
-Signed-off-by: Yichong Chen <chenyichong@uniontech.com>
----
- fs/ecryptfs/mmap.c | 15 ++++-----------
- 1 file changed, 4 insertions(+), 11 deletions(-)
+> 
+> Fixes: 624ae5284516 ("eCryptfs: remove netlink transport")
 
-diff --git a/fs/ecryptfs/mmap.c b/fs/ecryptfs/mmap.c
-index 2c2b12fedeae..0222f98143ab 100644
---- a/fs/ecryptfs/mmap.c
-+++ b/fs/ecryptfs/mmap.c
-@@ -355,24 +355,17 @@ static int ecryptfs_write_begin(const struct kiocb *iocb,
-  */
- static int ecryptfs_write_inode_size_to_header(struct inode *ecryptfs_inode)
- {
--	char *file_size_virt;
-+	__be64 file_size;
- 	int rc;
- 
--	file_size_virt = kmalloc(sizeof(u64), GFP_KERNEL);
--	if (!file_size_virt) {
--		rc = -ENOMEM;
--		goto out;
--	}
--	put_unaligned_be64(i_size_read(ecryptfs_inode), file_size_virt);
--	rc = ecryptfs_write_lower(ecryptfs_inode, file_size_virt, 0,
--				  sizeof(u64));
--	kfree(file_size_virt);
-+	file_size = cpu_to_be64(i_size_read(ecryptfs_inode));
-+	rc = ecryptfs_write_lower(ecryptfs_inode, (char *)&file_size, 0,
-+				  sizeof(file_size));
- 	if (rc < 0)
- 		printk(KERN_ERR "%s: Error writing file size to header; "
- 		       "rc = [%d]\n", __func__, rc);
- 	else
- 		rc = 0;
--out:
- 	return rc;
- }
- 
--- 
-2.51.0
+I think the correct Fixes tag is:
 
+Fixes: f66e883eb618 ("eCryptfs: integrate eCryptfs device handle into the module.")
+
+Do you agree that is when this bug was first introduced?
+
+The rest of the patch looks good to me.
+
+Tyler
+
+> Signed-off-by: Yichong Chen <chenyichong@uniontech.com>
+> ---
+>  fs/ecryptfs/messaging.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/fs/ecryptfs/messaging.c b/fs/ecryptfs/messaging.c
+> index 03c60f0850ca..d53c21e82365 100644
+> --- a/fs/ecryptfs/messaging.c
+> +++ b/fs/ecryptfs/messaging.c
+> @@ -284,9 +284,16 @@ ecryptfs_send_message_locked(char *data, int data_len, u8 msg_type,
+>  	mutex_unlock(&ecryptfs_msg_ctx_lists_mux);
+>  	rc = ecryptfs_send_miscdev(data, data_len, *msg_ctx, msg_type, 0,
+>  				   daemon);
+> -	if (rc)
+> +	if (rc) {
+>  		printk(KERN_ERR "%s: Error attempting to send message to "
+>  		       "userspace daemon; rc = [%d]\n", __func__, rc);
+> +		mutex_lock(&ecryptfs_msg_ctx_lists_mux);
+> +		mutex_lock(&(*msg_ctx)->mux);
+> +		ecryptfs_msg_ctx_alloc_to_free(*msg_ctx);
+> +		mutex_unlock(&(*msg_ctx)->mux);
+> +		mutex_unlock(&ecryptfs_msg_ctx_lists_mux);
+> +		*msg_ctx = NULL;
+> +	}
+>  out:
+>  	return rc;
+>  }
+> -- 
+> 2.51.0
+> 
 
