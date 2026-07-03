@@ -1,68 +1,91 @@
-Return-Path: <ecryptfs+bounces-1235-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-1236-lists+ecryptfs=lfdr.de@vger.kernel.org>
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id IXbiNI33RWq8HAsAu9opvQ
-	(envelope-from <ecryptfs+bounces-1235-lists+ecryptfs=lfdr.de@vger.kernel.org>)
-	for <lists+ecryptfs@lfdr.de>; Thu, 02 Jul 2026 07:30:53 +0200
+	id ycCwK+R6R2pYZAAAu9opvQ
+	(envelope-from <ecryptfs+bounces-1236-lists+ecryptfs=lfdr.de@vger.kernel.org>)
+	for <lists+ecryptfs@lfdr.de>; Fri, 03 Jul 2026 11:03:32 +0200
 X-Original-To: lists+ecryptfs@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C56126F3920
-	for <lists+ecryptfs@lfdr.de>; Thu, 02 Jul 2026 07:30:52 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 467DC7006A9
+	for <lists+ecryptfs@lfdr.de>; Fri, 03 Jul 2026 11:03:32 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=uniontech.com header.s=onoh2408 header.b=fWmqqy8j;
-	spf=pass (mail.lfdr.de: domain of "ecryptfs+bounces-1235-lists+ecryptfs=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="ecryptfs+bounces-1235-lists+ecryptfs=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=uniontech.com;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=bG0WnlT2;
+	dmarc=pass (policy=none) header.from=gmail.com;
+	spf=pass (mail.lfdr.de: domain of "ecryptfs+bounces-1236-lists+ecryptfs=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="ecryptfs+bounces-1236-lists+ecryptfs=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9688D302974F
-	for <lists+ecryptfs@lfdr.de>; Thu,  2 Jul 2026 05:30:51 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 987CF304A9BA
+	for <lists+ecryptfs@lfdr.de>; Fri,  3 Jul 2026 09:01:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 523BF226CFE;
-	Thu,  2 Jul 2026 05:30:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20D0B3859D7;
+	Fri,  3 Jul 2026 09:01:22 +0000 (UTC)
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683D21A267;
-	Thu,  2 Jul 2026 05:30:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEB393822A8
+	for <ecryptfs@vger.kernel.org>; Fri,  3 Jul 2026 09:01:20 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782970251; cv=none; b=rGVyjiYFEqs5wvOqgr7XC6afXigFETqf0yfs5No/DwrxEph1juWBEnHJXBWNavPLt8KFtS6OmLnxCahfIxzCvzc1hmaa3JS7+S5hS302tZnsdh8tSe04bAeA4yI9ES2683xWNnYUg2jfRJfdyW6mWkqiqjV+nPSn5PE1pQ0pCk4=
+	t=1783069282; cv=none; b=VVXjo1vlUTOrYjd9aaKkjSiS+Jk/6S87vfWfAY9+xteusYJjp9uqKF3evexsWymn+7rI43w6mDF0t/FzLsagYjRfKl/OD2emZXRLCcFPToZmMccYHy8S228gTwdsrRrKjKQUQGmQ8apUoaNC15fo4Qr84D4wIPFC/26qgRr1rlg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782970251; c=relaxed/simple;
-	bh=bs8kwZ2Gmyom7uG0xlORn8h5aW2NyD17OJ4iwK45rug=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=H6ctyTllW77IBbELFfmMgjE1aLOunizi6Tq4muE+ifW2OvWoSkUon8uIXGpZxO5N7HtFMFdCJizWVZmplLv+J47CeVGHHVZIjPivbShaeiHcxbWrgvshB8x8e4SM9no4lNBRgST8VTgSPPpllbp+qFhnNfClvnmZ/1tiQanHV2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=fWmqqy8j; arc=none smtp.client-ip=54.204.34.129
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1782970208;
-	bh=oa4OjCQwmZo7whVMEJXm5iOg9INSScnNRhMPWrQYEPI=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=fWmqqy8jupBKAZaVI3XQe3WxW/QMDdiIVdrmzzqtgJ+vpHAxWbFP55yIJ1WFVE/sy
-	 FC8Z4aXUtrWRP13oceZiEdGj6DPgFTrmPJRNYdmSEJxT4HcTiv4khipD8VoilnLFfa
-	 V7xGTiH6ymAMdisOLqMnuIY8rdlxiI1+1Ozw/M68=
-X-QQ-mid: zesmtpgz7t1782970202ta37691aa
-X-QQ-Originating-IP: IOVYlfA173KaHchzAQqDxn+Taq+yI4Gp0Bb6x19ECKY=
-Received: from uniontech.com ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 02 Jul 2026 13:30:00 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 5247616715261738597
-EX-QQ-RecipientCnt: 9
-From: Yichong Chen <chenyichong@uniontech.com>
+	s=arc-20240116; t=1783069282; c=relaxed/simple;
+	bh=plPuBPDvVMmoqq8HGkW7odDvWN+56ZelpqvoDwCxFm4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ADEPBqe++WdGILXKeABG35XZgCYeiWtdWpciSAuqgwxVvl0ez3bQHqCDlYj/cEpRpqYKEr6z8G96kbQkc4+HJrq5vM/4knMBhsq/dLlKUgkiydBYPZfzaY+dnsUwcg018wymRjMWrdLo4Gu34YJx5VmLKFi6pg0B3MmhSZtn+xA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bG0WnlT2; arc=none smtp.client-ip=209.85.214.172
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2cad4170e8eso3770055ad.3
+        for <ecryptfs@vger.kernel.org>; Fri, 03 Jul 2026 02:01:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783069280; x=1783674080; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DpL8woiCxyDID9Fjvu39ftJpVrBiFir6LWiq352ksZk=;
+        b=bG0WnlT2gqOkyptUvEQcA7aQ9e6fFQj50bVYv2RqGS6geRqh+UDP5O+yyTtldDzEVU
+         l60AY6ouV19fFkzLNEYQGrSalKfr18uJanAFzrS0zWdFQCZVw02eypHNq+M4dvL2PCjY
+         EQGgpvLpT17aQaIthLdfv7wv+lOq99okvUcVWojVPyhvXSXIRMLCcRwqNMAGWucXPjV+
+         PQjtQiMvkIaTu8/0FZeuE3f8qRqkbRBm5vrLpgfDbS1TAODMkSsYDksV3GJmoosTVYU5
+         5Rk6oR3Hz/U3RiGQQ/2Feg0N98SEf0rG6Ftu8pC5F7eJCRi8iMs5HSmMtOnPhA/SNitr
+         0HLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783069280; x=1783674080;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DpL8woiCxyDID9Fjvu39ftJpVrBiFir6LWiq352ksZk=;
+        b=dBxW68DvNl5uaQMExrzLGcPMe4r411tJXA8WCPP4w4uUvBcCsoZAzjaC5ech3Fc9Ga
+         pQGkhrEhSIoFYwcVkuWlM0lGQ8fcsc1/vZoL1hkkYArwtLvAslhOFlG6I5/uRzreSE71
+         T477BVIlwaJuFRoJOfnImXJpE8nsj+/hJblLqrFypOAh0HWYVJr6Ktle+aEpFHtf5PXd
+         9jopfdvPR4cBpWuovjVYBBNNrskzNZ3+9jZBqCabcgsv1ogNpIKUzIw0677pebZ3nT14
+         YYsw+IeJSTuY59a5C5FBjl7w8F4YaBnT/pM8Lb051rQQ+pRgFY68taPhPp4csw7Qu6p4
+         aQ9Q==
+X-Forwarded-Encrypted: i=1; AHgh+RqQs9/iKsjvc5oxslT4aP1RRGufkBOoEmWXns5GK4TSnk/zfk9Gj4ZLIiuqPr70aBF7sq6Wz8z1tg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyVIm/zPawCLbB1TEsr6w8gBhUUJiLCMymzhl9s5JgjThnZmKJD
+	GgIDHOmWfCUasJymIg+Smi8hRM5f2MCtit3/2hQ9BvqAdljaaCruP2ab
+X-Gm-Gg: AfdE7cmNKwKcWFve9oTmcMh0Ufs3/dQcxTiTQ4QweUyAv1J8Pcj1++aKv1sgjID7j9I
+	+mZo9B52Y+Y7PwmH1Z462OyVdHvGKb+/ceC4qN9vNt7K+zqyJEy1B0GrwvGijCfIif1+bdfags/
+	e9Oe3VNLANk6Nlt4Wu53urHz6Fk59C2mka0iQABTnpZSmCcnBDN1H1qz4RxQ89V1SHC9DcIMp8v
+	5KBGDAjpIbGT+0zkOtDEq7wkSzOFD2GmoLHPsId6dzUj2Ao2cLVlNkWgDSRT7Iqo5GkH3UDb2GG
+	63XYvg3kHJBAI8aDoI9ozkiEfjGO8dW9lelRs2iAWelcooHptYHSaT5ZCugXLYv6fIQri8a8Q50
+	rHuGi+sJNrrWEAgMDXPXLQKVdzHnN+ItcBZ9DUzPHZM8X5Hfmum43/6ycQxToVvagCe5/Djx8uj
+	nLTcBmadCy4uthw+xLfKa6Wl/Ofxt2Zj9/DwLGWXD3IXvyQhTL6CvS1H3vUdmnqVCkB/r97pKJY
+	p4DpHhkm6bHgVRBIfRLAPxtOAnvj1+HG/iLqy7eLF8ACgt3UUrCqTtFttOnlkGBHD642Zti0Zw6
+	iGYRU2qmy3Iq0GhWDlTMq8zO6huS
+X-Received: by 2002:a17:902:e841:b0:2c8:e13a:f23a with SMTP id d9443c01a7336-2ca7e8db6c6mr104602745ad.28.1783069279936;
+        Fri, 03 Jul 2026 02:01:19 -0700 (PDT)
+Received: from cs-1047136853211-default.asia-southeast1-b.c.d33bddc1d573818c7-tp.internal (236.148.124.34.bc.googleusercontent.com. [34.124.148.236])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cad6f260acsm6293145ad.6.2026.07.03.02.01.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Jul 2026 02:01:19 -0700 (PDT)
+From: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
 To: Tyler Hicks <code@tyhicks.com>
-Cc: Ard Biesheuvel <ardb@kernel.org>,
-	Eric Biggers <ebiggers@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Yichong Chen <chenyichong@uniontech.com>,
-	Michael Halcrow <mhalcrow@us.ibm.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
+Cc: Christian Brauner <brauner@kernel.org>,
 	ecryptfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ecryptfs: show filename encryption options
-Date: Thu,  2 Jul 2026 13:29:58 +0800
-Message-Id: <20260702052958.313951-1-chenyichong@uniontech.com>
-X-Mailer: git-send-email 2.20.1
+	linux-kernel@vger.kernel.org,
+	Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
+Subject: [PATCH] ecryptfs: use filemap_dirty_folio for address space operations
+Date: Fri,  3 Jul 2026 09:00:44 +0000
+Message-ID: <20260703090044.1649-1-aditya.ansh182@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
@@ -70,93 +93,90 @@ List-Subscribe: <mailto:ecryptfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: MAMW4dxoxFytU24cJuiE/gr67WsKcQswT4f6rCZ9ugragPHL9LK+Tudh
-	RdUwNmR1eAHlwrO5Na5iNidzFpgVapyci2dqc7RC291I5xmsO+bJBULbtHiPZDJlRiq2caK
-	u0BP4VsEgWa1Ddd52sjDOUbqOp8B6Vrn/qCBVgSGpgdRESsA3swOIY/0ex5i4yIesJQ3cKE
-	j5Mciyi5zzQvCNn+wCZ4AvJ/ehQEhQ4AwYbWjJ0/DEtotyUxQ+uiEL7vUnx7VfTm2s+m5Mo
-	6d6g91IWHKvTUyZrCvPICcbYC5uKGRZgWzVJOj/M6vD4HBxnJuvnL3QXX9xEfpwOG+DM32V
-	GRDl9PKO5bSawelAvMxAJOp+pCAJ2NVvAeCRgr9Lsmk7gZJr5tVmDGXzFwA/PlzqBSuU5p6
-	byW1wX2b3oj0yxWrZeCc/JPK0mqI5HgrmDKs/8xUdG1Fg6eYkls5KxP2QatfWcGRrnj4M20
-	UifxqdeRVYa3e2ORY0uPhursSRKktzXefvROBE1V6VHHVX6gm1hYFIWvQUe8vYry6cPntvo
-	ILh3+KReqIkfgPQ69ALO/ec58tKVUS7lFXNqDrl/QLNUpw85wpgEWmS4PW/yhobS9pr4/HR
-	fUWdh5asDfJMpC5Pgqt5ZgeQPUQZRyJXCMjAp1JFRmAw0GJ+ZPE6Az8EGvcMO5MJNCf9xE0
-	Qf+3CHjz7R9LfpiGA5hiyfZj0slEpvfzG/q57gE6bt1l3dN0oq86qygh5SG0fwLx/J8abQD
-	XZeo5Rk0TOlwcCU8BLjDwoc5EByrpbWaIdfvugVuQ/RJrIwoYk6btvUgG5CxAz0jTmNCNW2
-	UAjBz2QjSb7OJEITElCnDhfkyYlghmLf4/mitGh2hK8hz2luT7BMuRPVDyK0clyGPVnubD2
-	5kOtOEzGB87oGtJbrvT5bJ++9HRwxUi4fb9eU5t/SQntQz+WYh1xHufuWmtq6Tmb2oC7eHV
-	9rFj/u04Lki8vrduqogQm7Q09Li8YBKPdUVYJpb48SmdP2sQ+2clnzzYTVBeRC1GC1iv5sD
-	kTrjZE15jd5pF8qmdaMJQPKHLudLSeEneUJzQc+2oWs73rgaDh
-X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
-X-QQ-RECHKSPAM: 0
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[uniontech.com,none];
-	R_DKIM_ALLOW(-0.20)[uniontech.com:s=onoh2408];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-1235-lists,ecryptfs=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:code@tyhicks.com,m:ardb@kernel.org,m:ebiggers@kernel.org,m:brauner@kernel.org,m:chenyichong@uniontech.com,m:mhalcrow@us.ibm.com,m:akpm@linux-foundation.org,m:ecryptfs@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-1236-lists,ecryptfs=lfdr.de];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:code@tyhicks.com,m:brauner@kernel.org,m:ecryptfs@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:aditya.ansh182@gmail.com,m:adityaansh182@gmail.com,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[adityaansh182@gmail.com,ecryptfs@vger.kernel.org];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,gmail.com];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[chenyichong@uniontech.com,ecryptfs@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[chenyichong@uniontech.com,ecryptfs@vger.kernel.org];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[uniontech.com:+];
+	FROM_NEQ_ENVFROM(0.00)[adityaansh182@gmail.com,ecryptfs@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[ecryptfs];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,uniontech.com:dkim,uniontech.com:email,uniontech.com:mid,uniontech.com:from_mime]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: C56126F3920
+X-Rspamd-Queue-Id: 467DC7006A9
 
-ecryptfs_show_options() prints most user-visible mount options but
-omits the filename encryption cipher and key size.
+ecryptfs does not use buffer_heads. The legacy block_dirty_folio and
+block_invalidate_folio mapping operations were only added as a
+temporary compatibility fallback under CONFIG_BLOCK.
 
-Print ecryptfs_fn_cipher and ecryptfs_fn_key_bytes when filename
-encryption is enabled so that the displayed mount options reflect the
-active filename encryption settings.
+Since ecryptfs does not attach private metadata (such as buffer_heads)
+to its folios, block_dirty_folio is unnecessary.
 
-Fixes: 87c94c4df014 ("eCryptfs: Filename Encryption: mount option")
-Signed-off-by: Yichong Chen <chenyichong@uniontech.com>
+Modernize ecryptfs to use filemap_dirty_folio for its dirty_folio
+address space operation. This allows removing the block_dirty_folio
+and block_invalidate_folio fallbacks, removing the buffer_head header
+include, and removing the CONFIG_BLOCK dependency inside ecryptfs_aops.
+
+Signed-off-by: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
 ---
- fs/ecryptfs/super.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ fs/ecryptfs/mmap.c | 15 +--------------
+ 1 file changed, 1 insertion(+), 14 deletions(-)
 
-diff --git a/fs/ecryptfs/super.c b/fs/ecryptfs/super.c
-index 3bc21d677564..686b2b4a9cb5 100644
---- a/fs/ecryptfs/super.c
-+++ b/fs/ecryptfs/super.c
-@@ -150,6 +150,13 @@ static int ecryptfs_show_options(struct seq_file *m, struct dentry *root)
- 	if (mount_crypt_stat->global_default_cipher_key_size)
- 		seq_printf(m, ",ecryptfs_key_bytes=%zd",
- 			   mount_crypt_stat->global_default_cipher_key_size);
-+	if (mount_crypt_stat->flags & ECRYPTFS_GLOBAL_ENCRYPT_FILENAMES) {
-+		seq_printf(m, ",ecryptfs_fn_cipher=%s",
-+			   mount_crypt_stat->global_default_fn_cipher_name);
-+		if (mount_crypt_stat->global_default_fn_cipher_key_bytes)
-+			seq_printf(m, ",ecryptfs_fn_key_bytes=%zd",
-+				   mount_crypt_stat->global_default_fn_cipher_key_bytes);
-+	}
- 	if (mount_crypt_stat->flags & ECRYPTFS_PLAINTEXT_PASSTHROUGH_ENABLED)
- 		seq_printf(m, ",ecryptfs_passthrough");
- 	if (mount_crypt_stat->flags & ECRYPTFS_XATTR_METADATA_ENABLED)
+diff --git a/fs/ecryptfs/mmap.c b/fs/ecryptfs/mmap.c
+index 2c2b12fedeae..a057472b409c 100644
+--- a/fs/ecryptfs/mmap.c
++++ b/fs/ecryptfs/mmap.c
+@@ -510,21 +510,8 @@ static sector_t ecryptfs_bmap(struct address_space *mapping, sector_t block)
+ 	return block;
+ }
+ 
+-#include <linux/buffer_head.h>
+-
+ const struct address_space_operations ecryptfs_aops = {
+-	/*
+-	 * XXX: This is pretty broken for multiple reasons: ecryptfs does not
+-	 * actually use buffer_heads, and ecryptfs will crash without
+-	 * CONFIG_BLOCK.  But it matches the behavior before the default for
+-	 * address_space_operations without the ->dirty_folio method was
+-	 * cleaned up, so this is the best we can do without maintainer
+-	 * feedback.
+-	 */
+-#ifdef CONFIG_BLOCK
+-	.dirty_folio	= block_dirty_folio,
+-	.invalidate_folio = block_invalidate_folio,
+-#endif
++	.dirty_folio	= filemap_dirty_folio,
+ 	.writepages = ecryptfs_writepages,
+ 	.read_folio = ecryptfs_read_folio,
+ 	.write_begin = ecryptfs_write_begin,
 -- 
-2.51.0
+2.47.3
 
 
