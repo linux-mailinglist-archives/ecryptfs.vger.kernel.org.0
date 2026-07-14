@@ -1,98 +1,99 @@
-Return-Path: <ecryptfs+bounces-1237-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-1238-lists+ecryptfs=lfdr.de@vger.kernel.org>
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id ezvxGMS4VWrorwAAu9opvQ
-	(envelope-from <ecryptfs+bounces-1237-lists+ecryptfs=lfdr.de@vger.kernel.org>)
-	for <lists+ecryptfs@lfdr.de>; Tue, 14 Jul 2026 06:19:16 +0200
+	id rhXhFKbCVWossgAAu9opvQ
+	(envelope-from <ecryptfs+bounces-1238-lists+ecryptfs=lfdr.de@vger.kernel.org>)
+	for <lists+ecryptfs@lfdr.de>; Tue, 14 Jul 2026 07:01:26 +0200
 X-Original-To: lists+ecryptfs@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F66750C90
-	for <lists+ecryptfs@lfdr.de>; Tue, 14 Jul 2026 06:19:15 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5837750FC7
+	for <lists+ecryptfs@lfdr.de>; Tue, 14 Jul 2026 07:01:25 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=tyhicks.com header.s=fm1 header.b=SxzUbnJa;
-	dkim=pass header.d=messagingengine.com header.s=fm2 header.b="aNoZ0/4n";
-	spf=pass (mail.lfdr.de: domain of "ecryptfs+bounces-1237-lists+ecryptfs=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="ecryptfs+bounces-1237-lists+ecryptfs=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=tyhicks.com header.s=fm1 header.b=kE+VslfX;
+	dkim=pass header.d=messagingengine.com header.s=fm2 header.b=JnE06WuO;
+	spf=pass (mail.lfdr.de: domain of "ecryptfs+bounces-1238-lists+ecryptfs=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="ecryptfs+bounces-1238-lists+ecryptfs=lfdr.de@vger.kernel.org";
 	dmarc=none;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 8E5913009E2E
-	for <lists+ecryptfs@lfdr.de>; Tue, 14 Jul 2026 04:19:12 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 964B330528B0
+	for <lists+ecryptfs@lfdr.de>; Tue, 14 Jul 2026 05:01:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DCAB2848BE;
-	Tue, 14 Jul 2026 04:19:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67F532DA757;
+	Tue, 14 Jul 2026 05:01:06 +0000 (UTC)
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
+Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7118E26CE11;
-	Tue, 14 Jul 2026 04:19:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D52BD2DC791;
+	Tue, 14 Jul 2026 05:01:04 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784002751; cv=none; b=sgceMCSvpLB2uE4xNr/sJ1AnShTyMoxIprQGNBbf8jRquNUKk8Bah2KMn/2VnMeCGZ4lRc2KjJSxMbmHRc2agErampQGapvQH83hEE1GgSN/HhozFwQ1hlS9qLuvLKJ4N0bo8FH9acTkjvb4dpy9ShD/YALng9idO5CSntphAT0=
+	t=1784005266; cv=none; b=rWo6UoC4V+O4rpQBrfGYgrHNKGoukLVM6W7PC4XDxNbWPPtaSiodh6amOxFAzJIVrB4wZHhhhqSelSFlHd5rAjZnij/icJqBP55cUMvvlpoRVRKNBdng7HGQPrNw96QHKPWCDzYLTddfsyC3KV4E+OYkXZ1X52sb/Hyfy0avebU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784002751; c=relaxed/simple;
-	bh=gBL3z9c3ww+0FCeOy8qNQmtn8dsfRtHO5ajXR4WzHmI=;
+	s=arc-20240116; t=1784005266; c=relaxed/simple;
+	bh=r5kVwbzZXDrQt06gepry3W29dv0WR2DwavXWHYXyt5M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EasbJJdy3S8DlKSZSwpIazT8ZCxsmJ9KLANnYbfkQg1+Y209t78eN7VY5OrmgkRGP42FsE1kHgBAO8GdGOnYpqMtq0dB2zBfZmksE9FmztrcvoT8B5S4OMCPDAww/6cNnaG/wvDZoZNm3riyoEJTLEK8vdBc3+mF5h4rJEFZR4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com; spf=pass smtp.mailfrom=tyhicks.com; dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b=SxzUbnJa; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=aNoZ0/4n; arc=none smtp.client-ip=103.168.172.158
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id A4B4814000E1;
-	Tue, 14 Jul 2026 00:19:08 -0400 (EDT)
+	 Content-Type:Content-Disposition:In-Reply-To; b=j7zCR25nf5Wr33w/HcFeT3R91bOsb+mJ4BxfbYnjfbB4MJ4JjVVtL/qPvKnyZx5Blvpl+vtBuUA1J+HvAghDCbzgWeQJJghF1B1nM98YCPEPEQ5DIdMYzvXvi1H3hzTPooW413ZZ0CDK/KbdwXka8aRmM9peNdf0SOn0YPloQ4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com; spf=pass smtp.mailfrom=tyhicks.com; dkim=pass (2048-bit key) header.d=tyhicks.com header.i=@tyhicks.com header.b=kE+VslfX; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=JnE06WuO; arc=none smtp.client-ip=103.168.172.147
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+	by mailfout.phl.internal (Postfix) with ESMTP id 1C497EC0177;
+	Tue, 14 Jul 2026 01:01:04 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Tue, 14 Jul 2026 00:19:08 -0400
+  by phl-compute-12.internal (MEProxy); Tue, 14 Jul 2026 01:01:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tyhicks.com; h=
 	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1784002748; x=1784089148; bh=2k7RLmktGe
-	B2OhCT9iIenlgWaYC0+7m7DQ3NBx5NBbk=; b=SxzUbnJaNAElrMYRB08+vcZTXg
-	aEEdFQMsBt6amiFTXO1tSJ36msxPbHuOfAPNNiGSgj5M8i+E0c4Ajf1AToUolOYF
-	GJZkV24SizKnZ7LV53EBzVbJxIJY7zfUIDrziiri41x9frowvtVaa8GeDNrrEEdF
-	2AwIGLgF/SWCCzJ4VuQfXbS1/iPoZsXbX6jbanCYpLNOITrUnL/1mM1c3oGP0MMG
-	P4jnT+RcBrNigziWjoBVsClAnVQhUcLTAhJiXITFx4z7EM9IJZg4/WHNFUUVvfMk
-	vsRg9FKWSWRnX5Q2EHJYomPBqSZBnuC6UYRl2PjeXG1FKIP73bJK6degbb+g==
+	:subject:to:to; s=fm1; t=1784005264; x=1784091664; bh=+cwBk161SS
+	3UuNqbC94GvXgpGs2bozCaS5y9RituKbY=; b=kE+VslfXkGkezhMQ/hxZ+B0IYU
+	FVuBfJ7BwnnLa1jNWwcqlj5GnhrDa0kRoDOVbOlJ4LPAE6mpo1Py84tVqaQfGvMO
+	q0zlvMcgcP1x1tRL3xoJMoPz5DVgbWqJRtFF8/LWkJ7TKnJ/DuIlKD2AiXwoizTh
+	N+YoKkR04pv7j3V7hUkxaSj5pITB+ZwhtGzGiSPsK2PmSfASBaaYuiWZpum1xHoT
+	rzJ31b6OU+Fo6cWolgJNMrWGwoU08uvLZsYGpc+BQeeeV9Hj+lXNCYK0iUS4ixi8
+	4KUmgLZysMrGnaTN0ZQ7epk7KODJtGW8f0xNpZVZpA8oGz+55u7G9MnreD+w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1784002748; x=1784089148; bh=2k7RLmktGeB2OhCT9iIenlgWaYC0+7m7DQ3
-	NBx5NBbk=; b=aNoZ0/4nrqI1tmHPamir1qXc5mgOf5wq96lRWKIFUloEmfZBXSZ
-	A00Xoj9ZAhmRPtHgEYBafBFXprU/G9N5VLGsizCQD62jtbpMvUO37dRVNVqaBxIW
-	2x6BMwstbyTcaOSGKA2a8H5nylKtNn6TKue5zmm/0ONeJmGXwmXqQtUftPAHAyLA
-	eIjj+p3558azHFG6WNDQAQFnRtf6j/TxHJF5YiS3csy+x011yYrE78kuNOhSEPKQ
-	qE0+WkUBCXA5B9J7DeRt9avMiljnOKDC9+U+A542ONBH0YdIg33dpZFHYIdRg+ov
-	oKd1n4vq7WHxC1mpmznjlwNRDSnqeSBo42Q==
-X-ME-Sender: <xms:vLhVarV39FQr9YQzOqitmVUfWyzwYP4MT9qF0swTMbXYZHwcalMOXw>
-    <xme:vLhVakVl9Yb8pfE9QMcV1yPWzANYSaZi4DzBvrkas7O_LqP97Z3IZtCWubHR5cRr0
-    p-sK2nWjwTSFJxwcOEMj212DpXToF2BxyMKPMCIS1VnrJIhBCH21Jc>
-X-ME-Received: <xmr:vLhVajg7RLBbD8jJOPLJxrON-lYvLZyrHcOvxo_2X6gmLAH1GMUoXZ7poC71ZQk_51dFNxkjjLthP0vR>
-X-ME-Proxy-Cause: dmFkZTE8IsyW3+Pm54ukEM3IsMKwhe3hJr8PL30KUTR9JQFqRPrxK0UnSUMdPH3amsQ/0l
-    lyqf3UNI4XiRjeHufI5yI3W7bKhO22d3X1ykMH+l2sGpqKcxmBml8+RjxW279FoBm/1xsG
-    7CZwUbfM5SXm/xAOMV7OyB3iKlF2wWqE0RQYkSQru+JBR23nUfLXkR4JpZnSKNKUO9QH5j
-    tut0p2n3xEGViKqeosBtXjPR7pF4L8KlIyqM2iNEmzreKa2LfTm/Nlg9W+REKpZEU0TlZ+
-    mlzeQpvV9xStEqD+7L8UE9acVrhcpuhFRPmJ/tkHGpDwHzmSSUPZWFRSP1oqGN97k0VGG+
-    AE38+yt7ieRfeWl0u2w8m3++hWFEyVxeRb73yMpRM5oTuQUiw2c7wc0yyphApxV6QRH1u2
-    8Xtd9OfDBYVX1R2iiX2s14hpLu8tq3Y+TWwbPUIz/148TtUvkWUfh4AsUYtHeq5q/Rlh9e
-    VgOmMwqtQA3tTD+TMFmer36wKNFfbLst772hG89S6aWUSc8eunZCCpwMKrzIJVzJJX7VbG
-    sPaNcIEpEwXgu2wdnjw2tMZkN5HRkGSnV2O4oQ3dzMtU4T05OgpP011Y/Tlvo2iylvy5vH
-    P/XGRkrfa2mTnTa7A+pUWsYr8S3tJ0jpcslZwnQ/Ozp1Zu9hbCPi1RVMyW0Q
-X-ME-Proxy: <xmx:vLhVanb96Y8hQYmHoiLCSNO4NDofACBF0izQ2VvNryS_UwOS7oQjzg>
-    <xmx:vLhVaorz7nuW1hY6FpQb2_Xll9qOttq9kgLzBII3USA3HjjC1mdqSw>
-    <xmx:vLhVasOJB476neUW9mHJ8EUcsJDuszkySb_2pFgOIEVhi9f3bcwUcQ>
-    <xmx:vLhVajpIbufAAH9piSQP12MFbXnZpm8Gc_SN_8MvxorlN9lUIDo_xg>
-    <xmx:vLhVasRBwsU1JLF5JxDO-T2aZG1l9QohL2JZQ_aTCTqmQSEDXdhkNOCz>
+	1784005264; x=1784091664; bh=+cwBk161SS3UuNqbC94GvXgpGs2bozCaS5y
+	9RituKbY=; b=JnE06WuOEg5c6qCpWjfPLbc84I59xuA/yFpElRKOgAAGIZwQTwt
+	CYLenYpllenmrAPbzUpOrXJFz0lrJqq7WzgOnflQaq3ckyUDb9L7WiHlswj4RpK8
+	73Ay3JknuoFqS3NNpd9cIHB/MwkFT6HZKyJtz4XQjJ9KSZXZvxWhlx/o5MladNre
+	HZJ3QWJvw8vQsm2qOYhd3fqvDnaRv9cQE9e+Rb5La3tRQxsOpiDNsVqex+HvJJRS
+	ZNw1p/vF+2EWbAnAq+lK4jr0PoAYrzZsQgIc5PbWvC4v6U76FCZZ48Mf3XEoVMVz
+	UAbFdi4eWsLUHaxybWoV/q1meNsheYcD0oQ==
+X-ME-Sender: <xms:kMJVauXiLY0apxgReGyHENCCn8RjgaZTZXw_wmc7WC0tb2l6fULqdQ>
+    <xme:kMJVasGDIJ237ABDMa0bPAZ76NmcDgAi016paNO0MJ6vvK7fawBcAXmCuEEOmf-os
+    KvsRiMy5oOLajwBpXw8gD20PGJ044ztI-TPUqAztSAsdRgGnNaC6Ug>
+X-ME-Received: <xmr:kMJVaic8OSa4zjxSwTjPN74P_CFaDGV7ZzQF-uIIr6ulSA_w2d-xJiMZz7QamthKcEqwch-MLE9aJrel>
+X-ME-Proxy-Cause: dmFkZTGcNI4D8OeFqi8luv7qzpUT1BY9mHdEHCiQV2jLC6iP5sG2sSt/c0k0x8+DEX8q60
+    TrxMe16cE9IB8/VrvXMOvz8It0w5hg5gAAWjPUHntblebgmBAh844pKc+vrAw4YJM4Lhbr
+    kTpk8PNv2b++Zdb1m1yshRVqjZceDgs1X6FqCJ31VqwxGwE7PfAPwba5gy3CqMj6YRHNf0
+    ynMeJjL33bzdVbY/fdj+cZAigwFK8grFn8kyE+4B9ksjt31phmT7+cEe5JUwF4dYvmTYfJ
+    HbmgCno0RSvlBF6YpvV2FHsHXwiYfZU4DINJK85e/Ce0xs1qMdG3I1g1vCURbxSN3pXbj6
+    Hgmrs7z0/vJEFMTND15bq3kCCwKcSp7dUXZj+IkjTwkIx+axwfiM1Sb61lN/suQNNK9Mav
+    eFH1XWZLO4vLHM06oELO6vazYZsDYV7XgZU+ufqhQd2ecPJ0pbI2ImOSQ3P42KitGKkKfP
+    HwnvahAFQDww0eiEhHtpb+8obAAtWKYin+S7XOWGjO5jFnCpCtUJMC+vSibKxi1GsNd3ry
+    4OQWKMSctJ6cmR06yStTyrU71lBPoJSYJbDl6lGzqrckgIkaPEpiqiD0+900/KtqVxd6R5
+    V4kEND14GNpjYxkyt0miPHAgrMtJSMFSvvSSElD3JZL/apqRo70/ze3ZmkVg
+X-ME-Proxy: <xmx:kMJValIAWvwBb9P8eLmMrsOp7f5xnk2V0v-fj11NZ1obehg02MlOJg>
+    <xmx:kMJVavEWbQzYt3mmow6-ljGtLEeujYahs6kXmWVbnBU4eToUt9mdCQ>
+    <xmx:kMJVagCMrGjP9JXEgQClYJrjyeOJ7vC1tzOGdHOjJewhH4hng3kzVQ>
+    <xmx:kMJVaq_2AvDgvt6t9MLqJwDUejjkpZFq73HYV0KJDWPbwwFZ-JWwwQ>
+    <xmx:kMJVaggRPfIryuxfA40_j88EGosaxyVAEfuyHNz16_-71VcS5qKjfrmt>
 Feedback-ID: i78e14604:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 14 Jul 2026 00:19:06 -0400 (EDT)
-Date: Mon, 13 Jul 2026 23:19:03 -0500
+ 14 Jul 2026 01:01:02 -0400 (EDT)
+Date: Tue, 14 Jul 2026 00:00:59 -0500
 From: Tyler Hicks <code@tyhicks.com>
-To: Yichong Chen <chenyichong@uniontech.com>
-Cc: Thorsten Blum <thorsten.blum@linux.dev>,
-	Eric Biggers <ebiggers@kernel.org>, Kees Cook <kees@kernel.org>,
-	ecryptfs@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ecryptfs: validate packet parser buffer lengths
-Message-ID: <alW4t1KssnzQbl4Y@elm>
-References: <20260627090208.27774-1-chenyichong@uniontech.com>
+To: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>,
+	Christoph Hellwig <hch@lst.de>
+Cc: Christian Brauner <brauner@kernel.org>, ecryptfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ecryptfs: use filemap_dirty_folio for address space
+ operations
+Message-ID: <alXCix5IKavpp2Pr@elm>
+References: <20260703090044.1649-1-aditya.ansh182@gmail.com>
 Precedence: bulk
 X-Mailing-List: ecryptfs@vger.kernel.org
 List-Id: <ecryptfs.vger.kernel.org>
@@ -101,207 +102,100 @@ List-Unsubscribe: <mailto:ecryptfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260627090208.27774-1-chenyichong@uniontech.com>
+In-Reply-To: <20260703090044.1649-1-aditya.ansh182@gmail.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.16 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[tyhicks.com:s=fm1,messagingengine.com:s=fm2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:chenyichong@uniontech.com,m:thorsten.blum@linux.dev,m:ebiggers@kernel.org,m:kees@kernel.org,m:ecryptfs@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:aditya.ansh182@gmail.com,m:hch@lst.de,m:brauner@kernel.org,m:ecryptfs@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:adityaansh182@gmail.com,s:lists@lfdr.de];
 	DMARC_NA(0.00)[tyhicks.com];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,lst.de];
 	FORGED_SENDER(0.00)[code@tyhicks.com,ecryptfs@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-1237-lists,ecryptfs=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-1238-lists,ecryptfs=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[tyhicks.com:+,messagingengine.com:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[code@tyhicks.com,ecryptfs@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[tyhicks.com:+,messagingengine.com:+];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[ecryptfs];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,messagingengine.com:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,messagingengine.com:dkim]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 58F66750C90
+X-Rspamd-Queue-Id: B5837750FC7
 
-On 2026-06-27 17:02:08, Yichong Chen wrote:
-> ecryptfs_parse_packet_set() receives a pointer into the file header,
-> but it calculates the remaining packet buffer size from PAGE_SIZE - 8.
-> For version 1 headers the packet set starts later in the header, so
-> this can overstate the available buffer.
+On 2026-07-03 09:00:44, Aditya Prakash Srivastava wrote:
+> ecryptfs does not use buffer_heads. The legacy block_dirty_folio and
+> block_invalidate_folio mapping operations were only added as a
+> temporary compatibility fallback under CONFIG_BLOCK.
 > 
-> Pass the actual packet set buffer length from the caller and use the
-> remaining length after each parsed packet. Also fix the tag 11 packet
-> exact-fit bounds check and reject too-small tag 70 packet bodies before
-> subtracting fixed metadata sizes.
-
-My apologies for just now getting to the review of this patch but could
-you please split out these two separate fixes (tag 11 exact-fit check
-and too-small tag 70 check) into their own patches? I feel like these
-are three distinct fixes and should be treated that way in the git
-history.
-
-These are nice improvements! I only have one small, additional comment
-below.
-
+> Since ecryptfs does not attach private metadata (such as buffer_heads)
+> to its folios, block_dirty_folio is unnecessary.
 > 
-> Fixes: 237fead61998 ("[PATCH] ecryptfs: fs/Makefile and fs/Kconfig")
-> Fixes: 9c79f34f7ee7 ("eCryptfs: Filename Encryption: Tag 70 packets")
-> Signed-off-by: Yichong Chen <chenyichong@uniontech.com>
-> ---
->  fs/ecryptfs/crypto.c          |  2 +-
->  fs/ecryptfs/ecryptfs_kernel.h |  3 ++-
->  fs/ecryptfs/keystore.c        | 32 +++++++++++++++++++++++++++-----
->  3 files changed, 30 insertions(+), 7 deletions(-)
+> Modernize ecryptfs to use filemap_dirty_folio for its dirty_folio
+> address space operation. This allows removing the block_dirty_folio
+> and block_invalidate_folio fallbacks, removing the buffer_head header
+> include, and removing the CONFIG_BLOCK dependency inside ecryptfs_aops.
 > 
-> diff --git a/fs/ecryptfs/crypto.c b/fs/ecryptfs/crypto.c
-> index 74b02b55e3f6..e67119b6029c 100644
-> --- a/fs/ecryptfs/crypto.c
-> +++ b/fs/ecryptfs/crypto.c
-> @@ -1197,7 +1197,7 @@ static int ecryptfs_read_headers_virt(char *page_virt,
->  	} else
->  		set_default_header_data(crypt_stat);
->  	rc = ecryptfs_parse_packet_set(crypt_stat, (page_virt + offset),
-> -				       ecryptfs_dentry);
-> +				       PAGE_SIZE - offset, ecryptfs_dentry);
->  out:
->  	return rc;
->  }
-> diff --git a/fs/ecryptfs/ecryptfs_kernel.h b/fs/ecryptfs/ecryptfs_kernel.h
-> index f4f56a92bd56..7d2488a10b17 100644
-> --- a/fs/ecryptfs/ecryptfs_kernel.h
-> +++ b/fs/ecryptfs/ecryptfs_kernel.h
-> @@ -580,7 +580,8 @@ int ecryptfs_generate_key_packet_set(char *dest_base,
->  				     size_t *len, size_t max);
->  int
->  ecryptfs_parse_packet_set(struct ecryptfs_crypt_stat *crypt_stat,
-> -			  unsigned char *src, struct dentry *ecryptfs_dentry);
-> +			  unsigned char *src, size_t src_size,
-> +			  struct dentry *ecryptfs_dentry);
->  int ecryptfs_truncate(struct dentry *dentry, loff_t new_length);
->  ssize_t
->  ecryptfs_getxattr_lower(struct dentry *lower_dentry, struct inode *lower_inode,
-> diff --git a/fs/ecryptfs/keystore.c b/fs/ecryptfs/keystore.c
-> index ebebc9551f1f..888599739274 100644
-> --- a/fs/ecryptfs/keystore.c
-> +++ b/fs/ecryptfs/keystore.c
-> @@ -894,6 +894,12 @@ ecryptfs_parse_tag_70_packet(char **filename, size_t *filename_size,
->  		       "rc = [%d]\n", __func__, rc);
->  		goto out;
->  	}
-> +	if (s->parsed_tag_70_packet_size < (ECRYPTFS_SIG_SIZE + 2)) {
-> +		ecryptfs_printk(KERN_WARNING, "Invalid packet size [%zd]\n",
-> +				s->parsed_tag_70_packet_size);
-> +		rc = -EINVAL;
-> +		goto out;
-> +	}
->  	s->block_aligned_filename_size = (s->parsed_tag_70_packet_size
->  					  - ECRYPTFS_SIG_SIZE - 1);
->  	if ((1 + s->packet_size_len + s->parsed_tag_70_packet_size)
-> @@ -1537,7 +1543,7 @@ parse_tag_11_packet(unsigned char *data, unsigned char *contents,
->  	}
->  	(*packet_size) += length_size;
->  	(*tag_11_contents_size) = (body_size - 14);
-> -	if (unlikely((*packet_size) + body_size + 1 > max_packet_size)) {
-> +	if (unlikely((*packet_size) + body_size > max_packet_size)) {
->  		printk(KERN_ERR "Packet size exceeds max\n");
->  		rc = -EINVAL;
->  		goto out;
-> @@ -1704,6 +1710,7 @@ decrypt_passphrase_encrypted_session_key(struct ecryptfs_auth_tok *auth_tok,
->   * ecryptfs_parse_packet_set
->   * @crypt_stat: The cryptographic context
->   * @src: Virtual address of region of memory containing the packets
-> + * @src_size: Size of the packet set buffer
->   * @ecryptfs_dentry: The eCryptfs dentry associated with the packet set
->   *
->   * Get crypt_stat to have the file's session key if the requisite key
-> @@ -1714,7 +1721,7 @@ decrypt_passphrase_encrypted_session_key(struct ecryptfs_auth_tok *auth_tok,
->   * conditions.
->   */
->  int ecryptfs_parse_packet_set(struct ecryptfs_crypt_stat *crypt_stat,
-> -			      unsigned char *src,
-> +			      unsigned char *src, size_t src_size,
->  			      struct dentry *ecryptfs_dentry)
->  {
->  	size_t i = 0;
-> @@ -1736,7 +1743,11 @@ int ecryptfs_parse_packet_set(struct ecryptfs_crypt_stat *crypt_stat,
->  	 * added the our &auth_tok_list */
->  	next_packet_is_auth_tok_packet = 1;
->  	while (next_packet_is_auth_tok_packet) {
-> -		size_t max_packet_size = ((PAGE_SIZE - 8) - i);
-> +		size_t max_packet_size;
-> +
-> +		if (i >= src_size)
-> +			break;
-> +		max_packet_size = src_size - i;
->  
->  		switch (src[i]) {
->  		case ECRYPTFS_TAG_3_PACKET_TYPE:
-> @@ -1751,12 +1762,16 @@ int ecryptfs_parse_packet_set(struct ecryptfs_crypt_stat *crypt_stat,
->  				goto out_wipe_list;
->  			}
->  			i += packet_size;
-> +			if (i > src_size) {
-> +				rc = -EIO;
-> +				goto out_wipe_list;
-> +			}
->  			rc = parse_tag_11_packet((unsigned char *)&src[i],
->  						 sig_tmp_space,
->  						 ECRYPTFS_SIG_SIZE,
->  						 &tag_11_contents_size,
->  						 &tag_11_packet_size,
-> -						 max_packet_size);
-> +						 src_size - i);
->  			if (rc) {
->  				ecryptfs_printk(KERN_ERR, "No valid "
->  						"(ecryptfs-specific) literal "
-> @@ -1768,6 +1783,10 @@ int ecryptfs_parse_packet_set(struct ecryptfs_crypt_stat *crypt_stat,
->  				goto out_wipe_list;
->  			}
->  			i += tag_11_packet_size;
-> +			if (i > src_size) {
-> +				rc = -EIO;
-> +				goto out_wipe_list;
-> +			}
->  			if (ECRYPTFS_SIG_SIZE != tag_11_contents_size) {
->  				ecryptfs_printk(KERN_ERR, "Expected "
->  						"signature of size [%d]; "
-> @@ -1793,6 +1812,10 @@ int ecryptfs_parse_packet_set(struct ecryptfs_crypt_stat *crypt_stat,
->  				goto out_wipe_list;
->  			}
->  			i += packet_size;
-> +			if (i > src_size) {
-> +				rc = -EIO;
-> +				goto out_wipe_list;
-> +			}
->  			crypt_stat->flags |= ECRYPTFS_ENCRYPTED;
->  			break;
->  		case ECRYPTFS_TAG_11_PACKET_TYPE:
-> @@ -2480,4 +2503,3 @@ ecryptfs_add_global_auth_tok(struct ecryptfs_mount_crypt_stat *mount_crypt_stat,
->  	mutex_unlock(&mount_crypt_stat->global_auth_tok_list_mutex);
->  	return 0;
->  }
-> -
+> Signed-off-by: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
 
-Please drop this unnecessary line removal.
+This looks correct to me and I've successfully ran the kernel tests in
+the ecryptfs-utils test suite with the patch applied.
+
+Adding Christoph for comment since this addresses the concern he
+documented in the code comment below.
 
 Tyler
 
+> ---
+>  fs/ecryptfs/mmap.c | 15 +--------------
+>  1 file changed, 1 insertion(+), 14 deletions(-)
+> 
+> diff --git a/fs/ecryptfs/mmap.c b/fs/ecryptfs/mmap.c
+> index 2c2b12fedeae..a057472b409c 100644
+> --- a/fs/ecryptfs/mmap.c
+> +++ b/fs/ecryptfs/mmap.c
+> @@ -510,21 +510,8 @@ static sector_t ecryptfs_bmap(struct address_space *mapping, sector_t block)
+>  	return block;
+>  }
+>  
+> -#include <linux/buffer_head.h>
+> -
+>  const struct address_space_operations ecryptfs_aops = {
+> -	/*
+> -	 * XXX: This is pretty broken for multiple reasons: ecryptfs does not
+> -	 * actually use buffer_heads, and ecryptfs will crash without
+> -	 * CONFIG_BLOCK.  But it matches the behavior before the default for
+> -	 * address_space_operations without the ->dirty_folio method was
+> -	 * cleaned up, so this is the best we can do without maintainer
+> -	 * feedback.
+> -	 */
+> -#ifdef CONFIG_BLOCK
+> -	.dirty_folio	= block_dirty_folio,
+> -	.invalidate_folio = block_invalidate_folio,
+> -#endif
+> +	.dirty_folio	= filemap_dirty_folio,
+>  	.writepages = ecryptfs_writepages,
+>  	.read_folio = ecryptfs_read_folio,
+>  	.write_begin = ecryptfs_write_begin,
 > -- 
-> 2.51.0
+> 2.47.3
 > 
 
