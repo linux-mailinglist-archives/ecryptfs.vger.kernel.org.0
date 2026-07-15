@@ -1,54 +1,54 @@
-Return-Path: <ecryptfs+bounces-1242-lists+ecryptfs=lfdr.de@vger.kernel.org>
+Return-Path: <ecryptfs+bounces-1243-lists+ecryptfs=lfdr.de@vger.kernel.org>
 Delivered-To: lists+ecryptfs@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id zkL9FRoZV2qkFQEAu9opvQ
-	(envelope-from <ecryptfs+bounces-1242-lists+ecryptfs=lfdr.de@vger.kernel.org>)
-	for <lists+ecryptfs@lfdr.de>; Wed, 15 Jul 2026 07:22:34 +0200
+	id qqO9BBsZV2qlFQEAu9opvQ
+	(envelope-from <ecryptfs+bounces-1243-lists+ecryptfs=lfdr.de@vger.kernel.org>)
+	for <lists+ecryptfs@lfdr.de>; Wed, 15 Jul 2026 07:22:35 +0200
 X-Original-To: lists+ecryptfs@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E78E875AA6E
-	for <lists+ecryptfs@lfdr.de>; Wed, 15 Jul 2026 07:22:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB0175AA71
+	for <lists+ecryptfs@lfdr.de>; Wed, 15 Jul 2026 07:22:34 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=uniontech.com header.s=onoh2408 header.b=A6gKR5O2;
-	spf=pass (mail.lfdr.de: domain of "ecryptfs+bounces-1242-lists+ecryptfs=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="ecryptfs+bounces-1242-lists+ecryptfs=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=uniontech.com header.s=onoh2408 header.b=n6yNJ3r9;
+	spf=pass (mail.lfdr.de: domain of "ecryptfs+bounces-1243-lists+ecryptfs=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="ecryptfs+bounces-1243-lists+ecryptfs=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=uniontech.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2938330B052F
+	by sea.lore.kernel.org (Postfix) with ESMTP id 39BEC30B2346
 	for <lists+ecryptfs@lfdr.de>; Wed, 15 Jul 2026 05:21:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1DFD3B5305;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F40B63B583C;
 	Wed, 15 Jul 2026 05:21:17 +0000 (UTC)
 X-Original-To: ecryptfs@vger.kernel.org
-Received: from smtpbg150.qq.com (smtpbg150.qq.com [18.132.163.193])
+Received: from smtpbgeu2.qq.com (smtpbgeu2.qq.com [18.194.254.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 573D43B52FA;
-	Wed, 15 Jul 2026 05:21:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7CA93B5839;
+	Wed, 15 Jul 2026 05:21:13 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784092877; cv=none; b=jtsmwsoZ00KnF9bRS5xFMf4tdHRe42mC24x6CK37fODFyy2QHr+PCXbGDxBJk3za/lIN3nHzbyqiVf6i5fcs/7cE4bA+sCPhQvw8Z6MwCFARptz3r8UP8YoKvqm3Cz+rOKjMUeCdzlX1ymHAdedd+oIIlD/XcFam0qoAuuvmuzc=
+	t=1784092877; cv=none; b=M5bQR40T2qrL0hgkKyi1LDIB77MiBk8x26K1L6ZxyTfvod0KvcjUrCa8DgbU2xlWoiFEGJQcfEyGc5u3kbAm+hgWItpFLF8UMbAajI91Qf6kYyKLg5LnssfGQ//Te1uOLnuyRTdIXAJpyEb99nrWmsQg05nOjBnO9+Or5Ikxr4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1784092877; c=relaxed/simple;
-	bh=UskOnhAJ3PJfX8vaF7y/hm6wQQhhAkrHP607HMIk2DU=;
+	bh=n4XUXUIpzzOBEUqyenPVs9cokPBC09a0gKVSXG6QnNw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ARRL4C6zIgPF9zvuY7BccIZldFqU1gnEOzBjhA09Kq8Zn7YKdUK9GrWOqr83UT0uKxE9fzM2+etYLAeb256F25ajA7/HPbOznpHIGh4/Xl2IT8fWeu5wRt+7VphHyBSbW2b2CsVcOdeqe7JhGKEbBBjBBmp5c+XNImdLX/LD13s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=A6gKR5O2; arc=none smtp.client-ip=18.132.163.193
+	 MIME-Version; b=aSRB5NMWhD7WNSKIJZrlHyL5OwFDvea9+WXEWbMJZFP9VxFE1WDLyvElqD9wPU9EPMjMlXvDlA8oTVW2CWR8N4w8K6NNHAdmLiZeNR3v9yalcIAMFURTpKG+bN1LqBhCABNIp1ONUXoJGrxV3bdqrX03B5jQzZoUJazM8UM4sZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=n6yNJ3r9; arc=none smtp.client-ip=18.194.254.142
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1784092834;
-	bh=X3rlK1OH4GMTJFOVgoo19DChU6gJsQrW+yP6jj7cu/A=;
+	s=onoh2408; t=1784092838;
+	bh=uV5uGd0S/c0RvU1SUv/SFk0bXcnV6jdmYgylj/TptMs=;
 	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=A6gKR5O2qT5nHeRzG/h/gj9ydxh7JoOB5rnIu6em87A1O68dODLEsCBbriZAFwzj9
-	 k/8YtVw1ddxQmp4OVJ8gDTy8kTxf0crWVGXcx2R9dKk+D4HjinvWJnrlE+IwY/lFAs
-	 mkOyL1dp1OFMYMiqVLFfCTPrH3jDUVnNB9L+sPC0=
-X-QQ-mid: esmtpsz16t1784092815t67c72903
-X-QQ-Originating-IP: F0KctZUHAvhagG6uEuuhs73hGZjgQDOB+EqBDAMm7eo=
+	b=n6yNJ3r9FemSXTeAEIHeLU4mbgFc0dvD0q5ZsfnHm04lrVR/vu/t8FCpMEAkrWh6M
+	 JnKvgutBqPnUCcd2/4wBGjze7IeCYMnvUADzPgZ/PGiNSxKO+TFwgCj8xoFQRljK80
+	 YkXLjfuGVZCIDDkf9Zocmugbbki4uESWi7yFa4Aw=
+X-QQ-mid: esmtpsz16t1784092820tc3466601
+X-QQ-Originating-IP: LQ3R1jm83F+BD+YxVKiBghag1f46Hb5LgAWLZA5DU2w=
 Received: from uniontech.com ( [113.57.152.160])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 15 Jul 2026 13:20:12 +0800 (CST)
+	id ; Wed, 15 Jul 2026 13:20:17 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 16544311245530067291
+X-BIZMAIL-ID: 9908912495004679430
 EX-QQ-RecipientCnt: 9
 From: Yichong Chen <chenyichong@uniontech.com>
 To: ecryptfs@vger.kernel.org
@@ -60,9 +60,9 @@ Cc: Tyler Hicks <code@tyhicks.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	linux-kernel@vger.kernel.org,
 	Yichong Chen <chenyichong@uniontech.com>
-Subject: [PATCH v2 1/3] ecryptfs: pass packet set buffer size to parser
-Date: Wed, 15 Jul 2026 13:20:04 +0800
-Message-Id: <6ebc85d160ace730618d7998933d3676860480ee.1784081896.git.chenyichong@uniontech.com>
+Subject: [PATCH v2 2/3] ecryptfs: fix tag 11 packet exact-fit size check
+Date: Wed, 15 Jul 2026 13:20:05 +0800
+Message-Id: <32b0cb3aedf9f2352f66183039196980d46daa3d.1784081896.git.chenyichong@uniontech.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1784081896.git.chenyichong@uniontech.com>
 References: <cover.1784081896.git.chenyichong@uniontech.com>
@@ -75,23 +75,23 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: esmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: MGdqTfTgRENC/hJBj0t4oTIRZM82xs8Pix97N0aJ9P0tu7/bwfgaj/L0
-	Pd5kOfa//4fK67wni1kCf8qlF74aIBuUX0TQ7YndxXjMbsWtmBpSWztyDaSRvMBz54LiElA
-	Wz9f0VG+kvtInZvQsIxD27FqR5kNRgO0UKObZo1BcsH0TI2rrII6LmezpvGfdVJtMM2D4GC
-	020B4/YzZDiAy11hrKm4Nbq/O4svwL4W6/2SyUxQ1B5f7zucXDItU3hgCA682eEMZaL4Mqc
-	833I78mDBDzbgNJsOnbeKCh+qv9gRFMPNE5P52mnRDbrvF3TL04Puw+wu2jH1r9+7fNOC9q
-	XPgb5luPNb6BWIMRVEifnEtM5jJ46gDqOB4WiJflwx34/8woTSadk1nZr9mnnXI1JZW3NRr
-	xfxSumvHZebgEfOlZvswKzcUvvtUBu6oye6QXXIRHWlxj4kgLIrsNWQTEgsejCCBw7ovjQD
-	QTx0Anjqt74jUrsxSK5+ni2bGyj9JbaMp6nXV5qcIUfpUS1UdQZTXLw17cMQVi56xlqCLus
-	pG3/A7AQYJlw87yAqfyMdIWXveYCR7/gBgTZTW2zLKi9tSsECLzab3rOXoe6jnUeJ9cnkPD
-	/iX78lApZl+5Z/wD0intG+IZKn6DjZfYJLwVYI+UL0RLsI9AA6bx2tYTGp/XP4XErmjj6UN
-	TZa4gJmX+TOraO8M8MTb9tc+AyGNcOdTpSbuhXLpSf1LBZsnho34gR9JjZhtOoiLrmMHTMa
-	b8K6Y8x4EMwf/Zl++RNhwd5LyDdzwk5jhlEt6k5P1tMilQ9T09fq74Cc1k7QLgMlSk4s//A
-	LQFuuo/IvhPrhprblzOtruQ3NOUDuNEO10spvr+/98lTHgudQMq6Kr8uG02A5jaAXphRzCa
-	vkVUfjrBfrQsWrRNmOiGtNQ1S8hWcdbGfkYAT1TAytnuXUy8+JB3G9f7KwwnjSdkvkhFtrS
-	iS5mtTSFDXR7E3Ga2w+lZO1srp3sScLOck6sRvrqjUpLjaWRcDsqXoGimcBaziU+iHyfTZL
-	FJ+3dyJ0/WIed5RfWjJDnxUMu+wZ1NNoPkpG55dvDtdxm2tLwO
-X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
+X-QQ-XMAILINFO: MeFNLUIt+GJ0QwWWKkJ7k0nzpFziiCOXAmQiRA1qcReN00HZxSjBRjxC
+	x+y1AWrr7efYlxRmfvSqp1lTDa8mAk9LTbatSLYyTXpRB06bUSbMI2h1PfbZCo5rd0I6NXw
+	BWzaSvrMdwzFjxy8vjclzvnzIucAghXM3x95Oho0xIUUyMkMqdi47kRmf7+EWm050TH3kPO
+	SPfqHRKxZa82HcCBtZexjsJ/Z1YB1G4+5akQ1lV2GqD5Wv9vRBsrBjX6UMn0MeN4KhSt5cO
+	1oGGSv9ZlpzPMLWgPGkADlryLoek50vcLyYXzwNvbqmVlvAW3R4jaIs4hPmfcc1RTE3toxt
+	0q1vxzitf49/+pP/1I2qs0GJqO4RN3Huse/Ak+l2weMXHG5qxGnGavvBnAjESRdlEaQbB6R
+	VATYclWq6KWn/2sah119BXUnYv5SQHdljJygjlZJif5DduNxE4eCoXpXEQD3ujSa007cmou
+	RZm3EnJJxBCqgzcvhgWaBrmuyOuzHpiBBn8Yy3Kk6PCcS2KNElaCTdugI2KCoKJs4I5gF6t
+	TBH4CyPLjaEyL1+UKaR5Ic4YowLpab42qLWQ4oGuDOX5yJRxbvUKYfP642cBmlXypKpfxay
+	SJ4rcmeoaww3VmkjyKizQhdB66x77G40B8uQ/D2/rikZKD6I+ZH2azHOnv7aeHdF+qIBYY1
+	CbjdaiSWuAZEqur791KE0e25m4v+hXWY8LXDz+UnvXh0O+wYlLwgWODtBoWrxVOKNQPZDSa
+	Q4roIDEkWolQIz9Z6/oMRGJpREZseGo1jMwhLmxPKncUVRlOp1IV8Y1P8lPdA6mhVjMXpjT
+	HWDpoBY1VFPP//tuskN+hqbidhlvJEr7Kpg/H6uIzvAzbGFdWEKhiSPfJ33Fb/wFDPkN36R
+	gjVf1g7oh4grsfZhDcAPlIVPK/sWY/h+kODe1h2s1ebdijkCLuEjZmgIhrWkXD8+Hikmdec
+	GUiZf23lvNfE9gR2+4trhmhNwhRIUQqLLu4jNd3i8jmc1Foy15fQmJPyWEqyaBfSmQXL1yF
+	ZmY4v7p8OzGAzmFF7f+C5/uHddMxgD43iIjKLzvJpmzFibFTUyJiU3EQPQ08w=
+X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
 X-QQ-RECHKSPAM: 0
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -105,7 +105,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-1242-lists,ecryptfs=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-1243-lists,ecryptfs=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS(0.00)[m:ecryptfs@vger.kernel.org,m:code@tyhicks.com,m:thorsten.blum@linux.dev,m:brauner@kernel.org,m:ebiggers@kernel.org,m:kees@kernel.org,m:akpm@linux-foundation.org,m:linux-kernel@vger.kernel.org,m:chenyichong@uniontech.com,s:lists@lfdr.de];
@@ -124,129 +124,37 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	TO_DN_SOME(0.00)[];
 	TAGGED_RCPT(0.00)[ecryptfs];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,uniontech.com:from_mime,uniontech.com:mid,uniontech.com:email,uniontech.com:dkim,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[uniontech.com:from_mime,uniontech.com:mid,uniontech.com:email,uniontech.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: E78E875AA6E
+X-Rspamd-Queue-Id: ACB0175AA71
 
-ecryptfs_parse_packet_set() receives a pointer into the file header, but
-it calculates the remaining packet buffer size from PAGE_SIZE - 8.  For
-version 1 headers the packet set starts later in the header, so this can
-overstate the available buffer.
+parse_tag_11_packet() rejects a packet when the already-consumed tag and
+length bytes plus the packet body exceed the caller supplied maximum
+packet size.  The check currently adds one extra byte, even though
+*packet_size already includes the tag byte before the length is parsed.
 
-Pass the actual packet set buffer length from the caller and calculate
-per-packet limits from the remaining bytes in that buffer.  Recompute the
-remaining length after consuming a tag 3 packet before parsing the
-following tag 11 packet.
+Remove the extra byte so a tag 11 packet that exactly fits the available
+buffer is accepted while oversized packets are still rejected.
 
 Fixes: 237fead61998 ("[PATCH] ecryptfs: fs/Makefile and fs/Kconfig")
 Signed-off-by: Yichong Chen <chenyichong@uniontech.com>
 ---
- fs/ecryptfs/crypto.c          |  2 +-
- fs/ecryptfs/ecryptfs_kernel.h |  3 ++-
- fs/ecryptfs/keystore.c        | 23 ++++++++++++++++++++---
- 3 files changed, 23 insertions(+), 5 deletions(-)
+ fs/ecryptfs/keystore.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/ecryptfs/crypto.c b/fs/ecryptfs/crypto.c
-index 74b02b5..e67119b 100644
---- a/fs/ecryptfs/crypto.c
-+++ b/fs/ecryptfs/crypto.c
-@@ -1197,7 +1197,7 @@ static int ecryptfs_read_headers_virt(char *page_virt,
- 	} else
- 		set_default_header_data(crypt_stat);
- 	rc = ecryptfs_parse_packet_set(crypt_stat, (page_virt + offset),
--				       ecryptfs_dentry);
-+				       PAGE_SIZE - offset, ecryptfs_dentry);
- out:
- 	return rc;
- }
-diff --git a/fs/ecryptfs/ecryptfs_kernel.h b/fs/ecryptfs/ecryptfs_kernel.h
-index f4f56a9..7d2488a 100644
---- a/fs/ecryptfs/ecryptfs_kernel.h
-+++ b/fs/ecryptfs/ecryptfs_kernel.h
-@@ -580,7 +580,8 @@ int ecryptfs_generate_key_packet_set(char *dest_base,
- 				     size_t *len, size_t max);
- int
- ecryptfs_parse_packet_set(struct ecryptfs_crypt_stat *crypt_stat,
--			  unsigned char *src, struct dentry *ecryptfs_dentry);
-+			  unsigned char *src, size_t src_size,
-+			  struct dentry *ecryptfs_dentry);
- int ecryptfs_truncate(struct dentry *dentry, loff_t new_length);
- ssize_t
- ecryptfs_getxattr_lower(struct dentry *lower_dentry, struct inode *lower_inode,
 diff --git a/fs/ecryptfs/keystore.c b/fs/ecryptfs/keystore.c
-index ebebc95..90c2b80 100644
+index 90c2b80..02b5d77 100644
 --- a/fs/ecryptfs/keystore.c
 +++ b/fs/ecryptfs/keystore.c
-@@ -1704,6 +1704,7 @@ out:
-  * ecryptfs_parse_packet_set
-  * @crypt_stat: The cryptographic context
-  * @src: Virtual address of region of memory containing the packets
-+ * @src_size: Size of the packet set buffer
-  * @ecryptfs_dentry: The eCryptfs dentry associated with the packet set
-  *
-  * Get crypt_stat to have the file's session key if the requisite key
-@@ -1714,7 +1715,7 @@ out:
-  * conditions.
-  */
- int ecryptfs_parse_packet_set(struct ecryptfs_crypt_stat *crypt_stat,
--			      unsigned char *src,
-+			      unsigned char *src, size_t src_size,
- 			      struct dentry *ecryptfs_dentry)
- {
- 	size_t i = 0;
-@@ -1736,7 +1737,11 @@ int ecryptfs_parse_packet_set(struct ecryptfs_crypt_stat *crypt_stat,
- 	 * added the our &auth_tok_list */
- 	next_packet_is_auth_tok_packet = 1;
- 	while (next_packet_is_auth_tok_packet) {
--		size_t max_packet_size = ((PAGE_SIZE - 8) - i);
-+		size_t max_packet_size;
-+
-+		if (i >= src_size)
-+			break;
-+		max_packet_size = src_size - i;
- 
- 		switch (src[i]) {
- 		case ECRYPTFS_TAG_3_PACKET_TYPE:
-@@ -1751,12 +1756,16 @@ int ecryptfs_parse_packet_set(struct ecryptfs_crypt_stat *crypt_stat,
- 				goto out_wipe_list;
- 			}
- 			i += packet_size;
-+			if (i > src_size) {
-+				rc = -EIO;
-+				goto out_wipe_list;
-+			}
- 			rc = parse_tag_11_packet((unsigned char *)&src[i],
- 						 sig_tmp_space,
- 						 ECRYPTFS_SIG_SIZE,
- 						 &tag_11_contents_size,
- 						 &tag_11_packet_size,
--						 max_packet_size);
-+						 src_size - i);
- 			if (rc) {
- 				ecryptfs_printk(KERN_ERR, "No valid "
- 						"(ecryptfs-specific) literal "
-@@ -1768,6 +1777,10 @@ int ecryptfs_parse_packet_set(struct ecryptfs_crypt_stat *crypt_stat,
- 				goto out_wipe_list;
- 			}
- 			i += tag_11_packet_size;
-+			if (i > src_size) {
-+				rc = -EIO;
-+				goto out_wipe_list;
-+			}
- 			if (ECRYPTFS_SIG_SIZE != tag_11_contents_size) {
- 				ecryptfs_printk(KERN_ERR, "Expected "
- 						"signature of size [%d]; "
-@@ -1793,6 +1806,10 @@ int ecryptfs_parse_packet_set(struct ecryptfs_crypt_stat *crypt_stat,
- 				goto out_wipe_list;
- 			}
- 			i += packet_size;
-+			if (i > src_size) {
-+				rc = -EIO;
-+				goto out_wipe_list;
-+			}
- 			crypt_stat->flags |= ECRYPTFS_ENCRYPTED;
- 			break;
- 		case ECRYPTFS_TAG_11_PACKET_TYPE:
+@@ -1537,7 +1537,7 @@ parse_tag_11_packet(unsigned char *data, unsigned char *contents,
+ 	}
+ 	(*packet_size) += length_size;
+ 	(*tag_11_contents_size) = (body_size - 14);
+-	if (unlikely((*packet_size) + body_size + 1 > max_packet_size)) {
++	if (unlikely((*packet_size) + body_size > max_packet_size)) {
+ 		printk(KERN_ERR "Packet size exceeds max\n");
+ 		rc = -EINVAL;
+ 		goto out;
 -- 
 2.51.0
 
